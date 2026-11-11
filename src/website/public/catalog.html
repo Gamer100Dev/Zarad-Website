@@ -1,0 +1,47 @@
+<!doctype html>
+<html lang="ro">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#f4ead9">
+  <meta name="description" content="Catalogul Zarad — condimente marocane.">
+  <title>Catalog — Zarad</title>
+  <link rel="icon" type="image/svg+xml" href="/assets/zarad-mark.svg">
+  <link rel="stylesheet" href="/styles.css">
+  <script src="/app.js" defer></script>
+</head>
+<body class="catalog-page">
+  <header class="site-header">
+    <div class="header-inner">
+      <a class="brand" href="/" aria-label="Zarad">
+        <img src="/assets/zarad-mark.svg" alt="">
+        <span class="brand-copy">
+          <strong>Zarad</strong>
+          <small data-ro="CONDIMENTE MAROCANE" data-en="MOROCCAN SPICES">CONDIMENTE MAROCANE</small>
+        </span>
+      </a>
+
+      <nav class="main-nav" aria-label="Navigare principală">
+        <a class="nav-link" href="/" data-ro="Acasă" data-en="Home">Acasă</a>
+        <a class="nav-link active" href="/catalog" aria-current="page" data-ro="Catalog" data-en="Catalogue">Catalog</a>
+        <a class="nav-link" href="/#poveste" data-ro="Povestea noastră" data-en="Our story">Povestea noastră</a>
+        <a class="nav-link" href="/#contact" data-ro="Contact" data-en="Contact">Contact</a>
+      </nav>
+
+      <button class="language-toggle" id="zarad_language" type="button" aria-label="Switch to English" title="English">EN</button>
+    </div>
+  </header>
+
+  <main class="catalog-empty" aria-label="Catalog Zarad"></main>
+
+  <footer class="site-footer">
+    <a class="footer-brand" href="/">
+      <img src="/assets/zarad-mark.svg" alt="">
+      <span>Zarad</span>
+    </a>
+    <p data-ro="Arome marocane. Inspirație fără hotare." data-en="Moroccan flavours. Inspiration without borders.">Arome marocane. Inspirație fără hotare.</p>
+    <a class="footer-contact" href="mailto:salut@zarad.ro">salut@zarad.ro</a>
+    <span class="footer-copy">© <span id="current-year"></span> Zarad</span>
+  </footer>
+</body>
+</html>
