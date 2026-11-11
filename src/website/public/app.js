@@ -1,7 +1,8 @@
 const statusDot = document.querySelector(".status-dot");
-const helloForm = document.querySelector("#hello-form");
-const nameInput = document.querySelector("#name");
-const reply = document.querySelector("#reply");
+const zaradWindow = document.querySelector("#zarad-window");
+const zaradName = document.querySelector("#zarad-name");
+const zaradSend = document.querySelector("#zarad-send");
+const zaradReply = document.querySelector("#zarad-reply");
 const year = document.querySelector("#year");
 
 year.textContent = new Date().getFullYear();
@@ -23,26 +24,31 @@ fetch("/api/health")
     statusDot.setAttribute("title", "The API is unavailable");
   });
 
-helloForm.addEventListener("submit", async (event) => {
-  event.preventDefault();
-
-  const name = nameInput.value.trim();
-  const button = helloForm.querySelector("button");
-
-  button.disabled = true;
-  reply.textContent = "Getting a reply…";
+async function sendZaradMessage() {
+  zaradSend.disabled = true;
+  zaradReply.textContent = "Sending your message…";
 
   try {
-    const response = await fetch(`/api/hello?name=${encodeURIComponent(name)}`);
+    const url = "/api/zarad/window?name=" + encodeURIComponent(zaradName.value.trim());
+    const response = await fetch(url);
     if (!response.ok) {
       throw new Error("The request could not be completed");
     }
 
     const data = await response.json();
-    reply.textContent = data.message;
+    zaradReply.textContent = data.reply;
   } catch {
-    reply.textContent = "Couldn't reach the server. Give it another try.";
+    zaradReply.textContent = "Zarad could not reach the server. Try again.";
   } finally {
-    button.disabled = false;
+    zaradSend.disabled = false;
+  }
+}
+
+zaradSend.addEventListener("click", sendZaradMessage);
+
+zaradWindow.addEventListener("keydown", (event) => {
+  if (event.key === "Enter" && event.target === zaradName) {
+    event.preventDefault();
+    sendZaradMessage();
   }
 });
