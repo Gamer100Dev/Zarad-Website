@@ -315,7 +315,7 @@ h1 span {
   font-size: 34px;
 }
 
-.demo form label {
+.demo label {
   display: block;
   margin-bottom: 9px;
   color: #50594e;
@@ -323,12 +323,12 @@ h1 span {
   font-weight: 700;
 }
 
-.form-row {
+.zarad-window__controls {
   display: flex;
   gap: 9px;
 }
 
-.form-row input {
+.zarad-window__controls input {
   min-width: 0;
   flex: 1;
   height: 48px;
@@ -340,12 +340,12 @@ h1 span {
   font-size: 13px;
 }
 
-.form-row input:focus {
+.zarad-window__controls input:focus {
   border-color: #78977e;
   box-shadow: 0 0 0 3px #345c4717;
 }
 
-.reply {
+.zarad-window__reply {
   min-height: 18px;
   margin: 12px 0 0;
   color: #64745f;
@@ -425,12 +425,12 @@ h1 span {
 }
 
 @media (max-width: 420px) {
-  .form-row {
+  .zarad-window__controls {
     align-items: stretch;
     flex-direction: column;
   }
 
-  .form-row .button {
+  .zarad-window__controls .button {
     width: 100%;
   }
 }
