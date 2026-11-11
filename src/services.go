@@ -8,6 +8,7 @@ import (
 	"os"
 	"os/exec"
 	"path/filepath"
+	"runtime"
 	"strings"
 	"time"
 )
@@ -20,23 +21,14 @@ type websiteService struct {
 }
 
 func newWebsiteService() (*websiteService, error) {
-	directory := strings.TrimSpace(os.Getenv("WEBSITE_DIR"))
-	if directory == "" {
-		current, err := os.Getwd()
-		if err != nil {
-			return nil, err
-		}
-		directory = current
-	}
-
-	absolute, err := filepath.Abs(directory)
+	directory, err := findWebsiteDirectory()
 	if err != nil {
 		return nil, err
 	}
 
-	content, err := os.ReadFile(filepath.Join(absolute, "package.json"))
+	content, err := os.ReadFile(filepath.Join(directory, "package.json"))
 	if err != nil {
-		return nil, fmt.Errorf("could not find package.json in %s: %w", absolute, err)
+		return nil, fmt.Errorf("could not read package.json: %w", err)
 	}
 
 	var manifest struct {
@@ -56,7 +48,7 @@ func newWebsiteService() (*websiteService, error) {
 		}
 	}
 	if script == "" {
-		return nil, fmt.Errorf("no start, preview, or dev script is defined in %s", filepath.Join(absolute, "package.json"))
+		return nil, fmt.Errorf("no start, preview, or dev script is defined in %s", filepath.Join(directory, "package.json"))
 	}
 	if _, ok := manifest.Scripts[script]; !ok {
 		return nil, fmt.Errorf("npm script %q is not defined in package.json", script)
@@ -70,11 +62,48 @@ func newWebsiteService() (*websiteService, error) {
 	_, hasBuild := manifest.Scripts["build"]
 
 	return &websiteService{
-		directory: absolute,
+		directory: directory,
 		script:    script,
 		port:      port,
 		build:     hasBuild && script != "dev",
 	}, nil
+}
+
+func findWebsiteDirectory() (string, error) {
+	if configured := strings.TrimSpace(os.Getenv("WEBSITE_DIR")); configured != "" {
+		directory, err := filepath.Abs(configured)
+		if err != nil {
+			return "", err
+		}
+		if _, err := os.Stat(filepath.Join(directory, "package.json")); err != nil {
+			return "", fmt.Errorf("WEBSITE_DIR does not contain a package.json: %w", err)
+		}
+		return directory, nil
+	}
+
+	current, err := os.Getwd()
+	if err != nil {
+		return "", err
+	}
+
+	candidates := []string{
+		filepath.Join(current, "src", "website"),
+		filepath.Join(current, "website"),
+	}
+
+	if source, _, ok := runtime.Caller(0); ok {
+		candidates = append(candidates, filepath.Join(filepath.Dir(source), "website"))
+	}
+
+	candidates = append(candidates, current)
+
+	for _, candidate := range candidates {
+		if _, err := os.Stat(filepath.Join(candidate, "package.json")); err == nil {
+			return filepath.Abs(candidate)
+		}
+	}
+
+	return "", fmt.Errorf("could not find the website package; set WEBSITE_DIR to the folder containing package.json")
 }
 
 func (s *websiteService) runNPM(ctx context.Context, args ...string) error {
