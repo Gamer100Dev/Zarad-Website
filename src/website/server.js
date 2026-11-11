@@ -94,10 +94,10 @@ const server = http.createServer((request, response) => {
     return;
   }
 
-  if (address.pathname === "/api/hello") {
+  if (address.pathname === "/api/zarad/window") {
     const name = (address.searchParams.get("name") || "").trim().slice(0, 40);
     sendJson(response, 200, {
-      message: `Good to see you${name ? `, ${name}` : ""}.`
+      reply: `Good to see you${name ? `, ${name}` : ""}.`
     });
     return;
   }
