@@ -91,7 +91,7 @@ func findWebsiteDirectory() (string, error) {
 		filepath.Join(current, "website"),
 	}
 
-	if source, _, ok := runtime.Caller(0); ok {
+	if _, source, _, ok := runtime.Caller(0); ok {
 		candidates = append(candidates, filepath.Join(filepath.Dir(source), "website"))
 	}
 
