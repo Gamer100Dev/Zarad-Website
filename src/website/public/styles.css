@@ -262,7 +262,7 @@ h1 span {
 }
 
 .section-heading h2,
-.zarad-window-section h2 {
+.zarad_window_section h2 {
   margin: 18px 0 0;
   font-size: clamp(32px, 4vw, 43px);
   line-height: 1.2;
@@ -293,14 +293,14 @@ h1 span {
 }
 
 .feature p,
-.zarad-window-section__copy {
+.zarad_window_section__copy {
   margin-bottom: 0;
   color: var(--muted);
   font-size: 13px;
   line-height: 1.7;
 }
 
-.zarad-window-section {
+.zarad_window_section {
   display: grid;
   grid-template-columns: 1fr 1fr;
   gap: 70px;
@@ -310,12 +310,12 @@ h1 span {
   background: #edf1e9;
 }
 
-.zarad-window-section h2 {
+.zarad_window_section h2 {
   margin-bottom: 12px;
   font-size: 34px;
 }
 
-.zarad-window-section label {
+.zarad_window_section label {
   display: block;
   margin-bottom: 9px;
   color: #50594e;
@@ -401,7 +401,7 @@ h1 span {
   }
 
   .about,
-  .zarad-window-section {
+  .zarad_window_section {
     grid-template-columns: 1fr;
     gap: 35px;
   }
@@ -410,7 +410,7 @@ h1 span {
     padding: 65px 0;
   }
 
-  .zarad-window-section {
+  .zarad_window_section {
     padding: 30px 22px;
   }
 
