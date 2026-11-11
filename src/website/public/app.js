@@ -1,54 +1,49 @@
-const statusDot = document.querySelector(".status-dot");
-const zaradWindow = document.querySelector("#zarad_window");
-const zaradName = document.querySelector("#zarad_name");
-const zaradSend = document.querySelector("#zarad_send");
-const zaradReply = document.querySelector("#zarad_reply");
-const year = document.querySelector("#year");
+const languageButton = document.querySelector("#zarad_language");
+const currentYear = document.querySelector("#current-year");
 
-year.textContent = new Date().getFullYear();
+if (currentYear) {
+  currentYear.textContent = new Date().getFullYear();
+}
 
-fetch("/api/health")
-  .then((response) => {
-    if (!response.ok) {
-      throw new Error("The API is unavailable");
-    }
-    return response.json();
-  })
-  .then((data) => {
-    if (data.status === "ok") {
-      statusDot.setAttribute("title", "Website is online");
-    }
-  })
-  .catch(() => {
-    statusDot.style.background = "#c47766";
-    statusDot.setAttribute("title", "The API is unavailable");
+function setLanguage(language) {
+  document.documentElement.lang = language;
+
+  document.querySelectorAll("[data-ro][data-en]").forEach((element) => {
+    element.textContent = element.dataset[language];
   });
 
-async function sendZaradMessage() {
-  zaradSend.disabled = true;
-  zaradReply.textContent = "Sending your message…";
+  document.querySelectorAll("[data-alt-ro][data-alt-en]").forEach((image) => {
+    image.alt = language === "ro" ? image.dataset.altRo : image.dataset.altEn;
+  });
+
+  if (languageButton) {
+    languageButton.textContent = language === "ro" ? "EN" : "RO";
+    languageButton.setAttribute(
+      "aria-label",
+      language === "ro" ? "Switch to English" : "Schimbă limba în română"
+    );
+    languageButton.title = language === "ro" ? "English" : "Română";
+  }
 
   try {
-    const url = "/api/zarad/window?name=" + encodeURIComponent(zaradName.value.trim());
-    const response = await fetch(url);
-    if (!response.ok) {
-      throw new Error("The request could not be completed");
-    }
-
-    const data = await response.json();
-    zaradReply.textContent = data.reply;
+    localStorage.setItem("zarad-language", language);
   } catch {
-    zaradReply.textContent = "Zarad could not reach the server. Try again.";
-  } finally {
-    zaradSend.disabled = false;
+    return;
   }
 }
 
-zaradSend.addEventListener("click", sendZaradMessage);
+let savedLanguage = "ro";
 
-zaradWindow.addEventListener("keydown", (event) => {
-  if (event.key === "Enter" && event.target === zaradName) {
-    event.preventDefault();
-    sendZaradMessage();
-  }
-});
+try {
+  savedLanguage = localStorage.getItem("zarad-language") === "en" ? "en" : "ro";
+} catch {
+  savedLanguage = "ro";
+}
+
+setLanguage(savedLanguage);
+
+if (languageButton) {
+  languageButton.addEventListener("click", () => {
+    setLanguage(document.documentElement.lang === "ro" ? "en" : "ro");
+  });
+}
