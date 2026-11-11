@@ -1,8 +1,8 @@
 const statusDot = document.querySelector(".status-dot");
-const zaradWindow = document.querySelector("#zarad-window");
-const zaradName = document.querySelector("#zarad-name");
-const zaradSend = document.querySelector("#zarad-send");
-const zaradReply = document.querySelector("#zarad-reply");
+const zaradWindow = document.querySelector("#zarad_window");
+const zaradName = document.querySelector("#zarad_name");
+const zaradSend = document.querySelector("#zarad_send");
+const zaradReply = document.querySelector("#zarad_reply");
 const year = document.querySelector("#year");
 
 year.textContent = new Date().getFullYear();
