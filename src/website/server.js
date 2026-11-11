@@ -10,10 +10,13 @@ const contentTypes = {
   ".css": "text/css; charset=utf-8",
   ".html": "text/html; charset=utf-8",
   ".ico": "image/x-icon",
+  ".jpg": "image/jpeg",
+  ".jpeg": "image/jpeg",
   ".js": "text/javascript; charset=utf-8",
   ".json": "application/json; charset=utf-8",
   ".png": "image/png",
-  ".svg": "image/svg+xml"
+  ".svg": "image/svg+xml",
+  ".webp": "image/webp"
 };
 
 function sendJson(response, status, data) {
@@ -36,8 +39,9 @@ function sendFile(request, response, pathname) {
   }
 
   const filePath = path.resolve(publicDirectory, "." + relativePath);
+  const relative = path.relative(publicDirectory, filePath);
 
-  if (!filePath.startsWith(publicDirectory + path.sep)) {
+  if (relative.startsWith("..") || path.isAbsolute(relative)) {
     response.writeHead(403);
     response.end("Forbidden");
     return;
@@ -51,8 +55,8 @@ function sendFile(request, response, pathname) {
     }
 
     response.writeHead(200, {
-      "Content-Type": contentTypes[path.extname(filePath)] || "application/octet-stream",
-      "Cache-Control": "no-cache",
+      "Content-Type": contentTypes[path.extname(filePath).toLowerCase()] || "application/octet-stream",
+      "Cache-Control": path.extname(filePath) === ".html" ? "no-cache" : "public, max-age=3600",
       "X-Content-Type-Options": "nosniff"
     });
 
@@ -73,7 +77,16 @@ function sendFile(request, response, pathname) {
 }
 
 const server = http.createServer((request, response) => {
-  const address = new URL(request.url, `http://${request.headers.host || "localhost"}`);
+  let pathname;
+
+  try {
+    const address = new URL(request.url, "http://" + (request.headers.host || "localhost"));
+    pathname = address.pathname;
+  } catch {
+    response.writeHead(400);
+    response.end("Bad request");
+    return;
+  }
 
   response.setHeader("X-Content-Type-Options", "nosniff");
   response.setHeader("Referrer-Policy", "strict-origin-when-cross-origin");
@@ -86,7 +99,7 @@ const server = http.createServer((request, response) => {
     return;
   }
 
-  if (address.pathname === "/api/health") {
+  if (pathname === "/api/health") {
     sendJson(response, 200, {
       status: "ok",
       service: "zarad-website"
@@ -94,15 +107,11 @@ const server = http.createServer((request, response) => {
     return;
   }
 
-  if (address.pathname === "/api/zarad/window") {
-    const name = (address.searchParams.get("name") || "").trim().slice(0, 40);
-    sendJson(response, 200, {
-      reply: `Good to see you${name ? `, ${name}` : ""}.`
-    });
-    return;
+  if (pathname === "/catalog" || pathname === "/catalog/") {
+    pathname = "/catalog.html";
   }
 
-  sendFile(request, response, address.pathname);
+  sendFile(request, response, pathname);
 });
 
 if (!Number.isInteger(port) || port < 1 || port > 65535) {
@@ -110,7 +119,7 @@ if (!Number.isInteger(port) || port < 1 || port > 65535) {
 }
 
 server.listen(port, host, () => {
-  process.stdout.write(`Zarad is running at http://${host}:${port}\n`);
+  process.stdout.write("Zarad is running at http://" + host + ":" + port + "\n");
 });
 
 function shutdown() {
