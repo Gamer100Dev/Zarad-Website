@@ -72,17 +72,17 @@
       <section class="demo" id="demo">
         <div>
           <p class="eyebrow">GIVE IT A GO</p>
-          <h2>Say hello to the backend.</h2>
-          <p class="demo-copy">Enter your name and the website will ask its API for a reply.</p>
+          <h2>Try the Zarad backend.</h2>
+          <p class="demo-copy">Enter your name and Zarad will send a reply from its backend.</p>
         </div>
-        <form id="hello-form">
-          <label for="name">Your name</label>
-          <div class="form-row">
-            <input id="name" name="name" type="text" maxlength="40" placeholder="What's your name?" autocomplete="given-name">
-            <button class="button button-primary" type="submit">Say hello <span aria-hidden="true">→</span></button>
+        <section class="zarad-window" id="zarad-window" aria-label="Zarad window">
+          <label for="zarad-name">Your name</label>
+          <div class="zarad-window__controls">
+            <input id="zarad-name" type="text" maxlength="40" placeholder="What's your name?" autocomplete="given-name">
+            <button class="button button-primary" type="button" id="zarad-send">Send <span aria-hidden="true">→</span></button>
           </div>
-          <p class="reply" id="reply" role="status" aria-live="polite">The response will show up here.</p>
-        </form>
+          <p class="zarad-window__reply" id="zarad-reply" role="status" aria-live="polite">The response will show up here.</p>
+        </section>
       </section>
     </main>
 
