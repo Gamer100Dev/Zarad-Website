@@ -60,39 +60,18 @@ button {
 }
 
 .brand {
+  width: 164px;
   display: inline-flex;
   align-items: center;
-  gap: 11px;
   flex-shrink: 0;
 }
 
 .brand img {
   display: block;
-  width: 47px;
-  height: 47px;
-}
-
-.brand-copy {
-  display: flex;
-  flex-direction: column;
-  gap: 1px;
-}
-
-.brand-copy strong,
-.footer-brand span {
-  font-family: "Playfair Display", Georgia, serif;
-  font-size: 31px;
-  font-weight: 700;
-  line-height: 0.95;
-  letter-spacing: -1.3px;
-  color: var(--wine);
-}
-
-.brand-copy small {
-  color: #8b5c45;
-  font-size: 8px;
-  font-weight: 700;
-  letter-spacing: 1.3px;
+  width: 100%;
+  height: 60px;
+  object-fit: contain;
+  object-position: left center;
 }
 
 .main-nav {
@@ -606,16 +585,14 @@ button {
 .footer-brand {
   display: inline-flex;
   align-items: center;
-  gap: 9px;
 }
 
 .footer-brand img {
-  width: 32px;
-  height: 32px;
-}
-
-.footer-brand span {
-  font-size: 25px;
+  display: block;
+  width: 124px;
+  height: 46px;
+  object-fit: contain;
+  object-position: left center;
 }
 
 .site-footer p,
@@ -770,17 +747,12 @@ button {
     padding: 13px 0;
   }
 
+  .brand {
+    width: 140px;
+  }
+
   .brand img {
-    width: 39px;
-    height: 39px;
-  }
-
-  .brand-copy strong {
-    font-size: 27px;
-  }
-
-  .brand-copy small {
-    font-size: 7px;
+    height: 50px;
   }
 
   .main-nav {
