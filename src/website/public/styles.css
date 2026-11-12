@@ -60,7 +60,7 @@ button {
 }
 
 .brand {
-  width: 164px;
+  width: 200px;
   display: inline-flex;
   align-items: center;
   flex-shrink: 0;
@@ -69,7 +69,7 @@ button {
 .brand img {
   display: block;
   width: 100%;
-  height: 60px;
+  height: auto;
   object-fit: contain;
   object-position: left center;
 }
@@ -589,8 +589,8 @@ button {
 
 .footer-brand img {
   display: block;
-  width: 124px;
-  height: 46px;
+  width: 150px;
+  height: auto;
   object-fit: contain;
   object-position: left center;
 }
@@ -748,11 +748,11 @@ button {
   }
 
   .brand {
-    width: 140px;
+    width: 175px;
   }
 
   .brand img {
-    height: 50px;
+    height: auto;
   }
 
   .main-nav {
