@@ -3,6 +3,7 @@ const fs = require("node:fs");
 const path = require("node:path");
 
 const publicDirectory = path.join(__dirname, "public");
+const assetDirectory = path.resolve(__dirname, "..", "..", "assets");
 const host = process.env.HOST || "0.0.0.0";
 const port = Number(process.env.PORT || 3000);
 
@@ -28,20 +29,26 @@ function sendJson(response, status, data) {
 }
 
 function sendFile(request, response, pathname) {
+  let baseDirectory = publicDirectory;
   let relativePath;
 
   try {
-    relativePath = decodeURIComponent(pathname === "/" ? "/index.html" : pathname);
+    if (pathname.startsWith("/assets/")) {
+      baseDirectory = assetDirectory;
+      relativePath = decodeURIComponent(pathname.slice("/assets/".length));
+    } else {
+      relativePath = decodeURIComponent(pathname === "/" ? "index.html" : pathname.slice(1));
+    }
   } catch {
     response.writeHead(400);
     response.end("Bad request");
     return;
   }
 
-  const filePath = path.resolve(publicDirectory, "." + relativePath);
-  const relative = path.relative(publicDirectory, filePath);
+  const filePath = path.resolve(baseDirectory, relativePath);
+  const relative = path.relative(baseDirectory, filePath);
 
-  if (relative.startsWith("..") || path.isAbsolute(relative)) {
+  if (relative === ".." || relative.startsWith(".." + path.sep) || path.isAbsolute(relative)) {
     response.writeHead(403);
     response.end("Forbidden");
     return;
@@ -56,7 +63,7 @@ function sendFile(request, response, pathname) {
 
     response.writeHead(200, {
       "Content-Type": contentTypes[path.extname(filePath).toLowerCase()] || "application/octet-stream",
-      "Cache-Control": path.extname(filePath) === ".html" ? "no-cache" : "public, max-age=3600",
+      "Cache-Control": path.extname(filePath).toLowerCase() === ".html" || path.extname(filePath).toLowerCase() === ".json" ? "no-cache" : "public, max-age=3600",
       "X-Content-Type-Options": "nosniff"
     });
 
