@@ -34,7 +34,6 @@ function setLanguage(language) {
   try {
     localStorage.setItem("zarad-language", language);
   } catch {
-    return;
   }
 
   renderCatalog();
@@ -122,7 +121,7 @@ function setupSlider() {
       slide.setAttribute("aria-hidden", String(!active));
 
       const image = slide.querySelector("img");
-      if (active && image.dataset.src && !image.src) {
+      if (active && image.dataset.src && !image.hasAttribute("src")) {
         image.src = image.dataset.src;
       }
     });
