@@ -51,7 +51,7 @@ button {
 
 .header-inner {
   width: min(1240px, calc(100% - 72px));
-  height: 92px;
+  min-height: 170px;
   margin: 0 auto;
   display: flex;
   align-items: center;
@@ -60,7 +60,7 @@ button {
 }
 
 .brand {
-  width: 200px;
+  width: 280px;
   display: inline-flex;
   align-items: center;
   flex-shrink: 0;
@@ -70,6 +70,7 @@ button {
   display: block;
   width: 100%;
   height: auto;
+  aspect-ratio: 1680 / 944;
   object-fit: contain;
   object-position: left center;
 }
@@ -589,8 +590,9 @@ button {
 
 .footer-brand img {
   display: block;
-  width: 150px;
+  width: 180px;
   height: auto;
+  aspect-ratio: 1680 / 944;
   object-fit: contain;
   object-position: left center;
 }
@@ -718,7 +720,12 @@ button {
 @media (max-width: 900px) {
   .header-inner {
     width: min(100% - 40px, 760px);
+    min-height: 138px;
     gap: 20px;
+  }
+
+  .brand {
+    width: 220px;
   }
 
   .main-nav {
@@ -748,7 +755,7 @@ button {
   }
 
   .brand {
-    width: 175px;
+    width: 190px;
   }
 
   .brand img {
