@@ -60,7 +60,7 @@ button {
 }
 
 .brand {
-  width: 280px;
+  width: 256px;
   display: inline-flex;
   align-items: center;
   flex-shrink: 0;
@@ -68,7 +68,8 @@ button {
 
 .brand img {
   display: block;
-  width: 100%;
+  width: 256px;
+  max-width: 100%;
   height: auto;
   aspect-ratio: 1680 / 944;
   object-fit: contain;
@@ -590,7 +591,7 @@ button {
 
 .footer-brand img {
   display: block;
-  width: 180px;
+  width: 200px;
   height: auto;
   aspect-ratio: 1680 / 944;
   object-fit: contain;
@@ -725,7 +726,11 @@ button {
   }
 
   .brand {
-    width: 220px;
+    width: 224px;
+  }
+
+  .brand img {
+    width: 224px;
   }
 
   .main-nav {
@@ -755,7 +760,11 @@ button {
   }
 
   .brand {
-    width: 190px;
+    width: 192px;
+  }
+
+  .brand img {
+    width: 192px;
   }
 
   .brand img {
