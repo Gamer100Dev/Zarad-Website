@@ -6,24 +6,31 @@
   <meta name="theme-color" content="#f4ead9">
   <meta name="description" content="Zarad — One Spice Away. Arome inspirate de Maroc, pentru bucătăria ta.">
   <title>Zarad — One Spice Away</title>
-  <link rel="icon" type="image/png" href="/assets/Zarad-logo.png">
-  <link rel="stylesheet" href="/styles.css">
-  <script src="/app.js" defer></script>
+  <link rel="icon" type="image/png" href="/assets/Zarad-logo.png?v=transparent-logo-20261113">
+  <link rel="stylesheet" href="/styles.css?v=zarad-saffron-cta-v14-20261113">
+  <script src="/app.js?v=classic-catalogue-frieze-bottom-20261113" defer></script>
 </head>
 <body>
-  <header class="site-header">
+  <header class="site-header zarad-header">
     <div class="header-inner">
-      <a class="brand" href="/" aria-label="Zarad — One Spice Away">
-        <img id="zarad_logo" src="/assets/Zarad-logo.png" alt="Zarad — One Spice Away" width="128" height="72">
+      <a class="brand zarad-logo" href="/" aria-label="Zarad — One Spice Away">
+        <img id="zarad_logo" src="/assets/Zarad-logo.png?v=transparent-logo-20261113" alt="Zarad — One Spice Away">
       </a>
 
-      <nav class="main-nav" aria-label="Navigare principală">
+      <nav class="main-nav zarad-nav" aria-label="Navigare principală">
         <a class="nav-link active" href="/" aria-current="page" data-ro="Acasă" data-en="Home">Acasă</a>
         <a class="nav-link" href="/catalog" data-ro="Catalog" data-en="Catalogue">Catalog</a>
         <a class="nav-link" href="#contact" data-ro="Contact" data-en="Contact">Contact</a>
       </nav>
 
-      <button class="language-toggle" id="zarad_language" type="button" aria-label="Switch to English" title="English">EN</button>
+      <div class="zarad-right">
+        <button class="language-toggle zarad-lang-pill is-ro" id="zarad_language" type="button" aria-label="Switch to English" title="English">
+          <span class="zarad-lang-slider" aria-hidden="true"></span>
+          <span class="zarad-lang-label label-ro" aria-hidden="true">RO</span>
+          <span class="zarad-lang-divider" aria-hidden="true"></span>
+          <span class="zarad-lang-label label-en" aria-hidden="true">EN</span>
+        </button>
+      </div>
     </div>
   </header>
 
@@ -77,31 +84,43 @@
       </div>
     </section>
 
-    <section class="promise-strip" aria-label="Zarad">
-      <div class="promise-item">
-        <span class="promise-icon">✳</span>
-        <div>
-          <strong data-ro="Arome memorabile" data-en="Memorable flavours">Arome memorabile</strong>
-          <span data-ro="Pentru mese cu personalitate" data-en="For food with character">Pentru mese cu personalitate</span>
-        </div>
+    <section class="zarad-features-strip" aria-label="Zarad">
+      <div class="zarad-frieze-border zarad-frieze-top" aria-hidden="true"></div>
+      <div class="zarad-strip-grid">
+        <article class="zarad-pillar">
+          <div class="zarad-medallion" aria-hidden="true">
+            <svg viewBox="0 0 48 48"><path d="M24 3 29 19 45 24 29 29 24 45 19 29 3 24 19 19Z"/><circle cx="24" cy="24" r="4" fill="#c9963b"/></svg>
+          </div>
+          <div class="zarad-pillar-text">
+            <h3 data-ro="Arome memorabile" data-en="Memorable flavours">Arome memorabile</h3>
+            <p data-ro="Pentru mese cu personalitate" data-en="For food with character">Pentru mese cu personalitate</p>
+          </div>
+        </article>
+        <article class="zarad-pillar">
+          <div class="zarad-medallion" aria-hidden="true">
+            <svg viewBox="0 0 48 48"><path d="M24 3 28 16 39 9 32 20 45 24 32 28 39 39 28 32 24 45 20 32 9 39 16 28 3 24 16 20 9 9 20 16Z"/><circle cx="24" cy="24" r="4" fill="#c9963b"/></svg>
+          </div>
+          <div class="zarad-pillar-text">
+            <h3 data-ro="Spirit marocan" data-en="Moroccan spirit">Spirit marocan</h3>
+            <p data-ro="Inspirație dintr-o cultură bogată" data-en="Inspired by a rich culture">Inspirație dintr-o cultură bogată</p>
+          </div>
+        </article>
+        <article class="zarad-pillar">
+          <div class="zarad-medallion" aria-hidden="true">
+            <svg viewBox="0 0 48 48"><path d="M24 3 27 17 37 7 31 20 45 18 33 25 45 32 31 30 37 43 27 33 24 47 21 33 11 43 17 30 3 32 15 25 3 18 17 20 11 7 21 17Z"/><circle cx="24" cy="25" r="4" fill="#c9963b"/></svg>
+          </div>
+          <div class="zarad-pillar-text">
+            <h3 data-ro="Bucurie în bucătărie" data-en="Joy in the kitchen">Bucurie în bucătărie</h3>
+            <p data-ro="Idei noi pentru preparatele tale" data-en="Fresh ideas for your dishes">Idei noi pentru preparatele tale</p>
+          </div>
+        </article>
       </div>
-      <div class="promise-item">
-        <span class="promise-icon">❋</span>
-        <div>
-          <strong data-ro="Spirit marocan" data-en="Moroccan spirit">Spirit marocan</strong>
-          <span data-ro="Inspirație dintr-o cultură bogată" data-en="Inspired by a rich culture">Inspirație dintr-o cultură bogată</span>
-        </div>
-      </div>
-      <div class="promise-item">
-        <span class="promise-icon">✺</span>
-        <div>
-          <strong data-ro="Bucurie în bucătărie" data-en="Joy in the kitchen">Bucurie în bucătărie</strong>
-          <span data-ro="Idei noi pentru preparatele tale" data-en="Fresh ideas for your dishes">Idei noi pentru preparatele tale</span>
-        </div>
-      </div>
+      <div class="zarad-frieze-border zarad-frieze-bottom" aria-hidden="true"></div>
     </section>
 
-    <section class="welcome-section">
+
+
+    <section class="welcome-section zarad-story-section">
       <div class="welcome-copy">
         <p class="section-kicker" data-ro="BUN VENIT ÎN LUMEA ZARAD" data-en="WELCOME TO THE WORLD OF ZARAD">BUN VENIT ÎN LUMEA ZARAD</p>
         <h2 data-ro="Puțină curiozitate. Multă savoare." data-en="A little curiosity. A lot of flavour.">Puțină curiozitate. Multă savoare.</h2>
@@ -111,11 +130,13 @@
           <span aria-hidden="true">→</span>
         </a>
       </div>
-      <div class="welcome-image">
+      <div class="welcome-image moroccan-arch-frame">
         <img src="/assets/spices/allspices-layedflat.JPG" alt="Selecție de condimente în nuanțe calde" loading="lazy">
         <span class="image-stamp">ONE SPICE AWAY</span>
       </div>
     </section>
+
+    <div class="zarad-frieze-border zarad-frieze-bottom welcome-frieze" aria-hidden="true"></div>
 
     <section class="spice-section">
       <div class="section-heading">
@@ -124,15 +145,15 @@
         <p data-ro="Explorează selecția Zarad și găsește inspirația pentru următoarea ta rețetă." data-en="Explore the Zarad selection and find inspiration for your next recipe.">Explorează selecția Zarad și găsește inspirația pentru următoarea ta rețetă.</p>
       </div>
       <div class="featured-spices">
-        <a class="featured-spice" href="/catalog">
+        <a class="featured-spice zarad-card zarad-card-arch" href="/catalog">
           <img src="/assets/spices/bean_spices.JPG" alt="Boabe de condimente" loading="lazy">
           <span data-ro="Arome întregi" data-en="Whole spices">Arome întregi</span>
         </a>
-        <a class="featured-spice" href="/catalog">
+        <a class="featured-spice zarad-card zarad-card-arch" href="/catalog">
           <img src="/assets/spices/grained_spice.JPG" alt="Condimente măcinate" loading="lazy">
           <span data-ro="Texturi fine" data-en="Fine textures">Texturi fine</span>
         </a>
-        <a class="featured-spice" href="/catalog">
+        <a class="featured-spice zarad-card zarad-card-arch" href="/catalog">
           <img src="/assets/spices/star_spice.JPG" alt="Mirodenii pentru bucătăria marocană" loading="lazy">
           <span data-ro="Note intense" data-en="Bold notes">Note intense</span>
         </a>
@@ -145,21 +166,30 @@
       </div>
     </section>
 
-    <section class="closing-banner">
-      <div>
-        <p class="section-kicker">ONE SPICE AWAY</p>
-        <h2 data-ro="Alege aroma care îți inspiră următoarea aventură culinară." data-en="Find the flavour that inspires your next culinary adventure.">Alege aroma care îți inspiră următoarea aventură culinară.</h2>
+    <section class="zarad-cta-section" aria-labelledby="zarad-cta-heading">
+      <div class="zarad-cta-frieze zarad-cta-frieze-top" aria-hidden="true"></div>
+      <div class="zarad-cta-frame">
+        <span class="zarad-cta-corner tl" aria-hidden="true">✧</span>
+        <span class="zarad-cta-corner tr" aria-hidden="true">✧</span>
+        <span class="zarad-cta-corner bl" aria-hidden="true">✧</span>
+        <span class="zarad-cta-corner br" aria-hidden="true">✧</span>
+        <p class="zarad-cta-kicker">ONE SPICE AWAY</p>
+        <h2 class="zarad-cta-heading" id="zarad-cta-heading" data-ro="Alege aroma care îți inspiră următoarea aventură culinară." data-en="Find the flavour that inspires your next culinary adventure.">Alege aroma care îți inspiră următoarea aventură culinară.</h2>
+        <div class="zarad-cta-ornament" aria-hidden="true">
+          <span class="line"></span><span>✧</span><span class="line"></span>
+        </div>
+        <a class="zarad-cta-button" href="/catalog">
+          <span data-ro="Vezi catalogul" data-en="View the catalogue">Vezi catalogul</span>
+          <span class="arrow" aria-hidden="true">→</span>
+        </a>
       </div>
-      <a class="primary-button primary-button-light" href="/catalog">
-        <span data-ro="Vezi catalogul" data-en="View the catalogue">Vezi catalogul</span>
-        <span aria-hidden="true">↗</span>
-      </a>
+      <div class="zarad-cta-frieze zarad-cta-frieze-bottom" aria-hidden="true"></div>
     </section>
   </main>
 
   <footer class="site-footer" id="contact">
     <a class="footer-brand" href="/" aria-label="Zarad — One Spice Away">
-      <img src="/assets/Zarad-logo.png" alt="Zarad">
+      <img src="/assets/Zarad-logo.png?v=transparent-logo-20261113" alt="Zarad">
     </a>
     <p>One Spice Away</p>
     <a class="footer-contact" href="mailto:salut@zarad.ro">salut@zarad.ro</a>
