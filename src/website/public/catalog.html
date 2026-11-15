@@ -1,3 +1,4 @@
+
 <!doctype html>
 <html lang="ro">
 <head>
@@ -8,13 +9,33 @@
   <title>Catalog — Zarad</title>
   <link rel="icon" type="image/png" href="/assets/Zarad-logo.png?v=transparent-logo-20261113">
   <link rel="stylesheet" href="/styles.css?v=feature-card-zoomout-20261113">
-  <script src="/app.js?v=classic-catalogue-frieze-bottom-20261113" defer></script>
+
+  <style>
+    .catalog-grid > a.catalog-card {
+      display: block;
+      color: inherit;
+      text-decoration: none;
+      cursor: pointer;
+    }
+
+    .catalog-grid > a.catalog-card:focus-visible {
+      outline: 2px solid #98734c;
+      outline-offset: 5px;
+      border-radius: 4px;
+    }
+  </style>
 </head>
+
 <body class="catalog-page">
+
   <header class="site-header zarad-header">
     <div class="header-inner">
       <a class="brand zarad-logo" href="/" aria-label="Zarad — One Spice Away">
-        <img id="zarad_logo" src="/assets/Zarad-logo.png?v=transparent-logo-20261113" alt="Zarad — One Spice Away">
+        <img
+          id="zarad_logo"
+          src="/assets/Zarad-logo.png?v=transparent-logo-20261113"
+          alt="Zarad — One Spice Away"
+        >
       </a>
 
       <nav class="main-nav zarad-nav" aria-label="Navigare principală">
@@ -24,7 +45,13 @@
       </nav>
 
       <div class="zarad-right">
-        <button class="language-toggle zarad-lang-pill is-ro" id="zarad_language" type="button" aria-label="Switch to English" title="English">
+        <button
+          class="language-toggle zarad-lang-pill is-ro"
+          id="zarad_language"
+          type="button"
+          aria-label="Switch to English"
+          title="English"
+        >
           <span class="zarad-lang-slider" aria-hidden="true"></span>
           <span class="zarad-lang-label label-ro" aria-hidden="true">RO</span>
           <span class="zarad-lang-divider" aria-hidden="true"></span>
@@ -35,25 +62,263 @@
   </header>
 
   <main class="catalog-main">
+
     <section class="catalog-heading">
-      <p class="section-kicker" data-ro="ONE SPICE AWAY" data-en="ONE SPICE AWAY">ONE SPICE AWAY</p>
-      <h1 data-ro="Catalogul Zarad" data-en="The Zarad catalogue">Catalogul Zarad</h1>
-      <p data-ro="O selecție de condimente și amestecuri inspirate de aromele Marocului. Descoperă-le și lasă-ți imaginația să aleagă următoarea rețetă." data-en="A selection of spices and blends inspired by the flavours of Morocco. Explore them and let your imagination choose the next recipe.">O selecție de condimente și amestecuri inspirate de aromele Marocului. Descoperă-le și lasă-ți imaginația să aleagă următoarea rețetă.</p>
+      <p class="section-kicker" data-ro="ONE SPICE AWAY" data-en="ONE SPICE AWAY">
+        ONE SPICE AWAY
+      </p>
+
+      <h1 data-ro="Catalogul Zarad" data-en="The Zarad catalogue">
+        Catalogul Zarad
+      </h1>
+
+      <p
+        data-ro="O selecție de condimente și amestecuri inspirate de aromele Marocului. Descoperă-le și lasă-ți imaginația să aleagă următoarea rețetă."
+        data-en="A selection of spices and blends inspired by the flavours of Morocco. Explore them and let your imagination choose the next recipe."
+      >
+        O selecție de condimente și amestecuri inspirate de aromele Marocului. Descoperă-le și lasă-ți imaginația să aleagă următoarea rețetă.
+      </p>
     </section>
 
     <section class="catalog-content" aria-label="Produse Zarad">
       <div class="catalog-grid" id="zarad_catalog" aria-live="polite"></div>
-      <p class="catalog-status" id="zarad_catalog_status" hidden data-ro="Catalogul nu a putut fi încărcat. Reîncarcă pagina." data-en="The catalogue could not be loaded. Please refresh the page.">Catalogul nu a putut fi încărcat. Reîncarcă pagina.</p>
+
+      <p
+        class="catalog-status"
+        id="zarad_catalog_status"
+        role="status"
+        hidden
+        data-ro="Catalogul nu a putut fi încărcat. Reîncarcă pagina."
+        data-en="The catalogue could not be loaded. Please refresh the page."
+      >
+        Catalogul nu a putut fi încărcat. Reîncarcă pagina.
+      </p>
     </section>
+
   </main>
 
   <footer class="site-footer">
     <a class="footer-brand" href="/" aria-label="Zarad — One Spice Away">
       <img src="/assets/Zarad-logo.png?v=transparent-logo-20261113" alt="Zarad">
     </a>
+
     <p>One Spice Away</p>
-    <a class="footer-contact" href="mailto:salut@zarad.ro">salut@zarad.ro</a>
-    <span class="footer-copy">© <span id="current-year"></span> Zarad</span>
+
+    <a class="footer-contact" href="mailto:salut@zarad.ro">
+      salut@zarad.ro
+    </a>
+
+    <span class="footer-copy">
+      © <span id="current-year"></span> Zarad
+    </span>
   </footer>
+
+  <script>
+    const languageButton = document.getElementById("zarad_language");
+    const catalogGrid = document.getElementById("zarad_catalog");
+    const catalogStatus = document.getElementById("zarad_catalog_status");
+
+    let currentLanguage = "ro";
+    let catalogProducts = [];
+
+    document.getElementById("current-year").textContent =
+      new Date().getFullYear();
+
+    function getProductDescriptor(name) {
+      return name
+        .normalize("NFD")
+        .replace(/[\u0300-\u036f]/g, "")
+        .toLowerCase()
+        .replace(/[^a-z0-9]+/g, "-")
+        .replace(/^-|-$/g, "");
+    }
+
+    function getProductName(product) {
+      return currentLanguage === "en"
+        ? product.name_en || product.name
+        : product.name;
+    }
+
+    function getProductDescription(product) {
+      return currentLanguage === "en"
+        ? product.description_en || product.description
+        : product.description;
+    }
+
+    function openProduct(descriptor) {
+      if (!descriptor) {
+        return;
+      }
+
+      const productUrl = new URL(
+        "/catalog-list.html",
+        window.location.origin
+      );
+
+      productUrl.searchParams.set("descriptor", descriptor);
+
+      window.location.assign(productUrl.toString());
+    }
+
+    function renderCatalog() {
+      catalogGrid.replaceChildren();
+
+      catalogProducts.forEach(product => {
+        const descriptor = getProductDescriptor(product.name);
+
+        const card = document.createElement("a");
+        card.className = "catalog-card";
+        card.dataset.descriptor = descriptor;
+
+        const productUrl = new URL(
+          "/catalog-list.html",
+          window.location.origin
+        );
+
+        productUrl.searchParams.set("descriptor", descriptor);
+
+        card.href = productUrl.pathname + productUrl.search;
+        card.setAttribute("aria-label", getProductName(product));
+
+        card.addEventListener("click", event => {
+          if (
+            event.button !== 0 ||
+            event.ctrlKey ||
+            event.metaKey ||
+            event.shiftKey ||
+            event.altKey
+          ) {
+            return;
+          }
+
+          event.preventDefault();
+          openProduct(card.dataset.descriptor);
+        });
+
+        const imageFrame = document.createElement("div");
+        imageFrame.className = "catalog-card-image";
+
+        const image = document.createElement("img");
+
+        const folder = product.folder
+          .split("/")
+          .map(encodeURIComponent)
+          .join("/");
+
+        const imageFile = product.image
+          .split("/")
+          .map(encodeURIComponent)
+          .join("/");
+
+        image.src = `/assets/${folder}/${imageFile}`;
+        image.alt = getProductName(product);
+        image.loading = "lazy";
+        image.decoding = "async";
+
+        imageFrame.appendChild(image);
+
+        const details = document.createElement("div");
+        details.className = "catalog-card-details";
+
+        const heading = document.createElement("h2");
+        heading.textContent = getProductName(product);
+
+        const description = document.createElement("p");
+        description.textContent = getProductDescription(product);
+
+        details.append(heading, description);
+        card.append(imageFrame, details);
+
+        catalogGrid.appendChild(card);
+      });
+    }
+
+    function setLanguage(language) {
+      currentLanguage = language;
+      document.documentElement.lang = language;
+
+      document.querySelectorAll("[data-ro][data-en]").forEach(element => {
+        element.textContent = element.dataset[language];
+      });
+
+      const isEnglish = language === "en";
+
+      languageButton.classList.toggle("is-en", isEnglish);
+      languageButton.classList.toggle("is-ro", !isEnglish);
+
+      languageButton.setAttribute(
+        "aria-label",
+        isEnglish ? "Schimbă limba în română" : "Switch to English"
+      );
+
+      languageButton.title = isEnglish ? "Română" : "English";
+
+      try {
+        localStorage.setItem("zarad-language", language);
+      } catch {
+      }
+
+      renderCatalog();
+    }
+
+    async function loadCatalog() {
+      try {
+        const response = await fetch("/catalog.json", {
+          cache: "no-cache"
+        });
+
+        if (!response.ok) {
+          throw new Error("Unable to load catalog");
+        }
+
+        const data = await response.json();
+
+        if (!Array.isArray(data)) {
+          throw new Error("Invalid catalog format");
+        }
+
+        catalogProducts = data.filter(product =>
+          product &&
+          typeof product.name === "string" &&
+          typeof product.image === "string" &&
+          typeof product.folder === "string"
+        );
+
+        if (catalogProducts.length === 0) {
+          throw new Error("No valid products found");
+        }
+
+        catalogStatus.hidden = true;
+        renderCatalog();
+
+      } catch (error) {
+        console.error(error);
+
+        catalogStatus.textContent =
+          currentLanguage === "ro"
+            ? "Catalogul nu a putut fi încărcat. Reîncarcă pagina."
+            : "The catalogue could not be loaded. Please refresh the page.";
+
+        catalogStatus.hidden = false;
+      }
+    }
+
+    let savedLanguage = "ro";
+
+    try {
+      savedLanguage =
+        localStorage.getItem("zarad-language") === "en" ? "en" : "ro";
+    } catch {
+      savedLanguage = "ro";
+    }
+
+    setLanguage(savedLanguage);
+    loadCatalog();
+
+    languageButton.addEventListener("click", () => {
+      setLanguage(currentLanguage === "ro" ? "en" : "ro");
+    });
+  </script>
+
 </body>
 </html>
