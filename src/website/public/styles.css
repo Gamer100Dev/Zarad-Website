@@ -88,11 +88,10 @@ button {
 
 .brand img {
   display: block;
-  width: auto;
+  width: 140px;
   max-width: 100%;
-  height: 46px;
+  height: auto;
   object-fit: contain;
-  mix-blend-mode: multiply;
 }
 
 .main-nav {
@@ -792,9 +791,8 @@ width: min(1160px, calc(100% - 72px));
   display: block;
   width: 128px;
   height: auto;
-  aspect-ratio: 1680 / 944;
+  aspect-ratio: 747 / 345;
   object-fit: contain;
-  mix-blend-mode: multiply;
   object-position: left center;
 }
 
@@ -925,7 +923,7 @@ width: min(1160px, calc(100% - 72px));
   }
 
   .brand img {
-    height: 46px;
+    height: auto;
   }
 
   .main-nav {
