@@ -1367,10 +1367,10 @@ width: calc(100% - 44px);
 }
 
 
-/* Reframe the homepage mascot on narrow screens so it sits further left. */
+/* Keep the homepage mascot prominent and centered on narrow screens. */
 @media (max-width: 680px) {
   .hero-slide img {
     --hero-image-shift: 0%;
-    object-position: 65% 45%;
+    object-position: 75% 45%;
   }
 }
