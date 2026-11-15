@@ -1371,6 +1371,6 @@ width: calc(100% - 44px);
 @media (max-width: 680px) {
   .hero-slide img {
     --hero-image-shift: 0%;
-    object-position: 75% 45%;
+    object-position: 90% 45%;
   }
 }
