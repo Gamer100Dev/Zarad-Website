@@ -1,74 +1,103 @@
+
 [
   {
-    "name": "Boabe aromate",
-    "image": "bean_spices.JPG",
-    "folder": "spices",
-    "description": "Boabe întregi, cu textură și caracter, potrivite pentru a adăuga profunzime preparatelor tale.",
-    "name_en": "Aromatic seeds",
-    "description_en": "Whole spices with texture and character, ideal for adding depth to your dishes."
-  },
-  {
-    "name": "Condimente măcinate",
-    "image": "grained_spice.JPG",
-    "folder": "spices",
-    "description": "Texturi fine și arome concentrate, ușor de integrat în rețete de zi cu zi sau preparate speciale.",
-    "name_en": "Ground spices",
-    "description_en": "Fine textures and concentrated flavours, easy to add to everyday recipes or special dishes."
-  },
-  {
-    "name": "Amestecul Zarad",
-    "image": "main_spice_frame.JPG",
-    "folder": "spices",
-    "description": "Un amestec inspirat de combinațiile îndrăznețe din bucătăria marocană, creat pentru mese pline de personalitate.",
-    "name_en": "The Zarad blend",
-    "description_en": "A blend inspired by the bold combinations of Moroccan cooking, made for meals with character."
-  },
-  {
-    "name": "Nuanțe calde",
-    "image": "nut_spice.JPG",
-    "folder": "spices",
-    "description": "O selecție cu note calde și parfumate, potrivită pentru rețete care aduc oamenii împreună.",
-    "name_en": "Warm notes",
-    "description_en": "A selection of warm, fragrant notes for recipes that bring people together."
-  },
-  {
-    "name": "Amestec roșcat",
+    "name": "Boia",
     "image": "reddish_brown_spice.jpg",
     "folder": "spices",
-    "description": "O combinație cu nuanțe intense, pentru preparate în care culoarea și savoarea merg mână în mână.",
-    "name_en": "Warm-toned blend",
-    "description_en": "A richly coloured blend for dishes where colour and flavour go hand in hand."
+    "description": "Un condiment obținut din ardei uscați și măcinați, apreciat pentru culoarea sa intensă și aroma sa specifică. Ideal pentru preparate tradiționale, sosuri, supe și marinade.",
+    "name_en": "Paprika",
+    "description_en": "A spice made from dried and ground peppers, appreciated for its vibrant colour and distinctive flavour. Ideal for traditional dishes, sauces, soups and marinades.",
+    "price": 14.90,
+    "currency": "RON"
   },
   {
-    "name": "Mirodenii întregi",
-    "image": "star_spice.JPG",
+    "name": "Scorțișoară",
+    "image": "nut_spice.JPG",
     "folder": "spices",
-    "description": "Mirodenii care își dezvăluie treptat parfumul și adaugă un accent aparte preparatelor.",
-    "name_en": "Whole aromatics",
-    "description_en": "Aromatic spices that gradually release their fragrance and bring a distinctive touch to dishes."
+    "description": "Un condiment cu aromă caldă, dulce și parfumată, perfect pentru deserturi, băuturi și preparate speciale. Oferă un gust delicat și un caracter aparte fiecărei rețete.",
+    "name_en": "Cinnamon",
+    "description_en": "A spice with a warm, sweet and fragrant aroma, perfect for desserts, drinks and special dishes. It adds a delicate flavour and distinctive character to every recipe.",
+    "price": 16.90,
+    "currency": "RON"
   },
   {
-    "name": "Selecția marocană",
-    "image": "allspices-frame.JPG",
+    "name": "Ghimbirul",
+    "image": "grained_spice.JPG",
     "folder": "spices",
-    "description": "O privire asupra universului de culori și texturi care inspiră colecția Zarad.",
-    "name_en": "The Moroccan selection",
-    "description_en": "A glimpse into the world of colours and textures that inspires the Zarad collection."
+    "description": "Un condiment apreciat pentru aroma sa proaspătă, ușor picantă și intens parfumată. Potrivit pentru ceaiuri, deserturi, sosuri, marinade și preparate inspirate din bucătăria asiatică.",
+    "name_en": "Ginger",
+    "description_en": "A spice appreciated for its fresh, mildly pungent and aromatic flavour. Suitable for teas, desserts, sauces, marinades and dishes inspired by Asian cuisine.",
+    "price": 15.90,
+    "currency": "RON"
   },
   {
-    "name": "Paleta condimentelor",
-    "image": "allspices-layedflat.JPG",
-    "folder": "spices",
-    "description": "O colecție vizuală de arome și nuanțe, pentru cei care iubesc să experimenteze în bucătărie.",
-    "name_en": "The spice palette",
-    "description_en": "A visual collection of flavours and colours for those who love to experiment in the kitchen."
-  },
-  {
-    "name": "Mix de mirodenii",
+    "name": "Curcuma",
     "image": "seashell_spicefar.JPG",
     "folder": "spices",
-    "description": "Un alt fel de inspirație pentru rețetele tale, cu un profil aromatic ce merită descoperit.",
-    "name_en": "Spice mix",
-    "description_en": "Another source of inspiration for your recipes, with an aromatic profile worth discovering."
+    "description": "Un condiment cu o culoare galben-aurie și o aromă caldă, ușor pământie. Folosit frecvent în curry, supe, orez și preparate tradiționale pentru culoarea și savoarea sa.",
+    "name_en": "Turmeric",
+    "description_en": "A spice with a golden-yellow colour and a warm, slightly earthy flavour. Commonly used in curries, soups, rice and traditional dishes for its colour and taste.",
+    "price": 15.90,
+    "currency": "RON"
+  },
+  {
+    "name": "Piper",
+    "image": "bean_spices.JPG",
+    "folder": "spices",
+    "description": "Un condiment clasic, cunoscut pentru aroma sa intensă și gustul ușor picant. Completează o varietate de preparate, de la carne și legume până la sosuri și supe.",
+    "name_en": "Black Pepper",
+    "description_en": "A classic spice known for its intense aroma and mildly pungent taste. Complements a wide variety of dishes, from meat and vegetables to sauces and soups.",
+    "price": 18.90,
+    "currency": "RON"
+  },
+  {
+    "name": "Ras el hanout",
+    "image": "allspices-frame.JPG",
+    "folder": "spices",
+    "description": "Un amestec tradițional de condimente din bucătăria marocană, apreciat pentru complexitatea și bogăția aromelor sale. Ideal pentru tajine, couscous, carne și preparate cu specific nord-african.",
+    "name_en": "Ras el Hanout",
+    "description_en": "A traditional Moroccan spice blend appreciated for its complex and rich flavours. Ideal for tagines, couscous, meat and North African-inspired dishes.",
+    "price": 24.90,
+    "currency": "RON"
+  },
+  {
+    "name": "Șofran",
+    "image": "seashell_spice.JPG",
+    "folder": "spices",
+    "description": "Un condiment prețios, apreciat pentru aroma sa delicată, florală și culoarea aurie pe care o oferă preparatelor. Potrivit pentru orez, sosuri, supe și rețete rafinate.",
+    "name_en": "Saffron",
+    "description_en": "A precious spice appreciated for its delicate, floral aroma and the golden colour it gives to dishes. Suitable for rice, sauces, soups and refined recipes.",
+    "price": 39.90,
+    "currency": "RON"
+  },
+  {
+    "name": "Zarad",
+    "image": "main_spice_frame.JPG",
+    "folder": "spices",
+    "description": "Amestecul emblematic Zarad, inspirat de bogăția aromelor marocane. Creat pentru a transforma preparatele obișnuite în experiențe culinare pline de personalitate și savoare.",
+    "name_en": "Zarad Signature Blend",
+    "description_en": "The signature Zarad blend, inspired by the richness of Moroccan flavours. Created to transform everyday dishes into culinary experiences full of character and flavour.",
+    "price": 24.90,
+    "currency": "RON"
+  },
+  {
+    "name": "Chimion",
+    "image": "star_spice.JPG",
+    "folder": "spices",
+    "description": "Un condiment cu aromă caldă, intensă și ușor pământie, specific multor preparate din bucătăria nord-africană și orientală. Potrivit pentru carne, legume, supe și amestecuri de condimente.",
+    "name_en": "Cumin",
+    "description_en": "A spice with a warm, intense and slightly earthy aroma, characteristic of many North African and Middle Eastern dishes. Suitable for meat, vegetables, soups and spice blends.",
+    "price": 16.90,
+    "currency": "RON"
+  },
+  {
+    "name": "Chimen",
+    "image": "allspices-layedflat.JPG",
+    "folder": "spices",
+    "description": "Un condiment aromatic, cu note ușor dulci și asemănătoare anasonului. Folosit pentru pâine, produse de patiserie, legume și preparate tradiționale, adăugând o notă distinctivă fiecărei rețete.",
+    "name_en": "Caraway",
+    "description_en": "An aromatic spice with slightly sweet, anise-like notes. Used in bread, pastries, vegetables and traditional dishes, adding a distinctive touch to every recipe.",
+    "price": 16.90,
+    "currency": "RON"
   }
 ]

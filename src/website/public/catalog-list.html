@@ -1,0 +1,565 @@
+
+<!doctype html>
+<html lang="ro">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#f4ead9">
+  <meta name="description" content="Descoperă produsele și condimentele Zarad.">
+  <title>Produs — Zarad</title>
+  <link rel="icon" type="image/png" href="/assets/Zarad-logo.png?v=transparent-logo-20261113">
+  <link rel="stylesheet" href="/styles.css?v=feature-card-zoomout-20261113">
+
+  <style>
+    .product-main {
+      max-width: 1100px;
+      width: calc(100% - 48px);
+      margin: 0 auto;
+      padding: 85px 0 110px;
+    }
+
+    .product-heading {
+      text-align: center;
+      max-width: 720px;
+      margin: 0 auto 55px;
+    }
+
+    .product-heading h1 {
+      margin: 12px 0;
+    }
+
+    .product-heading p {
+      line-height: 1.8;
+    }
+
+    .product-details {
+      display: none;
+      grid-template-columns: minmax(0, 1.15fr) minmax(0, 1fr);
+      gap: 55px;
+      align-items: center;
+      animation: product-appear 0.35s ease;
+    }
+
+    .product-details.is-visible {
+      display: grid;
+    }
+
+    @keyframes product-appear {
+      from {
+        opacity: 0;
+        transform: translateY(10px);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    .product-image {
+      width: 100%;
+      aspect-ratio: 4 / 5;
+      overflow: hidden;
+      background: #e9decd;
+      border-radius: 4px;
+    }
+
+    .product-image img {
+      display: block;
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+    }
+
+    .product-information {
+      min-width: 0;
+      padding: 25px 0;
+    }
+
+    .product-kicker {
+      font-size: 0.78rem;
+      letter-spacing: 0.15em;
+      opacity: 0.65;
+    }
+
+    .product-information h1 {
+      font-size: clamp(2rem, 4vw, 3.1rem);
+      line-height: 1.15;
+      margin: 18px 0;
+    }
+
+    .product-description {
+      max-width: 580px;
+      font-size: 1rem;
+      line-height: 1.9;
+    }
+
+    .product-price {
+      margin-top: 30px;
+      padding-top: 24px;
+      border-top: 1px solid rgba(90, 65, 40, 0.2);
+    }
+
+    .product-price-label {
+      display: block;
+      font-size: 0.75rem;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      opacity: 0.65;
+      margin-bottom: 9px;
+    }
+
+    .product-price-value {
+      font-size: 1.6rem;
+      font-weight: 600;
+    }
+
+    .product-back {
+      display: inline-block;
+      margin-top: 35px;
+      font-size: 0.9rem;
+      text-decoration: underline;
+      text-underline-offset: 4px;
+      color: inherit;
+    }
+
+    .product-loading,
+    .product-status {
+      max-width: 600px;
+      margin: 50px auto;
+      padding: 35px 25px;
+      text-align: center;
+      line-height: 1.8;
+      border: 1px solid rgba(90, 65, 40, 0.15);
+      border-radius: 4px;
+      background: rgba(255, 255, 255, 0.2);
+    }
+
+    .product-status h2 {
+      margin: 0 0 12px;
+    }
+
+    .product-status p {
+      margin: 0;
+    }
+
+    @media (max-width: 800px) {
+      .product-main {
+        padding-top: 60px;
+      }
+
+      .product-details {
+        grid-template-columns: 1fr;
+        gap: 25px;
+      }
+
+      .product-image {
+        aspect-ratio: 4 / 3;
+      }
+
+      .product-information {
+        padding-top: 10px;
+      }
+    }
+
+    @media (max-width: 480px) {
+      .product-main {
+        width: calc(100% - 30px);
+      }
+
+      .product-information h1 {
+        font-size: 2rem;
+      }
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      .product-details {
+        animation: none;
+      }
+    }
+  </style>
+</head>
+
+<body class="catalog-page">
+
+  <header class="site-header zarad-header">
+    <div class="header-inner">
+      <a class="brand zarad-logo" href="/" aria-label="Zarad — One Spice Away">
+        <img
+          id="zarad_logo"
+          src="/assets/Zarad-logo.png?v=transparent-logo-20261113"
+          alt="Zarad — One Spice Away"
+        >
+      </a>
+
+      <nav class="main-nav zarad-nav" aria-label="Navigare principală">
+        <a class="nav-link" href="/" data-ro="Acasă" data-en="Home">Acasă</a>
+        <a class="nav-link active" href="/catalog" aria-current="page" data-ro="Catalog" data-en="Catalogue">Catalog</a>
+        <a class="nav-link" href="/#contact" data-ro="Contact" data-en="Contact">Contact</a>
+      </nav>
+
+      <div class="zarad-right">
+        <button
+          class="language-toggle zarad-lang-pill is-ro"
+          id="zarad_language"
+          type="button"
+          aria-label="Switch to English"
+          title="English"
+        >
+          <span class="zarad-lang-slider" aria-hidden="true"></span>
+          <span class="zarad-lang-label label-ro" aria-hidden="true">RO</span>
+          <span class="zarad-lang-divider" aria-hidden="true"></span>
+          <span class="zarad-lang-label label-en" aria-hidden="true">EN</span>
+        </button>
+      </div>
+    </div>
+  </header>
+
+  <main class="product-main">
+
+    <section class="product-heading">
+      <p class="section-kicker">ONE SPICE AWAY</p>
+
+      <p
+        data-ro="Descoperă aromele colecției Zarad."
+        data-en="Discover the flavours of the Zarad collection."
+      >
+        Descoperă aromele colecției Zarad.
+      </p>
+    </section>
+
+    <p
+      class="product-loading"
+      id="product_loading"
+      role="status"
+      data-ro="Se încarcă produsul..."
+      data-en="Loading product..."
+    >
+      Se încarcă produsul...
+    </p>
+
+    <section
+      class="product-details"
+      id="product_details"
+      aria-live="polite"
+      aria-atomic="true"
+      aria-labelledby="product_name"
+    >
+      <div class="product-image">
+        <img id="product_photo" src="" alt="">
+      </div>
+
+      <div class="product-information">
+        <span
+          class="product-kicker"
+          data-ro="COLECȚIA ZARAD"
+          data-en="THE ZARAD COLLECTION"
+        >
+          COLECȚIA ZARAD
+        </span>
+
+        <h1 id="product_name"></h1>
+
+        <p class="product-description" id="product_description"></p>
+
+        <div class="product-price">
+          <span
+            class="product-price-label"
+            data-ro="Preț"
+            data-en="Price"
+          >
+            Preț
+          </span>
+
+          <span class="product-price-value" id="product_price"></span>
+        </div>
+
+        <a
+          href="/catalog"
+          class="product-back"
+          data-ro="Înapoi la catalog"
+          data-en="Back to catalogue"
+        >
+          Înapoi la catalog
+        </a>
+      </div>
+    </section>
+
+    <section
+      class="product-status"
+      id="product_status"
+      role="alert"
+      hidden
+    >
+      <h2 id="product_status_title"></h2>
+      <p id="product_status_message"></p>
+
+      <a
+        href="/catalog"
+        class="product-back"
+        data-ro="Înapoi la catalog"
+        data-en="Back to catalogue"
+      >
+        Înapoi la catalog
+      </a>
+    </section>
+
+  </main>
+
+  <footer class="site-footer">
+    <a class="footer-brand" href="/" aria-label="Zarad — One Spice Away">
+      <img src="/assets/Zarad-logo.png?v=transparent-logo-20261113" alt="Zarad">
+    </a>
+
+    <p>One Spice Away</p>
+
+    <a class="footer-contact" href="mailto:salut@zarad.ro">
+      salut@zarad.ro
+    </a>
+
+    <span class="footer-copy">
+      © <span id="current-year"></span> Zarad
+    </span>
+  </footer>
+
+  <script>
+    const languageButton = document.getElementById("zarad_language");
+    const productDetails = document.getElementById("product_details");
+    const productLoading = document.getElementById("product_loading");
+    const productStatus = document.getElementById("product_status");
+
+    const productName = document.getElementById("product_name");
+    const productDescription = document.getElementById("product_description");
+    const productPrice = document.getElementById("product_price");
+    const productPhoto = document.getElementById("product_photo");
+
+    const statusTitle = document.getElementById("product_status_title");
+    const statusMessage = document.getElementById("product_status_message");
+
+    let currentLanguage = "ro";
+    let currentProduct = null;
+    let currentStatus = null;
+
+    document.getElementById("current-year").textContent =
+      new Date().getFullYear();
+
+    function getProductDescriptor(name) {
+      return name
+        .normalize("NFD")
+        .replace(/[\u0300-\u036f]/g, "")
+        .toLowerCase()
+        .replace(/[^a-z0-9]+/g, "-")
+        .replace(/^-|-$/g, "");
+    }
+
+    function getProductName(product) {
+      return currentLanguage === "en"
+        ? product.name_en || product.name
+        : product.name;
+    }
+
+    function getProductDescription(product) {
+      return currentLanguage === "en"
+        ? product.description_en || product.description
+        : product.description;
+    }
+
+    function getProductPrice(product) {
+      if (
+        product.price === undefined ||
+        product.price === null ||
+        product.price === ""
+      ) {
+        return currentLanguage === "en"
+          ? "Price unavailable"
+          : "Preț indisponibil";
+      }
+
+      if (typeof product.price === "number") {
+        try {
+          return new Intl.NumberFormat(
+            currentLanguage === "ro" ? "ro-RO" : "en-GB",
+            {
+              style: "currency",
+              currency: product.currency || "RON"
+            }
+          ).format(product.price);
+        } catch {
+          return `${product.price} ${product.currency || "RON"}`;
+        }
+      }
+
+      return String(product.price);
+    }
+
+    function showStatus(type) {
+      const messages = {
+        missing: {
+          ro: {
+            title: "Produsul nu a fost specificat",
+            message: "Accesează catalogul și selectează produsul pe care dorești să îl descoperi."
+          },
+          en: {
+            title: "No product specified",
+            message: "Visit the catalogue and select the product you would like to explore."
+          }
+        },
+        notFound: {
+          ro: {
+            title: "Produsul nu a fost găsit",
+            message: "Produsul solicitat nu există în catalogul Zarad."
+          },
+          en: {
+            title: "Product not found",
+            message: "The requested product does not exist in the Zarad catalogue."
+          }
+        },
+        failed: {
+          ro: {
+            title: "Catalogul nu a putut fi încărcat",
+            message: "Te rugăm să reîncarci pagina sau să revii la catalog."
+          },
+          en: {
+            title: "The catalogue could not be loaded",
+            message: "Please refresh the page or return to the catalogue."
+          }
+        }
+      };
+
+      currentStatus = type;
+
+      const message = messages[type][currentLanguage];
+
+      statusTitle.textContent = message.title;
+      statusMessage.textContent = message.message;
+
+      productLoading.hidden = true;
+      productDetails.classList.remove("is-visible");
+      productStatus.hidden = false;
+    }
+
+    function renderProduct(product) {
+      if (!product) {
+        return;
+      }
+
+      productName.textContent = getProductName(product);
+      productDescription.textContent = getProductDescription(product);
+      productPrice.textContent = getProductPrice(product);
+
+      const folder = product.folder
+        .split("/")
+        .map(encodeURIComponent)
+        .join("/");
+
+      const image = product.image
+        .split("/")
+        .map(encodeURIComponent)
+        .join("/");
+
+      productPhoto.src = `/assets/${folder}/${image}`;
+      productPhoto.alt = getProductName(product);
+
+      productLoading.hidden = true;
+      productStatus.hidden = true;
+      productDetails.classList.add("is-visible");
+
+      document.title = `${getProductName(product)} — Zarad`;
+    }
+
+    function setLanguage(language) {
+      currentLanguage = language;
+      document.documentElement.lang = language;
+
+      document.querySelectorAll("[data-ro][data-en]").forEach(element => {
+        element.textContent = element.dataset[language];
+      });
+
+      const isEnglish = language === "en";
+
+      languageButton.classList.toggle("is-en", isEnglish);
+      languageButton.classList.toggle("is-ro", !isEnglish);
+
+      languageButton.setAttribute(
+        "aria-label",
+        isEnglish ? "Schimbă limba în română" : "Switch to English"
+      );
+
+      languageButton.title = isEnglish ? "Română" : "English";
+
+      try {
+        localStorage.setItem("zarad-language", language);
+      } catch {
+      }
+
+      if (currentProduct) {
+        renderProduct(currentProduct);
+      }
+
+      if (currentStatus) {
+        showStatus(currentStatus);
+      }
+    }
+
+    async function loadProduct() {
+      const params = new URLSearchParams(window.location.search);
+      const descriptor = params.get("descriptor");
+
+      if (!descriptor) {
+        showStatus("missing");
+        return;
+      }
+
+      try {
+        const response = await fetch("/catalog.json", {
+          cache: "no-cache"
+        });
+
+        if (!response.ok) {
+          throw new Error("Unable to load catalog");
+        }
+
+        const products = await response.json();
+
+        if (!Array.isArray(products)) {
+          throw new Error("Invalid catalog format");
+        }
+
+        const product = products.find(item =>
+          item &&
+          typeof item.name === "string" &&
+          getProductDescriptor(item.name) === descriptor
+        );
+
+        if (!product) {
+          showStatus("notFound");
+          return;
+        }
+
+        currentProduct = product;
+        renderProduct(product);
+
+      } catch (error) {
+        console.error(error);
+        showStatus("failed");
+      }
+    }
+
+    let savedLanguage = "ro";
+
+    try {
+      savedLanguage =
+        localStorage.getItem("zarad-language") === "en" ? "en" : "ro";
+    } catch {
+      savedLanguage = "ro";
+    }
+
+    setLanguage(savedLanguage);
+    loadProduct();
+
+    languageButton.addEventListener("click", () => {
+      setLanguage(currentLanguage === "ro" ? "en" : "ro");
+    });
+  </script>
+
+</body>
+</html>
