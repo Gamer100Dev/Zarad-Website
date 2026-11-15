@@ -1367,16 +1367,11 @@ width: calc(100% - 44px);
 }
 
 
-/* Fit the full homepage mascot on narrow screens. */
+/* Keep the homepage mascot filling the hero on narrow screens. */
 @media (max-width: 680px) {
   .hero-slide img {
     --hero-image-shift: 0%;
-    object-fit: contain;
+    object-fit: cover;
     object-position: 81.5% 45%;
-    transform: translateX(0) scale(1);
-  }
-
-  .hero-slide.is-active img {
-    transform: translateX(0) scale(1);
   }
 }
