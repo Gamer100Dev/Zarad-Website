@@ -107,6 +107,7 @@ function setupSlider() {
   }
 
   const slides = Array.from(slider.querySelectorAll(".hero-slide"));
+  if (slides.length < 2) return;
   const dots = Array.from(slider.querySelectorAll(".slider-dot"));
   const previous = slider.querySelector("#zarad_previous");
   const next = slider.querySelector("#zarad_next");
