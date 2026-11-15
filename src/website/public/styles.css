@@ -1373,10 +1373,10 @@ width: calc(100% - 44px);
     --hero-image-shift: 0%;
     object-fit: contain;
     object-position: 81.5% 45%;
-    transform: translateX(0) scale(0.9);
+    transform: translateX(0) scale(1);
   }
 
   .hero-slide.is-active img {
-    transform: translateX(0) scale(0.9);
+    transform: translateX(0) scale(1);
   }
 }
