@@ -1365,3 +1365,12 @@ width: calc(100% - 44px);
   object-fit: contain;
   filter: drop-shadow(0 5px 10px rgba(15, 22, 16, 0.22));
 }
+
+
+/* Reframe the homepage mascot on narrow screens so it sits further left. */
+@media (max-width: 680px) {
+  .hero-slide img {
+    --hero-image-shift: 0%;
+    object-position: 65% 45%;
+  }
+}
