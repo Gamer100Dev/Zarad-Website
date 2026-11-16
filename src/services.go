@@ -9,6 +9,7 @@ import (
 	"os/exec"
 	"path/filepath"
 	"runtime"
+	"strconv"
 	"strings"
 	"time"
 )
@@ -107,7 +108,30 @@ func findWebsiteDirectory() (string, error) {
 }
 
 func (s *websiteService) runNPM(ctx context.Context, args ...string) error {
-	cmd := exec.CommandContext(ctx, "npm", args...)
+	var cmd *exec.Cmd
+
+	if runtime.GOOS == "android" {
+		prefix := os.Getenv("PREFIX")
+		if prefix == "" {
+			prefix = "/data/data/com.termux/files/usr"
+		}
+		node := filepath.Join(prefix, "bin", "node")
+		npmCLI := filepath.Join(prefix, "lib", "node_modules", "npm", "bin", "npm-cli.js")
+		if _, err := os.Stat(node); err != nil {
+			return fmt.Errorf("Node.js not found at %s: %w", node, err)
+		}
+		if _, err := os.Stat(npmCLI); err != nil {
+			return fmt.Errorf("npm CLI not found at %s: %w", npmCLI, err)
+		}
+		cmd = exec.CommandContext(ctx, node, append([]string{npmCLI}, args...)...)
+	} else {
+		npm := strings.TrimSpace(os.Getenv("NPM"))
+		if npm == "" {
+			npm = "npm"
+		}
+		cmd = exec.CommandContext(ctx, npm, args...)
+	}
+
 	cmd.Dir = s.directory
 	cmd.Stdout = os.Stdout
 	cmd.Stderr = os.Stderr
@@ -116,11 +140,124 @@ func (s *websiteService) runNPM(ctx context.Context, args ...string) error {
 	return cmd.Run()
 }
 
-func (s *websiteService) Run(ctx context.Context) error {
-	if _, err := exec.LookPath("npm"); err != nil {
-		return fmt.Errorf("npm is not installed or is not available in PATH: %w", err)
+func (s *websiteService) startNginx(ctx context.Context) (func(), error) {
+	if strings.EqualFold(strings.TrimSpace(os.Getenv("NGINX")), "off") ||
+		strings.TrimSpace(os.Getenv("NGINX")) == "0" {
+		log.Printf("Nginx integration disabled; website will be served directly")
+		return func() {}, nil
 	}
 
+	nginxPath := strings.TrimSpace(os.Getenv("NGINX_BIN"))
+	if nginxPath == "" {
+		var err error
+		nginxPath, err = exec.LookPath("nginx")
+		if err != nil {
+			log.Printf("Nginx not found; website will be served directly on port %s", s.port)
+			return func() {}, nil
+		}
+	}
+
+	backendPort, err := strconv.Atoi(s.port)
+	if err != nil || backendPort < 1 || backendPort > 65535 {
+		return nil, fmt.Errorf("invalid website PORT %q; cannot configure Nginx", s.port)
+	}
+
+	nginxPort := strings.TrimSpace(os.Getenv("NGINX_PORT"))
+	if nginxPort == "" {
+		nginxPort = "8080"
+	}
+	listenPort, err := strconv.Atoi(nginxPort)
+	if err != nil || listenPort < 1 || listenPort > 65535 {
+		return nil, fmt.Errorf("invalid NGINX_PORT %q", nginxPort)
+	}
+
+	cacheDir, err := os.UserCacheDir()
+	if err != nil || cacheDir == "" {
+		cacheDir = os.TempDir()
+	}
+	runtimeDir := filepath.Join(cacheDir, "zarad", "nginx")
+	if err := os.MkdirAll(runtimeDir, 0700); err != nil {
+		return nil, fmt.Errorf("could not create Nginx runtime directory: %w", err)
+	}
+
+	configPath := filepath.Join(runtimeDir, "nginx.conf")
+	config := fmt.Sprintf(`worker_processes 1;
+pid %s;
+error_log stderr warn;
+
+events {
+    worker_connections 256;
+}
+
+http {
+    access_log off;
+
+    server {
+        listen 0.0.0.0:%s;
+        server_name _;
+
+        location / {
+            proxy_pass http://127.0.0.1:%s;
+            proxy_http_version 1.1;
+            proxy_set_header Host $host;
+            proxy_set_header X-Real-IP $remote_addr;
+            proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
+            proxy_set_header X-Forwarded-Proto $scheme;
+            proxy_connect_timeout 5s;
+            proxy_read_timeout 60s;
+            proxy_send_timeout 60s;
+        }
+    }
+}
+`, filepath.Join(runtimeDir, "nginx.pid"), nginxPort, s.port)
+
+	if err := os.WriteFile(configPath, []byte(config), 0600); err != nil {
+		return nil, fmt.Errorf("could not write Nginx configuration: %w", err)
+	}
+
+	test := exec.CommandContext(ctx, nginxPath, "-t", "-p", runtimeDir, "-c", configPath)
+	test.Stdout = os.Stdout
+	test.Stderr = os.Stderr
+	if err := test.Run(); err != nil {
+		log.Printf("Nginx configuration test failed; continuing without Nginx: %v", err)
+		return func() {}, nil
+	}
+
+	cmd := exec.CommandContext(ctx, nginxPath, "-p", runtimeDir, "-c", configPath, "-g", "daemon off;")
+	cmd.Stdout = os.Stdout
+	cmd.Stderr = os.Stderr
+	if err := cmd.Start(); err != nil {
+		log.Printf("Could not start Nginx; continuing without reverse proxy: %v", err)
+		return func() {}, nil
+	}
+
+	wait := make(chan error, 1)
+	go func() {
+		wait <- cmd.Wait()
+	}()
+
+	select {
+	case err := <-wait:
+		log.Printf("Nginx exited during startup; continuing without reverse proxy: %v", err)
+		return func() {}, nil
+	case <-time.After(250 * time.Millisecond):
+		log.Printf("Nginx reverse proxy listening on port %s; forwarding to Zarad on port %s", nginxPort, s.port)
+	case <-ctx.Done():
+		_ = cmd.Process.Kill()
+		<-wait
+		return func() {}, ctx.Err()
+	}
+
+	stop := func() {
+		if cmd.Process != nil {
+			_ = cmd.Process.Kill()
+			<-wait
+		}
+	}
+	return stop, nil
+}
+
+func (s *websiteService) Run(ctx context.Context) error {
 	installCommand := "install"
 	if _, err := os.Stat(filepath.Join(s.directory, "package-lock.json")); err == nil {
 		installCommand = "ci"
@@ -147,6 +284,12 @@ func (s *websiteService) Run(ctx context.Context) error {
 	if err := ctx.Err(); err != nil {
 		return nil
 	}
+
+	stopNginx, err := s.startNginx(ctx)
+	if err != nil {
+		return err
+	}
+	defer stopNginx()
 
 	log.Printf("Starting website with npm run %s on port %s", s.script, s.port)
 	delay := 2 * time.Second
