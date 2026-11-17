@@ -1392,3 +1392,108 @@ width: calc(100% - 44px);
     object-position: 81.5% 45%;
   }
 }
+
+
+/* Zarad theme toggle and dark palette */
+.zarad-right { display: flex; align-items: center; gap: 10px; }
+.zarad-theme-toggle {
+  display: inline-grid;
+  place-items: center;
+  width: 34px;
+  height: 34px;
+  flex: 0 0 34px;
+  padding: 0;
+  border: 1px solid #c9963b;
+  border-radius: 50%;
+  background: #f7f3eb;
+  color: #6f2a25;
+  cursor: pointer;
+  transition: background .22s ease, color .22s ease, transform .22s ease, border-color .22s ease;
+}
+.zarad-theme-toggle:hover { transform: rotate(-12deg); background: #efe2cb; }
+.zarad-theme-toggle:focus-visible { outline: 2px solid #c9963b; outline-offset: 3px; }
+.zarad-theme-toggle svg { width: 18px; height: 18px; fill: none; stroke: currentColor; stroke-width: 1.8; stroke-linecap: round; stroke-linejoin: round; }
+.zarad-theme-toggle .theme-sun { display: none; }
+html[data-theme="dark"] .zarad-theme-toggle { background: #302728; color: #f0c879; border-color: #a77b3e; }
+html[data-theme="dark"] .zarad-theme-toggle:hover { background: #443536; }
+html[data-theme="dark"] .zarad-theme-toggle .theme-moon { display: none; }
+html[data-theme="dark"] .zarad-theme-toggle .theme-sun { display: block; }
+
+html[data-theme="dark"] {
+  color-scheme: dark;
+  --paper: #211b1b;
+  --paper-light: #2b2323;
+  --ink: #f0e5d6;
+  --muted: #c0ad9c;
+  --wine: #e2b4a2;
+  --wine-dark: #3a2022;
+  --gold: #d6a653;
+  --gold-light: #edc783;
+  --line: #51413a;
+  background: var(--paper);
+}
+html[data-theme="dark"] body { background: var(--paper); color: var(--ink); }
+html[data-theme="dark"] .site-header {
+  background-color: #292222;
+  background-image: url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' stroke='%23c9963b' stroke-width='1' stroke-opacity='0.12'%3E%3Cpath d='M30 0L60 30L30 60L0 30Z'/%3E%3Ccircle cx='30' cy='30' r='12'/%3E%3C/g%3E%3C/svg%3E");
+}
+html[data-theme="dark"] .brand img,
+html[data-theme="dark"] .footer-brand img { mix-blend-mode: normal; }
+html[data-theme="dark"] .nav-link,
+html[data-theme="dark"] .nav-link:hover,
+html[data-theme="dark"] .nav-link.active { color: #e6c7a8; }
+html[data-theme="dark"] .zarad-lang-pill { background: #302728; border-color: #a77b3e; }
+html[data-theme="dark"] .zarad-lang-label { color: #ead9c5; }
+html[data-theme="dark"] .zarad-lang-pill.is-ro .label-ro,
+html[data-theme="dark"] .zarad-lang-pill.is-en .label-en { color: #fff8ed; }
+html[data-theme="dark"] .zarad-lang-divider { background-color: rgba(214,166,83,.55); }
+html[data-theme="dark"] .zarad-lang-slider { background: #8d453c; }
+html[data-theme="dark"] .zarad-lang-pill:focus-visible { outline-color: #edc783; }
+html[data-theme="dark"] .zarad-features-strip { background: #292222; border-color: #9b7137; }
+html[data-theme="dark"] .zarad-frieze-border { background-color: #302827; }
+html[data-theme="dark"] .zarad-medallion { background: #382d2b; box-shadow: inset 0 0 0 3px #292222, inset 0 0 0 4px rgba(201,150,59,.35); }
+html[data-theme="dark"] .zarad-pillar-text h3 { color: #e7c7a7; }
+html[data-theme="dark"] .zarad-pillar-text p,
+html[data-theme="dark"] .welcome-copy > p:not(.section-kicker),
+html[data-theme="dark"] .section-heading > p:last-child { color: #c5b3a5; }
+html[data-theme="dark"] .zarad-story-section { background: #211b1b; }
+html[data-theme="dark"] .welcome-copy h2,
+html[data-theme="dark"] .section-heading h2,
+html[data-theme="dark"] .catalog-heading h1 { color: #e6bda9; }
+html[data-theme="dark"] .welcome-copy .section-kicker,
+html[data-theme="dark"] .section-heading .section-kicker,
+html[data-theme="dark"] .catalog-heading .section-kicker { color: #d6a653; }
+html[data-theme="dark"] .welcome-image.moroccan-arch-frame { background: #302625; }
+html[data-theme="dark"] .spice-section,
+html[data-theme="dark"] .catalog-heading { background: #302625; }
+html[data-theme="dark"] .featured-spice { background: #3a2d29; }
+html[data-theme="dark"] .site-footer { background: #292222; }
+html[data-theme="dark"] .site-footer p,
+html[data-theme="dark"] .footer-contact,
+html[data-theme="dark"] .footer-copy { color: #c6b3a3; }
+html[data-theme="dark"] .footer-contact { border-color: #8f6b43; }
+html[data-theme="dark"] .catalog-heading > p:last-child { color: #c5b3a5; }
+html[data-theme="dark"] .catalog-card { background: #302727; box-shadow: 0 8px 24px rgba(0,0,0,.2); }
+html[data-theme="dark"] .catalog-card-image { background: #3b302c; }
+html[data-theme="dark"] .catalog-card h2 { color: #e6bda9; }
+html[data-theme="dark"] .catalog-card p,
+html[data-theme="dark"] .catalog-status { color: #c5b3a5; }
+html[data-theme="dark"] .catalog-card-number { color: #d6a653; }
+html[data-theme="dark"] .product-image { background: #3b302c; }
+html[data-theme="dark"] .product-price { border-color: rgba(230,189,169,.25); }
+html[data-theme="dark"] .product-loading,
+html[data-theme="dark"] .product-status { background: #302727; border-color: rgba(230,189,169,.2); }
+html[data-theme="dark"] .product-back { color: #e6c7a8; }
+html[data-theme="dark"] .zarad-cta-section { background-color: #202b22; }
+html[data-theme="dark"] .zarad-cta-frame { border-color: rgba(212,164,67,.45); }
+html[data-theme="dark"] .zarad-cta-heading { color: #f3e8d8; }
+html[data-theme="dark"] .zarad-cta-button { color: #27231c; }
+html[data-theme="dark"] .primary-button { color: #281e19; }
+html[data-theme="dark"] .welcome-image.moroccan-arch-frame { box-shadow: 0 10px 30px rgba(0,0,0,.22); }
+@media (max-width: 680px) {
+  .zarad-right { gap: 8px; }
+  .zarad-theme-toggle { width: 32px; height: 32px; flex-basis: 32px; }
+}
+@media (prefers-reduced-motion: reduce) {
+  .zarad-theme-toggle { transition: none; }
+}
