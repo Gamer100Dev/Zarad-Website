@@ -5,6 +5,7 @@ import (
 	"encoding/json"
 	"fmt"
 	"log"
+	"net"
 	"os"
 	"os/exec"
 	"path/filepath"
@@ -187,9 +188,11 @@ func (s *websiteService) startNginx(ctx context.Context) (func(), error) {
 	// can be treated as escape characters (for example, \\n in a path).
 	// Use forward slashes in every path written into nginx.conf and in -p.
 	nginxPrefix := filepath.ToSlash(runtimeDir)
-	nginxPIDPath := filepath.ToSlash(filepath.Join(runtimeDir, "nginx.pid"))
+	nginxConfigPath := filepath.ToSlash(configPath)
+
+	// Keep the PID path relative to the Nginx prefix to avoid Windows path escaping.
 	config := fmt.Sprintf(`worker_processes 1;
-pid "%s";
+pid logs/nginx.pid;
 error_log stderr warn;
 
 events {
@@ -216,13 +219,13 @@ http {
         }
     }
 }
-`, nginxPIDPath, nginxPort, s.port)
+`, nginxPort, s.port)
 
 	if err := os.WriteFile(configPath, []byte(config), 0600); err != nil {
 		return nil, fmt.Errorf("could not write Nginx configuration: %w", err)
 	}
 
-	test := exec.CommandContext(ctx, nginxPath, "-t", "-p", nginxPrefix, "-c", configPath)
+	test := exec.CommandContext(ctx, nginxPath, "-t", "-p", nginxPrefix, "-c", nginxConfigPath)
 	test.Stdout = os.Stdout
 	test.Stderr = os.Stderr
 	if err := test.Run(); err != nil {
@@ -230,7 +233,7 @@ http {
 		return func() {}, nil
 	}
 
-	cmd := exec.CommandContext(ctx, nginxPath, "-p", nginxPrefix, "-c", configPath, "-g", "daemon off;")
+	cmd := exec.CommandContext(ctx, nginxPath, "-p", nginxPrefix, "-c", nginxConfigPath, "-g", "daemon off;")
 	cmd.Stdout = os.Stdout
 	cmd.Stderr = os.Stderr
 	if err := cmd.Start(); err != nil {
@@ -292,11 +295,26 @@ func (s *websiteService) Run(ctx context.Context) error {
 		return nil
 	}
 
+	// Avoid starting a duplicate Node process when the backend port is already occupied.
+	backendAddr := net.JoinHostPort("127.0.0.1", s.port)
+	conn, dialErr := net.DialTimeout("tcp", backendAddr, 500*time.Millisecond)
+	backendAlreadyListening := dialErr == nil
+	if conn != nil {
+		_ = conn.Close()
+	}
+
 	stopNginx, err := s.startNginx(ctx)
 	if err != nil {
 		return err
 	}
 	defer stopNginx()
+
+	if backendAlreadyListening {
+		log.Printf("Port %s is already in use; not starting a duplicate Zarad Node process", s.port)
+		log.Printf("Keep this launcher open for Nginx, or stop the process using port %s before restarting Zarad", s.port)
+		<-ctx.Done()
+		return nil
+	}
 
 	log.Printf("Starting website with npm run %s on port %s", s.script, s.port)
 	delay := 2 * time.Second
