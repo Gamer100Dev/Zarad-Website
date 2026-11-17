@@ -8,7 +8,7 @@
       const saved = localStorage.getItem(storageKey);
       if (saved === "light" || saved === "dark") return saved;
     } catch {}
-    return media.matches ? "dark" : "light";
+    return "light";
   }
 
   function updateFavicon(dark) {
@@ -76,9 +76,4 @@
   } else {
     addToggle();
   }
-  media.addEventListener?.("change", event => {
-    let saved = null;
-    try { saved = localStorage.getItem(storageKey); } catch {}
-    if (!saved) applyTheme(event.matches ? "dark" : "light");
-  });
 })();
