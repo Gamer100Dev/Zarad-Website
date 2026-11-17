@@ -176,13 +176,20 @@ func (s *websiteService) startNginx(ctx context.Context) (func(), error) {
 		cacheDir = os.TempDir()
 	}
 	runtimeDir := filepath.Join(cacheDir, "zarad", "nginx")
-	if err := os.MkdirAll(runtimeDir, 0700); err != nil {
-		return nil, fmt.Errorf("could not create Nginx runtime directory: %w", err)
+	logsDir := filepath.Join(runtimeDir, "logs")
+	if err := os.MkdirAll(logsDir, 0700); err != nil {
+		return nil, fmt.Errorf("could not create Nginx logs directory: %w", err)
 	}
 
 	configPath := filepath.Join(runtimeDir, "nginx.conf")
+
+	// Nginx parses configuration paths itself. On Windows, native backslashes
+	// can be treated as escape characters (for example, \\n in a path).
+	// Use forward slashes in every path written into nginx.conf and in -p.
+	nginxPrefix := filepath.ToSlash(runtimeDir)
+	nginxPIDPath := filepath.ToSlash(filepath.Join(runtimeDir, "nginx.pid"))
 	config := fmt.Sprintf(`worker_processes 1;
-pid %s;
+pid "%s";
 error_log stderr warn;
 
 events {
@@ -209,13 +216,13 @@ http {
         }
     }
 }
-`, filepath.Join(runtimeDir, "nginx.pid"), nginxPort, s.port)
+`, nginxPIDPath, nginxPort, s.port)
 
 	if err := os.WriteFile(configPath, []byte(config), 0600); err != nil {
 		return nil, fmt.Errorf("could not write Nginx configuration: %w", err)
 	}
 
-	test := exec.CommandContext(ctx, nginxPath, "-t", "-p", runtimeDir, "-c", configPath)
+	test := exec.CommandContext(ctx, nginxPath, "-t", "-p", nginxPrefix, "-c", configPath)
 	test.Stdout = os.Stdout
 	test.Stderr = os.Stderr
 	if err := test.Run(); err != nil {
@@ -223,7 +230,7 @@ http {
 		return func() {}, nil
 	}
 
-	cmd := exec.CommandContext(ctx, nginxPath, "-p", runtimeDir, "-c", configPath, "-g", "daemon off;")
+	cmd := exec.CommandContext(ctx, nginxPath, "-p", nginxPrefix, "-c", configPath, "-g", "daemon off;")
 	cmd.Stdout = os.Stdout
 	cmd.Stderr = os.Stderr
 	if err := cmd.Start(); err != nil {
