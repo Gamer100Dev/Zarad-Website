@@ -10,32 +10,6 @@
     return "light";
   }
 
-  function updateFavicon(dark) {
-    let icon = document.querySelector('link[rel~="icon"]');
-    if (!icon) {
-      icon = document.createElement("link");
-      icon.rel = "icon";
-      document.head.appendChild(icon);
-    }
-
-    const background = dark ? "#302728" : "#f4ead9";
-    const logo = new URL("/assets/Zarad-logo-main.png", window.location.href).href;
-    const imageFilter = dark
-      ? ' style="filter:url(#remove-white) invert(1)"'
-      : ' filter="url(#remove-white)"';
-    const svg = `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64">
-      <rect width="64" height="64" rx="12" fill="${background}"/>
-      <defs>
-        <filter id="remove-white" color-interpolation-filters="sRGB">
-          <feColorMatrix type="matrix" values="1 0 0 0 0  0 1 0 0 0  0 0 1 0 0  -.333 -.333 -.333 0 1"/>
-        </filter>
-      </defs>
-      <image href="${logo}" x="3" y="3" width="58" height="58" preserveAspectRatio="xMidYMid meet" filter="url(#remove-white)"${imageFilter}/>
-    </svg>`;
-    icon.type = "image/svg+xml";
-    icon.href = "data:image/svg+xml;charset=utf-8," + encodeURIComponent(svg);
-  }
-
   function applyTheme(theme, persist = false) {
     root.dataset.theme = theme;
     root.style.colorScheme = theme;
@@ -48,7 +22,6 @@
     }
     const meta = document.querySelector('meta[name="theme-color"]');
     if (meta) meta.content = dark ? "#211b1b" : "#f4ead9";
-    updateFavicon(dark);
     if (persist) {
       try { localStorage.setItem(storageKey, theme); } catch {}
     }
