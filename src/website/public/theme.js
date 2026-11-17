@@ -21,7 +21,9 @@
 
     const background = dark ? "#302728" : "#f4ead9";
     const logo = new URL("/assets/Zarad-logo-main.png", window.location.href).href;
-    const imageFilter = dark ? ' style="filter:invert(1)"' : "";
+    const imageFilter = dark
+      ? ' style="filter:url(#remove-white) invert(1)"'
+      : ' filter="url(#remove-white)"';
     const svg = `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64">
       <rect width="64" height="64" rx="12" fill="${background}"/>
       <defs>
