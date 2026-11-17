@@ -246,7 +246,7 @@ http {
         }
     }
 }
-`, nginxPort, s.port)
+`, nginxPort, s.port, s.port)
 
 	if err := os.WriteFile(configPath, []byte(config), 0600); err != nil {
 		return nil, fmt.Errorf("could not write Nginx configuration: %w", err)
