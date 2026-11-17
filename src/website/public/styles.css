@@ -977,14 +977,6 @@ html[data-theme="dark"] .footer-contact-details strong {
   line-height: 1.8;
 }
 
-.catalog-card .catalog-card-price {
-  margin-top: 14px;
-  color: var(--wine);
-  font-size: 14px;
-  font-weight: 600;
-  line-height: 1.4;
-  letter-spacing: 0.02em;
-}
 
 .catalog-status {
   margin: 30px 0;
