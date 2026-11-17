@@ -16,13 +16,13 @@
       document.documentElement.dataset.theme =
         savedTheme === "light" || savedTheme === "dark"
           ? savedTheme
-          : (window.matchMedia("(prefers-color-scheme: dark)").matches ? "dark" : "light");
+          : "light";
     } catch {
       document.documentElement.dataset.theme = "light";
     }
   </script>
   <link rel="stylesheet" href="/styles.css?v=zarad-dark-mode-20261117">
-  <script src="/theme.js?v=zarad-favicon-fix-20261117-r3" defer></script>
+  <script src="/theme.js?v=zarad-dual-logo-theme-20261117" defer></script>
   <script src="/app.js?v=classic-catalogue-frieze-bottom-20261113" defer></script>
 </head>
 <body>
