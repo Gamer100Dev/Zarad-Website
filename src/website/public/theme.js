@@ -1,7 +1,6 @@
 (() => {
   const storageKey = "zarad-theme";
   const root = document.documentElement;
-  const media = window.matchMedia("(prefers-color-scheme: dark)");
 
   function readTheme() {
     try {
