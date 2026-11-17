@@ -91,10 +91,10 @@ button {
 .brand img {
   position: absolute;
   top: 2px;
-  left: -14px;
+  left: -8.5px;
   display: block;
-  width: 200px;
-  min-width: 200px;
+  width: 165px;
+  min-width: 165px;
   max-width: none;
   height: 59.04px;
   object-fit: cover;
@@ -802,10 +802,10 @@ width: min(1160px, calc(100% - 72px));
 .footer-brand img {
   position: absolute;
   top: 0;
-  left: -24px;
+  left: -18.5px;
   display: block;
-  width: 200px;
-  min-width: 200px;
+  width: 165px;
+  min-width: 165px;
   max-width: none;
   height: 59.04px;
   object-fit: cover;
