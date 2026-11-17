@@ -8,7 +8,9 @@
   <meta name="description" content="Catalogul Zarad — selecție de condimente inspirate de Maroc.">
   <title>Catalog — Zarad</title>
   <link rel="icon" type="image/png" href="/assets/Zarad-logo%20(2).png?v=zarad-logo-20261115">
-  <link rel="stylesheet" href="/styles.css?v=zarad-logo-mascot-20261115">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="stylesheet" href="/styles.css?v=zarad-image-priority-20261117">
 
   <style>
     .catalog-grid > a.catalog-card {
@@ -212,8 +214,11 @@
 
         image.src = `/assets/${folder}/${imageFile}`;
         image.alt = getProductName(product);
-        image.loading = "lazy";
+        image.loading = catalogGrid.children.length < 3 ? "eager" : "lazy";
         image.decoding = "async";
+        if (catalogGrid.children.length < 3) {
+          image.fetchPriority = "high";
+        }
 
         imageFrame.appendChild(image);
 
