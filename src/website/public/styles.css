@@ -73,23 +73,33 @@ button {
   align-items: center;
 }
 
+/* Zarad-logo-main.png is 1499x1300. Crop its white canvas into the
+   previous logo's 747x345 display ratio without distorting the artwork. */
 .brand {
   position: relative;
   z-index: 2;
-  width: auto;
+  width: 148px;
+  height: 63.04px;
   padding: 2px 10px;
   display: inline-flex;
   align-items: center;
   justify-self: start;
+  overflow: hidden;
   background: transparent;
 }
 
 .brand img {
+  position: absolute;
+  top: 2px;
+  left: -14px;
   display: block;
-  width: 128px;
-  max-width: 100%;
-  height: auto;
-  object-fit: contain;
+  width: 200px;
+  min-width: 200px;
+  max-width: none;
+  height: 59.04px;
+  object-fit: cover;
+  object-position: center 44%;
+  mix-blend-mode: darken;
 }
 
 .main-nav {
@@ -781,17 +791,26 @@ width: min(1160px, calc(100% - 72px));
 }
 
 .footer-brand {
+  position: relative;
   display: inline-flex;
   align-items: center;
+  width: 128px;
+  height: 59.04px;
+  overflow: hidden;
 }
 
 .footer-brand img {
+  position: absolute;
+  top: 0;
+  left: -24px;
   display: block;
-  width: 128px;
-  height: auto;
-  aspect-ratio: 747 / 345;
-  object-fit: contain;
-  object-position: left center;
+  width: 200px;
+  min-width: 200px;
+  max-width: none;
+  height: 59.04px;
+  object-fit: cover;
+  object-position: center 44%;
+  mix-blend-mode: darken;
 }
 
 .site-footer p,
@@ -921,7 +940,7 @@ width: min(1160px, calc(100% - 72px));
   }
 
   .brand img {
-    height: auto;
+    height: 59.04px;
   }
 
   .main-nav {
