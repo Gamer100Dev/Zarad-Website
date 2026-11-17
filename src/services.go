@@ -218,6 +218,21 @@ http {
         listen 0.0.0.0:%s;
         server_name _;
 
+        # Stream large images directly; do not spill upstream asset responses
+        # into proxy_temp, which may be inaccessible to an unprivileged worker.
+        location ^~ /assets/ {
+            proxy_pass http://127.0.0.1:%s;
+            proxy_http_version 1.1;
+            proxy_buffering off;
+            proxy_set_header Host $host;
+            proxy_set_header X-Real-IP $remote_addr;
+            proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
+            proxy_set_header X-Forwarded-Proto $scheme;
+            proxy_connect_timeout 5s;
+            proxy_read_timeout 60s;
+            proxy_send_timeout 60s;
+        }
+
         location / {
             proxy_pass http://127.0.0.1:%s;
             proxy_http_version 1.1;
