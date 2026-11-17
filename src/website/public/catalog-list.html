@@ -19,7 +19,7 @@
       document.documentElement.dataset.theme = "light";
     }
   </script>
-  <link rel="stylesheet" href="/styles.css?v=zarad-contact-details-20261117">
+  <link rel="stylesheet" href="/styles.css?v=zarad-catalog-rebuild-20261117">
   <script src="/theme.js?v=zarad-dual-logo-theme-20261117" defer></script>
 
   <style>
@@ -345,6 +345,7 @@
     const productName = document.getElementById("product_name");
     const productDescription = document.getElementById("product_description");
     const productPrice = document.getElementById("product_price");
+    const productPriceSection = document.querySelector(".product-price");
     const productPhoto = document.getElementById("product_photo");
 
     const statusTitle = document.getElementById("product_status_title");
@@ -379,17 +380,19 @@
     }
 
     function getProductPrice(product) {
+      const localizedPrice = currentLanguage === "en"
+        ? product.price_en || product.price
+        : product.price;
+
       if (
-        product.price === undefined ||
-        product.price === null ||
-        product.price === ""
+        localizedPrice === undefined ||
+        localizedPrice === null ||
+        localizedPrice === ""
       ) {
-        return currentLanguage === "en"
-          ? "Price unavailable"
-          : "Preț indisponibil";
+        return "";
       }
 
-      if (typeof product.price === "number") {
+      if (typeof localizedPrice === "number") {
         try {
           return new Intl.NumberFormat(
             currentLanguage === "ro" ? "ro-RO" : "en-GB",
@@ -397,13 +400,13 @@
               style: "currency",
               currency: product.currency || "RON"
             }
-          ).format(product.price);
+          ).format(localizedPrice);
         } catch {
-          return `${product.price} ${product.currency || "RON"}`;
+          return `${localizedPrice} ${product.currency || "RON"}`;
         }
       }
 
-      return String(product.price);
+      return String(localizedPrice);
     }
 
     function showStatus(type) {
@@ -459,7 +462,9 @@
 
       productName.textContent = getProductName(product);
       productDescription.textContent = getProductDescription(product);
-      productPrice.textContent = getProductPrice(product);
+      const price = getProductPrice(product);
+      productPrice.textContent = price;
+      productPriceSection.hidden = !price;
 
       const folder = product.folder
         .split("/")
