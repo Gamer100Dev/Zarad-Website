@@ -177,9 +177,21 @@ func (s *websiteService) startNginx(ctx context.Context) (func(), error) {
 		cacheDir = os.TempDir()
 	}
 	runtimeDir := filepath.Join(cacheDir, "zarad", "nginx")
-	logsDir := filepath.Join(runtimeDir, "logs")
-	if err := os.MkdirAll(logsDir, 0700); err != nil {
-		return nil, fmt.Errorf("could not create Nginx logs directory: %w", err)
+	// Nginx creates its temporary request/proxy buffers beneath its prefix.
+	// Create the full directory tree up front; otherwise nginx -t fails on a
+	// fresh installation with CreateDirectory(.../temp/client_body_temp).
+	requiredDirs := []string{
+		filepath.Join(runtimeDir, "logs"),
+		filepath.Join(runtimeDir, "temp", "client_body_temp"),
+		filepath.Join(runtimeDir, "temp", "proxy_temp"),
+		filepath.Join(runtimeDir, "temp", "fastcgi_temp"),
+		filepath.Join(runtimeDir, "temp", "uwsgi_temp"),
+		filepath.Join(runtimeDir, "temp", "scgi_temp"),
+	}
+	for _, dir := range requiredDirs {
+		if err := os.MkdirAll(dir, 0700); err != nil {
+			return nil, fmt.Errorf("could not create Nginx runtime directory %s: %w", dir, err)
+		}
 	}
 
 	configPath := filepath.Join(runtimeDir, "nginx.conf")
