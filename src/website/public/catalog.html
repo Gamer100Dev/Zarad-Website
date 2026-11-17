@@ -21,7 +21,7 @@
       document.documentElement.dataset.theme = "light";
     }
   </script>
-  <link rel="stylesheet" href="/styles.css?v=zarad-catalog-rebuild-20261117">
+  <link rel="stylesheet" href="/styles.css?v=zarad-no-prices-on-cards-20261117">
   <script src="/theme.js?v=zarad-dual-logo-theme-20261117" defer></script>
 
   <style>
@@ -247,17 +247,6 @@
         description.textContent = getProductDescription(product);
 
         details.append(heading, description);
-
-        const priceText = currentLanguage === "en"
-          ? product.price_en || product.price
-          : product.price;
-
-        if (priceText) {
-          const price = document.createElement("p");
-          price.className = "catalog-card-price";
-          price.textContent = priceText;
-          details.appendChild(price);
-        }
 
         card.append(imageFrame, details);
 
