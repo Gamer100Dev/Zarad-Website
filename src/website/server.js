@@ -3,7 +3,10 @@ const fs = require("node:fs");
 const path = require("node:path");
 
 const publicDirectory = path.join(__dirname, "public");
-const assetDirectory = path.resolve(__dirname, "..", "..", "assets");
+const assetDirectories = [
+  path.resolve(__dirname, "..", "..", "assets"),
+  path.join(publicDirectory, "assets")
+];
 const host = process.env.HOST || "0.0.0.0";
 const port = Number(process.env.PORT || 3000);
 
@@ -29,14 +32,15 @@ function sendJson(response, status, data) {
 }
 
 function sendFile(request, response, pathname) {
-  let baseDirectory = publicDirectory;
+  let baseDirectories;
   let relativePath;
 
   try {
     if (pathname.startsWith("/assets/")) {
-      baseDirectory = assetDirectory;
+      baseDirectories = assetDirectories;
       relativePath = decodeURIComponent(pathname.slice("/assets/".length));
     } else {
+      baseDirectories = [publicDirectory];
       relativePath = decodeURIComponent(pathname === "/" ? "index.html" : pathname.slice(1));
     }
   } catch {
@@ -45,42 +49,73 @@ function sendFile(request, response, pathname) {
     return;
   }
 
-  const filePath = path.resolve(baseDirectory, relativePath);
-  const relative = path.relative(baseDirectory, filePath);
-
-  if (relative === ".." || relative.startsWith(".." + path.sep) || path.isAbsolute(relative)) {
-    response.writeHead(403);
-    response.end("Forbidden");
-    return;
-  }
-
-  fs.stat(filePath, (error, stats) => {
-    if (error || !stats.isFile()) {
+  function tryDirectory(index) {
+    if (index >= baseDirectories.length) {
       response.writeHead(404);
       response.end("Not found");
       return;
     }
 
-    response.writeHead(200, {
-      "Content-Type": contentTypes[path.extname(filePath).toLowerCase()] || "application/octet-stream",
-      "Cache-Control": path.extname(filePath).toLowerCase() === ".html" || path.extname(filePath).toLowerCase() === ".json" ? "no-cache" : "public, max-age=3600",
-      "X-Content-Type-Options": "nosniff"
-    });
+    const baseDirectory = baseDirectories[index];
+    const filePath = path.resolve(baseDirectory, relativePath);
+    const relative = path.relative(baseDirectory, filePath);
 
-    if (request.method === "HEAD") {
-      response.end();
+    if (relative === ".." || relative.startsWith(".." + path.sep) || path.isAbsolute(relative)) {
+      response.writeHead(403);
+      response.end("Forbidden");
       return;
     }
 
-    const stream = fs.createReadStream(filePath);
-    stream.on("error", () => {
-      if (!response.headersSent) {
-        response.writeHead(500);
+    fs.stat(filePath, (error, stats) => {
+      if (error) {
+        if ((error.code === "ENOENT" || error.code === "ENOTDIR") && index + 1 < baseDirectories.length) {
+          tryDirectory(index + 1);
+          return;
+        }
+
+        const status = error.code === "EACCES" || error.code === "EPERM" ? 403 : 404;
+        console.error("[zarad] Unable to access " + filePath + ": " + error.message);
+        response.writeHead(status);
+        response.end(status === 403 ? "Forbidden" : "Not found");
+        return;
       }
-      response.end("Server error");
+
+      if (!stats.isFile()) {
+        if (index + 1 < baseDirectories.length) {
+          tryDirectory(index + 1);
+        } else {
+          response.writeHead(404);
+          response.end("Not found");
+        }
+        return;
+      }
+
+      const extension = path.extname(filePath).toLowerCase();
+      response.writeHead(200, {
+        "Content-Type": contentTypes[extension] || "application/octet-stream",
+        "Content-Length": stats.size,
+        "Cache-Control": extension === ".html" || extension === ".json" ? "no-cache" : "public, max-age=3600",
+        "X-Content-Type-Options": "nosniff"
+      });
+
+      if (request.method === "HEAD") {
+        response.end();
+        return;
+      }
+
+      const stream = fs.createReadStream(filePath);
+      stream.on("error", error => {
+        console.error("[zarad] Unable to stream " + filePath + ": " + error.message);
+        if (!response.headersSent) {
+          response.writeHead(error.code === "EACCES" || error.code === "EPERM" ? 403 : 500);
+        }
+        response.end("Server error");
+      });
+      stream.pipe(response);
     });
-    stream.pipe(response);
-  });
+  }
+
+  tryDirectory(0);
 }
 
 const server = http.createServer((request, response) => {
