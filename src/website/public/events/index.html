@@ -12,164 +12,58 @@
   <script>
     try {
       const savedTheme = localStorage.getItem("zarad-theme");
-      document.documentElement.dataset.theme =
-        savedTheme === "light" || savedTheme === "dark"
-          ? savedTheme
-          : "light";
-    } catch {
-      document.documentElement.dataset.theme = "light";
-    }
+      document.documentElement.dataset.theme = savedTheme === "light" || savedTheme === "dark" ? savedTheme : "light";
+    } catch { document.documentElement.dataset.theme = "light"; }
   </script>
-  <link rel="stylesheet" href="/styles.css?v=zarad-events-nav-contact-fix-20261118">
+  <link rel="stylesheet" href="/styles.css?v=zarad-events-json-detail-20261118">
   <script src="/theme.js?v=zarad-dual-logo-theme-20261117" defer></script>
   <script src="/app.js?v=classic-catalogue-frieze-bottom-20261113" defer></script>
 </head>
-
 <body class="catalog-page events-page">
   <header class="site-header zarad-header">
     <div class="header-inner">
       <a class="brand zarad-logo" href="/" aria-label="Zarad — One Spice Away">
         <img id="zarad_logo" src="/assets/Zarad-logo-main.png?v=zarad-logo-main-fit-20261117" alt="Zarad — One Spice Away" decoding="async" fetchpriority="high">
       </a>
-
       <nav class="main-nav zarad-nav" aria-label="Navigare principală / Main navigation">
         <a class="nav-link" href="/" data-ro="Acasă" data-en="Home">Acasă</a>
         <a class="nav-link" href="/catalog" data-ro="Catalog" data-en="Catalogue">Catalog</a>
         <a class="nav-link active" href="/events" aria-current="page" data-ro="Evenimente" data-en="Events">Evenimente</a>
         <a class="nav-link" href="/#contact" data-ro="Contact" data-en="Contact">Contact</a>
       </nav>
-
       <div class="zarad-right">
-        <button
-          class="language-toggle zarad-lang-pill is-ro"
-          id="zarad_language"
-          type="button"
-          aria-label="Switch to English"
-          title="English"
-        >
-          <span class="zarad-lang-slider" aria-hidden="true"></span>
-          <span class="zarad-lang-label label-ro" aria-hidden="true">RO</span>
-          <span class="zarad-lang-divider" aria-hidden="true"></span>
-          <span class="zarad-lang-label label-en" aria-hidden="true">EN</span>
+        <button class="language-toggle zarad-lang-pill is-ro" id="zarad_language" type="button" aria-label="Switch to English" title="English">
+          <span class="zarad-lang-slider" aria-hidden="true"></span><span class="zarad-lang-label label-ro" aria-hidden="true">RO</span><span class="zarad-lang-divider" aria-hidden="true"></span><span class="zarad-lang-label label-en" aria-hidden="true">EN</span>
         </button>
       </div>
     </div>
   </header>
-
   <main class="catalog-main events-main">
     <section class="catalog-heading events-heading">
-      <p class="section-kicker" data-ro="UNIVERSUL EVENIMENTELOR ZARAD" data-en="THE WORLD OF ZARAD EVENTS">
-        UNIVERSUL EVENIMENTELOR ZARAD
-      </p>
+      <p class="section-kicker" data-ro="UNIVERSUL EVENIMENTELOR ZARAD" data-en="THE WORLD OF ZARAD EVENTS">UNIVERSUL EVENIMENTELOR ZARAD</p>
       <h1 data-ro="Evenimente Zarad" data-en="Zarad Events">Evenimente Zarad</h1>
-      <p
-        data-ro="Descoperă evenimentele și experiențele pregătite de Zarad. Deschide fiecare afiș pentru a explora toate detaliile."
-        data-en="Discover the events and experiences prepared by Zarad. Open each poster to explore all the details."
-      >
-        Descoperă evenimentele și experiențele pregătite de Zarad. Deschide fiecare afiș pentru a explora toate detaliile.
-      </p>
+      <p data-ro="Descoperă evenimentele și experiențele pregătite de Zarad. Deschide fiecare afiș pentru a explora toate detaliile." data-en="Discover the events and experiences prepared by Zarad. Open each poster to explore all the details.">Descoperă evenimentele și experiențele pregătite de Zarad. Deschide fiecare afiș pentru a explora toate detaliile.</p>
     </section>
-
     <section class="events-content" aria-label="Evenimente Zarad">
-      <div class="events-grid">
-        <a
-          class="event-card"
-          href="/assets/events/Gala-Zarad.png"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <div class="event-poster-frame">
-            <img
-              src="/assets/events/Gala-Zarad.png"
-              alt="Afișul evenimentului Gala Zarad"
-              data-alt-ro="Afișul evenimentului Gala Zarad"
-              data-alt-en="Gala Zarad event poster"
-              loading="eager"
-              decoding="async"
-            >
-          </div>
-          <div class="event-card-details">
-            <span class="event-card-number">01 / ZARAD</span>
-            <h2>Gala Zarad</h2>
-            <span class="event-card-open" data-ro="Deschide afișul" data-en="Open poster">Deschide afișul</span>
-          </div>
-        </a>
-
-        <a
-          class="event-card"
-          href="/assets/events/Najma%20Zarad.jpg"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <div class="event-poster-frame">
-            <img
-              src="/assets/events/Najma%20Zarad.jpg"
-              alt="Afișul evenimentului Najma Zarad"
-              data-alt-ro="Afișul evenimentului Najma Zarad"
-              data-alt-en="Najma Zarad event poster"
-              loading="lazy"
-              decoding="async"
-            >
-          </div>
-          <div class="event-card-details">
-            <span class="event-card-number">02 / ZARAD</span>
-            <h2>Najma Zarad</h2>
-            <span class="event-card-open" data-ro="Deschide afișul" data-en="Open poster">Deschide afișul</span>
-          </div>
-        </a>
-
-        <a
-          class="event-card"
-          href="/assets/events/Ziva-Zarad.png"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <div class="event-poster-frame">
-            <img
-              src="/assets/events/Ziva-Zarad.png"
-              alt="Afișul evenimentului Ziva Zarad"
-              data-alt-ro="Afișul evenimentului Ziva Zarad"
-              data-alt-en="Ziva Zarad event poster"
-              loading="lazy"
-              decoding="async"
-            >
-          </div>
-          <div class="event-card-details">
-            <span class="event-card-number">03 / ZARAD</span>
-            <h2>Ziva Zarad</h2>
-            <span class="event-card-open" data-ro="Deschide afișul" data-en="Open poster">Deschide afișul</span>
-          </div>
-        </a>
-      </div>
+      <div class="events-grid" id="events_grid" aria-live="polite"></div>
+      <p class="catalog-status" id="events_loading" role="status" data-ro="Se încarcă evenimentele..." data-en="Loading events...">Se încarcă evenimentele...</p>
+      <p class="catalog-status" id="events_error" role="alert" hidden></p>
     </section>
-
     <section class="zarad-cta-section events-cta" aria-labelledby="events-cta-heading">
       <div class="zarad-cta-frieze zarad-cta-frieze-top" aria-hidden="true"></div>
       <div class="zarad-cta-frame">
-        <span class="zarad-cta-corner tl" aria-hidden="true">✧</span>
-        <span class="zarad-cta-corner tr" aria-hidden="true">✧</span>
-        <span class="zarad-cta-corner bl" aria-hidden="true">✧</span>
-        <span class="zarad-cta-corner br" aria-hidden="true">✧</span>
+        <span class="zarad-cta-corner tl" aria-hidden="true">✧</span><span class="zarad-cta-corner tr" aria-hidden="true">✧</span>
+        <span class="zarad-cta-corner bl" aria-hidden="true">✧</span><span class="zarad-cta-corner br" aria-hidden="true">✧</span>
         <p class="zarad-cta-kicker">ONE SPICE AWAY</p>
-        <h2 class="zarad-cta-heading" id="events-cta-heading" data-ro="Te așteptăm să descoperi experiențele Zarad." data-en="We look forward to welcoming you to Zarad experiences.">
-          Te așteptăm să descoperi experiențele Zarad.
-        </h2>
-        <div class="zarad-cta-ornament" aria-hidden="true">
-          <span class="line"></span><span>✧</span><span class="line"></span>
-        </div>
-        <a class="zarad-cta-button" href="/#contact">
-          <span data-ro="Contactează-ne" data-en="Get in touch">Contactează-ne</span>
-          <span class="arrow" aria-hidden="true">→</span>
-        </a>
+        <h2 class="zarad-cta-heading" id="events-cta-heading" data-ro="Te așteptăm să descoperi experiențele Zarad." data-en="We look forward to welcoming you to Zarad experiences.">Te așteptăm să descoperi experiențele Zarad.</h2>
+        <div class="zarad-cta-ornament" aria-hidden="true"><span class="line"></span><span>✧</span><span class="line"></span></div>
+        <a class="zarad-cta-button" href="/#contact"><span data-ro="Contactează-ne" data-en="Get in touch">Contactează-ne</span><span class="arrow" aria-hidden="true">→</span></a>
       </div>
       <div class="zarad-cta-frieze zarad-cta-frieze-bottom" aria-hidden="true"></div>
     </section>
   </main>
-
   <footer class="site-footer">
-    <a class="footer-brand" href="/" aria-label="Zarad — One Spice Away">
-      <img src="/assets/Zarad-logo-main.png?v=zarad-logo-main-fit-20261117" alt="Zarad">
-    </a>
+    <a class="footer-brand" href="/" aria-label="Zarad — One Spice Away"><img src="/assets/Zarad-logo-main.png?v=zarad-logo-main-fit-20261117" alt="Zarad"></a>
     <p>One Spice Away</p>
     <div class="footer-contact-details" aria-label="Informații de contact / Contact information">
       <a href="tel:+40757109006"><strong data-ro="Telefon:" data-en="Phone:">Telefon:</strong> 0757.109.006</a>
@@ -179,5 +73,91 @@
     </div>
     <span class="footer-copy">© <span id="current-year"></span> Zarad</span>
   </footer>
+  <script>
+    const grid = document.getElementById("events_grid");
+    const loading = document.getElementById("events_loading");
+    const error = document.getElementById("events_error");
+    const languageButton = document.getElementById("zarad_language");
+    let currentLanguage = "ro";
+    let eventItems = [];
+
+    document.getElementById("current-year").textContent = new Date().getFullYear();
+
+    function localized(item, field) {
+      return currentLanguage === "en" ? item[field + "_en"] || item[field] : item[field];
+    }
+
+    function renderEvents() {
+      grid.replaceChildren();
+      eventItems.forEach((item, index) => {
+        const link = document.createElement("a");
+        link.className = "event-card";
+        link.href = "/event-list?id=" + encodeURIComponent(item.id);
+
+        const frame = document.createElement("div");
+        frame.className = "event-poster-frame";
+        const photo = document.createElement("img");
+        photo.src = "/assets/events/" + item.image.split("/").map(encodeURIComponent).join("/");
+        photo.alt = localized(item, "name");
+        photo.loading = index === 0 ? "eager" : "lazy";
+        photo.decoding = "async";
+        frame.append(photo);
+
+        const details = document.createElement("div");
+        details.className = "event-card-details";
+        const number = document.createElement("span");
+        number.className = "event-card-number";
+        number.textContent = item.number || String(index + 1).padStart(2, "0") + " / ZARAD";
+        const title = document.createElement("h2");
+        title.textContent = localized(item, "name");
+        const open = document.createElement("span");
+        open.className = "event-card-open";
+        open.textContent = currentLanguage === "en" ? "Explore event" : "Descoperă evenimentul";
+        details.append(number, title, open);
+        link.append(frame, details);
+        grid.append(link);
+      });
+      loading.hidden = true;
+    }
+
+    function setLanguage(language) {
+      currentLanguage = language;
+      document.documentElement.lang = language;
+      document.querySelectorAll("[data-ro][data-en]").forEach(element => {
+        element.textContent = element.dataset[language];
+      });
+      const isEnglish = language === "en";
+      languageButton.classList.toggle("is-en", isEnglish);
+      languageButton.classList.toggle("is-ro", !isEnglish);
+      languageButton.setAttribute("aria-label", isEnglish ? "Schimbă limba în română" : "Switch to English");
+      languageButton.title = isEnglish ? "Română" : "English";
+      try { localStorage.setItem("zarad-language", language); } catch {}
+      if (eventItems.length) renderEvents();
+    }
+
+    async function loadEvents() {
+      try {
+        const response = await fetch("/events.json", { cache: "no-cache" });
+        if (!response.ok) throw new Error("Unable to load events");
+        const data = await response.json();
+        if (!Array.isArray(data)) throw new Error("Invalid events list");
+        eventItems = data.filter(item => item && item.id && item.name && item.image);
+        renderEvents();
+      } catch (loadError) {
+        console.error(loadError);
+        loading.hidden = true;
+        error.hidden = false;
+        error.textContent = currentLanguage === "en"
+          ? "The events list could not be loaded. Please refresh the page."
+          : "Lista evenimentelor nu a putut fi încărcată. Te rugăm să reîncarci pagina.";
+      }
+    }
+
+    let savedLanguage = "ro";
+    try { savedLanguage = localStorage.getItem("zarad-language") === "en" ? "en" : "ro"; } catch {}
+    setLanguage(savedLanguage);
+    loadEvents();
+    languageButton.addEventListener("click", () => setLanguage(currentLanguage === "ro" ? "en" : "ro"));
+  </script>
 </body>
 </html>
