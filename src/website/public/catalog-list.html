@@ -19,7 +19,7 @@
       document.documentElement.dataset.theme = "light";
     }
   </script>
-  <link rel="stylesheet" href="/styles.css?v=zarad-product-prices-heading-cleanup-20261118">
+  <link rel="stylesheet" href="/styles.css?v=zarad-product-back-button-match-20261118">
   <script src="/theme.js?v=zarad-dual-logo-theme-20261117" defer></script>
 
   <style>
@@ -112,12 +112,35 @@
     }
 
     .product-back {
-      display: inline-block;
-      margin-top: 35px;
-      font-size: 0.9rem;
-      text-decoration: underline;
-      text-underline-offset: 4px;
-      color: inherit;
+      display: inline-flex;
+      align-items: center;
+      gap: 10px;
+      margin-top: 34px;
+      padding: 13px 22px;
+      border: 1px solid var(--gold);
+      background: var(--paper-light);
+      color: var(--wine);
+      font-size: 0.82rem;
+      font-weight: 700;
+      letter-spacing: 0.06em;
+      text-decoration: none;
+      transition: transform 0.2s ease, background 0.2s ease;
+    }
+
+    .product-back:hover {
+      transform: translateY(-2px);
+      background: #efe2cb;
+    }
+
+    .product-back:focus-visible {
+      outline: 2px solid var(--wine);
+      outline-offset: 4px;
+    }
+
+    html[data-theme="dark"] .product-back {
+      background: #302727;
+      color: #e6c7a8;
+      border-color: #a77b3e;
     }
 
     .product-loading,
@@ -262,13 +285,9 @@
           <span class="product-price-value" id="product_price"></span>
         </div>
 
-        <a
-          href="/catalog"
-          class="product-back"
-          data-ro="Înapoi la catalog"
-          data-en="Back to catalogue"
-        >
-          Înapoi la catalog
+        <a href="/catalog" class="product-back">
+        <span aria-hidden="true">←</span>
+        <span data-ro="Înapoi la catalog" data-en="Back to catalogue">Înapoi la catalog</span>
         </a>
       </div>
     </section>
@@ -282,13 +301,9 @@
       <h2 id="product_status_title"></h2>
       <p id="product_status_message"></p>
 
-      <a
-        href="/catalog"
-        class="product-back"
-        data-ro="Înapoi la catalog"
-        data-en="Back to catalogue"
-      >
-        Înapoi la catalog
+      <a href="/catalog" class="product-back">
+      <span aria-hidden="true">←</span>
+      <span data-ro="Înapoi la catalog" data-en="Back to catalogue">Înapoi la catalog</span>
       </a>
     </section>
 
