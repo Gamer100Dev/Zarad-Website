@@ -233,6 +233,25 @@ http {
             proxy_send_timeout 60s;
         }
 
+        # Resolve the clean Events URL directly to its directory index.
+        location = /events {
+            proxy_pass http://127.0.0.1:%s/events/index.html;
+            proxy_http_version 1.1;
+            proxy_set_header Host $host;
+            proxy_set_header X-Real-IP $remote_addr;
+            proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
+            proxy_set_header X-Forwarded-Proto $scheme;
+        }
+
+        location = /events/ {
+            proxy_pass http://127.0.0.1:%s/events/index.html;
+            proxy_http_version 1.1;
+            proxy_set_header Host $host;
+            proxy_set_header X-Real-IP $remote_addr;
+            proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
+            proxy_set_header X-Forwarded-Proto $scheme;
+        }
+
         location / {
             proxy_pass http://127.0.0.1:%s;
             proxy_http_version 1.1;
@@ -246,7 +265,7 @@ http {
         }
     }
 }
-`, nginxPort, s.port, s.port)
+`, nginxPort, s.port, s.port, s.port, s.port)
 
 	if err := os.WriteFile(configPath, []byte(config), 0600); err != nil {
 		return nil, fmt.Errorf("could not write Nginx configuration: %w", err)
