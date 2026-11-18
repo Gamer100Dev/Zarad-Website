@@ -2,8 +2,8 @@
   const storageKey = "zarad-theme";
   const root = document.documentElement;
 
-  const lightLogo = "/assets/Zarad-logo-main.png?v=zarad-logo-main-fit-20261117";
-  const darkLogo = "/assets/Zarad-logo-main-dark.png?v=zarad-dark-logo-theme-20261117";
+  const lightLogo = "/assets/Zarad_logo_for_white.png?v=zarad-logo-light-20261118";
+  const darkLogo = "/assets/Zarad_logo_for_dark.png?v=zarad-logo-dark-20261118";
 
   function readTheme() {
     try {
@@ -25,8 +25,8 @@
     const favicon = document.querySelector('link[rel~="icon"]');
     if (favicon) {
       const icon = dark
-        ? "/assets/Zarad-logo-main-dark.png?v=zarad-dark-favicon-20261117"
-        : "/assets/Zarad-logo-main.png?v=zarad-brand-favicon-20261117";
+        ? "/assets/Zarad_logo_for_dark.png?v=zarad-dark-favicon-20261118"
+        : "/assets/Zarad_logo_for_white.png?v=zarad-light-favicon-20261118";
       if (favicon.getAttribute("href") !== icon) {
         favicon.setAttribute("href", icon);
       }
