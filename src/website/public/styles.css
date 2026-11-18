@@ -1745,31 +1745,26 @@ html[data-theme="dark"] .event-card-number {
 
 @media (max-width: 680px) {
   .header-inner {
-    grid-template-areas: "brand toggle" "nav nav-contact";
+    grid-template-areas: "brand toggle" "nav nav";
   }
 
   .zarad-right {
-    display: contents;
+    grid-area: toggle;
   }
 
   .nav-contact-button {
-    grid-area: nav-contact;
-    justify-self: end;
-    align-self: center;
+    position: absolute;
+    top: 78px;
+    right: 18px;
     min-height: 31px;
-    margin-left: 10px;
     padding: 6px 11px;
     font-size: 10px;
-  }
-
-  #zarad_language,
-  #zarad_theme_toggle {
-    grid-area: toggle;
   }
 
   .main-nav {
     justify-self: stretch;
     grid-area: nav;
+    width: calc(100% - 82px);
     gap: 8px;
   }
 
