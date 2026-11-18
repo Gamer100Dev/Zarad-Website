@@ -82,7 +82,10 @@
     "image": "Mix Zarad.jpeg",
     "folder": "spices",
     "description": "Amestecul de condimente Zarad, inclus în colecția proprie.",
-    "description_en": "The Zarad spice blend, part of the brand's own collection."
+    "description_en": "The Zarad spice blend, part of the brand's own collection.",
+    "price": "12,50 lei · 50 g",
+    "price_en": "RON 12.50 · 50 g",
+    "currency": "RON"
   },
   {
     "name": "Ras el Hanout",
@@ -90,7 +93,10 @@
     "image": "Ras el hanout.jpeg",
     "folder": "spices",
     "description": "Un amestec marocan care conține 10 sau 30 de condimente uscate și măcinate. Rețeta variază de la o familie la alta. Este folosit pentru preparate din carne și supe.",
-    "description_en": "A Moroccan blend containing 10 or 30 dried and ground spices. The recipe varies from family to family. It is used in meat dishes and soups."
+    "description_en": "A Moroccan blend containing 10 or 30 dried and ground spices. The recipe varies from family to family. It is used in meat dishes and soups.",
+    "price": "12,99 lei · 80 g",
+    "price_en": "RON 12.99 · 80 g",
+    "currency": "RON"
   },
   {
     "name": "La Kama",
@@ -98,7 +104,10 @@
     "image": "La Karma.jpeg",
     "folder": "spices",
     "description": "Un amestec mai simplu decât Ras el Hanout, format din piper negru, ghimbir, turmeric, scorțișoară și nucșoară. Este folosit pentru carne și supe.",
-    "description_en": "A simpler blend than Ras el Hanout, made with black pepper, ginger, turmeric, cinnamon and nutmeg. It is used for meat dishes and soups."
+    "description_en": "A simpler blend than Ras el Hanout, made with black pepper, ginger, turmeric, cinnamon and nutmeg. It is used for meat dishes and soups.",
+    "price": "6 lei · 50 g",
+    "price_en": "RON 6.00 · 50 g",
+    "currency": "RON"
   },
   {
     "name": "Mrouzia",
@@ -106,7 +115,10 @@
     "image": "Mrouzia.jpeg",
     "folder": "spices",
     "description": "Un amestec dulce-aromat pentru preparate festive. Conține scorțișoară, nucșoară, cuișoare, cardamom, ghimbir și turmeric; uneori se adaugă boboci de trandafir sau șofran.",
-    "description_en": "A sweet, aromatic blend for festive dishes. It contains cinnamon, nutmeg, cloves, cardamom, ginger and turmeric; rosebuds or saffron are sometimes added."
+    "description_en": "A sweet, aromatic blend for festive dishes. It contains cinnamon, nutmeg, cloves, cardamom, ginger and turmeric; rosebuds or saffron are sometimes added.",
+    "price": "14 lei · 50 g",
+    "price_en": "RON 14.00 · 50 g",
+    "currency": "RON"
   },
   {
     "name": "Chermoula",
@@ -114,7 +126,10 @@
     "image": "Chermoula.jpeg",
     "folder": "spices",
     "description": "Un amestec folosit în marinada umedă pentru pește. Conține chimion, coriandru, boia dulce, usturoi pudră, fulgi de chili și mentă uscată sau pătrunjel uscat.",
-    "description_en": "A blend used in the wet marinade for fish. It contains cumin, coriander, sweet paprika, garlic powder, chilli flakes, and dried mint or dried parsley."
+    "description_en": "A blend used in the wet marinade for fish. It contains cumin, coriander, sweet paprika, garlic powder, chilli flakes, and dried mint or dried parsley.",
+    "price": "10,50 lei · 50 g",
+    "price_en": "RON 10.50 · 50 g",
+    "currency": "RON"
   },
   {
     "name": "Atay / Qahwa M'attra",
@@ -122,6 +137,9 @@
     "image": "Atay - Qahwa M'attra.jpeg",
     "folder": "spices",
     "description": "Un amestec pentru ceai sau cafea marocană. Conține scorțișoară, cardamom, cuișoare, ghimbir, anason stelat (cu aromă intensă de lemn-dulce), nucșoară și uneori piper negru. Atay se folosește pentru ceai verde, iar Qahwa M'attra pentru cafea condimentată.",
-    "description_en": "A blend for Moroccan tea or coffee. It contains cinnamon, cardamom, cloves, ginger, star anise (with an intense liquorice aroma), nutmeg and sometimes black pepper. Atay is used for green tea, while Qahwa M'attra is used for spiced coffee."
+    "description_en": "A blend for Moroccan tea or coffee. It contains cinnamon, cardamom, cloves, ginger, star anise (with an intense liquorice aroma), nutmeg and sometimes black pepper. Atay is used for green tea, while Qahwa M'attra is used for spiced coffee.",
+    "price": "10,50 lei · 50 g",
+    "price_en": "RON 10.50 · 50 g",
+    "currency": "RON"
   }
 ]
