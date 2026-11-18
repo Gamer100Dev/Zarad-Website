@@ -1555,34 +1555,6 @@ html[data-theme="dark"] .welcome-image.moroccan-arch-frame { box-shadow: 0 10px 
 }
 
 
-/* Events navigation, poster gallery and responsive layout */
-.nav-contact-button {
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  min-height: 34px;
-  padding: 7px 14px;
-  border: 1px solid #c9963b;
-  background: #7c2d23;
-  color: #fff8ed;
-  font-size: 12px;
-  font-weight: 650;
-  letter-spacing: 0.02em;
-  white-space: nowrap;
-  transition: background-color .2s ease, border-color .2s ease, transform .2s ease;
-}
-
-.nav-contact-button:hover {
-  border-color: #e6bf78;
-  background: #5f2023;
-  transform: translateY(-1px);
-}
-
-.nav-contact-button:focus-visible {
-  outline: 2px solid #c9963b;
-  outline-offset: 3px;
-}
-
 .events-main {
   padding-bottom: 82px;
 }
@@ -1694,16 +1666,6 @@ html[data-theme="dark"] .welcome-image.moroccan-arch-frame { box-shadow: 0 10px 
   margin-top: 0;
 }
 
-html[data-theme="dark"] .nav-contact-button {
-  border-color: #c69a52;
-  background: #7d3d36;
-  color: #fff5e8;
-}
-
-html[data-theme="dark"] .nav-contact-button:hover {
-  background: #98584b;
-}
-
 html[data-theme="dark"] .events-heading {
   background-color: #302625;
 }
@@ -1744,30 +1706,6 @@ html[data-theme="dark"] .event-card-number {
 }
 
 @media (max-width: 680px) {
-  .header-inner {
-    grid-template-areas: "brand toggle" "nav nav";
-  }
-
-  .zarad-right {
-    grid-area: toggle;
-  }
-
-  .nav-contact-button {
-    position: absolute;
-    top: 78px;
-    right: 18px;
-    min-height: 31px;
-    padding: 6px 11px;
-    font-size: 10px;
-  }
-
-  .main-nav {
-    justify-self: stretch;
-    grid-area: nav;
-    width: calc(100% - 82px);
-    gap: 8px;
-  }
-
   .events-content {
     width: calc(100% - 36px);
     padding: 30px 0 48px;
@@ -1790,7 +1728,6 @@ html[data-theme="dark"] .event-card-number {
 }
 
 @media (prefers-reduced-motion: reduce) {
-  .nav-contact-button,
   .event-card,
   .event-card-open::after {
     transition: none;
