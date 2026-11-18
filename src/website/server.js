@@ -161,6 +161,10 @@ const server = http.createServer((request, response) => {
     pathname = "/event-list.html";
   }
 
+  if (pathname === "/contact" || pathname === "/contact/") {
+    pathname = "/contact.html";
+  }
+
   sendFile(request, response, pathname);
 });
 
