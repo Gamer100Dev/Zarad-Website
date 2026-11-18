@@ -233,9 +233,10 @@ http {
             proxy_send_timeout 60s;
         }
 
-        # Resolve the clean Events URL directly to its directory index.
+        # Route the clean Events URL and every Events subpath through the
+        # application. The Node server serves /events/ from its index document.
         location = /events {
-            proxy_pass http://127.0.0.1:%s/events/index.html;
+            proxy_pass http://127.0.0.1:%s/events/;
             proxy_http_version 1.1;
             proxy_set_header Host $host;
             proxy_set_header X-Real-IP $remote_addr;
@@ -243,13 +244,16 @@ http {
             proxy_set_header X-Forwarded-Proto $scheme;
         }
 
-        location = /events/ {
-            proxy_pass http://127.0.0.1:%s/events/index.html;
+        location ^~ /events/ {
+            proxy_pass http://127.0.0.1:%s;
             proxy_http_version 1.1;
             proxy_set_header Host $host;
             proxy_set_header X-Real-IP $remote_addr;
             proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
             proxy_set_header X-Forwarded-Proto $scheme;
+            proxy_connect_timeout 5s;
+            proxy_read_timeout 60s;
+            proxy_send_timeout 60s;
         }
 
         location / {
