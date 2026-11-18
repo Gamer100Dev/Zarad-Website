@@ -154,7 +154,7 @@ const server = http.createServer((request, response) => {
   }
 
   if (pathname === "/events" || pathname === "/events/") {
-    pathname = "/events.html";
+    pathname = "/events/index.html";
   }
 
   sendFile(request, response, pathname);
