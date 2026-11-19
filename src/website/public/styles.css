@@ -1532,6 +1532,21 @@ html[data-theme="dark"] .catalog-status { color: #c5b3a5; }
 html[data-theme="dark"] .catalog-card-number { color: #d6a653; }
 html[data-theme="dark"] .product-image { background: #3b302c; }
 html[data-theme="dark"] .product-price { border-color: rgba(230,189,169,.25); }
+html[data-theme="dark"] .product-weight-badge {
+  border-color: rgba(214,166,83,.65);
+  background: rgba(214,166,83,.12);
+  color: #f0e5d6;
+}
+html[data-theme="dark"] .product-weight-option {
+  border-color: #806444;
+  background: #302727;
+  color: #e6c7a8;
+}
+html[data-theme="dark"] .product-weight-option.is-selected {
+  border-color: #d6a653;
+  background: #8d453c;
+  color: #fff8ed;
+}
 html[data-theme="dark"] .product-loading,
 html[data-theme="dark"] .product-status { background: #302727; border-color: rgba(230,189,169,.2); }
 html[data-theme="dark"] .product-back { color: #e6c7a8; }
