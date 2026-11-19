@@ -13,12 +13,36 @@
     return "light";
   }
 
+  const logoPreloads = new Map();
+
+  function preloadLogo(url) {
+    if (!logoPreloads.has(url)) {
+      const preload = new Image();
+      const loaded = new Promise(resolve => {
+        preload.onload = () => resolve(true);
+        preload.onerror = () => resolve(false);
+      });
+      preload.src = url;
+      logoPreloads.set(url, loaded);
+    }
+    return logoPreloads.get(url);
+  }
+
+  // Warm both theme variants so changing themes never shows an empty image frame.
+  preloadLogo(lightLogo);
+  preloadLogo(darkLogo);
+
   function updateBranding(dark) {
     const logo = dark ? darkLogo : lightLogo;
+    const targetTheme = dark ? "dark" : "light";
 
     document.querySelectorAll("#zarad_logo, .footer-brand img").forEach(image => {
       if (image.getAttribute("src") !== logo) {
-        image.setAttribute("src", logo);
+        preloadLogo(logo).then(loaded => {
+          if (loaded && root.dataset.theme === targetTheme && image.isConnected) {
+            image.setAttribute("src", logo);
+          }
+        });
       }
     });
 
