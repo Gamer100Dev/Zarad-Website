@@ -91,12 +91,76 @@ function sendFile(request, response, pathname) {
       }
 
       const extension = path.extname(filePath).toLowerCase();
-      response.writeHead(200, {
-        "Content-Type": contentTypes[extension] || "application/octet-stream",
-        "Content-Length": stats.size,
-        "Cache-Control": extension === ".html" || extension === ".json" ? "no-cache" : "public, max-age=3600",
+      const isServiceWorker = pathname === "/service-worker.js";
+      const etag = "\"" +
+        Math.trunc(stats.mtimeMs * 1000).toString(16) +
+        "-" + stats.size.toString(16) + "\"";
+      const lastModified = stats.mtime.toUTCString();
+      const cacheControl = isServiceWorker
+        ? "no-cache, no-store, must-revalidate"
+        : "no-cache, must-revalidate";
+      const validatorHeaders = {
+        ETag: etag,
+        "Last-Modified": lastModified,
+        "Cache-Control": cacheControl,
         "X-Content-Type-Options": "nosniff"
-      });
+      };
+
+      const ifNoneMatch = request.headers["if-none-match"];
+      const etagMatches = typeof ifNoneMatch === "string" &&
+        ifNoneMatch.split(",").some(value => value.trim() === "*" || value.trim() === etag);
+      const ifModifiedSince = request.headers["if-modified-since"];
+      const modifiedSinceTime = typeof ifModifiedSince === "string"
+        ? Date.parse(ifModifiedSince)
+        : NaN;
+      const notModifiedByDate = !ifNoneMatch &&
+        Number.isFinite(modifiedSinceTime) &&
+        Math.floor(stats.mtimeMs / 1000) <= Math.floor(modifiedSinceTime / 1000);
+
+      if (etagMatches || notModifiedByDate) {
+        response.writeHead(304, validatorHeaders);
+        response.end();
+        return;
+      }
+
+      const responseHeaders = {
+        ...validatorHeaders,
+        "Content-Type": contentTypes[extension] || "application/octet-stream"
+      };
+
+      if (extension === ".html") {
+        // Inject the updater centrally so every present and future HTML route
+        // receives it without having to maintain separate page templates.
+        fs.readFile(filePath, (readError, contents) => {
+          if (readError) {
+            console.error("[zarad] Unable to read " + filePath + ": " + readError.message);
+            if (!response.headersSent) {
+              response.writeHead(readError.code === "EACCES" || readError.code === "EPERM" ? 403 : 500);
+            }
+            response.end("Server error");
+            return;
+          }
+
+          const html = contents.toString("utf8");
+          const updaterTag = '<script src="/asset-refresh.js" defer></script>';
+          const updatedHtml = html.includes(updaterTag)
+            ? html
+            : html.replace(/<\/head\s*>/i, "  " + updaterTag + "\n</head>");
+          const body = Buffer.from(updatedHtml, "utf8");
+
+          responseHeaders["Content-Length"] = body.length;
+          response.writeHead(200, responseHeaders);
+          if (request.method === "HEAD") {
+            response.end();
+          } else {
+            response.end(body);
+          }
+        });
+        return;
+      }
+
+      responseHeaders["Content-Length"] = stats.size;
+      response.writeHead(200, responseHeaders);
 
       if (request.method === "HEAD") {
         response.end();
@@ -104,10 +168,10 @@ function sendFile(request, response, pathname) {
       }
 
       const stream = fs.createReadStream(filePath);
-      stream.on("error", error => {
-        console.error("[zarad] Unable to stream " + filePath + ": " + error.message);
+      stream.on("error", streamError => {
+        console.error("[zarad] Unable to stream " + filePath + ": " + streamError.message);
         if (!response.headersSent) {
-          response.writeHead(error.code === "EACCES" || error.code === "EPERM" ? 403 : 500);
+          response.writeHead(streamError.code === "EACCES" || streamError.code === "EPERM" ? 403 : 500);
         }
         response.end("Server error");
       });
