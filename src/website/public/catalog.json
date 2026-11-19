@@ -6,25 +6,25 @@
     "folder": "spices",
     "description": "Tahmira este boia dulce (Felfla), condimentul menționat în fișa de produs.",
     "description_en": "Tahmira is sweet paprika (Felfla), as identified in the product notes.",
-    "price": "8–25 lei · 100–250 g",
-    "price_en": "RON 8–25 · 100–250 g",
+    "price": "2–8 lei · 25–100 g",
+    "price_en": "RON 2–8 · 25–100 g",
     "currency": "RON",
     "weight_options": [
       {
+        "grams": 25,
+        "price": 2
+      },
+      {
+        "grams": 50,
+        "price": 4
+      },
+      {
+        "grams": 75,
+        "price": 6
+      },
+      {
         "grams": 100,
         "price": 8
-      },
-      {
-        "grams": 150,
-        "price": 13.5
-      },
-      {
-        "grams": 200,
-        "price": 19.5
-      },
-      {
-        "grams": 250,
-        "price": 25
       }
     ]
   },
@@ -67,29 +67,25 @@
     "folder": "spices",
     "description": "Kharkoum (Qerkoum) este turmeric și poate fi folosit ca alternativă la șofran. Este unul dintre cei patru piloni ai bucătăriei marocane.",
     "description_en": "Kharkoum (Qerkoum) is turmeric and can be used as an alternative to saffron. It is one of the four pillars of Moroccan cuisine.",
-    "price": "6–18 lei · 40–200 g",
-    "price_en": "RON 6–18 · 40–200 g",
+    "price": "5–10,5 lei · 25–100 g",
+    "price_en": "RON 5–10.5 · 25–100 g",
     "currency": "RON",
     "weight_options": [
       {
-        "grams": 40,
-        "price": 6
+        "grams": 25,
+        "price": 5
       },
       {
         "grams": 50,
         "price": 7
       },
       {
+        "grams": 75,
+        "price": 8.5
+      },
+      {
         "grams": 100,
         "price": 10.5
-      },
-      {
-        "grams": 150,
-        "price": 14.5
-      },
-      {
-        "grams": 200,
-        "price": 18
       }
     ]
   },
@@ -100,53 +96,25 @@
     "folder": "spices",
     "description": "Felfel Kahal este piper negru, un condiment important în selecția de condimente marocane.",
     "description_en": "Felfel Kahal is black pepper, an important spice in the Moroccan spice selection.",
-    "price": "3,5–33 lei · 14–500 g",
-    "price_en": "RON 3.50–33 · 14–500 g",
+    "price": "4–8,5 lei · 25–100 g",
+    "price_en": "RON 4–8.5 · 25–100 g",
     "currency": "RON",
     "weight_options": [
       {
-        "grams": 14,
-        "price": 3.5
+        "grams": 25,
+        "price": 4
       },
       {
         "grams": 50,
         "price": 5.5
       },
       {
+        "grams": 75,
+        "price": 7
+      },
+      {
         "grams": 100,
         "price": 8.5
-      },
-      {
-        "grams": 150,
-        "price": 12
-      },
-      {
-        "grams": 200,
-        "price": 15
-      },
-      {
-        "grams": 250,
-        "price": 18
-      },
-      {
-        "grams": 300,
-        "price": 21
-      },
-      {
-        "grams": 350,
-        "price": 24
-      },
-      {
-        "grams": 400,
-        "price": 27
-      },
-      {
-        "grams": 450,
-        "price": 30
-      },
-      {
-        "grams": 500,
-        "price": 33
       }
     ]
   },
@@ -172,45 +140,25 @@
     "folder": "spices",
     "description": "Kamoun este chimion. Împreună cu Karfa, ghimbirul și Kharkoum, formează cei patru piloni ai bucătăriei marocane.",
     "description_en": "Kamoun is cumin. Together with Karfa, ginger and Kharkoum, it forms the four pillars of Moroccan cuisine.",
-    "price": "4–19 lei · 15–400 g",
-    "price_en": "RON 4–19 · 15–400 g",
+    "price": "4,5–7,5 lei · 25–100 g",
+    "price_en": "RON 4.5–7.5 · 25–100 g",
     "currency": "RON",
     "weight_options": [
       {
-        "grams": 15,
-        "price": 4
+        "grams": 25,
+        "price": 4.5
       },
       {
         "grams": 50,
         "price": 5.5
       },
       {
+        "grams": 75,
+        "price": 6.5
+      },
+      {
         "grams": 100,
         "price": 7.5
-      },
-      {
-        "grams": 150,
-        "price": 9.5
-      },
-      {
-        "grams": 200,
-        "price": 11
-      },
-      {
-        "grams": 250,
-        "price": 13
-      },
-      {
-        "grams": 300,
-        "price": 15
-      },
-      {
-        "grams": 350,
-        "price": 17
-      },
-      {
-        "grams": 400,
-        "price": 19
       }
     ]
   },
