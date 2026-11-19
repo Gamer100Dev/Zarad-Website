@@ -35,14 +35,28 @@
     "folder": "spices",
     "description": "Karfa este scorțișoară. Împreună cu ghimbirul, Kharkoum și Kamoun, formează cei patru piloni ai bucătăriei marocane.",
     "description_en": "Karfa is cinnamon. Together with ginger, Kharkoum and Kamoun, it forms the four pillars of Moroccan cuisine.",
-    "price": "4–13 lei · 100 g",
-    "price_en": "RON 4–13 · 100 g",
+    "price": "4–13 lei · 25–100 g",
+    "price_en": "RON 4–13 · 25–100 g",
     "currency": "RON",
-    "price_range": {
-      "min": 4,
-      "max": 13
-    },
-    "weight_g": 100
+    "weight_g": 100,
+    "weight_options": [
+      {
+        "grams": 25,
+        "price": 4
+      },
+      {
+        "grams": 50,
+        "price": 7
+      },
+      {
+        "grams": 75,
+        "price": 10
+      },
+      {
+        "grams": 100,
+        "price": 13
+      }
+    ]
   },
   {
     "name": "Gingembre (Skemjbir)",
@@ -51,14 +65,28 @@
     "folder": "spices",
     "description": "Gingembre este ghimbir. În notițe, Skemjbir este indicat ca ghimbir măcinat, iar Sarya ca ghimbir pudră. Ghimbirul este unul dintre cei patru piloni ai bucătăriei marocane.",
     "description_en": "Gingembre is ginger. The notes identify Skemjbir as ground ginger and Sarya as powdered ginger. Ginger is one of the four pillars of Moroccan cuisine.",
-    "price": "14–28 lei · 100 g",
-    "price_en": "RON 14–28 · 100 g",
+    "price": "14–28 lei · 25–100 g",
+    "price_en": "RON 14–28 · 25–100 g",
     "currency": "RON",
-    "price_range": {
-      "min": 14,
-      "max": 28
-    },
-    "weight_g": 100
+    "weight_g": 100,
+    "weight_options": [
+      {
+        "grams": 25,
+        "price": 14
+      },
+      {
+        "grams": 50,
+        "price": 18.5
+      },
+      {
+        "grams": 75,
+        "price": 23
+      },
+      {
+        "grams": 100,
+        "price": 28
+      }
+    ]
   },
   {
     "name": "Kharkoum (Qerkoum)",
