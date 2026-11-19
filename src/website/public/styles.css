@@ -73,7 +73,7 @@ button {
   align-items: center;
 }
 
-/* Keep the matching light and dark Zarad wordmarks within the compact logo frames. */
+/* Light and dark Zarad wordmarks share identical sizing; only the image artwork changes. */
 .brand {
   position: relative;
   z-index: 2;
@@ -991,10 +991,6 @@ html[data-theme="dark"] .footer-contact-details strong {
   .header-inner {
     width: 100%;
     padding: 10px 28px 14px;
-  }
-
-  .brand img {
-    height: 59.04px;
   }
 
   .main-nav {
