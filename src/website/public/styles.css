@@ -77,13 +77,13 @@ button {
 .brand {
   position: relative;
   z-index: 2;
-  width: 148px;
-  height: 63.04px;
-  padding: 2px 10px;
+  width: 180px;
+  height: 60px;
+  padding: 0;
   display: inline-flex;
   align-items: center;
   justify-self: start;
-  overflow: hidden;
+  overflow: visible;
   background: transparent;
 }
 
@@ -793,8 +793,8 @@ width: min(1160px, calc(100% - 72px));
   position: relative;
   display: inline-flex;
   align-items: center;
-  width: 128px;
-  height: 59.04px;
+  width: 150px;
+  height: 50px;
   overflow: hidden;
 }
 
@@ -1249,12 +1249,13 @@ width: calc(100% - 44px);
 }
 
 /* Give the ground-spice feature image a slightly closer crop. */
+/* Keep Texturi fine image crop and border treatment consistent with Aromi întregi. */
 .featured-spice.zarad-card-grained img {
-  transform: scale(1.03);
+  transform: scale(0.96);
 }
 
 .featured-spice.zarad-card-grained:hover img {
-  transform: scale(1.05);
+  transform: scale(0.98);
 }
 
 .featured-spice.zarad-card:focus-visible {
