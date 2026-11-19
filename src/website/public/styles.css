@@ -711,7 +711,7 @@ width: min(1160px, calc(100% - 72px));
 .featured-spice::after {
   position: absolute;
   inset: 35% 0 0;
-  background: linear-gradient(transparent, rgba(44, 19, 15, 0.75));
+  background: linear-gradient(transparent, rgba(44, 19, 15, 0.46));
   content: "";
 }
 
@@ -720,7 +720,8 @@ width: min(1160px, calc(100% - 72px));
   height: 100%;
   display: block;
   object-fit: cover;
-  transition: transform 450ms ease;
+  filter: brightness(1.16) saturate(1.05);
+  transition: transform 450ms ease, filter 450ms ease;
 }
 
 .featured-spice:hover img {
