@@ -111,6 +111,89 @@
       font-weight: 600;
     }
 
+    .product-price-summary {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      flex-wrap: wrap;
+      gap: 12px 18px;
+      min-height: 42px;
+    }
+
+    .product-price-value {
+      display: inline-block;
+      font-size: clamp(1.55rem, 3vw, 1.9rem);
+      font-weight: 700;
+      line-height: 1.2;
+      font-variant-numeric: tabular-nums;
+    }
+
+    .product-weight-badge {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      min-height: 36px;
+      padding: 7px 13px;
+      border: 1px solid rgba(167, 123, 62, 0.55);
+      border-radius: 3px;
+      background: rgba(201, 150, 59, 0.1);
+      color: var(--wine);
+      font-size: 0.9rem;
+      font-weight: 700;
+      white-space: nowrap;
+    }
+
+    .product-weight-selector {
+      margin-top: 22px;
+    }
+
+    .product-weight-selector-label {
+      display: block;
+      margin-bottom: 11px;
+      font-size: 0.75rem;
+      font-weight: 700;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      opacity: 0.72;
+    }
+
+    .product-weight-options {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 9px;
+    }
+
+    .product-weight-option {
+      min-width: 78px;
+      min-height: 43px;
+      padding: 10px 13px;
+      border: 1px solid rgba(167, 123, 62, 0.58);
+      border-radius: 3px;
+      background: var(--paper-light);
+      color: var(--wine);
+      font: inherit;
+      font-size: 0.9rem;
+      font-weight: 700;
+      cursor: pointer;
+      transition: color 0.18s ease, background 0.18s ease, border-color 0.18s ease, transform 0.18s ease;
+    }
+
+    .product-weight-option:hover {
+      border-color: var(--gold);
+      transform: translateY(-1px);
+    }
+
+    .product-weight-option.is-selected {
+      border-color: var(--wine-dark);
+      background: var(--wine-dark);
+      color: #fff8ed;
+    }
+
+    .product-weight-option:focus-visible {
+      outline: 2px solid var(--wine);
+      outline-offset: 3px;
+    }
+
     .product-back {
       display: inline-flex;
       align-items: center;
@@ -282,7 +365,26 @@
             Preț
           </span>
 
-          <span class="product-price-value" id="product_price"></span>
+          <div class="product-price-summary" aria-live="polite">
+            <span class="product-price-value" id="product_price"></span>
+            <span class="product-weight-badge" id="product_weight" hidden></span>
+          </div>
+
+          <div class="product-weight-selector" id="product_weight_selector" hidden>
+            <span
+              class="product-weight-selector-label"
+              data-ro="Alege gramajul"
+              data-en="Choose a weight"
+            >
+              Alege gramajul
+            </span>
+            <div
+              class="product-weight-options"
+              id="product_weight_options"
+              role="group"
+              aria-label="Alege gramajul"
+            ></div>
+          </div>
         </div>
 
         <a href="/catalog" class="product-back">
@@ -338,6 +440,9 @@
     const productDescription = document.getElementById("product_description");
     const productPrice = document.getElementById("product_price");
     const productPriceSection = document.querySelector(".product-price");
+    const productWeight = document.getElementById("product_weight");
+    const productWeightSelector = document.getElementById("product_weight_selector");
+    const productWeightOptions = document.getElementById("product_weight_options");
     const productPhoto = document.getElementById("product_photo");
 
     const statusTitle = document.getElementById("product_status_title");
@@ -346,6 +451,7 @@
     let currentLanguage = "ro";
     let currentProduct = null;
     let currentStatus = null;
+    let selectedWeightGrams = null;
 
     document.getElementById("current-year").textContent =
       new Date().getFullYear();
@@ -371,34 +477,118 @@
         : product.description;
     }
 
-    function getProductPrice(product) {
-      const localizedPrice = currentLanguage === "en"
-        ? product.price_en || product.price
-        : product.price;
+    function formatPriceNumber(value) {
+      return new Intl.NumberFormat(
+        currentLanguage === "ro" ? "ro-RO" : "en-GB",
+        { minimumFractionDigits: 0, maximumFractionDigits: 2 }
+      ).format(value);
+    }
 
-      if (
-        localizedPrice === undefined ||
-        localizedPrice === null ||
-        localizedPrice === ""
+    function formatMoney(value) {
+      const amount = formatPriceNumber(value);
+      return currentLanguage === "ro" ? amount + " lei" : "RON " + amount;
+    }
+
+    function formatMoneyRange(range) {
+      const minimum = formatPriceNumber(range.min);
+      const maximum = formatPriceNumber(range.max);
+      return currentLanguage === "ro"
+        ? minimum + "–" + maximum + " lei"
+        : "RON " + minimum + "–" + maximum;
+    }
+
+    function renderProductPricing(product) {
+      const options = Array.isArray(product.weight_options)
+        ? product.weight_options.filter(option =>
+            option &&
+            Number.isFinite(Number(option.grams)) &&
+            Number.isFinite(Number(option.price))
+          )
+        : [];
+
+      productWeightOptions.replaceChildren();
+
+      if (options.length > 0) {
+        const selected = options.find(option =>
+          Number(option.grams) === Number(selectedWeightGrams)
+        ) || options[0];
+
+        selectedWeightGrams = Number(selected.grams);
+        productPrice.textContent = formatMoney(Number(selected.price));
+        productWeight.textContent = formatPriceNumber(selectedWeightGrams) + " g";
+        productWeight.hidden = false;
+        productWeightSelector.hidden = false;
+        productWeightOptions.setAttribute(
+          "aria-label",
+          currentLanguage === "ro" ? "Alege gramajul" : "Choose a weight"
+        );
+
+        options.forEach(option => {
+          const grams = Number(option.grams);
+          const price = Number(option.price);
+          const isSelected = grams === selectedWeightGrams;
+          const button = document.createElement("button");
+
+          button.type = "button";
+          button.className = "product-weight-option" + (isSelected ? " is-selected" : "");
+          button.textContent = formatPriceNumber(grams) + " g";
+          button.setAttribute("aria-pressed", String(isSelected));
+          button.setAttribute("aria-label", formatPriceNumber(grams) + " g — " + formatMoney(price));
+          button.addEventListener("click", () => {
+            selectedWeightGrams = grams;
+            renderProductPricing(product);
+          });
+
+          productWeightOptions.appendChild(button);
+        });
+
+        productPriceSection.hidden = false;
+        return;
+      }
+
+      selectedWeightGrams = null;
+      productWeightSelector.hidden = true;
+
+      let priceText = "";
+      let weightText = "";
+
+      if (typeof product.price_amount === "number" && Number.isFinite(product.price_amount)) {
+        priceText = formatMoney(product.price_amount);
+        weightText = Number.isFinite(Number(product.weight_g))
+          ? formatPriceNumber(Number(product.weight_g)) + " g"
+          : "";
+      } else if (
+        product.price_range &&
+        Number.isFinite(Number(product.price_range.min)) &&
+        Number.isFinite(Number(product.price_range.max))
       ) {
-        return "";
+        priceText = formatMoneyRange(product.price_range);
+        weightText = Number.isFinite(Number(product.weight_g))
+          ? formatPriceNumber(Number(product.weight_g)) + " g"
+          : "";
+      } else if (
+        product.price_per_gram_range &&
+        Number.isFinite(Number(product.price_per_gram_range.min)) &&
+        Number.isFinite(Number(product.price_per_gram_range.max))
+      ) {
+        const minimum = formatPriceNumber(product.price_per_gram_range.min);
+        const maximum = formatPriceNumber(product.price_per_gram_range.max);
+        priceText = currentLanguage === "ro"
+          ? minimum + "–" + maximum + " lei / gram"
+          : "RON " + minimum + "–" + maximum + " / gram";
+      } else {
+        const legacyPrice = currentLanguage === "en"
+          ? product.price_en || product.price
+          : product.price;
+        priceText = legacyPrice === undefined || legacyPrice === null
+          ? ""
+          : String(legacyPrice);
       }
 
-      if (typeof localizedPrice === "number") {
-        try {
-          return new Intl.NumberFormat(
-            currentLanguage === "ro" ? "ro-RO" : "en-GB",
-            {
-              style: "currency",
-              currency: product.currency || "RON"
-            }
-          ).format(localizedPrice);
-        } catch {
-          return `${localizedPrice} ${product.currency || "RON"}`;
-        }
-      }
-
-      return String(localizedPrice);
+      productPrice.textContent = priceText;
+      productWeight.textContent = weightText;
+      productWeight.hidden = !weightText;
+      productPriceSection.hidden = !priceText;
     }
 
     function showStatus(type) {
@@ -454,9 +644,7 @@
 
       productName.textContent = getProductName(product);
       productDescription.textContent = getProductDescription(product);
-      const price = getProductPrice(product);
-      productPrice.textContent = price;
-      productPriceSection.hidden = !price;
+      renderProductPricing(product);
 
       const folder = product.folder
         .split("/")
