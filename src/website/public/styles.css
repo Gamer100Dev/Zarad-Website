@@ -83,7 +83,7 @@ button {
   display: inline-flex;
   align-items: center;
   justify-self: start;
-  overflow: visible;
+  overflow: hidden;
   background: transparent;
 }
 
@@ -95,7 +95,7 @@ button {
   min-width: 0;
   max-width: 100%;
   height: 100%;
-  object-fit: contain;
+  object-fit: cover;
   object-position: center;
   mix-blend-mode: normal;
 }
@@ -806,7 +806,7 @@ width: min(1160px, calc(100% - 72px));
   min-width: 0;
   max-width: 100%;
   height: 100%;
-  object-fit: contain;
+  object-fit: cover;
   object-position: center;
   mix-blend-mode: normal;
 }
