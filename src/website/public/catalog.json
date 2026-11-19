@@ -8,7 +8,25 @@
     "description_en": "Tahmira is sweet paprika (Felfla), as identified in the product notes.",
     "price": "8–25 lei · 100–250 g",
     "price_en": "RON 8–25 · 100–250 g",
-    "currency": "RON"
+    "currency": "RON",
+    "weight_options": [
+      {
+        "grams": 100,
+        "price": 8
+      },
+      {
+        "grams": 150,
+        "price": 13.5
+      },
+      {
+        "grams": 200,
+        "price": 19.5
+      },
+      {
+        "grams": 250,
+        "price": 25
+      }
+    ]
   },
   {
     "name": "Karfa (scorțișoară)",
@@ -19,7 +37,12 @@
     "description_en": "Karfa is cinnamon. Together with ginger, Kharkoum and Kamoun, it forms the four pillars of Moroccan cuisine.",
     "price": "4–13 lei · 100 g",
     "price_en": "RON 4–13 · 100 g",
-    "currency": "RON"
+    "currency": "RON",
+    "price_range": {
+      "min": 4,
+      "max": 13
+    },
+    "weight_g": 100
   },
   {
     "name": "Gingembre (Skemjbir)",
@@ -30,7 +53,12 @@
     "description_en": "Gingembre is ginger. The notes identify Skemjbir as ground ginger and Sarya as powdered ginger. Ginger is one of the four pillars of Moroccan cuisine.",
     "price": "14–28 lei · 100 g",
     "price_en": "RON 14–28 · 100 g",
-    "currency": "RON"
+    "currency": "RON",
+    "price_range": {
+      "min": 14,
+      "max": 28
+    },
+    "weight_g": 100
   },
   {
     "name": "Kharkoum (Qerkoum)",
@@ -41,7 +69,29 @@
     "description_en": "Kharkoum (Qerkoum) is turmeric and can be used as an alternative to saffron. It is one of the four pillars of Moroccan cuisine.",
     "price": "6–18 lei · 40–200 g",
     "price_en": "RON 6–18 · 40–200 g",
-    "currency": "RON"
+    "currency": "RON",
+    "weight_options": [
+      {
+        "grams": 40,
+        "price": 6
+      },
+      {
+        "grams": 50,
+        "price": 7
+      },
+      {
+        "grams": 100,
+        "price": 10.5
+      },
+      {
+        "grams": 150,
+        "price": 14.5
+      },
+      {
+        "grams": 200,
+        "price": 18
+      }
+    ]
   },
   {
     "name": "Felfel Kahal (piper negru)",
@@ -52,7 +102,53 @@
     "description_en": "Felfel Kahal is black pepper, an important spice in the Moroccan spice selection.",
     "price": "3,5–33 lei · 14–500 g",
     "price_en": "RON 3.50–33 · 14–500 g",
-    "currency": "RON"
+    "currency": "RON",
+    "weight_options": [
+      {
+        "grams": 14,
+        "price": 3.5
+      },
+      {
+        "grams": 50,
+        "price": 5.5
+      },
+      {
+        "grams": 100,
+        "price": 8.5
+      },
+      {
+        "grams": 150,
+        "price": 11.5
+      },
+      {
+        "grams": 200,
+        "price": 14.5
+      },
+      {
+        "grams": 250,
+        "price": 17
+      },
+      {
+        "grams": 300,
+        "price": 20
+      },
+      {
+        "grams": 350,
+        "price": 23
+      },
+      {
+        "grams": 400,
+        "price": 26
+      },
+      {
+        "grams": 450,
+        "price": 29.5
+      },
+      {
+        "grams": 500,
+        "price": 33
+      }
+    ]
   },
   {
     "name": "Șofran (Crocus sativus)",
@@ -63,7 +159,11 @@
     "description_en": "Crocus sativus (Zaafran Hor) is saffron, one of the world's most expensive spices.",
     "price": "20–40 lei / gram",
     "price_en": "RON 20–40 / gram",
-    "currency": "RON"
+    "currency": "RON",
+    "price_per_gram_range": {
+      "min": 20,
+      "max": 40
+    }
   },
   {
     "name": "Kamoun (chimion)",
@@ -74,7 +174,45 @@
     "description_en": "Kamoun is cumin. Together with Karfa, ginger and Kharkoum, it forms the four pillars of Moroccan cuisine.",
     "price": "4–19 lei · 15–400 g",
     "price_en": "RON 4–19 · 15–400 g",
-    "currency": "RON"
+    "currency": "RON",
+    "weight_options": [
+      {
+        "grams": 15,
+        "price": 4
+      },
+      {
+        "grams": 50,
+        "price": 5.5
+      },
+      {
+        "grams": 100,
+        "price": 7.5
+      },
+      {
+        "grams": 150,
+        "price": 9.5
+      },
+      {
+        "grams": 200,
+        "price": 11
+      },
+      {
+        "grams": 250,
+        "price": 13
+      },
+      {
+        "grams": 300,
+        "price": 15
+      },
+      {
+        "grams": 350,
+        "price": 17
+      },
+      {
+        "grams": 400,
+        "price": 19
+      }
+    ]
   },
   {
     "name": "Mix Zarad",
@@ -85,7 +223,9 @@
     "description_en": "The Zarad spice blend, part of the brand's own collection.",
     "price": "12,50 lei · 50 g",
     "price_en": "RON 12.50 · 50 g",
-    "currency": "RON"
+    "currency": "RON",
+    "price_amount": 12.5,
+    "weight_g": 50
   },
   {
     "name": "Ras el Hanout",
@@ -96,7 +236,9 @@
     "description_en": "A Moroccan blend containing 10 or 30 dried and ground spices. The recipe varies from family to family. It is used in meat dishes and soups.",
     "price": "12,99 lei · 80 g",
     "price_en": "RON 12.99 · 80 g",
-    "currency": "RON"
+    "currency": "RON",
+    "price_amount": 12.99,
+    "weight_g": 80
   },
   {
     "name": "La Kama",
@@ -107,7 +249,9 @@
     "description_en": "A simpler blend than Ras el Hanout, made with black pepper, ginger, turmeric, cinnamon and nutmeg. It is used for meat dishes and soups.",
     "price": "6 lei · 50 g",
     "price_en": "RON 6.00 · 50 g",
-    "currency": "RON"
+    "currency": "RON",
+    "price_amount": 6,
+    "weight_g": 50
   },
   {
     "name": "Mrouzia",
@@ -118,7 +262,9 @@
     "description_en": "A sweet, aromatic blend for festive dishes. It contains cinnamon, nutmeg, cloves, cardamom, ginger and turmeric; rosebuds or saffron are sometimes added.",
     "price": "14 lei · 50 g",
     "price_en": "RON 14.00 · 50 g",
-    "currency": "RON"
+    "currency": "RON",
+    "price_amount": 14,
+    "weight_g": 50
   },
   {
     "name": "Chermoula",
@@ -129,7 +275,9 @@
     "description_en": "A blend used in the wet marinade for fish. It contains cumin, coriander, sweet paprika, garlic powder, chilli flakes, and dried mint or dried parsley.",
     "price": "10,50 lei · 50 g",
     "price_en": "RON 10.50 · 50 g",
-    "currency": "RON"
+    "currency": "RON",
+    "price_amount": 10.5,
+    "weight_g": 50
   },
   {
     "name": "Atay / Qahwa M'attra",
@@ -140,6 +288,8 @@
     "description_en": "A blend for Moroccan tea or coffee. It contains cinnamon, cardamom, cloves, ginger, star anise (with an intense liquorice aroma), nutmeg and sometimes black pepper. Atay is used for green tea, while Qahwa M'attra is used for spiced coffee.",
     "price": "10,50 lei · 50 g",
     "price_en": "RON 10.50 · 50 g",
-    "currency": "RON"
+    "currency": "RON",
+    "price_amount": 10.5,
+    "weight_g": 50
   }
 ]
