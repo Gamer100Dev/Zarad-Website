@@ -1755,223 +1755,89 @@ html[data-theme="dark"] .event-card-number {
 
 
 
-/* Dedicated Zarad About / Cine suntem page */
+/* Minimal Zarad About page: heading and mascot artwork only. */
 .about-main {
   flex: 1;
-  padding-bottom: 76px;
+  display: flex;
+  flex-direction: column;
+  padding-bottom: clamp(48px, 7vw, 88px);
 }
 .about-heading {
-  position: relative;
-  overflow: hidden;
-  padding: clamp(66px, 7vw, 104px) 24px 58px;
+  padding: clamp(58px, 7vw, 88px) 24px 28px;
   background-color: #eee1ce;
   background-image:
     radial-gradient(circle at 14% 26%, rgba(201, 150, 59, .12), transparent 28%),
     radial-gradient(circle at 86% 76%, rgba(117, 30, 39, .07), transparent 30%);
   text-align: center;
 }
-.about-heading .section-kicker,
-.about-feature-copy .section-kicker,
-.about-section-heading .section-kicker,
-.about-bottom .section-kicker {
-  color: #a46b30;
-}
 .about-heading h1 {
   margin: 0;
   color: var(--wine);
   font-family: "Playfair Display", Georgia, serif;
-  font-size: clamp(44px, 6vw, 72px);
+  font-size: clamp(42px, 5.5vw, 68px);
   font-weight: 500;
-  line-height: 1.08;
-  letter-spacing: -1.8px;
+  line-height: 1.1;
+  letter-spacing: -1.5px;
 }
-.about-heading > p:not(.section-kicker) {
-  max-width: 720px;
-  margin: 22px auto 0;
-  color: #765f52;
-  font-size: 15px;
-  line-height: 1.9;
-}
-.about-heading-ornament {
-  display: block;
-  margin: 22px auto 0;
-  color: #bd873a;
-  font-size: 20px;
-}
-.about-feature-section {
+.about-mascot-display {
   display: grid;
-  grid-template-columns: minmax(0, .9fr) minmax(0, 1.1fr);
-  align-items: center;
-  gap: clamp(38px, 7vw, 100px);
-  width: min(1160px, calc(100% - 64px));
+  flex: 1;
+  place-items: center;
+  width: min(1000px, calc(100% - 48px));
   margin: 0 auto;
-  padding: 78px 0 88px;
+  padding: clamp(30px, 5vw, 58px) 0 0;
 }
 .about-mascot-frame {
-  position: relative;
   display: grid;
-  min-height: 390px;
   place-items: center;
+  width: 100%;
+  min-height: clamp(360px, 48vw, 610px);
+  margin: 0;
+  padding: clamp(20px, 4vw, 46px);
   overflow: hidden;
-  padding: 24px;
-  border: 1px solid rgba(201, 150, 59, .82);
-  border-radius: 230px 230px 10px 10px;
-  background-color: #30221e;
-  background-image:
-    radial-gradient(circle at 50% 42%, rgba(174, 117, 50, .22), transparent 58%),
-    repeating-linear-gradient(45deg, rgba(201, 150, 59, .035) 0 1px, transparent 1px 15px);
-  box-shadow: 0 14px 34px rgba(53, 27, 25, .14);
+  border: 1px solid rgba(201, 150, 59, .75);
+  border-radius: 280px 280px 12px 12px;
+  background:
+    radial-gradient(circle at 50% 44%, rgba(201, 150, 59, .14), transparent 58%),
+    #30221e;
+  box-shadow: 0 14px 36px rgba(53, 27, 25, .13);
 }
 .about-mascot-frame img {
   display: block;
   width: 100%;
-  max-width: 430px;
-  height: 350px;
+  max-width: 650px;
+  max-height: 570px;
+  height: auto;
   object-fit: contain;
-  filter: drop-shadow(0 9px 18px rgba(0, 0, 0, .24));
+  filter: drop-shadow(0 10px 18px rgba(0, 0, 0, .22));
 }
-.about-mascot-stamp {
-  position: absolute;
-  right: 15px;
-  bottom: 18px;
-  left: 15px;
-  color: #e6be6a;
-  font-size: 10px;
-  font-weight: 700;
-  letter-spacing: .22em;
-  text-align: center;
+html[data-theme="dark"] .about-heading {
+  background-color: #302625;
 }
-.about-feature-copy h2,
-.about-section-heading h2,
-.about-bottom h2 {
-  margin: 0;
-  color: var(--wine);
-  font-family: "Playfair Display", Georgia, serif;
-  font-size: clamp(34px, 4vw, 52px);
-  font-weight: 500;
-  line-height: 1.15;
-  letter-spacing: -1px;
+html[data-theme="dark"] .about-heading h1 {
+  color: #e6bda9;
 }
-.about-feature-copy > p:not(.section-kicker) {
-  max-width: 570px;
-  margin: 22px 0 0;
-  color: var(--muted);
-  font-size: 15px;
-  line-height: 1.95;
+html[data-theme="dark"] .about-mascot-frame {
+  border-color: rgba(214, 166, 83, .62);
+  background:
+    radial-gradient(circle at 50% 44%, rgba(214, 166, 83, .14), transparent 58%),
+    #292222;
+  box-shadow: 0 14px 36px rgba(0, 0, 0, .3);
 }
-.about-people-section {
-  padding: 76px 0 90px;
-  border-top: 1px solid rgba(201, 150, 59, .36);
-  border-bottom: 1px solid rgba(201, 150, 59, .36);
-  background: #f5eddf;
-}
-.about-section-heading {
-  width: min(760px, calc(100% - 44px));
-  margin: 0 auto 38px;
-  text-align: center;
-}
-.about-section-heading h2 {
-  font-size: clamp(34px, 4.1vw, 50px);
-}
-.about-section-heading > p:last-child {
-  max-width: 660px;
-  margin: 17px auto 0;
-  color: #765f52;
-  font-size: 14px;
-  line-height: 1.85;
-}
-.about-portrait-grid {
-  display: grid;
-  grid-template-columns: repeat(3, minmax(0, 1fr));
-  gap: 24px;
-  width: min(1180px, calc(100% - 64px));
-  margin: 0 auto;
-}
-.about-portrait-card {
-  min-width: 0;
-  margin: 0;
-  padding: 9px;
-  border: 1px solid rgba(201, 150, 59, .72);
-  background: var(--paper-light);
-  box-shadow: 0 12px 28px rgba(53, 27, 25, .09);
-}
-.about-portrait-image {
-  display: grid;
-  aspect-ratio: 4 / 5;
-  place-items: center;
-  overflow: hidden;
-  background: #30221e;
-}
-.about-portrait-image img {
-  display: block;
-  width: 100%;
-  height: 100%;
-  object-fit: contain;
-}
-.about-portrait-card figcaption {
-  padding: 17px 10px 11px;
-  color: var(--wine);
-  font-family: "Playfair Display", Georgia, serif;
-  font-size: clamp(19px, 2vw, 24px);
-  text-align: center;
-}
-.about-bottom {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  gap: 18px;
-  width: min(760px, calc(100% - 44px));
-  margin: 0 auto;
-  padding: 78px 0 14px;
-  text-align: center;
-}
-.about-bottom .section-kicker { margin-bottom: 0; }
-.about-bottom h2 { max-width: 720px; font-size: clamp(31px, 3.8vw, 45px); }
-.about-bottom .primary-button { margin-top: 7px; }
-
-html[data-theme="dark"] .about-heading { background-color: #302625; }
-html[data-theme="dark"] .about-heading h1,
-html[data-theme="dark"] .about-feature-copy h2,
-html[data-theme="dark"] .about-section-heading h2,
-html[data-theme="dark"] .about-bottom h2 { color: #e6bda9; }
-html[data-theme="dark"] .about-heading .section-kicker,
-html[data-theme="dark"] .about-feature-copy .section-kicker,
-html[data-theme="dark"] .about-section-heading .section-kicker,
-html[data-theme="dark"] .about-bottom .section-kicker { color: #d6a653; }
-html[data-theme="dark"] .about-heading > p:not(.section-kicker),
-html[data-theme="dark"] .about-feature-copy > p:not(.section-kicker),
-html[data-theme="dark"] .about-section-heading > p:last-child { color: #c5b3a5; }
-html[data-theme="dark"] .about-people-section {
-  border-color: rgba(214, 166, 83, .3);
-  background: #292222;
-}
-html[data-theme="dark"] .about-portrait-card {
-  border-color: rgba(214, 166, 83, .55);
-  background: #302727;
-  box-shadow: 0 12px 28px rgba(0, 0, 0, .24);
-}
-html[data-theme="dark"] .about-portrait-card figcaption { color: #e6c7a8; }
-
-@media (max-width: 850px) {
-  .about-feature-section {
-    grid-template-columns: minmax(0, 1fr);
-    max-width: 620px;
-    gap: 36px;
-    padding: 60px 0 70px;
+@media (max-width: 680px) {
+  .about-heading {
+    padding: 48px 20px 20px;
   }
-  .about-mascot-frame { min-height: 340px; }
-  .about-mascot-frame img { height: 300px; }
-  .about-portrait-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
-}
-@media (max-width: 600px) {
-  .about-heading { padding: 58px 22px 42px; }
-  .about-heading > p:not(.section-kicker) { font-size: 14px; }
-  .about-feature-section { width: calc(100% - 40px); padding: 48px 0 56px; }
-  .about-mascot-frame { min-height: 300px; padding: 18px; }
-  .about-mascot-frame img { height: 260px; }
-  .about-feature-copy h2 { font-size: 36px; }
-  .about-people-section { padding: 55px 0 62px; }
-  .about-portrait-grid { grid-template-columns: 1fr; width: min(430px, calc(100% - 38px)); gap: 18px; }
-  .about-portrait-image { aspect-ratio: 5 / 4; }
-  .about-bottom { padding-top: 58px; }
+  .about-mascot-display {
+    width: calc(100% - 32px);
+    padding-top: 26px;
+  }
+  .about-mascot-frame {
+    min-height: 360px;
+    border-radius: 190px 190px 10px 10px;
+    padding: 18px;
+  }
+  .about-mascot-frame img {
+    max-height: 330px;
+  }
 }
