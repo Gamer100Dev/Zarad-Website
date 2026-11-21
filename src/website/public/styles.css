@@ -2527,3 +2527,38 @@ html[data-theme="dark"] body.about-page .about-closing-link:hover {
   background: #d6a653;
   color: #30201e;
 }
+
+
+/* About closing panel: botanical green, with a coordinated dark mode */
+body.about-page .about-closing {
+  background: #dce7d5;
+  border-color: rgba(75, 103, 65, .3);
+}
+body.about-page .about-closing h2 { color: #344b34; }
+body.about-page .about-closing-line { color: #52664d; }
+body.about-page .about-closing-kicker { color: #60794d; }
+body.about-page .about-closing-rule { background: #78945f; }
+body.about-page .about-closing-link {
+  border-color: rgba(52, 75, 52, .5);
+  color: #344b34;
+}
+body.about-page .about-closing-link:hover {
+  background: #344b34;
+  color: #f5f5eb;
+}
+html[data-theme="dark"] body.about-page .about-closing {
+  background: #26352b;
+  border-color: rgba(155, 185, 134, .32);
+}
+html[data-theme="dark"] body.about-page .about-closing h2 { color: #dce8d2; }
+html[data-theme="dark"] body.about-page .about-closing-line { color: #c0d0b8; }
+html[data-theme="dark"] body.about-page .about-closing-kicker { color: #b5cd91; }
+html[data-theme="dark"] body.about-page .about-closing-rule { background: #b5cd91; }
+html[data-theme="dark"] body.about-page .about-closing-link {
+  border-color: rgba(181, 205, 145, .55);
+  color: #dce8d2;
+}
+html[data-theme="dark"] body.about-page .about-closing-link:hover {
+  background: #b5cd91;
+  color: #26352b;
+}
