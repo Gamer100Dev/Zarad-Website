@@ -1,271 +1,122 @@
 [
   {
-    "name": "Tahmira (boia dulce)",
-    "name_en": "Tahmira (sweet paprika)",
-    "image": "Tahmira.jpeg",
+    "name": "Ras el Hanout",
+    "name_en": "Ras el Hanout",
+    "image": "ras-el-hanout.jpeg",
     "folder": "spices",
-    "description": "Tahmira este boia dulce (Felfla), condimentul menționat în fișa de produs.",
-    "description_en": "Tahmira is sweet paprika (Felfla), as identified in the product notes.",
-    "price": "2–8 lei · 25–100 g",
-    "price_en": "RON 2–8 · 25–100 g",
+    "description": "Un amestec marocan de condimente măcinate, cu o aromă caldă și complexă. Rețeta poate varia de la un producător la altul; este potrivit pentru tajine, preparate din carne și supe.",
+    "description_en": "A Moroccan blend of ground spices with a warm, complex aroma. Recipes vary by producer; it is well suited to tagines, meat dishes and soups.",
+    "price": "18 lei",
+    "price_en": "RON 18",
     "currency": "RON",
-    "weight_options": [
-      {
-        "grams": 25,
-        "price": 2
-      },
-      {
-        "grams": 50,
-        "price": 4
-      },
-      {
-        "grams": 75,
-        "price": 6
-      },
-      {
-        "grams": 100,
-        "price": 8
-      }
-    ]
-  },
-  {
-    "name": "Karfa (scorțișoară)",
-    "name_en": "Karfa (cinnamon)",
-    "image": "Karfa.jpeg",
-    "folder": "spices",
-    "description": "Karfa este scorțișoară. Împreună cu ghimbirul, Kharkoum și Kamoun, formează cei patru piloni ai bucătăriei marocane.",
-    "description_en": "Karfa is cinnamon. Together with ginger, Kharkoum and Kamoun, it forms the four pillars of Moroccan cuisine.",
-    "price": "4–13 lei · 25–100 g",
-    "price_en": "RON 4–13 · 25–100 g",
-    "currency": "RON",
-    "weight_g": 100,
-    "weight_options": [
-      {
-        "grams": 25,
-        "price": 4
-      },
-      {
-        "grams": 50,
-        "price": 7
-      },
-      {
-        "grams": 75,
-        "price": 10
-      },
-      {
-        "grams": 100,
-        "price": 13
-      }
-    ]
-  },
-  {
-    "name": "Gingembre (Skemjbir)",
-    "name_en": "Ginger (Skemjbir)",
-    "image": "Ginembre.jpeg",
-    "folder": "spices",
-    "description": "Gingembre este ghimbir. În notițe, Skemjbir este indicat ca ghimbir măcinat, iar Sarya ca ghimbir pudră. Ghimbirul este unul dintre cei patru piloni ai bucătăriei marocane.",
-    "description_en": "Gingembre is ginger. The notes identify Skemjbir as ground ginger and Sarya as powdered ginger. Ginger is one of the four pillars of Moroccan cuisine.",
-    "price": "14–28 lei · 25–100 g",
-    "price_en": "RON 14–28 · 25–100 g",
-    "currency": "RON",
-    "weight_g": 100,
-    "weight_options": [
-      {
-        "grams": 25,
-        "price": 14
-      },
-      {
-        "grams": 50,
-        "price": 18.5
-      },
-      {
-        "grams": 75,
-        "price": 23
-      },
-      {
-        "grams": 100,
-        "price": 28
-      }
-    ]
-  },
-  {
-    "name": "Kharkoum (Qerkoum)",
-    "name_en": "Kharkoum (Qerkoum)",
-    "image": "Kharkoum.jpeg",
-    "folder": "spices",
-    "description": "Kharkoum (Qerkoum) este turmeric și poate fi folosit ca alternativă la șofran. Este unul dintre cei patru piloni ai bucătăriei marocane.",
-    "description_en": "Kharkoum (Qerkoum) is turmeric and can be used as an alternative to saffron. It is one of the four pillars of Moroccan cuisine.",
-    "price": "5–10,5 lei · 25–100 g",
-    "price_en": "RON 5–10.5 · 25–100 g",
-    "currency": "RON",
-    "weight_options": [
-      {
-        "grams": 25,
-        "price": 5
-      },
-      {
-        "grams": 50,
-        "price": 7
-      },
-      {
-        "grams": 75,
-        "price": 8.5
-      },
-      {
-        "grams": 100,
-        "price": 10.5
-      }
-    ]
-  },
-  {
-    "name": "Felfel Kahal (piper negru)",
-    "name_en": "Felfel Kahal (black pepper)",
-    "image": "Felfel Kahal.jpeg",
-    "folder": "spices",
-    "description": "Felfel Kahal este piper negru, un condiment important în selecția de condimente marocane.",
-    "description_en": "Felfel Kahal is black pepper, an important spice in the Moroccan spice selection.",
-    "price": "4–8,5 lei · 25–100 g",
-    "price_en": "RON 4–8.5 · 25–100 g",
-    "currency": "RON",
-    "weight_options": [
-      {
-        "grams": 25,
-        "price": 4
-      },
-      {
-        "grams": 50,
-        "price": 5.5
-      },
-      {
-        "grams": 75,
-        "price": 7
-      },
-      {
-        "grams": 100,
-        "price": 8.5
-      }
-    ]
-  },
-  {
-    "name": "Șofran (Crocus sativus)",
-    "name_en": "Saffron (Crocus sativus)",
-    "image": "Crocus.jpeg",
-    "folder": "spices",
-    "description": "Crocus sativus (Zaafran Hor) este șofran, unul dintre cele mai scumpe condimente din lume.",
-    "description_en": "Crocus sativus (Zaafran Hor) is saffron, one of the world's most expensive spices.",
-    "price": "20–40 lei / gram",
-    "price_en": "RON 20–40 / gram",
-    "currency": "RON",
-    "price_per_gram_range": {
-      "min": 20,
-      "max": 40
-    }
+    "price_amount": 18
   },
   {
     "name": "Kamoun (chimion)",
     "name_en": "Kamoun (cumin)",
-    "image": "Kamoun.jpeg",
+    "image": "kamoun.jpeg",
     "folder": "spices",
-    "description": "Kamoun este chimion. Împreună cu Karfa, ghimbirul și Kharkoum, formează cei patru piloni ai bucătăriei marocane.",
-    "description_en": "Kamoun is cumin. Together with Karfa, ginger and Kharkoum, it forms the four pillars of Moroccan cuisine.",
-    "price": "4,5–7,5 lei · 25–100 g",
-    "price_en": "RON 4.5–7.5 · 25–100 g",
+    "description": "Kamoun este chimion, un condiment cu aromă caldă și pământie, folosit frecvent în bucătăria marocană. Imaginea prezintă semințe întregi.",
+    "description_en": "Kamoun is cumin, a warm, earthy spice commonly used in Moroccan cooking. The product is shown as whole seeds.",
+    "price": "14 lei",
+    "price_en": "RON 14",
     "currency": "RON",
-    "weight_options": [
-      {
-        "grams": 25,
-        "price": 4.5
-      },
-      {
-        "grams": 50,
-        "price": 5.5
-      },
-      {
-        "grams": 75,
-        "price": 6.5
-      },
-      {
-        "grams": 100,
-        "price": 7.5
-      }
-    ]
+    "price_amount": 14
   },
   {
-    "name": "Mix Zarad",
-    "name_en": "Zarad Blend",
-    "image": "Mix Zarad.jpeg",
+    "name": "Kharkoum (curcuma)",
+    "name_en": "Kharkoum (turmeric)",
+    "image": "kharkoum.jpeg",
     "folder": "spices",
-    "description": "Amestecul de condimente Zarad, inclus în colecția proprie.",
-    "description_en": "The Zarad spice blend, part of the brand's own collection.",
-    "price": "12,50 lei · 50 g",
-    "price_en": "RON 12.50 · 50 g",
+    "description": "Kharkoum este curcuma măcinată, un condiment auriu folosit pentru culoare și aromă în preparatele marocane.",
+    "description_en": "Kharkoum is ground turmeric, a golden spice used for colour and flavour in Moroccan dishes.",
+    "price": "12 lei",
+    "price_en": "RON 12",
     "currency": "RON",
-    "price_amount": 12.5,
-    "weight_g": 50
+    "price_amount": 12
   },
   {
-    "name": "Ras el Hanout",
-    "name_en": "Ras el Hanout",
-    "image": "Ras el hanout.jpeg",
+    "name": "Gingembre (ghimbir)",
+    "name_en": "Gingembre (ginger)",
+    "image": "gingembre.jpeg",
     "folder": "spices",
-    "description": "Un amestec marocan care conține 10 sau 30 de condimente uscate și măcinate. Rețeta variază de la o familie la alta. Este folosit pentru preparate din carne și supe.",
-    "description_en": "A Moroccan blend containing 10 or 30 dried and ground spices. The recipe varies from family to family. It is used in meat dishes and soups.",
-    "price": "12,99 lei · 80 g",
-    "price_en": "RON 12.99 · 80 g",
+    "description": "Gingembre este ghimbir măcinat, cu o aromă caldă și ușor citrică, folosit în tajine, supe și alte preparate.",
+    "description_en": "Gingembre is ground ginger, with a warm, lightly citrus-like aroma, used in tagines, soups and other dishes.",
+    "price": "13 lei",
+    "price_en": "RON 13",
     "currency": "RON",
-    "price_amount": 12.99,
-    "weight_g": 80
+    "price_amount": 13
   },
   {
-    "name": "La Kama",
-    "name_en": "La Kama",
-    "image": "La Karma.jpeg",
+    "name": "Karfa (scorțișoară)",
+    "name_en": "Karfa (cinnamon)",
+    "image": "karfa.jpeg",
     "folder": "spices",
-    "description": "Un amestec mai simplu decât Ras el Hanout, format din piper negru, ghimbir, turmeric, scorțișoară și nucșoară. Este folosit pentru carne și supe.",
-    "description_en": "A simpler blend than Ras el Hanout, made with black pepper, ginger, turmeric, cinnamon and nutmeg. It is used for meat dishes and soups.",
-    "price": "6 lei · 50 g",
-    "price_en": "RON 6.00 · 50 g",
+    "description": "Karfa este scorțișoară măcinată, cu aroma dulce și lemnoasă specifică. Imaginea prezintă și batoane de scorțișoară.",
+    "description_en": "Karfa is ground cinnamon, with its characteristic sweet, woody aroma. Cinnamon sticks are also shown in the image.",
+    "price": "13 lei",
+    "price_en": "RON 13",
     "currency": "RON",
-    "price_amount": 6,
-    "weight_g": 50
+    "price_amount": 13
   },
   {
-    "name": "Mrouzia",
-    "name_en": "Mrouzia",
-    "image": "Mrouzia.jpeg",
+    "name": "Felfel Kahal (piper negru)",
+    "name_en": "Felfel Kahal (black pepper)",
+    "image": "felfel-kahal.jpeg",
     "folder": "spices",
-    "description": "Un amestec dulce-aromat pentru preparate festive. Conține scorțișoară, nucșoară, cuișoare, cardamom, ghimbir și turmeric; uneori se adaugă boboci de trandafir sau șofran.",
-    "description_en": "A sweet, aromatic blend for festive dishes. It contains cinnamon, nutmeg, cloves, cardamom, ginger and turmeric; rosebuds or saffron are sometimes added.",
-    "price": "14 lei · 50 g",
-    "price_en": "RON 14.00 · 50 g",
+    "description": "Felfel Kahal este piper negru măcinat, un condiment intens și ușor iute, prezentat alături de boabe întregi.",
+    "description_en": "Felfel Kahal is ground black pepper, a bold, pungent spice shown alongside whole peppercorns.",
+    "price": "16 lei",
+    "price_en": "RON 16",
     "currency": "RON",
-    "price_amount": 14,
-    "weight_g": 50
+    "price_amount": 16
   },
   {
-    "name": "Chermoula",
-    "name_en": "Chermoula",
-    "image": "Chermoula.jpeg",
+    "name": "Tahmira (boia roșie)",
+    "name_en": "Tahmira (red paprika)",
+    "image": "tahmira.jpeg",
     "folder": "spices",
-    "description": "Un amestec folosit în marinada umedă pentru pește. Conține chimion, coriandru, boia dulce, usturoi pudră, fulgi de chili și mentă uscată sau pătrunjel uscat.",
-    "description_en": "A blend used in the wet marinade for fish. It contains cumin, coriander, sweet paprika, garlic powder, chilli flakes, and dried mint or dried parsley.",
-    "price": "10,50 lei · 50 g",
-    "price_en": "RON 10.50 · 50 g",
+    "description": "Tahmira este boia roșie măcinată, folosită pentru a adăuga culoare și aromă preparatelor.",
+    "description_en": "Tahmira is ground red paprika, used to add colour and flavour to dishes.",
+    "price": "12 lei",
+    "price_en": "RON 12",
     "currency": "RON",
-    "price_amount": 10.5,
-    "weight_g": 50
+    "price_amount": 12
   },
   {
-    "name": "Atay / Qahwa M'attra",
-    "name_en": "Atay / Qahwa M'attra",
-    "image": "Atay - Qahwa M'attra.jpeg",
+    "name": "Zaafrane (șofran)",
+    "name_en": "Zaafrane (saffron)",
+    "image": "zaafrane.jpeg",
     "folder": "spices",
-    "description": "Un amestec pentru ceai sau cafea marocană. Conține scorțișoară, cardamom, cuișoare, ghimbir, anason stelat (cu aromă intensă de lemn-dulce), nucșoară și uneori piper negru. Atay se folosește pentru ceai verde, iar Qahwa M'attra pentru cafea condimentată.",
-    "description_en": "A blend for Moroccan tea or coffee. It contains cinnamon, cardamom, cloves, ginger, star anise (with an intense liquorice aroma), nutmeg and sometimes black pepper. Atay is used for green tea, while Qahwa M'attra is used for spiced coffee.",
-    "price": "10,50 lei · 50 g",
-    "price_en": "RON 10.50 · 50 g",
+    "description": "Zaafrane este șofran, obținut din stigmatele florii Crocus sativus. Imaginea prezintă firele roșii de șofran și floarea.",
+    "description_en": "Zaafrane is saffron, obtained from the stigmas of Crocus sativus. The image shows the red saffron threads and the flower.",
+    "price": "25 lei",
+    "price_en": "RON 25",
     "currency": "RON",
-    "price_amount": 10.5,
-    "weight_g": 50
+    "price_amount": 25
+  },
+  {
+    "name": "Maadnous (pătrunjel uscat)",
+    "name_en": "Maadnous (dried parsley)",
+    "image": "maadnous.jpeg",
+    "folder": "spices",
+    "description": "Maadnous este pătrunjel uscat și mărunțit, folosit pentru a adăuga o aromă proaspătă preparatelor.",
+    "description_en": "Maadnous is dried, chopped parsley, used to add a fresh herbal note to dishes.",
+    "price": "10 lei",
+    "price_en": "RON 10",
+    "currency": "RON",
+    "price_amount": 10
+  },
+  {
+    "name": "Zarad (amestec oriental)",
+    "name_en": "Zarad (oriental spice blend)",
+    "image": "zarad-amestec-oriental.jpeg",
+    "folder": "spices",
+    "description": "Amestecul oriental Zarad, o combinație aromată de condimente din colecția proprie.",
+    "description_en": "The Zarad oriental blend, an aromatic spice mixture from the brand's own collection.",
+    "price": "22 lei",
+    "price_en": "RON 22",
+    "currency": "RON",
+    "price_amount": 22
   }
 ]
