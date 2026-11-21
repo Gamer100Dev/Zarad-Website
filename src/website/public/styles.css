@@ -1762,11 +1762,13 @@ body.about-page .about-main {
   flex: 1;
   flex-direction: column;
   padding: 0 0 82px;
-  background: #f5eee3;
+  background: #f7f1e7;
 }
 
 body.about-page .about-intro {
-  padding: clamp(48px, 6vw, 78px) 24px 20px;
+  padding: clamp(48px, 6vw, 78px) 24px clamp(38px, 5vw, 60px);
+  border-bottom: 1px solid rgba(209, 154, 74, .72);
+  background-color: #4b171d;
 }
 
 body.about-page .about-intro-inner {
@@ -1784,7 +1786,7 @@ body.about-page .about-intro-copy {
 
 body.about-page .about-kicker {
   margin: 0 0 15px;
-  color: #a06c32;
+  color: #e8c17e;
   font-size: 10px;
   font-weight: 700;
   letter-spacing: .16em;
@@ -1793,7 +1795,7 @@ body.about-page .about-kicker {
 
 body.about-page .about-intro h1 {
   margin: 0;
-  color: #70272b;
+  color: #fff7ed;
   font-family: "Playfair Display", Georgia, serif;
   font-size: clamp(48px, 6vw, 70px);
   font-weight: 500;
@@ -1801,11 +1803,17 @@ body.about-page .about-intro h1 {
   letter-spacing: -1.8px;
 }
 
-body.about-page .about-lead {
+body.about-page .about-lead,
+body.about-page .about-lead-extra {
   margin: 22px 0 0;
-  color: #705f54;
-  font-size: 16px;
+  color: rgba(255, 247, 237, .88);
+  font-size: 15px;
   line-height: 1.85;
+}
+
+body.about-page .about-lead-extra {
+  margin-top: 14px;
+  color: rgba(255, 247, 237, .74);
 }
 
 body.about-page .about-catalog-link {
@@ -1814,8 +1822,8 @@ body.about-page .about-catalog-link {
   gap: 14px;
   margin-top: 26px;
   padding: 12px 16px;
-  border: 1px solid rgba(112, 39, 43, .42);
-  color: #70272b;
+  border: 1px solid rgba(232, 193, 126, .8);
+  color: #fff7ed;
   font-size: 11px;
   font-weight: 700;
   letter-spacing: .04em;
@@ -1823,9 +1831,9 @@ body.about-page .about-catalog-link {
 }
 
 body.about-page .about-catalog-link:hover {
-  border-color: #70272b;
-  background: #70272b;
-  color: #fff8ee;
+  border-color: #d19a4a;
+  background: #d19a4a;
+  color: #351b19;
 }
 
 body.about-page .about-catalog-link span:last-child {
@@ -1836,10 +1844,10 @@ body.about-page .about-photo-card {
   min-width: 0;
   margin: 0;
   padding: 8px;
-  border: 1px solid rgba(181, 130, 58, .62);
+  border: 1px solid rgba(181, 130, 58, .7);
   border-radius: 3px;
   background: #fffaf2;
-  box-shadow: 0 9px 25px rgba(55, 35, 27, .09);
+  box-shadow: 0 9px 25px rgba(25, 11, 12, .18);
 }
 
 body.about-page .about-photo-frame {
@@ -1867,7 +1875,7 @@ body.about-page .about-photo-card figcaption {
 }
 
 body.about-page .about-photo-card--hero .about-photo-frame {
-  aspect-ratio: 1.12 / 1;
+  aspect-ratio: 3 / 2;
 }
 
 body.about-page .about-flavours-section {
@@ -1875,8 +1883,12 @@ body.about-page .about-flavours-section {
   grid-template-columns: minmax(0, .82fr) minmax(0, 1.18fr);
   align-items: center;
   gap: clamp(42px, 8vw, 110px);
-  width: min(1080px, calc(100% - 56px));
-  margin: clamp(52px, 7vw, 86px) auto 0;
+  width: min(1160px, calc(100% - 40px));
+  margin: clamp(48px, 6vw, 72px) auto 0;
+  padding: clamp(28px, 4vw, 48px);
+  border-top: 1px solid rgba(181, 130, 58, .42);
+  border-bottom: 1px solid rgba(181, 130, 58, .42);
+  background: #eee1ce;
 }
 
 body.about-page .about-photo-card--portrait {
@@ -1885,7 +1897,7 @@ body.about-page .about-photo-card--portrait {
 }
 
 body.about-page .about-photo-card--portrait .about-photo-frame {
-  aspect-ratio: 4 / 5;
+  aspect-ratio: 3 / 4;
 }
 
 body.about-page .about-flavours-copy {
@@ -1903,17 +1915,23 @@ body.about-page .about-flavours-copy h2 {
   letter-spacing: -.8px;
 }
 
-body.about-page .about-flavours-copy > p:last-child {
+body.about-page .about-flavours-copy > p:last-child,
+body.about-page .about-flavours-extra {
   margin: 20px 0 0;
   color: #705f54;
   font-size: 15px;
   line-height: 1.85;
 }
 
+body.about-page .about-flavours-extra {
+  margin-top: 13px;
+  color: #806b5e;
+}
+
 body.about-page .about-culture-section {
   display: grid;
   grid-template-columns: minmax(0, 1.25fr) minmax(230px, .75fr);
-  align-items: end;
+  align-items: center;
   gap: clamp(22px, 4vw, 48px);
   width: min(1100px, calc(100% - 56px));
   margin: clamp(62px, 8vw, 100px) auto 0;
@@ -1943,7 +1961,6 @@ body.about-page .about-culture-note {
   padding: clamp(24px, 3vw, 38px);
   background: #70272b;
   color: #fff4e5;
-  transform: translateY(-18px);
 }
 
 body.about-page .about-culture-note span {
@@ -1964,17 +1981,26 @@ html[data-theme="dark"] body.about-page .about-main {
   background: #211b1b;
 }
 
+html[data-theme="dark"] body.about-page .about-intro {
+  border-color: rgba(214, 166, 83, .48);
+  background-color: #302625;
+}
+
+html[data-theme="dark"] body.about-page .about-flavours-section {
+  border-color: rgba(214, 166, 83, .32);
+  background: #302727;
+}
+
 html[data-theme="dark"] body.about-page .about-kicker {
   color: #d6a653;
 }
 
-html[data-theme="dark"] body.about-page .about-intro h1,
 html[data-theme="dark"] body.about-page .about-flavours-copy h2 {
   color: #e6bda9;
 }
 
-html[data-theme="dark"] body.about-page .about-lead,
 html[data-theme="dark"] body.about-page .about-flavours-copy > p:last-child,
+html[data-theme="dark"] body.about-page .about-flavours-extra,
 html[data-theme="dark"] body.about-page .about-photo-card figcaption {
   color: #c5b3a5;
 }
@@ -1985,8 +2011,8 @@ html[data-theme="dark"] body.about-page .about-catalog-link {
 }
 
 html[data-theme="dark"] body.about-page .about-catalog-link:hover {
-  background: #7a352f;
-  color: #fff4e4;
+  background: #d6a653;
+  color: #30201e;
 }
 
 html[data-theme="dark"] body.about-page .about-photo-card {
@@ -2023,7 +2049,7 @@ html[data-theme="dark"] body.about-page .about-culture-note {
   }
 
   body.about-page .about-intro {
-    padding: 42px 20px 12px;
+    padding: 42px 20px 34px;
   }
 
   body.about-page .about-intro-inner,
@@ -2040,19 +2066,21 @@ html[data-theme="dark"] body.about-page .about-culture-note {
     font-size: clamp(46px, 12vw, 58px);
   }
 
-  body.about-page .about-lead {
+  body.about-page .about-lead,
+  body.about-page .about-lead-extra {
     margin-top: 16px;
-    font-size: 15px;
+    font-size: 14px;
   }
 
   body.about-page .about-photo-card--hero .about-photo-frame {
-    aspect-ratio: 1.2 / 1;
+    aspect-ratio: 3 / 2;
   }
 
   body.about-page .about-flavours-section {
-    width: calc(100% - 40px);
+    width: calc(100% - 28px);
     gap: 25px;
-    margin-top: 48px;
+    margin-top: 34px;
+    padding: 22px 16px;
   }
 
   body.about-page .about-photo-card--portrait {
@@ -2075,13 +2103,12 @@ html[data-theme="dark"] body.about-page .about-culture-note {
   }
 
   body.about-page .about-photo-card--wide .about-photo-frame {
-    aspect-ratio: 1.2 / 1;
+    aspect-ratio: 3 / 4;
   }
 
   body.about-page .about-culture-note {
     min-height: 0;
     padding: 24px;
-    transform: none;
   }
 }
 
