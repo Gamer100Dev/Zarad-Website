@@ -232,7 +232,7 @@ function setupSecretSpiceGame() {
       ro: "Curcuma",
       en: "Turmeric",
       clueRo: "Sunt aurie și dau culoare multor curry-uri și amestecuri de condimente.",
-      clueEn: "I am golden-yellow and bring colour to many curries and spice blends."
+      clueEn: "I add a golden colour to curries and spice blends. What am I?"
     },
     {
       id: "cumin",
@@ -240,7 +240,7 @@ function setupSecretSpiceGame() {
       ro: "Chimion",
       en: "Cumin",
       clueRo: "Am o aromă caldă, pământie și sunt des întâlnit în bucătăria marocană.",
-      clueEn: "I have a warm, earthy flavour and appear often in Moroccan cooking."
+      clueEn: "I have a warm, earthy flavour and am a staple of Moroccan cooking. What am I?"
     },
     {
       id: "paprika",
@@ -248,7 +248,7 @@ function setupSecretSpiceGame() {
       ro: "Boia",
       en: "Paprika",
       clueRo: "Sunt făcută din ardei uscați și pot fi dulce sau afumată.",
-      clueEn: "I am made from dried peppers and can be sweet or smoky."
+      clueEn: "I’m made from dried peppers and can be sweet or smoky. What am I?"
     },
     {
       id: "cinnamon",
@@ -256,7 +256,7 @@ function setupSecretSpiceGame() {
       ro: "Scorțișoară",
       en: "Cinnamon",
       clueRo: "Sunt caldă și dulce, iar aroma mea se potrivește și deserturilor, și unor preparate sărate.",
-      clueEn: "I am warm and sweet, and my flavour suits desserts as well as some savoury dishes."
+      clueEn: "I’m warm and sweet, and work just as well in desserts as in some savoury dishes. What am I?"
     },
     {
       id: "ginger",
@@ -264,7 +264,7 @@ function setupSecretSpiceGame() {
       ro: "Ghimbir",
       en: "Ginger",
       clueRo: "Am o notă proaspătă și ușor iute. Sunt folosită atât rasă, cât și uscată.",
-      clueEn: "I have a fresh, gently fiery note. I can be used fresh or dried."
+      clueEn: "I have a fresh, gently fiery kick, and I’m used both fresh and dried. What am I?"
     },
     {
       id: "saffron",
@@ -272,7 +272,7 @@ function setupSecretSpiceGame() {
       ro: "Șofran",
       en: "Saffron",
       clueRo: "Sunt alcătuit din fire roșii delicate și sunt una dintre cele mai prețioase mirodenii.",
-      clueEn: "I am made of delicate red threads and am one of the world's most precious spices."
+      clueEn: "I’m made up of delicate red threads and am one of the world’s most prized spices. What am I?"
     }
   ];
 
@@ -349,7 +349,7 @@ function setupSecretSpiceGame() {
       });
       score += 1;
       updateStats();
-      feedback.textContent = languageText("Exact! Ai găsit " + target.ro + ".", "That's it! You found " + target.en + ".");
+      feedback.textContent = languageText("Exact! Ai găsit " + target.ro + ".", "That’s right! You found " + target.en + ".");
       nextRoundTimer = window.setTimeout(() => {
         round += 1;
         if (round >= 5) {
@@ -365,7 +365,7 @@ function setupSecretSpiceGame() {
     option.classList.add("is-wrong");
     remainingSeconds = Math.max(0, remainingSeconds - 3);
     updateStats();
-    feedback.textContent = languageText("Nu chiar — mai încearcă. Ai pierdut 3 secunde.", "Not quite — try another jar. You lost 3 seconds.");
+    feedback.textContent = languageText("Nu chiar — mai încearcă. Ai pierdut 3 secunde.", "Not quite — try another jar. You’ve lost three seconds.");
     if (remainingSeconds <= 0) finishGame(false);
   }
 
@@ -380,14 +380,14 @@ function setupSecretSpiceGame() {
       resultTitle.textContent = languageText("Ai găsit toate aromele!", "You found the whole blend!");
       resultCopy.textContent = languageText(
         "5 din 5 — ai un instinct grozav pentru condimente. Zarad te așteaptă pentru următoarea descoperire.",
-        "5 out of 5 — you have a brilliant instinct for spices. Zarad has more flavours waiting to be discovered."
+        "5 out of 5 — you know your spices! There’s always another flavour to discover at Zarad."
       );
       resultMark.textContent = "✦";
     } else {
       resultTitle.textContent = languageText("Timpul s-a scurs!", "Time's up!");
       resultCopy.textContent = languageText(
         "Ai găsit " + score + " din 5 condimente. Mai încearcă și vezi dacă poți descoperi tot amestecul.",
-        "You found " + score + " out of 5 spices. Have another go and see if you can find the whole blend."
+        "You found " + score + " of the five spices. Have another go and see if you can find them all."
       );
       resultMark.textContent = "⏳";
     }
