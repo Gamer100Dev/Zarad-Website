@@ -1758,6 +1758,9 @@ html[data-theme="dark"] .event-card-number {
 
 /* Who We Are page only */
 body.about-page .about-main {
+  display: flex;
+  flex: 1;
+  flex-direction: column;
   padding: 0 0 76px;
   background: #f5eee3;
 }
