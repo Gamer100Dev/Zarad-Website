@@ -1754,15 +1754,16 @@ html[data-theme="dark"] .event-card-number {
 
 
 
-/* Keep the three people photographs composed neatly in the homepage hero. */
+/* Widescreen hero presentation for the mascot and people photographs. */
 .hero-slide.hero-slide--people {
   background: #291713;
 }
 
 .hero-slide.hero-slide--people img {
-  --hero-image-shift: 0%;
+  width: 100%;
+  height: 100%;
   object-fit: contain;
-  object-position: 78% center;
+  object-position: center;
   transform: none;
   background: #291713;
 }
@@ -1771,20 +1772,10 @@ html[data-theme="dark"] .event-card-number {
   transform: none;
 }
 
-.hero-slide.hero-slide--wide img {
-  object-fit: cover;
-  object-position: center 42%;
-}
-
 @media (max-width: 680px) {
   .hero-slide.hero-slide--people img {
     object-fit: contain;
-    object-position: 82% center;
-  }
-
-  .hero-slide.hero-slide--wide img {
-    object-fit: cover;
-    object-position: center 38%;
+    object-position: center;
   }
 
   .slider-controls {
