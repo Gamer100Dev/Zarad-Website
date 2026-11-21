@@ -1754,18 +1754,6 @@ html[data-theme="dark"] .event-card-number {
 
 
 
-  .slider-controls {
-    right: 18px;
-    bottom: 68px;
-    gap: 9px;
-  }
-
-  .slider-arrow {
-    width: 32px;
-    height: 32px;
-  }
-}
-
 
 /* Dedicated Zarad About / Cine suntem page */
 .about-main {
