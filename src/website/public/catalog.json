@@ -12,8 +12,8 @@
     "price_amount": 18
   },
   {
-    "name": "Kamoun (chimion)",
-    "name_en": "Kamoun (cumin)",
+    "name": "Kamoun",
+    "name_en": "Kamoun",
     "image": "kamoun.jpeg",
     "folder": "spices",
     "description": "Kamoun este chimion, un condiment cu aromă caldă și pământie, folosit frecvent în bucătăria marocană. Imaginea prezintă semințe întregi.",
@@ -24,8 +24,8 @@
     "price_amount": 14
   },
   {
-    "name": "Kharkoum (curcuma)",
-    "name_en": "Kharkoum (turmeric)",
+    "name": "Kharkoum",
+    "name_en": "Kharkoum",
     "image": "kharkoum.jpeg",
     "folder": "spices",
     "description": "Kharkoum este curcuma măcinată, un condiment auriu folosit pentru culoare și aromă în preparatele marocane.",
@@ -36,8 +36,8 @@
     "price_amount": 12
   },
   {
-    "name": "Gingembre (ghimbir)",
-    "name_en": "Gingembre (ginger)",
+    "name": "Gingembre",
+    "name_en": "Gingembre",
     "image": "gingembre.jpeg",
     "folder": "spices",
     "description": "Gingembre este ghimbir măcinat, cu o aromă caldă și ușor citrică, folosit în tajine, supe și alte preparate.",
@@ -48,8 +48,8 @@
     "price_amount": 13
   },
   {
-    "name": "Karfa (scorțișoară)",
-    "name_en": "Karfa (cinnamon)",
+    "name": "Karfa",
+    "name_en": "Karfa",
     "image": "karfa.jpeg",
     "folder": "spices",
     "description": "Karfa este scorțișoară măcinată, cu aroma dulce și lemnoasă specifică. Imaginea prezintă și batoane de scorțișoară.",
@@ -60,8 +60,8 @@
     "price_amount": 13
   },
   {
-    "name": "Felfel Kahal (piper negru)",
-    "name_en": "Felfel Kahal (black pepper)",
+    "name": "Felfel Kahal",
+    "name_en": "Felfel Kahal",
     "image": "felfel-kahal.jpeg",
     "folder": "spices",
     "description": "Felfel Kahal este piper negru măcinat, un condiment intens și ușor iute, prezentat alături de boabe întregi.",
@@ -72,8 +72,8 @@
     "price_amount": 16
   },
   {
-    "name": "Tahmira (boia roșie)",
-    "name_en": "Tahmira (red paprika)",
+    "name": "Tahmira",
+    "name_en": "Tahmira",
     "image": "tahmira.jpeg",
     "folder": "spices",
     "description": "Tahmira este boia roșie măcinată, folosită pentru a adăuga culoare și aromă preparatelor.",
@@ -84,8 +84,8 @@
     "price_amount": 12
   },
   {
-    "name": "Zaafrane (șofran)",
-    "name_en": "Zaafrane (saffron)",
+    "name": "Zaafrane",
+    "name_en": "Zaafrane",
     "image": "zaafrane.jpeg",
     "folder": "spices",
     "description": "Zaafrane este șofran, obținut din stigmatele florii Crocus sativus. Imaginea prezintă firele roșii de șofran și floarea.",
@@ -96,8 +96,8 @@
     "price_amount": 25
   },
   {
-    "name": "Maadnous (pătrunjel uscat)",
-    "name_en": "Maadnous (dried parsley)",
+    "name": "Maadnous",
+    "name_en": "Maadnous",
     "image": "maadnous.jpeg",
     "folder": "spices",
     "description": "Maadnous este pătrunjel uscat și mărunțit, folosit pentru a adăuga o aromă proaspătă preparatelor.",
@@ -108,8 +108,8 @@
     "price_amount": 10
   },
   {
-    "name": "Zarad (amestec oriental)",
-    "name_en": "Zarad (oriental spice blend)",
+    "name": "Zarad",
+    "name_en": "Zarad",
     "image": "zarad-amestec-oriental.jpeg",
     "folder": "spices",
     "description": "Amestecul oriental Zarad, o combinație aromată de condimente din colecția proprie.",

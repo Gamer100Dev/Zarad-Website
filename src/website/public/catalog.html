@@ -25,18 +25,6 @@
   <script src="/theme.js?v=zarad-logo-frame-preload-20261119" defer></script>
 
   <style>
-    .catalog-card-price {
-      margin: 14px 0 0;
-      color: #8d5338;
-      font-size: 1.05rem;
-      font-weight: 700;
-      letter-spacing: 0.02em;
-    }
-
-    html[data-theme="dark"] .catalog-card-price {
-      color: #d6a653;
-    }
-
     .catalog-grid > a.catalog-card {
       display: block;
       color: inherit;
@@ -175,22 +163,6 @@
         : product.description;
     }
 
-    function formatPriceNumber(value) {
-      return new Intl.NumberFormat(
-        currentLanguage === "ro" ? "ro-RO" : "en-GB",
-        { minimumFractionDigits: 0, maximumFractionDigits: 2 }
-      ).format(Number(value));
-    }
-
-    function getProductPrice(product) {
-      if (typeof product.price_amount !== "number" || !Number.isFinite(product.price_amount)) {
-        return "";
-      }
-
-      const amount = formatPriceNumber(product.price_amount);
-      return currentLanguage === "en" ? "RON " + amount : amount + " lei";
-    }
-
     function openProduct(descriptor) {
       if (!descriptor) {
         return;
@@ -275,11 +247,7 @@
         const description = document.createElement("p");
         description.textContent = getProductDescription(product);
 
-        const price = document.createElement("p");
-        price.className = "catalog-card-price";
-        price.textContent = getProductPrice(product);
-
-        details.append(heading, description, price);
+        details.append(heading, description);
 
         card.append(imageFrame, details);
 
