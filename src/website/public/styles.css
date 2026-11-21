@@ -2529,36 +2529,47 @@ html[data-theme="dark"] body.about-page .about-closing-link:hover {
 }
 
 
-/* About closing panel: botanical green, with a coordinated dark mode */
+
+/* About closing panel follows the olive-and-gold CTA system used across Zarad */
 body.about-page .about-closing {
-  background: #dce7d5;
-  border-color: rgba(75, 103, 65, .3);
+  background-color: #344636;
+  background-image:
+    radial-gradient(circle at 25% 50%, rgba(69, 92, 71, 0.7) 0%, rgba(36, 49, 38, 0.9) 100%),
+    url("data:image/svg+xml,%3Csvg width='44' height='44' viewBox='0 0 44 44' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' stroke='%23d4a443' stroke-width='0.9' stroke-opacity='0.09'%3E%3Cpath d='M22 0L44 22L22 44L0 22Z'/%3E%3Ccircle cx='22' cy='22' r='3'/%3E%3C/g%3E%3C/svg%3E");
+  border-top: 2px solid #c9963b;
+  border-bottom: 2px solid #c9963b;
+  color: #fff4e3;
 }
-body.about-page .about-closing h2 { color: #344b34; }
-body.about-page .about-closing-line { color: #52664d; }
-body.about-page .about-closing-kicker { color: #60794d; }
-body.about-page .about-closing-rule { background: #78945f; }
+body.about-page .about-closing-rule { background: #d4a443; }
+body.about-page .about-closing-kicker { color: #e6be6a; }
+body.about-page .about-closing h2 { color: #faf7f0; }
+body.about-page .about-closing-line { color: rgba(255, 244, 227, .88); }
 body.about-page .about-closing-link {
-  border-color: rgba(52, 75, 52, .5);
-  color: #344b34;
+  padding: 13px 25px;
+  border: 1.5px solid #d4a443;
+  background-color: #d49b42;
+  color: #2c3b2e;
+  box-shadow: 0 10px 26px rgba(15, 22, 16, .28), inset 0 0 0 3px #d49b42, inset 0 0 0 4px rgba(201, 150, 59, .5);
+  transition: background-color .3s cubic-bezier(.22, 1, .36, 1), color .3s ease, transform .3s ease, box-shadow .3s ease;
 }
 body.about-page .about-closing-link:hover {
-  background: #344b34;
-  color: #f5f5eb;
+  background-color: #e6be6a;
+  color: #2c3b2e;
+  transform: translateY(-2px);
+  box-shadow: 0 14px 32px rgba(15, 22, 16, .38), inset 0 0 0 3px #e6be6a, inset 0 0 0 4px rgba(44, 59, 46, .35);
 }
 html[data-theme="dark"] body.about-page .about-closing {
-  background: #26352b;
-  border-color: rgba(155, 185, 134, .32);
+  background-color: #202b22;
+  border-color: #c9963b;
 }
-html[data-theme="dark"] body.about-page .about-closing h2 { color: #dce8d2; }
-html[data-theme="dark"] body.about-page .about-closing-line { color: #c0d0b8; }
-html[data-theme="dark"] body.about-page .about-closing-kicker { color: #b5cd91; }
-html[data-theme="dark"] body.about-page .about-closing-rule { background: #b5cd91; }
-html[data-theme="dark"] body.about-page .about-closing-link {
-  border-color: rgba(181, 205, 145, .55);
-  color: #dce8d2;
-}
+html[data-theme="dark"] body.about-page .about-closing h2 { color: #f3e8d8; }
+html[data-theme="dark"] body.about-page .about-closing-line { color: #c5b3a5; }
+html[data-theme="dark"] body.about-page .about-closing-kicker { color: #e6be6a; }
+html[data-theme="dark"] body.about-page .about-closing-link { color: #27231c; }
 html[data-theme="dark"] body.about-page .about-closing-link:hover {
-  background: #b5cd91;
-  color: #26352b;
+  background-color: #e6be6a;
+  color: #27231c;
+}
+@media (prefers-reduced-motion: reduce) {
+  body.about-page .about-closing-link { transition: none; }
 }
