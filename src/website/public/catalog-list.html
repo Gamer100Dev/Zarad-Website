@@ -111,36 +111,12 @@
       font-weight: 600;
     }
 
-    .product-price-summary {
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      flex-wrap: wrap;
-      gap: 12px 18px;
-      min-height: 42px;
-    }
-
     .product-price-value {
       display: inline-block;
       font-size: clamp(1.55rem, 3vw, 1.9rem);
       font-weight: 700;
       line-height: 1.2;
       font-variant-numeric: tabular-nums;
-    }
-
-    .product-weight-badge {
-      display: inline-flex;
-      align-items: center;
-      justify-content: center;
-      min-height: 36px;
-      padding: 7px 13px;
-      border: 1px solid rgba(167, 123, 62, 0.55);
-      border-radius: 3px;
-      background: rgba(201, 150, 59, 0.1);
-      color: var(--wine);
-      font-size: 0.9rem;
-      font-weight: 700;
-      white-space: nowrap;
     }
 
     .product-weight-selector {
@@ -365,10 +341,7 @@
             Preț
           </span>
 
-          <div class="product-price-summary" aria-live="polite">
-            <span class="product-price-value" id="product_price"></span>
-            <span class="product-weight-badge" id="product_weight" hidden></span>
-          </div>
+          <span class="product-price-value" id="product_price" aria-live="polite"></span>
 
           <div class="product-weight-selector" id="product_weight_selector" hidden>
             <span
@@ -440,7 +413,6 @@
     const productDescription = document.getElementById("product_description");
     const productPrice = document.getElementById("product_price");
     const productPriceSection = document.querySelector(".product-price");
-    const productWeight = document.getElementById("product_weight");
     const productWeightSelector = document.getElementById("product_weight_selector");
     const productWeightOptions = document.getElementById("product_weight_options");
     const productPhoto = document.getElementById("product_photo");
@@ -514,9 +486,7 @@
         ) || options[0];
 
         selectedWeightGrams = Number(selected.grams);
-        productPrice.textContent = formatMoney(Number(selected.price));
-        productWeight.textContent = formatPriceNumber(selectedWeightGrams) + " g";
-        productWeight.hidden = false;
+        productPrice.textContent = "";
         productWeightSelector.hidden = false;
         productWeightOptions.setAttribute(
           "aria-label",
@@ -531,7 +501,7 @@
 
           button.type = "button";
           button.className = "product-weight-option" + (isSelected ? " is-selected" : "");
-          button.textContent = formatPriceNumber(grams) + " g";
+          button.textContent = formatPriceNumber(grams) + " g · " + formatMoney(price);
           button.setAttribute("aria-pressed", String(isSelected));
           button.setAttribute("aria-label", formatPriceNumber(grams) + " g — " + formatMoney(price));
           button.addEventListener("click", () => {
@@ -586,8 +556,6 @@
       }
 
       productPrice.textContent = priceText;
-      productWeight.textContent = weightText;
-      productWeight.hidden = !weightText;
       productPriceSection.hidden = !priceText;
     }
 
