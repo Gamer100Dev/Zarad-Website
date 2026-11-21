@@ -2117,3 +2117,33 @@ html[data-theme="dark"] body.about-page .about-culture-note {
     transition: none;
   }
 }
+
+body.about-page .about-closing {
+  margin-top: clamp(58px, 8vw, 100px);
+}
+
+body.about-page .about-closing-contact {
+  margin: 17px 0 0;
+  color: rgba(250, 247, 240, .78);
+  font-size: 12px;
+  line-height: 1.6;
+}
+
+body.about-page .about-closing-contact a {
+  margin-left: 5px;
+  color: #e6be6a;
+  font-weight: 700;
+  text-decoration: underline;
+  text-decoration-color: rgba(230, 190, 106, .55);
+  text-underline-offset: 3px;
+}
+
+body.about-page .about-closing-contact a:hover {
+  color: #fff3d5;
+}
+
+@media (max-width: 680px) {
+  body.about-page .about-closing {
+    margin-top: 52px;
+  }
+}
