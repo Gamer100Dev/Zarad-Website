@@ -183,6 +183,305 @@ function setupSlider() {
   restartTimer();
 }
 
+
+function setupHomeReveal() {
+  const root = document.documentElement;
+  if (!root.classList.contains("home-reveal-enabled")) return;
+
+  const items = document.querySelectorAll("[data-home-reveal]");
+  if (!items.length) return;
+
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach((entry) => {
+      entry.target.classList.toggle("is-visible", entry.isIntersecting);
+    });
+  }, {
+    threshold: 0.12,
+    rootMargin: "0px 0px -5% 0px"
+  });
+
+  items.forEach((item) => observer.observe(item));
+}
+
+function setupSecretSpiceGame() {
+  const trigger = document.querySelector("#spice-game-trigger");
+  const overlay = document.querySelector("#spice-game");
+  if (!trigger || !overlay) return;
+
+  const dialog = overlay.querySelector(".spice-game-dialog");
+  const closeButton = document.querySelector("#spice-game-close");
+  const intro = document.querySelector("#spice-game-intro");
+  const playPanel = document.querySelector("#spice-game-play");
+  const resultPanel = document.querySelector("#spice-game-result");
+  const startButton = document.querySelector("#spice-game-start");
+  const restartButton = document.querySelector("#spice-game-restart");
+  const optionsContainer = document.querySelector("#spice-game-options");
+  const clueText = document.querySelector("#spice-game-clue-text");
+  const feedback = document.querySelector("#spice-game-feedback");
+  const scoreDisplay = document.querySelector("#spice-game-score");
+  const timeDisplay = document.querySelector("#spice-game-time");
+  const roundDisplay = document.querySelector("#spice-game-round");
+  const resultTitle = document.querySelector("#spice-game-result-title");
+  const resultCopy = document.querySelector("#spice-game-result-copy");
+  const resultMark = document.querySelector("#spice-game-result-mark");
+
+  const spices = [
+    {
+      id: "turmeric",
+      icon: "🟡",
+      ro: "Curcuma",
+      en: "Turmeric",
+      clueRo: "Sunt aurie și dau culoare multor curry-uri și amestecuri de condimente.",
+      clueEn: "I am golden-yellow and bring colour to many curries and spice blends."
+    },
+    {
+      id: "cumin",
+      icon: "🌿",
+      ro: "Chimion",
+      en: "Cumin",
+      clueRo: "Am o aromă caldă, pământie și sunt des întâlnit în bucătăria marocană.",
+      clueEn: "I have a warm, earthy flavour and appear often in Moroccan cooking."
+    },
+    {
+      id: "paprika",
+      icon: "🌶️",
+      ro: "Boia",
+      en: "Paprika",
+      clueRo: "Sunt făcută din ardei uscați și pot fi dulce sau afumată.",
+      clueEn: "I am made from dried peppers and can be sweet or smoky."
+    },
+    {
+      id: "cinnamon",
+      icon: "🪵",
+      ro: "Scorțișoară",
+      en: "Cinnamon",
+      clueRo: "Sunt caldă și dulce, iar aroma mea se potrivește și deserturilor, și unor preparate sărate.",
+      clueEn: "I am warm and sweet, and my flavour suits desserts as well as some savoury dishes."
+    },
+    {
+      id: "ginger",
+      icon: "🫚",
+      ro: "Ghimbir",
+      en: "Ginger",
+      clueRo: "Am o notă proaspătă și ușor iute. Sunt folosită atât rasă, cât și uscată.",
+      clueEn: "I have a fresh, gently fiery note. I can be used fresh or dried."
+    },
+    {
+      id: "saffron",
+      icon: "🌺",
+      ro: "Șofran",
+      en: "Saffron",
+      clueRo: "Sunt alcătuit din fire roșii delicate și sunt una dintre cele mai prețioase mirodenii.",
+      clueEn: "I am made of delicate red threads and am one of the world's most precious spices."
+    }
+  ];
+
+  let tapCount = 0;
+  let tapTimer = null;
+  let gameTimer = null;
+  let nextRoundTimer = null;
+  let remainingSeconds = 40;
+  let score = 0;
+  let round = 0;
+  let targets = [];
+  let playing = false;
+  let previousFocus = null;
+
+  function languageText(ro, en) {
+    return currentLanguage === "ro" ? ro : en;
+  }
+
+  function shuffle(items) {
+    const copy = items.slice();
+    for (let index = copy.length - 1; index > 0; index -= 1) {
+      const randomIndex = Math.floor(Math.random() * (index + 1));
+      [copy[index], copy[randomIndex]] = [copy[randomIndex], copy[index]];
+    }
+    return copy;
+  }
+
+  function updateStats() {
+    scoreDisplay.textContent = score + " / 5";
+    timeDisplay.textContent = remainingSeconds + "s";
+    roundDisplay.textContent = Math.min(round + 1, 5) + " / 5";
+    timeDisplay.classList.toggle("is-urgent", remainingSeconds <= 10);
+  }
+
+  function clearGameTimers() {
+    window.clearInterval(gameTimer);
+    window.clearTimeout(nextRoundTimer);
+    gameTimer = null;
+    nextRoundTimer = null;
+  }
+
+  function renderRound() {
+    const target = targets[round];
+    if (!target) {
+      finishGame(true);
+      return;
+    }
+
+    clueText.textContent = currentLanguage === "ro" ? target.clueRo : target.clueEn;
+    feedback.textContent = "";
+    optionsContainer.replaceChildren();
+
+    shuffle(spices).forEach((spice) => {
+      const option = document.createElement("button");
+      option.type = "button";
+      option.className = "spice-game-option";
+      option.dataset.spice = spice.id;
+      option.innerHTML = '<span class="spice-game-option-icon" aria-hidden="true"></span><span class="spice-game-option-name"></span>';
+      option.querySelector(".spice-game-option-icon").textContent = spice.icon;
+      option.querySelector(".spice-game-option-name").textContent =
+        currentLanguage === "ro" ? spice.ro : spice.en;
+      option.addEventListener("click", () => selectSpice(option, spice, target));
+      optionsContainer.append(option);
+    });
+
+    updateStats();
+  }
+
+  function selectSpice(option, spice, target) {
+    if (!playing || option.disabled) return;
+
+    if (spice.id === target.id) {
+      option.classList.add("is-correct");
+      optionsContainer.querySelectorAll("button").forEach((button) => {
+        button.disabled = true;
+      });
+      score += 1;
+      updateStats();
+      feedback.textContent = languageText("Exact! Ai găsit " + target.ro + ".", "That's it! You found " + target.en + ".");
+      nextRoundTimer = window.setTimeout(() => {
+        round += 1;
+        if (round >= 5) {
+          finishGame(true);
+        } else {
+          renderRound();
+        }
+      }, 650);
+      return;
+    }
+
+    option.disabled = true;
+    option.classList.add("is-wrong");
+    remainingSeconds = Math.max(0, remainingSeconds - 3);
+    updateStats();
+    feedback.textContent = languageText("Nu chiar — mai încearcă. Ai pierdut 3 secunde.", "Not quite — try another jar. You lost 3 seconds.");
+    if (remainingSeconds <= 0) finishGame(false);
+  }
+
+  function finishGame(won) {
+    if (!playing) return;
+    playing = false;
+    clearGameTimers();
+    playPanel.hidden = true;
+    resultPanel.hidden = false;
+
+    if (won) {
+      resultTitle.textContent = languageText("Ai găsit toate aromele!", "You found the whole blend!");
+      resultCopy.textContent = languageText(
+        "5 din 5 — ai un instinct grozav pentru condimente. Zarad te așteaptă pentru următoarea descoperire.",
+        "5 out of 5 — you have a brilliant instinct for spices. Zarad has more flavours waiting to be discovered."
+      );
+      resultMark.textContent = "✦";
+    } else {
+      resultTitle.textContent = languageText("Timpul s-a scurs!", "Time's up!");
+      resultCopy.textContent = languageText(
+        "Ai găsit " + score + " din 5 condimente. Mai încearcă și vezi dacă poți descoperi tot amestecul.",
+        "You found " + score + " out of 5 spices. Have another go and see if you can find the whole blend."
+      );
+      resultMark.textContent = "⏳";
+    }
+    restartButton.focus();
+  }
+
+  function startGame() {
+    clearGameTimers();
+    score = 0;
+    round = 0;
+    remainingSeconds = 40;
+    targets = shuffle(spices).slice(0, 5);
+    playing = true;
+    intro.hidden = true;
+    resultPanel.hidden = true;
+    playPanel.hidden = false;
+    renderRound();
+    gameTimer = window.setInterval(() => {
+      remainingSeconds = Math.max(0, remainingSeconds - 1);
+      updateStats();
+      if (remainingSeconds <= 0) finishGame(false);
+    }, 1000);
+    const firstOption = optionsContainer.querySelector("button");
+    if (firstOption) firstOption.focus();
+  }
+
+  function openGame() {
+    previousFocus = document.activeElement;
+    clearGameTimers();
+    playing = false;
+    intro.hidden = false;
+    playPanel.hidden = true;
+    resultPanel.hidden = true;
+    overlay.hidden = false;
+    document.body.classList.add("spice-game-open");
+    closeButton.focus();
+  }
+
+  function closeGame() {
+    clearGameTimers();
+    playing = false;
+    overlay.hidden = true;
+    document.body.classList.remove("spice-game-open");
+    if (previousFocus && typeof previousFocus.focus === "function") {
+      previousFocus.focus();
+    }
+  }
+
+  trigger.addEventListener("click", () => {
+    tapCount += 1;
+    window.clearTimeout(tapTimer);
+    if (tapCount >= 3) {
+      tapCount = 0;
+      openGame();
+    } else {
+      tapTimer = window.setTimeout(() => {
+        tapCount = 0;
+      }, 1700);
+    }
+  });
+
+  closeButton.addEventListener("click", closeGame);
+  startButton.addEventListener("click", startGame);
+  restartButton.addEventListener("click", startGame);
+
+  overlay.addEventListener("click", (event) => {
+    if (event.target === overlay) closeGame();
+  });
+
+  document.addEventListener("keydown", (event) => {
+    if (overlay.hidden) return;
+    if (event.key === "Escape") {
+      event.preventDefault();
+      closeGame();
+      return;
+    }
+    if (event.key !== "Tab") return;
+    const focusable = Array.from(dialog.querySelectorAll("button:not([disabled])"))
+      .filter((element) => !element.closest("[hidden]"));
+    if (!focusable.length) return;
+    const first = focusable[0];
+    const last = focusable[focusable.length - 1];
+    if (event.shiftKey && document.activeElement === first) {
+      event.preventDefault();
+      last.focus();
+    } else if (!event.shiftKey && document.activeElement === last) {
+      event.preventDefault();
+      first.focus();
+    }
+  });
+}
+
 let savedLanguage = "ro";
 
 try {
@@ -194,6 +493,8 @@ try {
 setLanguage(savedLanguage);
 loadCatalog();
 setupSlider();
+setupHomeReveal();
+setupSecretSpiceGame();
 
 if (languageButton) {
   languageButton.addEventListener("click", () => {
