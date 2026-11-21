@@ -377,7 +377,7 @@ function setupSecretSpiceGame() {
     resultPanel.hidden = false;
 
     if (won) {
-      resultTitle.textContent = languageText("Ai găsit toate aromele!", "You found the whole blend!");
+      resultTitle.textContent = languageText("Ai găsit toate aromele!", "You found all five spices!");
       resultCopy.textContent = languageText(
         "5 din 5 — ai un instinct grozav pentru condimente. Zarad te așteaptă pentru următoarea descoperire.",
         "5 out of 5 — you know your spices! There’s always another flavour to discover at Zarad."
