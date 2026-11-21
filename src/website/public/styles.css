@@ -1752,184 +1752,49 @@ html[data-theme="dark"] .event-card-number {
 }
 
 
-/* Homepage people and spice presentation gallery */
-.zarad-people-section {
-  padding: 76px 24px 82px;
-  background:
-    radial-gradient(circle at 12% 20%, rgba(201, 150, 59, .09), transparent 27%),
-    radial-gradient(circle at 88% 78%, rgba(117, 30, 39, .055), transparent 30%),
-    #f7f0e4;
+
+
+/* Keep the three people photographs composed neatly in the homepage hero. */
+.hero-slide.hero-slide--people {
+  background: #291713;
 }
 
-.zarad-people-gallery {
-  width: min(100%, 940px);
-  margin: 34px auto 0;
-}
-
-.zarad-people-viewport {
-  overflow: hidden;
-  padding: 10px;
-  border: 1px solid rgba(201, 150, 59, .72);
-  background: #eee1ce;
-  box-shadow: 0 14px 36px rgba(53, 27, 25, .12);
-}
-
-.zarad-people-slide {
-  margin: 0;
-  text-align: center;
-}
-
-.zarad-people-slide img {
-  display: block;
-  width: 100%;
-  height: min(66vh, 620px);
-  min-height: 320px;
+.hero-slide.hero-slide--people img {
+  --hero-image-shift: 0%;
   object-fit: contain;
-  object-position: center;
-  background: #302625;
+  object-position: 78% center;
+  transform: none;
+  background: #291713;
 }
 
-.zarad-people-slide figcaption {
-  padding: 16px 12px 13px;
-  background: #f7f0e4;
-  color: #754139;
-  font-family: "Playfair Display", Georgia, serif;
-  font-size: clamp(15px, 1.5vw, 18px);
-  line-height: 1.5;
+.hero-slide.hero-slide--people.is-active img {
+  transform: none;
 }
 
-.zarad-people-controls {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  gap: 18px;
-  margin-top: 20px;
-}
-
-.zarad-people-arrow {
-  display: inline-flex;
-  width: 42px;
-  height: 42px;
-  align-items: center;
-  justify-content: center;
-  border: 1px solid rgba(167, 123, 62, .72);
-  border-radius: 50%;
-  background: var(--paper-light);
-  color: var(--wine);
-  font: inherit;
-  font-size: 23px;
-  line-height: 1;
-  cursor: pointer;
-  transition: background .2s ease, color .2s ease, transform .2s ease;
-}
-
-.zarad-people-arrow:hover {
-  transform: translateY(-2px);
-  background: #efe2cb;
-}
-
-.zarad-people-dots {
-  display: flex;
-  align-items: center;
-  gap: 10px;
-}
-
-.zarad-people-dot {
-  width: 10px;
-  height: 10px;
-  padding: 0;
-  border: 1px solid #a77b3e;
-  border-radius: 50%;
-  background: transparent;
-  cursor: pointer;
-  transition: background .2s ease, transform .2s ease;
-}
-
-.zarad-people-dot.is-active {
-  transform: scale(1.2);
-  background: #8d453c;
-  border-color: #8d453c;
-}
-
-.zarad-people-count {
-  min-width: 42px;
-  color: var(--muted);
-  font-size: 12px;
-  font-variant-numeric: tabular-nums;
-  text-align: center;
-}
-
-.zarad-people-arrow:focus-visible,
-.zarad-people-dot:focus-visible {
-  outline: 2px solid var(--wine);
-  outline-offset: 4px;
-}
-
-html[data-theme="dark"] .zarad-people-section {
-  background:
-    radial-gradient(circle at 12% 20%, rgba(214, 166, 83, .07), transparent 27%),
-    radial-gradient(circle at 88% 78%, rgba(141, 69, 60, .08), transparent 30%),
-    #211b1b;
-}
-
-html[data-theme="dark"] .zarad-people-viewport {
-  border-color: rgba(214, 166, 83, .58);
-  background: #302625;
-  box-shadow: 0 14px 36px rgba(0, 0, 0, .25);
-}
-
-html[data-theme="dark"] .zarad-people-slide figcaption {
-  background: #302625;
-  color: #e6c7a8;
-}
-
-html[data-theme="dark"] .zarad-people-arrow {
-  border-color: #806444;
-  background: #302727;
-  color: #e6c7a8;
-}
-
-html[data-theme="dark"] .zarad-people-arrow:hover {
-  background: #443536;
-}
-
-html[data-theme="dark"] .zarad-people-dot.is-active {
-  border-color: #d6a653;
-  background: #d6a653;
+.hero-slide.hero-slide--wide img {
+  object-fit: cover;
+  object-position: center 42%;
 }
 
 @media (max-width: 680px) {
-  .zarad-people-section {
-    padding: 48px 18px 56px;
+  .hero-slide.hero-slide--people img {
+    object-fit: contain;
+    object-position: 82% center;
   }
 
-  .zarad-people-gallery {
-    margin-top: 25px;
+  .hero-slide.hero-slide--wide img {
+    object-fit: cover;
+    object-position: center 38%;
   }
 
-  .zarad-people-viewport {
-    padding: 6px;
+  .slider-controls {
+    right: 18px;
+    bottom: 68px;
+    gap: 9px;
   }
 
-  .zarad-people-slide img {
-    height: 54vh;
-    min-height: 270px;
-    max-height: 480px;
-  }
-
-  .zarad-people-controls {
-    gap: 13px;
-  }
-
-  .zarad-people-arrow {
-    width: 38px;
-    height: 38px;
-  }
-}
-
-@media (prefers-reduced-motion: reduce) {
-  .zarad-people-arrow,
-  .zarad-people-dot {
-    transition: none;
+  .slider-arrow {
+    width: 32px;
+    height: 32px;
   }
 }
