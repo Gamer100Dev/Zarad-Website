@@ -213,6 +213,13 @@ const server = http.createServer((request, response) => {
     return;
   }
 
+  if (
+    pathname === "/about" || pathname === "/about/" ||
+    pathname === "/despre-noi" || pathname === "/despre-noi/"
+  ) {
+    pathname = "/about.html";
+  }
+
   if (pathname === "/catalog" || pathname === "/catalog/") {
     pathname = "/catalog.html";
   }
