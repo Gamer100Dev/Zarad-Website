@@ -39,7 +39,6 @@ function setLanguage(language) {
   }
 
   renderCatalog();
-  updatePeopleGalleryLabels();
 }
 
 function renderCatalog() {
@@ -195,115 +194,9 @@ try {
 setLanguage(savedLanguage);
 loadCatalog();
 setupSlider();
-setupPeopleGallery();
 
 if (languageButton) {
   languageButton.addEventListener("click", () => {
     setLanguage(currentLanguage === "ro" ? "en" : "ro");
   });
-}
-
-
-function updatePeopleGalleryLabels() {
-  const gallery = document.querySelector("#zarad_people_gallery");
-  if (!gallery) return;
-
-  const previous = gallery.querySelector("[data-people-prev]");
-  const next = gallery.querySelector("[data-people-next]");
-  const dotsGroup = gallery.querySelector("[data-people-dots]");
-  const dots = Array.from(gallery.querySelectorAll("[data-people-dot]"));
-
-  if (previous) {
-    previous.setAttribute("aria-label", currentLanguage === "ro" ? "Imaginea anterioară" : "Previous image");
-  }
-
-  if (next) {
-    next.setAttribute("aria-label", currentLanguage === "ro" ? "Imaginea următoare" : "Next image");
-  }
-
-  if (dotsGroup) {
-    dotsGroup.setAttribute("aria-label", currentLanguage === "ro" ? "Alege imaginea" : "Choose an image");
-  }
-
-  dots.forEach((dot, index) => {
-    dot.setAttribute(
-      "aria-label",
-      currentLanguage === "ro"
-        ? `Imaginea ${index + 1} din ${dots.length}`
-        : `Image ${index + 1} of ${dots.length}`
-    );
-  });
-}
-
-function setupPeopleGallery() {
-  const gallery = document.querySelector("#zarad_people_gallery");
-  if (!gallery) return;
-
-  const slides = Array.from(gallery.querySelectorAll("[data-people-slide]"));
-  const dots = Array.from(gallery.querySelectorAll("[data-people-dot]"));
-  const previous = gallery.querySelector("[data-people-prev]");
-  const next = gallery.querySelector("[data-people-next]");
-  const count = gallery.querySelector("[data-people-count]");
-
-  if (slides.length < 2 || dots.length !== slides.length || !previous || !next) return;
-
-  let activeSlide = 0;
-  let touchStartX = 0;
-
-  function showSlide(index) {
-    activeSlide = (index + slides.length) % slides.length;
-
-    slides.forEach((slide, slideIndex) => {
-      const active = slideIndex === activeSlide;
-      slide.hidden = !active;
-      slide.classList.toggle("is-active", active);
-      slide.setAttribute("aria-hidden", String(!active));
-    });
-
-    dots.forEach((dot, dotIndex) => {
-      const active = dotIndex === activeSlide;
-      dot.classList.toggle("is-active", active);
-      if (active) {
-        dot.setAttribute("aria-current", "true");
-      } else {
-        dot.removeAttribute("aria-current");
-      }
-    });
-
-    if (count) {
-      count.textContent = `${activeSlide + 1} / ${slides.length}`;
-    }
-
-    updatePeopleGalleryLabels();
-  }
-
-  previous.addEventListener("click", () => showSlide(activeSlide - 1));
-  next.addEventListener("click", () => showSlide(activeSlide + 1));
-
-  dots.forEach((dot, index) => {
-    dot.addEventListener("click", () => showSlide(index));
-  });
-
-  gallery.addEventListener("touchstart", event => {
-    touchStartX = event.changedTouches[0].clientX;
-  }, { passive: true });
-
-  gallery.addEventListener("touchend", event => {
-    const distance = event.changedTouches[0].clientX - touchStartX;
-    if (Math.abs(distance) > 45) {
-      showSlide(activeSlide + (distance < 0 ? 1 : -1));
-    }
-  }, { passive: true });
-
-  gallery.addEventListener("keydown", event => {
-    if (event.key === "ArrowLeft") {
-      event.preventDefault();
-      showSlide(activeSlide - 1);
-    } else if (event.key === "ArrowRight") {
-      event.preventDefault();
-      showSlide(activeSlide + 1);
-    }
-  });
-
-  showSlide(0);
 }
