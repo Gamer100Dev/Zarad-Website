@@ -2382,3 +2382,113 @@ html[data-theme="dark"] body.about-page .about-closing-line {
     transition: none;
   }
 }
+
+/* Refined About page culture panel and closing, scoped exclusively to About */
+body.about-page .about-culture-note {
+  align-self: center;
+  margin-bottom: 0;
+  padding: clamp(28px, 4vw, 42px);
+  background: #eee1ce;
+  border: 1px solid rgba(181, 130, 58, .72);
+  color: #4b171d;
+  box-shadow: 0 14px 32px rgba(57, 27, 23, .12);
+}
+body.about-page .about-culture-note .about-pairings-kicker {
+  color: #98682f;
+}
+body.about-page .about-culture-note h2 {
+  color: #70272b;
+}
+body.about-page .about-culture-text {
+  margin: 0;
+  color: #705f54;
+  font-size: 14px;
+  line-height: 1.8;
+}
+body.about-page .about-closing {
+  width: 100%;
+  margin-top: clamp(60px, 8vw, 96px);
+  padding: 0;
+  border: 0;
+  background: #4b171d;
+  text-align: center;
+}
+body.about-page .about-closing-inner {
+  width: min(1040px, calc(100% - 48px));
+  margin: 0 auto;
+  padding: clamp(34px, 5vw, 58px) 20px;
+}
+body.about-page .about-closing-rule {
+  width: 54px;
+  margin: 0 auto 18px;
+  background: #e8c17e;
+}
+body.about-page .about-closing-kicker {
+  color: #e8c17e;
+}
+body.about-page .about-closing h2 {
+  margin: 0 auto 12px;
+  color: #fff7ed;
+  font-family: "Playfair Display", Georgia, serif;
+  font-size: clamp(28px, 4vw, 44px);
+  font-weight: 500;
+  line-height: 1.15;
+}
+body.about-page .about-closing-line {
+  max-width: 570px;
+  margin: 0 auto;
+  color: rgba(255, 247, 237, .84);
+  font-size: 14px;
+  line-height: 1.75;
+}
+body.about-page .about-closing-link {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  margin-top: 24px;
+  padding: 11px 17px;
+  border: 1px solid rgba(232, 193, 126, .7);
+  color: #fff7ed;
+  font-size: 12px;
+  font-weight: 700;
+  letter-spacing: .04em;
+  text-decoration: none;
+  transition: background .2s ease, color .2s ease;
+}
+body.about-page .about-closing-link:hover {
+  background: #e8c17e;
+  color: #4b171d;
+}
+html[data-theme="dark"] body.about-page .about-culture-note {
+  background: #302727;
+  border-color: rgba(214, 166, 83, .5);
+}
+html[data-theme="dark"] body.about-page .about-culture-note h2 {
+  color: #e6bda9;
+}
+html[data-theme="dark"] body.about-page .about-culture-text {
+  color: #c5b3a5;
+}
+html[data-theme="dark"] body.about-page .about-closing {
+  background: #302625;
+}
+html[data-theme="dark"] body.about-page .about-closing-link {
+  color: #e6c7a8;
+}
+html[data-theme="dark"] body.about-page .about-closing-link:hover {
+  background: #d6a653;
+  color: #30201e;
+}
+@media (max-width: 680px) {
+  body.about-page .about-culture-note {
+    margin: -26px auto 0;
+    width: min(calc(100% - 20px), 420px);
+  }
+  body.about-page .about-closing-inner {
+    width: calc(100% - 24px);
+    padding: 34px 12px;
+  }
+}
+@media (prefers-reduced-motion: reduce) {
+  body.about-page .about-closing-link { transition: none; }
+}
