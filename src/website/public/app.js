@@ -276,8 +276,6 @@ function setupSecretSpiceGame() {
     }
   ];
 
-  let tapCount = 0;
-  let tapTimer = null;
   let gameTimer = null;
   let nextRoundTimer = null;
   let remainingSeconds = 40;
@@ -438,18 +436,8 @@ function setupSecretSpiceGame() {
     }
   }
 
-  trigger.addEventListener("click", () => {
-    tapCount += 1;
-    window.clearTimeout(tapTimer);
-    if (tapCount >= 3) {
-      tapCount = 0;
-      openGame();
-    } else {
-      tapTimer = window.setTimeout(() => {
-        tapCount = 0;
-      }, 1700);
-    }
-  });
+  // A normal click (or keyboard activation) opens the hidden game immediately.
+  trigger.addEventListener("click", openGame);
 
   closeButton.addEventListener("click", closeGame);
   startButton.addEventListener("click", startGame);
