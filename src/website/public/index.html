@@ -20,10 +20,18 @@
     } catch {
       document.documentElement.dataset.theme = "light";
     }
+
+    if (
+      window.matchMedia &&
+      !window.matchMedia("(prefers-reduced-motion: reduce)").matches &&
+      "IntersectionObserver" in window
+    ) {
+      document.documentElement.classList.add("home-reveal-enabled");
+    }
   </script>
-  <link rel="stylesheet" href="/styles.css?v=zarad-mascot-single-home-20261121">
+  <link rel="stylesheet" href="/styles.css?v=zarad-home-motion-spice-hunt-20261121">
   <script src="/theme.js?v=zarad-logo-frame-preload-20261119" defer></script>
-  <script src="/app.js?v=zarad-mascot-single-home-20261121" defer></script>
+  <script src="/app.js?v=zarad-home-motion-spice-hunt-20261121" defer></script>
 </head>
 <body>
   <header class="site-header zarad-header">
@@ -66,7 +74,7 @@
         </div>
         <div class="hero-shade"></div>
 
-        <div class="hero-inner">
+        <div class="hero-inner" data-home-reveal="up">
           <p class="eyebrow hero-eyebrow">
             <span class="eyebrow-line"></span>
             <span data-ro="INSPIRAT DE AROMELE MAROCULUI" data-en="INSPIRED BY THE FLAVOURS OF MOROCCO">INSPIRAT DE AROMELE MAROCULUI</span>
@@ -81,7 +89,7 @@
 
         <div class="hero-caption">
           <span id="zarad_slide_caption" data-ro="CULORI ȘI AROME CU PERSONALITATE" data-en="COLOURFUL FLAVOURS WITH CHARACTER">CULORI ȘI AROME CU PERSONALITATE</span>
-          <span class="caption-symbol">✳</span>
+          <button class="caption-symbol game-secret-trigger" id="spice-game-trigger" type="button" aria-label="A small Zarad secret" title="✳">✳</button>
         </div>
 
               </div>
@@ -90,7 +98,7 @@
     <section class="zarad-features-strip" aria-label="Zarad">
       <div class="zarad-frieze-border zarad-frieze-top" aria-hidden="true"></div>
       <div class="zarad-strip-grid">
-        <article class="zarad-pillar">
+        <article class="zarad-pillar" data-home-reveal="up" style="--home-reveal-delay: 70ms;">
           <div class="zarad-medallion" aria-hidden="true">
             <svg viewBox="0 0 48 48"><path d="M24 3 29 19 45 24 29 29 24 45 19 29 3 24 19 19Z"/><circle cx="24" cy="24" r="4" fill="#c9963b"/></svg>
           </div>
@@ -124,7 +132,7 @@
 
 
     <section class="welcome-section zarad-story-section">
-      <div class="welcome-copy">
+      <div class="welcome-copy" data-home-reveal="left">
         <p class="section-kicker" data-ro="BUN VENIT ÎN LUMEA ZARAD" data-en="WELCOME TO THE WORLD OF ZARAD">BUN VENIT ÎN LUMEA ZARAD</p>
         <h2 data-ro="Puțină curiozitate. Multă savoare." data-en="A little curiosity. A lot of flavour.">Puțină curiozitate. Multă savoare.</h2>
         <p data-ro="Ne inspirăm din piețele vibrante ale Marocului, din culorile condimentelor și din bucuria de a descoperi gusturi noi. Zarad aduce această inspirație mai aproape de bucătăria ta." data-en="We take inspiration from Morocco's vibrant markets, the colours of spices and the joy of discovering new tastes. Zarad brings that inspiration closer to your kitchen.">Ne inspirăm din piețele vibrante ale Marocului, din culorile condimentelor și din bucuria de a descoperi gusturi noi. Zarad aduce această inspirație mai aproape de bucătăria ta.</p>
@@ -133,7 +141,7 @@
           <span aria-hidden="true">→</span>
         </a>
       </div>
-      <div class="welcome-image moroccan-arch-frame">
+      <div class="welcome-image moroccan-arch-frame" data-home-reveal="right" style="--home-reveal-delay: 120ms;">
         <img src="/assets/spices/allspices-layedflat.JPG" alt="Selecție de condimente în nuanțe calde" loading="lazy" decoding="async">
         <span class="image-stamp">ONE SPICE AWAY</span>
       </div>
@@ -142,21 +150,21 @@
     <div class="zarad-frieze-border zarad-frieze-bottom welcome-frieze" aria-hidden="true"></div>
 
     <section class="spice-section">
-      <div class="section-heading">
+      <div class="section-heading" data-home-reveal="up">
         <p class="section-kicker" data-ro="DESCOPERĂ UNIVERSUL CONDIMENTELOR" data-en="DISCOVER THE WORLD OF SPICES">DESCOPERĂ UNIVERSUL CONDIMENTELOR</p>
         <h2 data-ro="Fiecare aromă deschide o nouă poveste." data-en="Every flavour opens a new story.">Fiecare aromă deschide o nouă poveste.</h2>
         <p data-ro="Explorează selecția Zarad și găsește inspirația pentru următoarea ta rețetă." data-en="Explore the Zarad selection and find inspiration for your next recipe.">Explorează selecția Zarad și găsește inspirația pentru următoarea ta rețetă.</p>
       </div>
       <div class="featured-spices">
-        <a class="featured-spice zarad-card zarad-card-arch" href="/catalog">
+        <a class="featured-spice zarad-card zarad-card-arch" data-home-reveal="up" style="--home-reveal-delay: 60ms;" href="/catalog">
           <img src="/assets/spices/bean_spices.JPG" alt="Boabe de condimente" loading="lazy" decoding="async">
           <span data-ro="Arome întregi" data-en="Whole spices">Arome întregi</span>
         </a>
-        <a class="featured-spice zarad-card zarad-card-arch zarad-card-grained" href="/catalog">
+        <a class="featured-spice zarad-card zarad-card-arch zarad-card-grained" data-home-reveal="up" style="--home-reveal-delay: 130ms;" href="/catalog">
           <img src="/assets/spices/grained_spice.JPG" alt="Condimente măcinate" loading="lazy" decoding="async">
           <span data-ro="Texturi fine" data-en="Fine textures">Texturi fine</span>
         </a>
-        <a class="featured-spice zarad-card zarad-card-arch" href="/catalog">
+        <a class="featured-spice zarad-card zarad-card-arch" data-home-reveal="up" style="--home-reveal-delay: 200ms;" href="/catalog">
           <img src="/assets/spices/star_spice.JPG" alt="Mirodenii pentru bucătăria marocană" loading="lazy" decoding="async">
           <span data-ro="Note intense" data-en="Bold notes">Note intense</span>
         </a>
@@ -173,7 +181,7 @@
 
     <section class="zarad-cta-section" aria-labelledby="zarad-cta-heading">
       <div class="zarad-cta-frieze zarad-cta-frieze-top" aria-hidden="true"></div>
-      <div class="zarad-cta-frame">
+      <div class="zarad-cta-frame" data-home-reveal="up">
         <span class="zarad-cta-corner tl" aria-hidden="true">✧</span>
         <span class="zarad-cta-corner tr" aria-hidden="true">✧</span>
         <span class="zarad-cta-corner bl" aria-hidden="true">✧</span>
@@ -205,5 +213,43 @@
     </div>
     <span class="footer-copy">© <span id="current-year"></span> Zarad</span>
   </footer>
+
+  <div class="spice-game-overlay" id="spice-game" hidden>
+    <section class="spice-game-dialog" role="dialog" aria-modal="true" aria-labelledby="spice-game-title" aria-describedby="spice-game-description" tabindex="-1">
+      <button class="spice-game-close" id="spice-game-close" type="button" aria-label="Close game">×</button>
+      <p class="spice-game-kicker" data-ro="UN MIC SECRET ZARAD" data-en="A LITTLE ZARAD SECRET">UN MIC SECRET ZARAD</p>
+      <h2 id="spice-game-title">Spice Hunt</h2>
+      <p class="spice-game-subtitle" id="spice-game-description" data-ro="Găsește condimentele potrivite și vezi cât de bine le cunoști." data-en="Find the right spices and see how well you know them.">Găsește condimentele potrivite și vezi cât de bine le cunoști.</p>
+
+      <div class="spice-game-intro" id="spice-game-intro">
+        <div class="spice-game-intro-art" aria-hidden="true"><span>🌶️</span><span>✦</span><span>🫚</span></div>
+        <p id="spice-game-intro-copy" data-ro="Ai 40 de secunde pentru a rezolva 5 indicii. Alege condimentul corect dintre borcane. Fiecare răspuns greșit îți ia 3 secunde!" data-en="You have 40 seconds to solve 5 clues. Pick the right spice from the jars. Each wrong answer costs 3 seconds!">Ai 40 de secunde pentru a rezolva 5 indicii. Alege condimentul corect dintre borcane. Fiecare răspuns greșit îți ia 3 secunde!</p>
+        <button class="spice-game-action" id="spice-game-start" type="button" data-ro="Începe căutarea" data-en="Start the hunt">Începe căutarea</button>
+      </div>
+
+      <div class="spice-game-play" id="spice-game-play" hidden>
+        <div class="spice-game-stats" aria-live="polite">
+          <div><span data-ro="SCOR" data-en="SCORE">SCOR</span><strong id="spice-game-score">0 / 5</strong></div>
+          <div><span data-ro="TIMP" data-en="TIME">TIMP</span><strong id="spice-game-time">40s</strong></div>
+          <div><span data-ro="INDICIU" data-en="CLUE">INDICIU</span><strong id="spice-game-round">1 / 5</strong></div>
+        </div>
+        <div class="spice-game-clue">
+          <span data-ro="CAUTĂ CONDIMENTUL" data-en="FIND THE SPICE">CAUTĂ CONDIMENTUL</span>
+          <p id="spice-game-clue-text"></p>
+        </div>
+        <div class="spice-game-options" id="spice-game-options"></div>
+        <p class="spice-game-feedback" id="spice-game-feedback" role="status" aria-live="polite"></p>
+      </div>
+
+      <div class="spice-game-result" id="spice-game-result" hidden>
+        <div class="spice-game-result-mark" id="spice-game-result-mark" aria-hidden="true">✦</div>
+        <h3 id="spice-game-result-title"></h3>
+        <p id="spice-game-result-copy"></p>
+        <button class="spice-game-action" id="spice-game-restart" type="button" data-ro="Mai încearcă o dată" data-en="Play again">Mai încearcă o dată</button>
+      </div>
+      <p class="spice-game-footnote" data-ro="Un mic joc inspirat de aromele Zarad." data-en="A little game inspired by Zarad flavours.">Un mic joc inspirat de aromele Zarad.</p>
+    </section>
+  </div>
+
 </body>
 </html>
