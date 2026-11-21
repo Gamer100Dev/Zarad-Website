@@ -2919,3 +2919,35 @@ html[data-theme="dark"] .spice-game-footnote { color: #b5a394; }
   .spice-game-action { transition: none; animation: none; }
   .spice-game-stats strong.is-urgent { animation: none; }
 }
+
+
+/* Make the secret-game control a clear, comfortable single-click target */
+.game-secret-trigger {
+  position: relative;
+  display: inline-flex;
+  width: 30px;
+  height: 30px;
+  flex: 0 0 30px;
+  align-items: center;
+  justify-content: center;
+  border: 1px solid rgba(237, 199, 131, .72);
+  border-radius: 50%;
+  background: rgba(201, 150, 59, .12);
+  color: #edc783;
+  cursor: pointer;
+  touch-action: manipulation;
+}
+.game-secret-trigger:hover,
+.game-secret-trigger:focus-visible {
+  color: #fff0c7;
+  background: rgba(201, 150, 59, .25);
+  transform: rotate(45deg) scale(1.08);
+}
+.game-secret-trigger:focus-visible {
+  outline: 2px solid #edc783;
+  outline-offset: 4px;
+}
+html[data-theme="dark"] .game-secret-trigger {
+  border-color: rgba(237, 199, 131, .85);
+  color: #edc783;
+}
