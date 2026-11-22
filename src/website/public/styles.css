@@ -3087,3 +3087,38 @@ html[data-theme="dark"] .spice-runner-result-score { border-color: rgba(214,166,
   flex: 1 1 0;
   height: auto;
 }
+
+
+/* Subway-style Zarad runner HUD and overlays */
+.spice-runner-live .spice-runner-heading,.spice-runner-live .spice-game-footnote{display:none!important}
+.spice-runner-live .spice-runner-play{display:block;width:min(100%,1120px);margin:0 auto}
+.spice-runner-live .spice-runner-hud{grid-template-columns:repeat(5,minmax(0,1fr));gap:7px}
+.spice-runner-live .spice-runner-hud>div{min-width:0;min-height:60px;padding:8px 10px;border:1px solid rgba(208,158,71,.65);border-radius:12px;background:linear-gradient(145deg,#fff8e9,#e8d4b5);box-shadow:0 4px 12px #321c1922}
+.spice-runner-live .spice-runner-hud span{font-size:9px;letter-spacing:.13em}
+.spice-runner-live .spice-runner-hud strong{font-size:clamp(14px,2vw,21px);font-weight:900}
+.spice-runner-mission-panel{display:flex;align-items:center;justify-content:space-between;gap:18px;margin:0 0 10px;padding:9px 14px;border:1px solid #bd914e;border-radius:12px;background:#3f2928;color:#fff3d7;text-align:left}
+.spice-runner-mission-panel>div:first-child{display:grid;grid-template-columns:1fr auto;gap:3px 12px;flex:1}
+.spice-runner-mission-panel span{grid-column:1/-1;color:#e6bd77;font-size:9px;font-weight:900;letter-spacing:.16em}
+.spice-runner-mission-panel strong{font-size:12px}.spice-runner-mission-panel b{font-size:12px;color:#f8cd71}
+.spice-runner-mission-track{width:36%;height:7px;overflow:hidden;border-radius:20px;background:#806052}
+.spice-runner-mission-track i{display:block;width:0;height:100%;border-radius:20px;background:linear-gradient(90deg,#d58b2e,#ffe28b);transition:width .2s}
+.spice-runner-stage{position:relative;border-radius:15px;box-shadow:0 14px 32px #27161444}
+#spice-runner-canvas{width:100%;height:auto;aspect-ratio:16/9;object-fit:contain}
+.spice-runner-stage-label{top:12px;left:14px;border-radius:6px}
+.spice-runner-pause{position:absolute;right:12px;top:10px;padding:8px 12px;border:1px solid #f1d69c;border-radius:8px;background:#382522d9;color:#fff1d0;font-size:10px;font-weight:900;letter-spacing:.12em;cursor:pointer}
+.spice-runner-powerup{position:absolute;left:50%;top:12px;transform:translateX(-50%);padding:8px 13px;border-radius:20px;background:#c78d30;color:#251815;font-size:10px;font-weight:1000;letter-spacing:.13em;box-shadow:0 3px 14px #21140e66}
+.spice-runner-pause-layer{position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:12px;background:#241817b8;color:#fff2d7;backdrop-filter:blur(5px)}
+.spice-runner-pause-layer[hidden],.spice-runner-powerup[hidden]{display:none!important}
+.spice-runner-pause-layer strong{font-size:clamp(28px,6vw,54px);font-weight:1000;letter-spacing:.12em}
+.spice-runner-pause-layer button{padding:12px 24px;border:0;border-radius:10px;background:#e6b653;color:#3a211d;font-weight:1000;cursor:pointer}
+.spice-runner-controls button{border-radius:10px;min-width:64px;box-shadow:0 3px 0 #c9a56d}
+.spice-runner-final-stats{margin:14px 0!important;color:#91612a!important;font-weight:900;letter-spacing:.04em}
+.spice-runner-final-stats b{color:#70272b;font-size:18px}
+.spice-runner-new-best{color:#b57a19!important;font-size:18px!important;font-weight:1000!important;letter-spacing:.12em}
+@media(max-width:650px){
+ .spice-runner-live .spice-runner-hud{grid-template-columns:repeat(3,minmax(0,1fr))}
+ .spice-runner-live .spice-runner-hud>div{min-height:48px;padding:6px}
+ .spice-runner-mission-panel{gap:8px;padding:8px}.spice-runner-mission-track{width:25%}
+ .spice-runner-mission-panel strong{font-size:10px}.spice-runner-stage-label{display:none}
+ .spice-runner-controls button{min-width:0;flex:1}
+}
