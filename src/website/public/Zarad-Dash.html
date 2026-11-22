@@ -1,5 +1,5 @@
 <!doctype html>
-<html lang="en"><head><meta charset="utf-8">
+<html lang="ro"><head><meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <title>Zarad Dash</title>
 <style>
@@ -25,10 +25,41 @@ button:active{transform:translateY(3px);box-shadow:0 2px 0 #0005}
 </style></head><body>
 <canvas id="c"></canvas>
 <div id="hud"><div id="sc">0 m</div><div id="co">🌶️ 0</div></div><div id="shelf"></div><div id="toast"></div>
-<div id="ov"><div class="card"><h1 id="t">ZARAD DASH</h1><p id="m">Race through the spice market and collect every spice in the catalog. The more you collect, the more characters you unlock!<br><b>← →</b> lane · <b>↑</b> jump · <b>↓</b> roll<br>(or swipe)</p><div id="pick"></div><p>Spices collected: <b id="tot">0</b> · catalog <b id="cat">0</b>/8</p><button id="go">Hai!</button></div></div>
+<div id="ov"><div class="card"><h1 id="t">ZARAD DASH</h1><p id="m"></p><div id="pick"></div><p><span id="spice-total-label">Condimente colectate:</span> <b id="tot">0</b> · <span id="catalog-label">colecție</span> <b id="cat">0</b>/8</p><button id="go">Hai!</button></div></div>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
 <script>
 const T=THREE,cv=document.getElementById('c');
+let gameLanguage=(()=>{
+  const requested=new URLSearchParams(location.search).get('lang');
+  if(requested==='ro'||requested==='en')return requested;
+  try{return localStorage.getItem('zarad-language')==='en'?'en':'ro'}catch(e){return 'ro'}
+})();
+const GAME_COPY={
+  en:{
+    intro:'Race through the spice market and collect every spice in the collection. The more you collect, the more characters you unlock!<br><b>← →</b> change lane · <b>↑</b> jump · <b>↓</b> roll<br>(or swipe)',
+    total:'Spices collected:',collection:'collection',start:'Start!',tryAgain:'Try again',
+    need:'{name} · {count} spices',newCharacter:'New character: {name}!',
+    full:'Full collection!',collected:'{name} +1',over:'Ouch!',
+    result:'You ran <b>{distance} m</b> and collected <b>{coins}</b> spices.'
+  },
+  ro:{
+    intro:'Aleargă prin piața de mirodenii și adună condimentele din colecție. Cu cât aduni mai multe, cu atât deblochezi mai multe personaje!<br><b>← →</b> schimbă banda · <b>↑</b> sari · <b>↓</b> rostogolește-te<br>(sau glisează pe ecran)',
+    total:'Condimente colectate:',collection:'colecție',start:'Hai!',tryAgain:'Încearcă din nou',
+    need:'{name} · {count} condimente',newCharacter:'Personaj nou: {name}!',
+    full:'Colecție completă!',collected:'{name} +1',over:'Ups!',
+    result:'Ai alergat <b>{distance} m</b> și ai colectat <b>{coins}</b> condimente.'
+  }
+};
+const CAT_RO=['Turmeric','Ardei iute','Ghimbir','Piper negru','Scorțișoară','Șofran','Cardamom','Boia'];
+const CHARACTER_RO=['Bucătar','Cercetaș','Șeful ardeiului iute','Sultan','Maestrul condimentelor'];
+function gameText(key,vars={}) {
+  const copy=GAME_COPY[gameLanguage]||GAME_COPY.ro;
+  const value=copy[key]||GAME_COPY.en[key]||key;
+  return value.replace(/\{(\w+)\}/g,(_,name)=>String(vars[name]??''));
+}
+function spiceName(i){return gameLanguage==='ro'?CAT_RO[i]:CAT[i][0]}
+function characterName(c,i){return gameLanguage==='ro'?CHARACTER_RO[i]:c.n}
+
 const R=new T.WebGLRenderer({canvas:cv,antialias:true});R.setPixelRatio(Math.min(devicePixelRatio,2));
 const S=new T.Scene();S.background=new T.Color(0xf7c98b);S.fog=new T.Fog(0xf2c98a,35,105);
 const cam=new T.PerspectiveCamera(60,1,0.1,200);
@@ -89,6 +120,19 @@ const lL=limb(-.13,.88,.8,.18,mPan),lR=limb(.13,.88,.8,.18,mPan),aL=limb(-.37,1.
 [aL,aR].forEach(a=>mesh(new T.SphereGeometry(.065,8,8),mSk,0,-.56,0,a));
 const CAT=[['Turmeric',0xf2a900],['Chili',0xd7261e],['Ginger',0xd9a066],['Black pepper',0x2a2a2a],['Cinnamon',0x8b4a21],['Saffron',0xff5a1f],['Cardamom',0x7fa650],['Paprika',0xb5321a]];
 const CH=[{n:'Chef',need:0,top:0xf4f4f0,pan:0x2b2b33,hair:0x3a2418,sk:0xc68a5b,hat:'toque'},{n:'Scout',need:25,top:0xf2a900,pan:0x3b5a8a,hair:0x5a3a22,sk:0xe0b08a,hat:'cap'},{n:'Chili Chief',need:75,top:0xc8281e,pan:0x2b1a12,hair:0x1b1b1b,sk:0x8d5a3b,hat:'flame'},{n:'Sultan',need:150,top:0xe07a1a,pan:0xf4ead5,hair:0x2b1a12,sk:0xc68a5b,hat:'turban'},{n:'Spice Master',need:300,top:0x2b1a12,pan:0x1b1b1b,hair:0xcfcfcf,sk:0xe0b08a,hat:'crown'}];
+function applyGameLanguage(next) {
+  gameLanguage=next==='en'?'en':'ro';
+  document.documentElement.lang=gameLanguage;
+  document.getElementById('m').innerHTML=gameText('intro');
+  document.getElementById('spice-total-label').textContent=gameText('total');
+  document.getElementById('catalog-label').textContent=gameText('collection');
+  document.getElementById('go').textContent=st==='over'?gameText('tryAgain'):gameText('start');
+  if(st==='over') {
+    tt.textContent=gameText('over');
+    mm.innerHTML=gameText('result',{distance:dist|0,coins:coinsN});
+  }
+  pick();
+}
 let SV={t:0,f:[],s:0};try{Object.assign(SV,JSON.parse(localStorage.getItem('zrd')||'{}'))}catch(e){}
 const sv=()=>{try{localStorage.setItem('zrd',JSON.stringify(SV))}catch(e){}};
 const acc=new T.Group();inn.add(acc);
@@ -102,10 +146,22 @@ if(H=='turban'){A(new T.SphereGeometry(.3,12,10),0xf4ead5,0,1.98,0).scale.y=.75;
 if(H=='crown'){A(new T.CylinderGeometry(.22,.22,.1,12),0xf2b705,0,2.04,0);for(let k=0;k<5;k++){const a=k/5*6.28;A(new T.ConeGeometry(.07,.25,5),0xf2b705,Math.sin(a)*.2,2.2,Math.cos(a)*.2)}A(B(.58,.08,.32),0xf2b705,0,1.0,0);A(B(.5,1.1,.05),0x6f8f3a,0,1.1,-.2)}}
 const pk=document.getElementById('pick'),ts=document.getElementById('toast'),sh=document.getElementById('shelf');let tm;
 function toast(s){ts.textContent=s;ts.style.opacity=1;clearTimeout(tm);tm=setTimeout(()=>ts.style.opacity=0,1100)}
-function pick(){pk.innerHTML='';CH.forEach((c,i)=>{const b=document.createElement('button'),ok=SV.t>=c.need;b.className='ch'+(i==SV.s?' on':'');b.textContent=ok?c.n:'\ud83d\udd12 '+c.need;b.title=c.n+' \u00b7 '+c.need+' spices';b.onclick=()=>{if(ok){SV.s=i;sv();skin(i);pick()}};pk.appendChild(b)});document.getElementById('tot').textContent=SV.t;document.getElementById('cat').textContent=SV.f.length}
+function pick(){
+  pk.innerHTML='';
+  CH.forEach((c,i)=>{
+    const b=document.createElement('button'),ok=SV.t>=c.need,n=characterName(c,i);
+    b.className='ch'+(i==SV.s?' on':'');
+    b.textContent=ok?n:'🔒 '+c.need;
+    b.title=gameText('need',{name:n,count:c.need});
+    b.onclick=()=>{if(ok){SV.s=i;sv();skin(i);pick()}};
+    pk.appendChild(b);
+  });
+  document.getElementById('tot').textContent=SV.t;
+  document.getElementById('cat').textContent=SV.f.length;
+}
 CAT.forEach(([n,c])=>{const s=document.createElement('span');s.title=n;s.style.background='#'+c.toString(16).padStart(6,'0');sh.appendChild(s)});
 let runF=new Set();
-function got(i){coinsN++;SV.t++;runF.add(i);if(!SV.f.includes(i))SV.f.push(i);sh.children[i].className='on';const u=CH.findIndex(c=>c.need==SV.t);if(u>0){SV.s=u;skin(u);sv();toast('New character: '+CH[u].n+'!')}else if(runF.size==8&&!got.full){got.full=1;toast('Full catalog!')}else toast(CAT[i][0]+' +1')}
+function got(i){coinsN++;SV.t++;runF.add(i);if(!SV.f.includes(i))SV.f.push(i);sh.children[i].className='on';const u=CH.findIndex(c=>c.need==SV.t);if(u>0){SV.s=u;skin(u);sv();toast(gameText('newCharacter',{name:characterName(CH[u],u)}))}else if(runF.size==8&&!got.full){got.full=1;toast(gameText('full'))}else toast(gameText('collected',{name:spiceName(i)}))}
 if(SV.s>=CH.length||SV.t<CH[SV.s].need)SV.s=0;skin(SV.s);pick();
 // obstacles
 const objs=[],LX=[-2,0,2],tC=[0xc8281e,0xe08a00,0x7a4a1e],goldM=M(0xf2b705),coinG=new T.CylinderGeometry(.35,.35,.08,16);
@@ -136,13 +192,21 @@ fr.forEach(l=>{if(Math.random()<.75)coins(LX[l],z+3,5,Math.random()<.3)})}
 let crashT=0,st='menu',sp=0,dist=0,coinsN=0,nextS=0,lane=1,px=0,py=0,vy=0,roll=0,time=0,shake=0;
 const sc=document.getElementById('sc'),co=document.getElementById('co'),ov=document.getElementById('ov'),tt=document.getElementById('t'),mm=document.getElementById('m');
 function start(){objs.forEach(o=>S.remove(o));objs.length=0;runF.clear();got.full=0;crashT=0;stars.visible=false;piv.rotation.x=0;piv.scale.setScalar(1);piv.position.y=.9;aL.rotation.x=aR.rotation.x=lL.rotation.x=lR.rotation.x=0;[...sh.children].forEach(s=>s.className='');st='play';sp=14;dist=0;coinsN=0;nextS=0;lane=1;px=0;py=0;vy=0;roll=0;shake=0;ov.style.display='none';spawn(-60)}
-function die(){st='over';crashT=.001;sv();pick();shake=.6;tt.textContent='OUCH!';mm.innerHTML='You ran <b>'+(dist|0)+' m</b> and collected <b>'+coinsN+'</b> spices.';document.getElementById('go').textContent='Try again';setTimeout(()=>ov.style.display='flex',700)}
+function die(){st='over';crashT=.001;sv();pick();shake=.6;tt.textContent=gameText('over');mm.innerHTML=gameText('result',{distance:dist|0,coins:coinsN});document.getElementById('go').textContent=gameText('tryAgain');setTimeout(()=>ov.style.display='flex',700)}
 function act(a){if(st!=='play')return;if(a==='l')lane=Math.max(0,lane-1);if(a==='r')lane=Math.min(2,lane+1);
 if(a==='u'&&py<.05){vy=11.5;roll=0}if(a==='d'){if(py>.05)vy=-22;roll=.6}}
 addEventListener('keydown',e=>{const k={ArrowLeft:'l',a:'l',ArrowRight:'r',d:'r',ArrowUp:'u',w:'u',' ':'u',ArrowDown:'d',s:'d'}[e.key];if(k){e.preventDefault();act(k)}if(st!=='play'&&(e.key==='Enter')&&ov.style.display!=='none')start()});
 let tx,ty;addEventListener('touchstart',e=>{tx=e.touches[0].clientX;ty=e.touches[0].clientY},{passive:true});
 addEventListener('touchend',e=>{const dx=e.changedTouches[0].clientX-tx,dy=e.changedTouches[0].clientY-ty;if(Math.hypot(dx,dy)<25)return;Math.abs(dx)>Math.abs(dy)?act(dx>0?'r':'l'):act(dy>0?'d':'u')});
 document.getElementById('go').onclick=start;
+window.addEventListener('message',event=>{
+  if(event.origin!==location.origin)return;
+  if(event.data&&event.data.type==='zarad-language'&&(event.data.language==='ro'||event.data.language==='en'))applyGameLanguage(event.data.language);
+});
+window.addEventListener('storage',event=>{
+  if(event.key==='zarad-language'&&(event.newValue==='ro'||event.newValue==='en'))applyGameLanguage(event.newValue);
+});
+applyGameLanguage(gameLanguage);
 const clk=new T.Clock();
 function loop(){requestAnimationFrame(loop);const dt=Math.min(clk.getDelta(),.05);time+=dt;
 if(st==='play'){sp=Math.min(32,sp+dt*.35);const dz=sp*dt;dist+=dz*.5;nextS+=dz;
