@@ -22,7 +22,12 @@
   const resultMark = document.querySelector("#spice-runner-result-mark");
   if (!dialog || !close || !intro || !play || !result || !start || !restart || !canvas || !ctx) return;
 
-  const W = 960, H = 540, horizon = 148, playerDepth = 0.90;
+  const W = 960, H = 540, horizon = 118, playerDepth = 0.82;
+  // Render the virtual 960×540 scene at device resolution for a clean fullscreen view.
+  const renderScale = Math.min(2, Math.max(1, Number(typeof window !== "undefined" && window.devicePixelRatio) || 1));
+  canvas.width = Math.round(W * renderScale);
+  canvas.height = Math.round(H * renderScale);
+  if (typeof ctx.setTransform === "function") ctx.setTransform(renderScale, 0, 0, renderScale, 0, 0);
   const spices = [
     ["Ras el Hanout", "Ras el Hanout", "ras-el-hanout.jpeg", "#bd7941"],
     ["Kamoun", "Cumin", "kamoun.jpeg", "#b18a45"],
@@ -80,16 +85,16 @@
   function clampDepth(depth) { return Math.max(0, Math.min(1.24, depth)); }
   function yAt(depth) {
     const d = clampDepth(depth);
-    return horizon + Math.pow(d, 1.62) * 392;
+    return horizon + Math.pow(d, 1.55) * (H - horizon);
   }
   function spacing(depth) {
     const d = clampDepth(depth);
-    return 72 + d * 218;
+    return 98 + d * 248;
   }
   function xAt(which, depth) { return W / 2 + which * spacing(depth); }
   function scaleAt(depth) {
     const d = clampDepth(depth);
-    return 0.22 + Math.pow(d, 1.12) * 1.08;
+    return 0.22 + Math.pow(d, 1.08) * 1.16;
   }
   function hud() {
     distanceEl.textContent = Math.floor(metres) + " m";
@@ -607,15 +612,18 @@
     if (runnerSpriteReady && runnerSprite.naturalWidth >= 720) {
       // Four 180×260 cells: alternating run, jump and slide.
       const imageX = frame * 180;
-      const width = sliding ? 174 : 182;
-      const height = sliding ? 252 : 260;
+      const width = 180;
+      const height = 260;
+      // Each pose has its own feet baseline in the sprite sheet. Anchor that
+      // baseline to the projected track plane instead of the full transparent cell.
+      const footAnchor = [178, 178, 226, 234][frame];
       ctx.shadowColor = "rgba(31, 17, 15, .34)";
       ctx.shadowBlur = 9;
       ctx.shadowOffsetY = 4;
       ctx.drawImage(
         runnerSprite,
         imageX, 0, 180, 260,
-        -width / 2, -height + 10, width, height
+        -width / 2, -footAnchor, width, height
       );
     } else {
       // Clean fallback silhouette while the SVG finishes loading.
@@ -749,6 +757,8 @@
   function finish() {
     if (!running) return;
     running = false; stopLoop();
+    overlay.classList.remove("spice-runner-gameplay");
+    dialog.classList.remove("spice-runner-live");
     const score = Math.floor(metres) + collected * 25;
     const record = metres > best;
     if (record) {
@@ -810,7 +820,10 @@
     if (running) raf = requestAnimationFrame(frame);
   }
   function startGame() {
-    stopLoop(); lane = 0; visualLane = 0; jumpTime = 0; slideTime = 0;
+    stopLoop();
+    overlay.classList.add("spice-runner-gameplay");
+    dialog.classList.add("spice-runner-live");
+    lane = 0; visualLane = 0; jumpTime = 0; slideTime = 0;
     metres = 0; collected = 0; elapsed = 0; spawnClock = 0; roadScroll = 0; objects = []; particles = []; toast = ""; toastTime = 0;
     running = true; paused = document.hidden;
     intro.hidden = true; result.hidden = true; play.hidden = false;
@@ -819,12 +832,17 @@
   }
   function openGame() {
     previousFocus = document.activeElement; stopLoop(); running = false;
+    overlay.classList.remove("spice-runner-gameplay");
+    dialog.classList.remove("spice-runner-live");
     intro.hidden = false; play.hidden = true; result.hidden = true;
     overlay.hidden = false; document.body.classList.add("spice-game-open");
     draw(0); close.focus();
   }
   function closeGame() {
-    stopLoop(); running = false; overlay.hidden = true; document.body.classList.remove("spice-game-open");
+    stopLoop(); running = false;
+    overlay.classList.remove("spice-runner-gameplay");
+    dialog.classList.remove("spice-runner-live");
+    overlay.hidden = true; document.body.classList.remove("spice-game-open");
     if (previousFocus && typeof previousFocus.focus === "function") previousFocus.focus();
   }
 
