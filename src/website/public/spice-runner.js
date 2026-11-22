@@ -71,6 +71,7 @@
     renderer.render({
       lane: visualLane,
       jumpTime,
+      jumpHeight: runnerCore.snapshot().jumpHeight,
       slideTime,
       now,
       objects,
@@ -176,7 +177,7 @@
             }
           }
           if (!cleared) { finish(); return; }
-          if (item.kind !== "barrier" || state.setbackTimer <= 0) {
+          if (item.kind !== "barrier") {
             notify(item.kind === "awning"
               ? say("Alunecare perfectă!", "Perfect slide!")
               : say("Frumos salt!", "Nice jump!"));
