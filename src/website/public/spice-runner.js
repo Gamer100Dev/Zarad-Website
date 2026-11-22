@@ -40,6 +40,12 @@
     return image;
   });
 
+  // A real four-pose SVG sprite replaces the old hand-drawn character.
+  const runnerSprite = new Image();
+  runnerSprite.src = "/assets/game/zarad-runner-sprites.svg?v=runner-art-fix-20261122";
+  let runnerSpriteReady = false;
+  runnerSprite.addEventListener("load", () => { runnerSpriteReady = true; });
+
   let raf = 0, last = 0, spawnClock = 0, elapsed = 0;
   let running = false, paused = false, previousFocus = null, pointer = null;
   let lane = 0, visualLane = 0, jumpTime = 0, slideTime = 0;
@@ -480,205 +486,85 @@
   }
 
   function drawRunner(now) {
-    const x = xAt(visualLane, .045);
+    const x = xAt(visualLane, playerZ);
     const jumping = jumpTime > 0;
     const sliding = slideTime > 0;
     const jumpProgress = jumping ? Math.min(1, jumpTime / .78) : 0;
-    const lift = jumping ? Math.sin(jumpProgress * Math.PI) * 100 : 0;
-    const runPhase = now * .014;
-    const stride = Math.sin(runPhase);
-    const bob = jumping ? 0 : sliding ? 0 : Math.abs(Math.sin(runPhase * 2)) * 3.6;
-    const slideProgress = sliding ? 1 - slideTime / .66 : 0;
-    const lean = (lane - visualLane) * .28 + (sliding ? .34 : jumping ? -.05 : stride * .025);
-    const rootY = 480 - lift + (sliding ? 8 : 0) + bob;
+    const lift = jumping ? Math.sin(jumpProgress * Math.PI) * 112 : 0;
+    const runningFrame = Math.floor(now / 115) % 2;
+    const frame = sliding ? 3 : jumping ? 2 : runningFrame;
+    const lean = Math.max(-.1, Math.min(.1, (lane - visualLane) * .15));
+    const idleBob = jumping || sliding ? 0 : Math.abs(Math.sin(now * .014)) * 2.5;
+    const groundY = yAt(playerZ);
+    const baseY = groundY - 3 - lift + idleBob;
 
+    // Ground shadow stays on the track while the character rises above it.
     ctx.save();
-    ctx.translate(x, rootY);
-    ctx.rotate(lean);
-    ctx.scale(sliding ? 1.08 : jumping ? 1.015 : 1, sliding ? .78 : jumping ? 1.04 : 1);
-
-    // Soft contact shadow reacts to jump height.
-    const shadowScale = 1 - lift / 160;
-    ctx.save();
-    ctx.translate(0, 8 + lift * .7);
-    ctx.scale(Math.max(.45, shadowScale), 1);
-    ctx.fillStyle = "rgba(28,17,15," + (.26 - Math.min(.16, lift / 700)) + ")";
-    ctx.beginPath(); ctx.ellipse(0, 0, 43, 12, 0, 0, Math.PI * 2); ctx.fill();
+    ctx.translate(x, groundY + 4);
+    const shadowScale = Math.max(.42, 1 - lift / 155);
+    ctx.scale(shadowScale, .72);
+    ctx.fillStyle = "rgba(23, 15, 14, .36)";
+    ctx.beginPath();
+    ctx.ellipse(0, 0, 40, 10, 0, 0, Math.PI * 2);
+    ctx.fill();
     ctx.restore();
 
-    // Animated scarf streams out behind the runner, with embroidered gold trim.
-    const scarfWave = Math.sin(now * .012) * 10 + Math.cos(now * .019) * 4;
     ctx.save();
-    ctx.translate(-16, -126);
-    ctx.rotate(-.05 + Math.sin(now * .009) * .05);
-    ctx.fillStyle = "#512632";
-    ctx.beginPath();
-    ctx.moveTo(7, -2); ctx.bezierCurveTo(-18, -20, -57, -28 + scarfWave, -94, -10 + scarfWave);
-    ctx.bezierCurveTo(-76, 14 + scarfWave, -54, 26 + scarfWave, -20, 20);
-    ctx.bezierCurveTo(-43, 40 + scarfWave, -69, 48 + scarfWave, -88, 36 + scarfWave);
-    ctx.bezierCurveTo(-50, 67 + scarfWave, -11, 45, 13, 13);
-    ctx.closePath(); ctx.fill();
-    ctx.strokeStyle = "#d6a45c"; ctx.lineWidth = 3;
-    ctx.beginPath(); ctx.moveTo(4, 4); ctx.bezierCurveTo(-28, -6, -60, 9 + scarfWave, -89, 16 + scarfWave); ctx.stroke();
-    ctx.strokeStyle = "rgba(250,218,158,.85)"; ctx.lineWidth = 1;
-    for (let i = 0; i < 5; i++) {
-      const px = -21 - i * 13;
-      ctx.beginPath(); ctx.moveTo(px, 4 + scarfWave * .3); ctx.lineTo(px - 5, 15 + scarfWave * .3); ctx.stroke();
+    ctx.translate(x, baseY);
+    ctx.rotate(lean + (sliding ? .035 : jumping ? -.018 : Math.sin(now * .007) * .012));
+
+    if (runnerSpriteReady && runnerSprite.naturalWidth >= 720) {
+      // Four 180×260 cells: alternating run, jump and slide.
+      const imageX = frame * 180;
+      const width = sliding ? 174 : 182;
+      const height = sliding ? 252 : 260;
+      ctx.shadowColor = "rgba(31, 17, 15, .34)";
+      ctx.shadowBlur = 9;
+      ctx.shadowOffsetY = 4;
+      ctx.drawImage(
+        runnerSprite,
+        imageX, 0, 180, 260,
+        -width / 2, -height + 10, width, height
+      );
+    } else {
+      // Clean fallback silhouette while the SVG finishes loading.
+      ctx.shadowColor = "rgba(31,17,15,.3)";
+      ctx.shadowBlur = 8;
+      ctx.fillStyle = "#f4e6ce";
+      ctx.beginPath();
+      ctx.ellipse(0, -143, 26, 33, 0, 0, Math.PI * 2);
+      ctx.fill();
+      ctx.fillStyle = "#852f3a";
+      ctx.beginPath();
+      ctx.ellipse(0, -179, 28, 15, 0, Math.PI, Math.PI * 2);
+      ctx.fill();
+      ctx.fillRect(-22, -177, 44, 8);
+      ctx.fillStyle = "#4c2d37";
+      rounded(-27, -112, 54, 78, 13);
+      ctx.fill();
+      ctx.fillStyle = "#f4e6ce";
+      ctx.fillRect(-20, -43, 17, 42);
+      ctx.fillRect(5, -43, 17, 42);
+      ctx.fillStyle = "#8e343c";
+      rounded(-26, -8, 26, 12, 5); ctx.fill();
+      rounded(1, -8, 26, 12, 5); ctx.fill();
     }
     ctx.restore();
 
-    // Articulated legs: thighs, knees, joggers, cuffs and high-top trainers.
-    function drawLeg(side, phase, pose) {
+    // Small warm footfall glints add motion without covering the artwork.
+    if (!jumping && !sliding && runningFrame === 0) {
       ctx.save();
-      ctx.translate(side * 14, -58);
-      let upperAngle = Math.sin(phase + (side > 0 ? Math.PI : 0)) * .55;
-      let lowerAngle = Math.max(0, Math.cos(phase + (side > 0 ? Math.PI : 0))) * .62 + .08;
-      if (pose === "jump") { upperAngle = side * .36 + .18; lowerAngle = -.82; }
-      if (pose === "slide") { upperAngle = -.95 + side * .13; lowerAngle = .12 + side * .1; }
-      ctx.rotate(upperAngle);
-      const pants = ctx.createLinearGradient(-13, 0, 15, 0);
-      pants.addColorStop(0, "#2e2830"); pants.addColorStop(.34, "#59323a"); pants.addColorStop(.74, "#492a34"); pants.addColorStop(1, "#231f27");
-      ctx.strokeStyle = pants; ctx.lineWidth = 24; ctx.lineCap = "round";
-      ctx.beginPath(); ctx.moveTo(0, 0); ctx.quadraticCurveTo(-side * 4, 15, side * 2, 33); ctx.stroke();
-      ctx.strokeStyle = "rgba(231,189,140,.35)"; ctx.lineWidth = 1.7;
-      ctx.beginPath(); ctx.moveTo(-7, 7); ctx.quadraticCurveTo(-9, 19, -4, 29); ctx.stroke();
-      ctx.fillStyle = "#5f343b"; ctx.beginPath(); ctx.arc(side * 2, 33, 11, 0, Math.PI * 2); ctx.fill();
-      ctx.translate(side * 2, 33);
-      ctx.rotate(lowerAngle);
-      ctx.strokeStyle = pants; ctx.lineWidth = 18; ctx.lineCap = "round";
-      ctx.beginPath(); ctx.moveTo(0, 0); ctx.quadraticCurveTo(side * 5, 15, side * 4, 29); ctx.stroke();
-      // ankle ribbing
-      ctx.fillStyle = "#e9d4b3"; rounded(-9, 20, 18, 9, 3); ctx.fill();
-      ctx.fillStyle = "#8d3b39"; ctx.fillRect(-9, 23, 18, 2.5);
-      ctx.fillStyle = "#d7a55f"; ctx.fillRect(-9, 27, 18, 2);
-      // sneaker silhouette and layered sole
-      ctx.save(); ctx.translate(side * 4, 30);
-      const shoe = ctx.createLinearGradient(-15, -7, 17, 12);
-      shoe.addColorStop(0, "#f6e8d0"); shoe.addColorStop(.42, "#c7ad8e"); shoe.addColorStop(.72, "#913d3b"); shoe.addColorStop(1, "#4a2730");
-      ctx.fillStyle = shoe;
-      ctx.beginPath(); ctx.moveTo(-8, -10); ctx.quadraticCurveTo(0, -14, 8, -8); ctx.lineTo(18, 3); ctx.quadraticCurveTo(25, 9, 17, 13); ctx.lineTo(-17, 13); ctx.quadraticCurveTo(-22, 8, -15, 0); ctx.closePath(); ctx.fill();
-      ctx.fillStyle = "#f6e9d1"; rounded(-19, 8, 39, 7, 3); ctx.fill();
-      ctx.fillStyle = "#b88750"; ctx.fillRect(-15, 13, 32, 2);
-      ctx.strokeStyle = "#8d3b39"; ctx.lineWidth = 2;
-      ctx.beginPath(); ctx.moveTo(-6, -7); ctx.lineTo(7, 2); ctx.moveTo(-9, -2); ctx.lineTo(5, 6); ctx.stroke();
-      ctx.strokeStyle = "#f5e5c8"; ctx.lineWidth = 1.5;
-      ctx.beginPath(); ctx.moveTo(-6, -7); ctx.lineTo(6, 0); ctx.stroke();
-      ctx.fillStyle = "#d7a45a"; ctx.beginPath(); ctx.arc(0, -7, 2, 0, Math.PI * 2); ctx.fill();
-      ctx.restore();
-      ctx.restore();
-      ctx.restore();
-    }
-
-    const pose = sliding ? "slide" : jumping ? "jump" : "run";
-    drawLeg(-1, runPhase, pose);
-    drawLeg(1, runPhase, pose);
-
-    // Arms swing opposite to the legs; elbow, cuff and hand are drawn separately.
-    function drawArm(side, phase, poseName) {
-      ctx.save();
-      ctx.translate(side * 27, -111);
-      let angle = Math.sin(phase + (side < 0 ? Math.PI : 0)) * .5;
-      if (poseName === "jump") angle = side * -.48 - .42;
-      if (poseName === "slide") angle = side * .92 + .3;
-      ctx.rotate(angle);
-      const sleeve = ctx.createLinearGradient(-12, 0, 12, 0);
-      sleeve.addColorStop(0, "#a98d70"); sleeve.addColorStop(.3, "#fff0d6"); sleeve.addColorStop(.7, "#e3cfb3"); sleeve.addColorStop(1, "#98795f");
-      ctx.strokeStyle = sleeve; ctx.lineWidth = 21; ctx.lineCap = "round";
-      ctx.beginPath(); ctx.moveTo(0, 0); ctx.quadraticCurveTo(side * 8, 18, side * 13, 37); ctx.stroke();
-      ctx.strokeStyle = "#a64a42"; ctx.lineWidth = 3;
-      ctx.beginPath(); ctx.moveTo(side * 8, 29); ctx.lineTo(side * 17, 32); ctx.stroke();
-      ctx.fillStyle = "#e8c39a"; ctx.beginPath(); ctx.ellipse(side * 13, 48, 8, 11, side * .25, 0, Math.PI * 2); ctx.fill();
-      ctx.strokeStyle = "rgba(139,83,57,.45)"; ctx.lineWidth = 1;
-      ctx.beginPath(); ctx.moveTo(side * 11, 45); ctx.lineTo(side * 15, 52); ctx.stroke();
-      ctx.restore();
-    }
-    drawArm(-1, runPhase, pose);
-    drawArm(1, runPhase, pose);
-
-    // Hoodie body with quilted panels, shoulder seams, hem ribbing and a rear emblem.
-    ctx.save();
-    ctx.translate(0, -104);
-    const jacket = ctx.createLinearGradient(-34, -23, 34, 51);
-    jacket.addColorStop(0, "#fff5e4"); jacket.addColorStop(.28, "#f0e1c9"); jacket.addColorStop(.62, "#d9c3a5"); jacket.addColorStop(.83, "#fff0d8"); jacket.addColorStop(1, "#b79a78");
-    ctx.fillStyle = jacket;
-    ctx.beginPath();
-    ctx.moveTo(-22, -24); ctx.quadraticCurveTo(-34, -17, -35, 0); ctx.lineTo(-29, 45);
-    ctx.quadraticCurveTo(0, 57, 29, 45); ctx.lineTo(35, 0); ctx.quadraticCurveTo(34, -17, 22, -24);
-    ctx.quadraticCurveTo(0, -33, -22, -24); ctx.closePath(); ctx.fill();
-    ctx.strokeStyle = "rgba(103,67,51,.55)"; ctx.lineWidth = 1.6; ctx.stroke();
-    // Side panels and stitched seams.
-    ctx.strokeStyle = "rgba(151,117,85,.42)"; ctx.lineWidth = 1;
-    ctx.beginPath(); ctx.moveTo(-25, -5); ctx.quadraticCurveTo(-20, 20, -21, 43); ctx.moveTo(25, -5); ctx.quadraticCurveTo(20, 20, 21, 43); ctx.stroke();
-    // Hood folds rise around the neck.
-    ctx.fillStyle = "#d1baa0";
-    ctx.beginPath(); ctx.moveTo(-21, -22); ctx.quadraticCurveTo(-27, -42, -8, -45); ctx.quadraticCurveTo(0, -42, 8, -45); ctx.quadraticCurveTo(27, -42, 21, -22); ctx.quadraticCurveTo(0, -12, -21, -22); ctx.fill();
-    ctx.strokeStyle = "#fff3de"; ctx.lineWidth = 2;
-    ctx.beginPath(); ctx.moveTo(-17, -28); ctx.quadraticCurveTo(0, -17, 17, -28); ctx.stroke();
-    // Cuffs and hem details.
-    ctx.fillStyle = "#8c3737"; ctx.fillRect(-29, 39, 58, 6);
-    ctx.fillStyle = "#d4a75e"; ctx.fillRect(-29, 44, 58, 2.5);
-    ctx.fillStyle = "#8c3737"; ctx.fillRect(-27, -1, 7, 9); ctx.fillRect(20, -1, 7, 9);
-    // Back embroidered medallion, inspired by the Zarad spice-flower mark.
-    ctx.save(); ctx.translate(0, 1);
-    ctx.fillStyle = "#8d3737";
-    ctx.beginPath();
-    for (let i = 0; i < 12; i++) {
-      const a = i * Math.PI / 6, r = i % 2 ? 5 : 11;
-      const px = Math.cos(a) * r, py = Math.sin(a) * r;
-      if (i === 0) ctx.moveTo(px, py); else ctx.lineTo(px, py);
-    }
-    ctx.closePath(); ctx.fill();
-    ctx.fillStyle = "#d8a85c"; ctx.beginPath(); ctx.arc(0, 0, 2.2, 0, Math.PI * 2); ctx.fill();
-    ctx.fillStyle = "#74302f"; ctx.font = "800 9px Georgia,serif"; ctx.textAlign = "center";
-    ctx.fillText("ZARAD", 0, 20);
-    ctx.restore();
-    // Tiny embroidered piping and drawstrings.
-    ctx.strokeStyle = "#b58b57"; ctx.lineWidth = 1;
-    ctx.beginPath(); ctx.moveTo(-10, -17); ctx.lineTo(-8, -8); ctx.moveTo(10, -17); ctx.lineTo(8, -8); ctx.stroke();
-    ctx.fillStyle = "#b58b57"; ctx.beginPath(); ctx.arc(-8, -7, 1.4, 0, Math.PI * 2); ctx.arc(8, -7, 1.4, 0, Math.PI * 2); ctx.fill();
-    ctx.restore();
-
-    // Head, curly hair, ears and burgundy cap with a gold eight-point flower.
-    ctx.save(); ctx.translate(0, -159);
-    ctx.fillStyle = "#332a2a";
-    for (let i = 0; i < 7; i++) {
-      const a = Math.PI * .12 + i * Math.PI * .15;
-      ctx.beginPath(); ctx.arc(Math.cos(a) * 20, 8 + Math.sin(a) * 15, 7.5, 0, Math.PI * 2); ctx.fill();
-    }
-    ctx.fillStyle = "#e8c39a";
-    ctx.beginPath(); ctx.ellipse(0, 5, 20, 23, 0, 0, Math.PI * 2); ctx.fill();
-    ctx.fillStyle = "#d4a783";
-    ctx.beginPath(); ctx.ellipse(-20, 8, 5, 8, -.15, 0, Math.PI * 2); ctx.ellipse(20, 8, 5, 8, .15, 0, Math.PI * 2); ctx.fill();
-    const cap = ctx.createLinearGradient(-22, -26, 22, 13);
-    cap.addColorStop(0, "#a74742"); cap.addColorStop(.45, "#852e35"); cap.addColorStop(1, "#4d2830");
-    ctx.fillStyle = cap;
-    ctx.beginPath(); ctx.moveTo(-22, 1); ctx.quadraticCurveTo(-23, -34, 0, -36); ctx.quadraticCurveTo(24, -34, 22, 1); ctx.quadraticCurveTo(0, 14, -22, 1); ctx.fill();
-    ctx.fillStyle = "#d7a85c";
-    ctx.beginPath(); ctx.ellipse(0, 1, 24, 5, 0, 0, Math.PI * 2); ctx.fill();
-    ctx.strokeStyle = "#f0cf8f"; ctx.lineWidth = 1.1; ctx.stroke();
-    ctx.fillStyle = "#f0d08a";
-    ctx.beginPath();
-    for (let i = 0; i < 8; i++) {
-      const a = i * Math.PI / 4, r = i % 2 ? 4 : 8;
-      const px = Math.cos(a) * r, py = -18 + Math.sin(a) * r;
-      if (!i) ctx.moveTo(px, py); else ctx.lineTo(px, py);
-    }
-    ctx.closePath(); ctx.fill();
-    ctx.fillStyle = "rgba(255,255,255,.16)";
-    ctx.beginPath(); ctx.ellipse(-8, -25, 6, 3, -.4, 0, Math.PI * 2); ctx.fill();
-    ctx.restore();
-
-    // Little shoe dust puffs give the footfalls weight.
-    if (!jumping && !sliding) {
-      ctx.globalAlpha = .22 + Math.abs(stride) * .12;
-      ctx.fillStyle = "#f6d3a0";
+      ctx.globalAlpha = .42;
+      ctx.fillStyle = "#f6d69e";
       for (let i = 0; i < 3; i++) {
-        const px = -24 - i * 11 + Math.sin(runPhase + i) * 5;
-        const py = -3 + i * 4;
-        ctx.beginPath(); ctx.arc(px, py, 2.5 + i, 0, Math.PI * 2); ctx.fill();
+        const px = x - 20 - i * 8 + Math.sin(now * .018 + i) * 3;
+        const py = groundY - 2 - i * 4;
+        ctx.beginPath();
+        ctx.arc(px, py, 1.8 + i * .5, 0, Math.PI * 2);
+        ctx.fill();
       }
+      ctx.restore();
     }
-    ctx.restore();
   }
 
   function drawBarrier(x, ground, scale) {
