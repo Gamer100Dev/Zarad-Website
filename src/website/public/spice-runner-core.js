@@ -33,7 +33,9 @@
         s.jumpTime+=d;const t=clamp(s.jumpTime/.82,0,1);
         s.jumpHeight=Math.sin(t*Math.PI)*(s.sneakers>0?2.45:1.85);
         if(t>=1){s.jumpTime=0;s.jumpHeight=0;}
-      }
+      } else if(s.jetpack>0){
+        s.jumpHeight=2.55+Math.sin(s.elapsed*7)*.12;
+      } else { s.jumpHeight=0; }
       if(s.slideTime>0)s.slideTime=Math.max(0,s.slideTime-d);
       if(s.magnet>0)s.magnet=Math.max(0,s.magnet-d);
       if(s.jetpack>0)s.jetpack=Math.max(0,s.jetpack-d);
