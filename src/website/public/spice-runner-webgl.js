@@ -81,44 +81,102 @@
     function train(x,z,s){box([x,1.28*s,z],[1.2*s,1.28*s,2.25*s],[.47,.12,.15]);box([x,2.35*s,z-.1*s],[1.1*s,.22*s,1.9*s],[.86,.78,.59]);box([x,1.58*s,z+1.14*s],[.88*s,.75*s,.035*s],[.10,.18,.22]);box([x,1.58*s,z+1.19*s],[.79*s,.63*s,.025*s],[.17,.30,.36]);box([x,1.05*s,z+1.2*s],[.54*s,.24*s,.035*s],[.84,.65,.30]);for(const side of [-1,1]){ball([x+side*.82*s,1*s,z+1.2*s],[.12*s,.12*s,.07*s],[1,.82,.38],.7,.1);tube([x+side*.74*s,.3*s,z+.65*s],[.2*s,.1*s,.2*s],[.13,.12,.12],[Math.PI/2,0,0],.6);tube([x+side*.74*s,.3*s,z-.55*s],[.2*s,.1*s,.2*s],[.13,.12,.12],[Math.PI/2,0,0],.6);}}
     function jar(x,z,index,time,s){const c=powder[index%powder.length],bob=Math.sin(time*.005+index)*.12,spin=time*.0011,y=1.05+bob;tube([x,y,z],[.23*s,.31*s,.23*s],c,[0,spin,0],.18,.02);tube([x,y-.05*s,z+.005],[.235*s,.18*s,.235*s],[.90,.77,.57],[0,spin,0],.12);tube([x,y+.31*s,z],[.16*s,.08*s,.16*s],[.74,.45,.18],[0,spin,0],.68,.04);tube([x,y+.43*s,z],[.19*s,.065*s,.19*s],[.91,.70,.34],[0,spin,0],.78);ball([x-.09*s,y+.18*s,z+.205*s],[.035*s,.20*s,.018*s],[1,.93,.77],.25,.02);ball([x,y+.52*s,z],[.045*s,.028*s,.045*s],[.98,.78,.34],.65,.04);}
     function runner(lane,jumpTime,slideTime,now){
-      const x=lane*LANE_GAP,jumping=jumpTime>0,sliding=slideTime>0,progress=jumping?Math.min(1,jumpTime/.78):0,lift=jumping?Math.sin(progress*Math.PI)*1.3:0,bob=jumping||sliding?0:Math.abs(Math.sin(now*.014))*.04,base=lift+bob,phase=now*.0115,lean=sliding?.28:jumping?-.1:-.05;
+      const x=lane*LANE_GAP;
+      const jumping=jumpTime>0,sliding=slideTime>0;
+      const progress=jumping?Math.min(1,jumpTime/.78):0;
+      const lift=jumping?Math.sin(progress*Math.PI)*1.3:0;
+      const bob=jumping||sliding?0:Math.abs(Math.sin(now*.014))*.04;
+      const base=lift+bob;
+      const bodyBase=base-(sliding?.46:0);
+      const phase=now*.0115;
+      const lean=sliding?.42:jumping?-.10:-.055;
+
+      // Soft oval contact shadow remains on the track while the runner jumps.
       ball([x,.035,PLAYER_Z],[.57*Math.max(.48,1-lift*.45),.035,.42],[.07,.045,.035]);
-      // Two legs are independent, with separate thigh, knee, shin and shoe transforms.
+
+      // A two-link IK-style gait: hip rotation drives the thigh and the knee
+      // flex independently folds the shin. The two legs stay parallel on X.
       for(const side of [-1,1]){
-        const ph=phase+(side===1?Math.PI:0),swing=sliding?side*.04:jumping?Math.sin(ph)*.25:Math.sin(ph)*.50;
-        const bend=sliding?.58:jumping?.52:Math.max(0,Math.cos(ph))*.76,hipX=x+side*.20;
-        const hip=[hipX,.98+base,PLAYER_Z],knee=[hipX,.54+base,PLAYER_Z+swing*.52+(sliding?.05:0)];
-        const ankle=[hipX+side*.025,.14+base,knee[2]+Math.sin(ph+.45)*.22+(jumping?-.06:0)];
-        line(hip,knee,.145,[.19,.12,.14]);ball(knee,[.15,.15,.15],[.29,.18,.18]);
-        line([knee[0],knee[1]-.04,knee[2]],[ankle[0],ankle[1]+bend*.08,ankle[2]+bend*.12],.105,[.22,.14,.16]);ball(ankle,[.105,.105,.105],[.22,.14,.15]);
-        const sr=jumping?-.12:sliding?.08:Math.cos(ph)*.12;
-        box([ankle[0],.10+base,ankle[2]+.12],[.18,.115,.31],[.91,.83,.70],[sr,0,0],.06);
-        box([ankle[0],.045+base,ankle[2]+.12],[.19,.045,.32],[.39,.20,.18],[sr,0,0]);
-        box([ankle[0],.13+base,ankle[2]+.12],[.09,.018,.20],[.70,.12,.15],[sr,0,0]);
-        for(let lace=0;lace<3;lace++)box([ankle[0],.17+base,ankle[2]+.03+lace*.055],[.105,.012,.012],[.45,.28,.21]);
+        const ph=phase+(side===1?Math.PI:0);
+        const hipAngle=sliding?side*-.16:jumping?Math.sin(ph)*.27:Math.sin(ph)*.62;
+        const kneeFlex=sliding?1.02:jumping?.52:Math.max(0,Math.cos(ph))*.86;
+        const hipX=x+side*.20;
+        const hip=[hipX,(sliding?.77:1.0)+base,PLAYER_Z];
+        const upperLength=.47,lowerLength=.43;
+        const knee=[
+          hipX,
+          hip[1]-Math.cos(hipAngle)*upperLength,
+          PLAYER_Z+Math.sin(hipAngle)*upperLength
+        ];
+        const shinAngle=hipAngle-kneeFlex;
+        const ankle=[
+          hipX,
+          knee[1]-Math.cos(shinAngle)*lowerLength,
+          knee[2]+Math.sin(shinAngle)*lowerLength
+        ];
+
+        line(hip,knee,.145,[.19,.12,.14]);
+        ball(knee,[.15,.15,.15],[.29,.18,.18]);
+        line(knee,ankle,.105,[.22,.14,.16]);
+        ball(ankle,[.105,.105,.105],[.22,.14,.15]);
+
+        const shoeY=ankle[1]+.025;
+        const shoeZ=ankle[2]+.12;
+        const shoePitch=shinAngle*.34;
+        box([ankle[0],shoeY,shoeZ],[.18,.115,.31],[.91,.83,.70],[shoePitch,0,0],.06);
+        box([ankle[0],shoeY-.07,shoeZ],[.19,.045,.32],[.39,.20,.18],[shoePitch,0,0]);
+        box([ankle[0],shoeY+.035,shoeZ-.015],[.09,.018,.20],[.70,.12,.15],[shoePitch,0,0]);
+        for(let lace=0;lace<3;lace++){
+          box([ankle[0],shoeY+.075,shoeZ-.09+lace*.07],[.105,.012,.012],[.45,.28,.21],[shoePitch,0,0]);
+        }
       }
-      box([x,1+base,PLAYER_Z],[.43,.25,.30],[.25,.14,.16],[lean,0,0]);
-      draw(taper,[x,1.52+base,PLAYER_Z],[.43,.57,.31],[.91,.82,.69],[lean,0,0],0,.01);
-      box([x,1.32+base,PLAYER_Z+.015],[.66,.16,.36],[.91,.82,.69],[lean,0,0]);
-      box([x,1.54+base,PLAYER_Z+.322],[.22,.26,.018],[.49,.16,.18]);
-      ball([x,1.67+base,PLAYER_Z+.344],[.085,.085,.018],[.91,.65,.27],.48);
-      for(let i=0;i<8;i++){const a=i*Math.PI/4;ball([x+Math.cos(a)*.105,1.67+base+Math.sin(a)*.105,PLAYER_Z+.342],[.035,.035,.018],[.69,.23,.17],.25);}
-      box([x,1.08+base,PLAYER_Z+.02],[.66,.10,.34],[.47,.14,.17]);
-      ball([x,1.91+base,PLAYER_Z+.04],[.34,.27,.29],[.78,.68,.55]);
-      tube([x,2.03+base,PLAYER_Z],[.15,.18,.15],[.66,.40,.28]);
-      ball([x,2.34+base,PLAYER_Z],[.31,.37,.29],[.67,.39,.27]);
-      ball([x,2.46+base,PLAYER_Z+.045],[.315,.25,.30],[.12,.095,.09]);
-      ball([x,2.59+base,PLAYER_Z-.02],[.34,.17,.32],[.48,.12,.16]);
-      ball([x,2.61+base,PLAYER_Z+.12],[.28,.065,.24],[.63,.17,.20]);
-      ball([x,2.58+base,PLAYER_Z+.255],[.07,.07,.018],[.97,.74,.34],.55);
-      box([x,1.96+base,PLAYER_Z+.24],[.44,.13,.14],[.53,.16,.19],[.12,0,0]);
-      // The two scarf tails are separate segments that swing with wind.
+
+      // Pelvis, torso and hood sit on the same lowered base during a slide.
+      box([x,1+bodyBase,PLAYER_Z],[.43,.25,.30],[.25,.14,.16],[lean,0,0]);
+      draw(taper,[x,1.52+bodyBase,PLAYER_Z],[.43,.57,.31],[.91,.82,.69],[lean,0,0],0,.01);
+      box([x,1.32+bodyBase,PLAYER_Z+.015],[.66,.16,.36],[.91,.82,.69],[lean,0,0]);
+      // Burgundy back patch and raised gold flower medallion.
+      box([x,1.54+bodyBase,PLAYER_Z+.322],[.22,.26,.018],[.49,.16,.18]);
+      ball([x,1.67+bodyBase,PLAYER_Z+.344],[.085,.085,.018],[.91,.65,.27],.48);
+      for(let i=0;i<8;i++){
+        const angle=i*Math.PI/4;
+        ball([x+Math.cos(angle)*.105,1.67+bodyBase+Math.sin(angle)*.105,PLAYER_Z+.342],[.035,.035,.018],[.69,.23,.17],.25);
+      }
+      box([x,1.08+bodyBase,PLAYER_Z+.02],[.66,.10,.34],[.47,.14,.17]);
+      ball([x,1.91+bodyBase,PLAYER_Z+.04],[.34,.27,.29],[.78,.68,.55]);
+      tube([x,2.03+bodyBase,PLAYER_Z],[.15,.18,.15],[.66,.40,.28]);
+      ball([x,2.34+bodyBase,PLAYER_Z],[.31,.37,.29],[.67,.39,.27]);
+      // Rear hair, burgundy cap and gold Zarad star.
+      ball([x,2.46+bodyBase,PLAYER_Z+.045],[.315,.25,.30],[.12,.095,.09]);
+      ball([x,2.59+bodyBase,PLAYER_Z-.02],[.34,.17,.32],[.48,.12,.16]);
+      ball([x,2.61+bodyBase,PLAYER_Z+.12],[.28,.065,.24],[.63,.17,.20]);
+      ball([x,2.58+bodyBase,PLAYER_Z+.255],[.07,.07,.018],[.97,.74,.34],.55);
+
+      // Scarf collar and separate cloth tails moving in the wake.
+      box([x,1.96+bodyBase,PLAYER_Z+.24],[.44,.13,.14],[.53,.16,.19],[.12,0,0]);
       const wave=Math.sin(now*.009)*.14;
-      for(let tail=0;tail<2;tail++){const side=tail===0?-1:1;for(let k=0;k<4;k++){const z=PLAYER_Z+.34+k*.18,y=1.94+base-k*.085+Math.sin(now*.009+k*.75+tail)*.045,xx=x+side*(.12+k*.04)+wave*k*.18;box([xx,y,z],[.13,.045,.20],k%2?[.62,.25,.22]:[.46,.10,.16],[.06,wave+side*.03,side*.10]);box([xx,y-.025,z+.015],[.13,.012,.18],[.87,.64,.30]);}}
+      for(let tail=0;tail<2;tail++){
+        const side=tail===0?-1:1;
+        for(let k=0;k<4;k++){
+          const z=PLAYER_Z+.34+k*.18;
+          const y=1.94+bodyBase-k*.085+Math.sin(now*.009+k*.75+tail)*.045;
+          const xx=x+side*(.12+k*.04)+wave*k*.18;
+          box([xx,y,z],[.13,.045,.20],k%2?[.62,.25,.22]:[.46,.10,.16],[.06,wave+side*.03,side*.10]);
+          box([xx,y-.025,z+.015],[.13,.012,.18],[.87,.64,.30]);
+        }
+      }
+
+      // Arms counter-swing to the legs. During a jump the shoulders and hands lift.
+      const armLift=jumping?.34:sliding?-.12:0;
       for(const side of [-1,1]){
         const swing=sliding?side*.75:jumping?-.56*side:Math.sin(phase+(side===1?0:Math.PI))*.42;
-        const shoulder=[x+side*.43,1.77+base,PLAYER_Z],elbow=[x+side*.59,1.34+base,PLAYER_Z+Math.sin(swing)*.24],wrist=[x+side*.60,.99+base,PLAYER_Z+Math.sin(swing)*.42];
-        line(shoulder,elbow,.115,[.89,.81,.68]);ball(elbow,[.115,.115,.115],[.68,.40,.28]);line(elbow,wrist,.09,[.86,.78,.65]);ball(wrist,[.10,.10,.10],[.67,.39,.27]);
+        const shoulder=[x+side*.43,1.77+bodyBase+armLift,PLAYER_Z];
+        const elbow=[x+side*.59,1.34+bodyBase+armLift,PLAYER_Z+Math.sin(swing)*.24];
+        const wrist=[x+side*.60,.99+bodyBase+armLift,PLAYER_Z+Math.sin(swing)*.42];
+        line(shoulder,elbow,.115,[.89,.81,.68]);
+        ball(elbow,[.115,.115,.115],[.68,.40,.28]);
+        line(elbow,wrist,.09,[.86,.78,.65]);
+        ball(wrist,[.10,.10,.10],[.67,.39,.27]);
       }
     }
     function objectZ(d){return FAR_Z+(d/PLAYER_DEPTH)*(PLAYER_Z-FAR_Z);}
