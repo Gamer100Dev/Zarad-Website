@@ -344,27 +344,100 @@
     for (let i = 0; i < 15; i++) { const y = yAt(i/14); ctx.fillRect(0,y,W,1+i/5); }
     const scroll = roadScroll % 1;
     for (let laneIndex = -1; laneIndex <= 1; laneIndex++) {
-      const topX = xAt(laneIndex,0), bottomX = xAt(laneIndex,1);
-      for (const sign of [-1,1]) {
-        const rail = ctx.createLinearGradient(topX,horizon,bottomX,H);
-        rail.addColorStop(0,"#8e7770"); rail.addColorStop(.32,"#f4d7a7"); rail.addColorStop(.6,"#63544d"); rail.addColorStop(1,"#d9c8aa");
-        ctx.strokeStyle = "rgba(20,14,13,.62)"; ctx.lineWidth = 9;
-        ctx.beginPath(); ctx.moveTo(topX+sign*15,horizon); ctx.lineTo(bottomX+sign*38,H); ctx.stroke();
-        ctx.strokeStyle = rail; ctx.lineWidth = 4.5;
-        ctx.beginPath(); ctx.moveTo(topX+sign*12,horizon); ctx.lineTo(bottomX+sign*35,H); ctx.stroke();
-        ctx.strokeStyle = "rgba(255,245,218,.62)"; ctx.lineWidth = 1;
-        ctx.beginPath(); ctx.moveTo(topX+sign*11,horizon); ctx.lineTo(bottomX+sign*34,H); ctx.stroke();
+      const topX = xAt(laneIndex, 0);
+      const bottomX = xAt(laneIndex, 1);
+
+      // Sleepers are actual pieces of track moving from the vanishing point
+      // toward the camera. Their position, width and thickness all grow with depth.
+      for (let i = 0; i < 16; i++) {
+        const depth = (i / 16 + scroll) % 1;
+        const y = yAt(depth);
+        const x = xAt(laneIndex, depth);
+        const width = 24 + depth * 54;
+        const thickness = 1.5 + depth * 4.5;
+        const radius = 1 + depth * 2.2;
+
+        ctx.fillStyle = "rgba(19,13,12,.38)";
+        rounded(x - width / 2, y - thickness * .15, width, thickness * 1.4, radius);
+        ctx.fill();
+
+        const wood = ctx.createLinearGradient(x - width / 2, y - thickness, x + width / 2, y);
+        wood.addColorStop(0, "#432d29");
+        wood.addColorStop(.22, "#835339");
+        wood.addColorStop(.5, "#c18b55");
+        wood.addColorStop(.78, "#835339");
+        wood.addColorStop(1, "#432d29");
+        ctx.fillStyle = wood;
+        rounded(x - width / 2, y - thickness, width, thickness, radius);
+        ctx.fill();
+
+        ctx.strokeStyle = "rgba(244,211,157," + (.18 + depth * .26) + ")";
+        ctx.lineWidth = Math.max(.6, depth * 1.1);
+        ctx.beginPath();
+        ctx.moveTo(x - width * .39, y - thickness * .74);
+        ctx.lineTo(x + width * .39, y - thickness * .74);
+        ctx.stroke();
+
+        // Rail fasteners grow with the sleepers as they approach.
+        const boltRadius = .7 + depth * 1.3;
+        for (const side of [-1, 1]) {
+          ctx.fillStyle = "#4b3430";
+          ctx.beginPath();
+          ctx.arc(x + side * width * .34, y - thickness * .18, boltRadius, 0, Math.PI * 2);
+          ctx.fill();
+          ctx.fillStyle = "rgba(244,209,148,.55)";
+          ctx.beginPath();
+          ctx.arc(x + side * width * .34 - boltRadius * .25, y - thickness * .35, Math.max(.4, boltRadius * .25), 0, Math.PI * 2);
+          ctx.fill();
+        }
       }
-      for (let i = 0; i < 15; i++) {
-        const depth = (i / 15 + scroll) % 1;
-        const y = yAt(depth), x = xAt(laneIndex, depth);
-        const depthScale = scaleAt(depth), width = 22 * depthScale + 54 * depth;
-        const tieHeight = 5 * depthScale;
-        ctx.fillStyle = "rgba(19,13,12,.32)"; rounded(x-width/2,y-tieHeight*.3,width,tieHeight*1.35,2*depthScale); ctx.fill();
-        const wood = ctx.createLinearGradient(x-width/2,y,x+width/2,y);
-        wood.addColorStop(0,"#4d342d"); wood.addColorStop(.5,"#b17b4d"); wood.addColorStop(1,"#4d342d");
-        ctx.fillStyle = wood; rounded(x-width/2,y-tieHeight,width,tieHeight,2*depthScale); ctx.fill();
-        ctx.fillStyle = "rgba(241,207,152,.42)"; ctx.fillRect(x-width*.38,y-tieHeight*.78,width*.76,Math.max(1,tieHeight*.16));
+
+      // Rails sit above the timber sleepers. Their cross-section widens toward
+      // the viewer, instead of using constant-width 2D strokes.
+      for (const side of [-1, 1]) {
+        const farX = topX + side * 12;
+        const nearX = bottomX + side * 35;
+        const farHalf = 1.35;
+        const nearHalf = 5.2;
+
+        ctx.fillStyle = "rgba(14,10,10,.42)";
+        ctx.beginPath();
+        ctx.moveTo(farX - farHalf * 1.8, horizon);
+        ctx.lineTo(farX + farHalf * 1.8, horizon);
+        ctx.lineTo(nearX + nearHalf * 1.55, H);
+        ctx.lineTo(nearX - nearHalf * 1.55, H);
+        ctx.closePath();
+        ctx.fill();
+
+        const rail = ctx.createLinearGradient(0, horizon, 0, H);
+        rail.addColorStop(0, "#6d625d");
+        rail.addColorStop(.2, "#c5b6a0");
+        rail.addColorStop(.42, "#f2dfbb");
+        rail.addColorStop(.68, "#8b8178");
+        rail.addColorStop(1, "#d8c6a5");
+
+        ctx.fillStyle = rail;
+        ctx.beginPath();
+        ctx.moveTo(farX - farHalf, horizon);
+        ctx.lineTo(farX + farHalf, horizon);
+        ctx.lineTo(nearX + nearHalf, H);
+        ctx.lineTo(nearX - nearHalf, H);
+        ctx.closePath();
+        ctx.fill();
+
+        ctx.strokeStyle = "rgba(255,248,222,.78)";
+        ctx.lineWidth = 1.2;
+        ctx.beginPath();
+        ctx.moveTo(farX - farHalf * .22, horizon);
+        ctx.lineTo(nearX - nearHalf * .28, H);
+        ctx.stroke();
+
+        ctx.strokeStyle = "rgba(52,39,35,.55)";
+        ctx.lineWidth = 1;
+        ctx.beginPath();
+        ctx.moveTo(farX + farHalf * .55, horizon);
+        ctx.lineTo(nearX + nearHalf * .72, H);
+        ctx.stroke();
       }
     }
     const reflection = ctx.createLinearGradient(0,210,0,H);
