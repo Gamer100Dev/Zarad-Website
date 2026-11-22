@@ -13,6 +13,7 @@ const port = Number(process.env.PORT || 3000);
 const contentTypes = {
   ".css": "text/css; charset=utf-8",
   ".html": "text/html; charset=utf-8",
+  ".glb": "model/gltf-binary",
   ".ico": "image/x-icon",
   ".jpg": "image/jpeg",
   ".jpeg": "image/jpeg",
