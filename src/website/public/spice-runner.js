@@ -28,6 +28,8 @@
     return;
   }
 
+  const playerDepth = 0.82;
+
   const spices = [
     ["Ras el Hanout", "Ras el Hanout"],
     ["Kamoun", "Cumin"],
