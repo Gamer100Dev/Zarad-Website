@@ -32,9 +32,9 @@
   <link rel="stylesheet" href="/styles.css?v=zarad-spice-sprint-clarity-20261122">
   <script src="/theme.js?v=zarad-logo-frame-preload-20261119" defer></script>
   <script src="/app.js?v=zarad-spice-sprint-20261122" defer></script>
-  <script src="/spice-runner-webgl.js?v=zarad-source-runner-20261122" defer></script>
-  <script src="/spice-runner-core.js?v=zarad-source-core-20261122" defer></script>
-  <script src="/spice-runner.js?v=zarad-source-game-loop-20261122" defer></script>
+  <script src="/spice-runner-webgl.js?v=zarad-subway-runner-20261122" defer></script>
+  <script src="/spice-runner-core.js?v=zarad-subway-core-20261122" defer></script>
+  <script src="/spice-runner.js?v=zarad-subway-game-20261122" defer></script>
 </head>
 <body>
   <header class="site-header zarad-header">
@@ -218,61 +218,52 @@
   </footer>
 
   <div class="spice-game-overlay" id="spice-game" hidden>
-    <section class="spice-game-dialog spice-runner-dialog" role="dialog" aria-modal="true" aria-labelledby="spice-game-title" aria-describedby="spice-game-description" tabindex="-1">
+    <section class="spice-game-dialog spice-runner-dialog" role="dialog" aria-modal="true" aria-labelledby="spice-game-title" tabindex="-1">
       <button class="spice-game-close" id="spice-game-close" type="button" aria-label="Close game">×</button>
       <div class="spice-runner-heading">
-        <p class="spice-game-kicker" data-ro="AVENTURĂ ÎN SOUK-UL ZARAD" data-en="A RUN THROUGH THE ZARAD SOUK">AVENTURĂ ÎN SOUK-UL ZARAD</p>
-        <h2 id="spice-game-title">Spice Sprint</h2>
-        <p class="spice-game-subtitle" id="spice-game-description" data-ro="Aleargă prin piață, ferește-te de obstacole și adună aromele Zarad." data-en="Dash through the market, dodge the obstacles and collect Zarad spices.">Aleargă prin piață, ferește-te de obstacole și adună aromele Zarad.</p>
+        <p class="spice-game-kicker">ZARAD PRESENTS</p><h2 id="spice-game-title">SPICE RUNNER</h2>
+        <p class="spice-game-subtitle" id="spice-game-description">Run the souk. Dodge the trains. Collect every coin.</p>
       </div>
-
       <div class="spice-runner-intro" id="spice-game-intro">
-        <div class="spice-runner-mascot">
-          <img src="/assets/Final%20mascot.png" alt="Mascota Zarad" data-alt-ro="Mascota Zarad" data-alt-en="Zarad mascot" loading="lazy" decoding="async">
-          <span data-ro="ONE SPICE AWAY" data-en="ONE SPICE AWAY">ONE SPICE AWAY</span>
-        </div>
+        <div class="spice-runner-mascot"><img src="/assets/Final%20mascot.png" alt="Zarad mascot"><span>ONE SPICE AWAY</span></div>
         <div class="spice-runner-intro-copy">
-          <p data-ro="Pornește într-o cursă prin souk-ul Zarad. Schimbă banda ca să eviți tramvaiele, sari peste lăzi și bariere, alunecă pe sub copertine și adună borcanele cu mirodenii." data-en="Race through the Zarad souk. Switch lanes to dodge trams, jump over crates and barriers, slide under low awnings and collect glowing spice jars.">Pornește într-o cursă fără sfârșit printr-un souk plin de culoare. Schimbă banda, sari peste lăzile cu mirodenii, alunecă pe sub copertine și strânge borcanele de condimente.</p>
+          <p>A full three-lane endless-runner challenge inspired by Subway Surfers, reimagined with Zarad's mascot and Moroccan souk world.</p>
           <div class="spice-runner-howto">
-            <span><b>← →</b><span data-ro="Schimbă banda" data-en="Change lanes">Schimbă banda</span></span>
-            <span><b>↑ / SPACE</b><span data-ro="Sari peste lăzi" data-en="Jump over crates">Sari peste lăzi</span></span>
-            <span><b>↓</b><span data-ro="Alunecă pe sub copertine" data-en="Slide under awnings">Alunecă pe sub copertine</span></span>
+            <span><b>← →</b><span>Switch lanes</span></span><span><b>↑ / SPACE</b><span>Jump over barriers</span></span><span><b>↓</b><span>Roll under signs</span></span>
           </div>
-          <p class="spice-runner-mobile-help" data-ro="Pe telefon: glisează stânga/dreapta pentru schimbarea benzii, în sus pentru salt și în jos pentru alunecare." data-en="On a phone: swipe left/right to change lanes, up to jump and down to slide.">Pe telefon: glisează stânga/dreapta pentru schimbarea benzii, în sus pentru salt și în jos pentru alunecare.</p>
-          <button class="spice-game-action" id="spice-game-start" type="button" data-ro="Începe cursa" data-en="Start running">Începe cursa</button>
+          <p class="spice-runner-mobile-help">Swipe on the track to steer, jump and roll. Avoid trains, use power-ups and build coin streaks.</p>
+          <button class="spice-game-action" id="spice-game-start" type="button">PLAY</button>
         </div>
       </div>
-
       <div class="spice-runner-play" id="spice-game-play" hidden>
-        <div class="spice-runner-hud" aria-live="polite">
-          <div><span data-ro="DISTANȚĂ" data-en="DISTANCE">DISTANȚĂ</span><strong id="spice-runner-distance">0 m</strong></div>
-          <div><span data-ro="CONDIMENTE" data-en="SPICES">CONDIMENTE</span><strong id="spice-runner-spices">0</strong></div>
-          <div><span data-ro="RECORD" data-en="BEST">RECORD</span><strong id="spice-runner-best">0 m</strong></div>
+        <div class="spice-runner-hud">
+          <div><span>SCORE</span><strong id="spice-runner-score">0</strong></div>
+          <div><span>COINS</span><strong id="spice-runner-coins">0</strong></div>
+          <div><span>DISTANCE</span><strong id="spice-runner-distance">0 m</strong></div>
+          <div><span>BEST</span><strong id="spice-runner-best">0</strong></div>
+          <div><span>SPEED</span><strong id="spice-runner-speed">0 km/h</strong></div>
         </div>
+        <div class="spice-runner-mission-panel"><div><span>DAILY SOUK CHALLENGE</span><strong id="spice-runner-mission">Collect 30 coins</strong><b id="spice-runner-mission-progress">0/30</b></div><div class="spice-runner-mission-track"><i id="spice-runner-mission-fill"></i></div></div>
         <div class="spice-runner-stage">
-          <canvas id="spice-runner-canvas" width="960" height="540" tabindex="0" role="img" aria-label="Spice Sprint endless runner. Use the arrow keys to move, jump and slide."></canvas>
-          <span class="spice-runner-stage-label" data-ro="PIAȚA ZARAD · ALEARGĂ DUPĂ AROME" data-en="ZARAD MARKET · RUN FOR FLAVOUR">PIAȚA ZARAD · ALEARGĂ DUPĂ AROME</span>
+          <canvas id="spice-runner-canvas" width="960" height="540" tabindex="0" aria-label="Zarad Subway Surfers style endless runner"></canvas>
+          <span class="spice-runner-stage-label">ZARAD SOUK · ENDLESS RUN</span>
+          <span class="spice-runner-powerup" id="spice-runner-powerup" hidden></span>
+          <button id="spice-runner-pause" class="spice-runner-pause" type="button">PAUSE</button>
+          <div id="spice-runner-pause-layer" class="spice-runner-pause-layer" hidden><strong>PAUSED</strong><span>Press P or tap resume</span><button type="button" id="spice-runner-resume">RESUME</button></div>
         </div>
-        <div class="spice-runner-controls" aria-label="Game controls">
-          <button type="button" data-runner-action="left" aria-label="Move left">←</button>
-          <button type="button" data-runner-action="right" aria-label="Move right">→</button>
-          <button type="button" data-runner-action="jump"><span>↑</span><small data-ro="SARI" data-en="JUMP">SARI</small></button>
-          <button type="button" data-runner-action="slide"><span>↓</span><small data-ro="ALUNECĂ" data-en="SLIDE">ALUNECĂ</small></button>
-        </div>
+        <div class="spice-runner-controls"><button type="button" data-runner-action="left" aria-label="Move left">←</button><button type="button" data-runner-action="right" aria-label="Move right">→</button><button type="button" data-runner-action="jump"><span>↑</span><small>JUMP</small></button><button type="button" data-runner-action="slide"><span>↓</span><small>ROLL</small></button></div>
         <p class="spice-runner-feedback" id="spice-runner-feedback" role="status" aria-live="polite"></p>
       </div>
-
       <div class="spice-game-result" id="spice-game-result" hidden>
-        <div class="spice-game-result-mark" id="spice-runner-result-mark" aria-hidden="true">✦</div>
-        <p class="spice-game-kicker" data-ro="CURSA S-A ÎNCHEIAT" data-en="RUN COMPLETE">CURSA S-A ÎNCHEIAT</p>
-        <h3 id="spice-runner-result-title"></h3>
-        <p id="spice-runner-result-copy"></p>
-        <strong class="spice-runner-result-score" id="spice-runner-result-score">0 pts</strong>
-        <button class="spice-game-action" id="spice-game-restart" type="button" data-ro="Mai încearcă o dată" data-en="Run again">Mai încearcă o dată</button>
+        <div class="spice-game-result-mark">✦</div><p class="spice-game-kicker">RUN COMPLETE</p>
+        <h3 id="spice-runner-result-title">BUSTED!</h3><p id="spice-runner-result-copy"></p>
+        <p class="spice-runner-final-stats">SCORE <b id="spice-runner-final-score">0</b> · COINS <b id="spice-runner-final-coins">0</b> · DISTANCE <b id="spice-runner-final-distance">0 m</b></p>
+        <p id="spice-runner-new-best" class="spice-runner-new-best" hidden>NEW HIGH SCORE!</p><p>BEST <b id="spice-runner-final-best">0</b></p>
+        <button class="spice-game-action" id="spice-game-restart" type="button">RUN AGAIN</button>
       </div>
-      <p class="spice-game-footnote" data-ro="Un joc inspirat de aromele și culorile Zarad." data-en="A little game inspired by the flavours and colours of Zarad.">Un joc inspirat de aromele și culorile Zarad.</p>
+      <p class="spice-game-footnote">A Zarad original adaptation of open-source endless-runner gameplay.</p>
     </section>
-  </div>
+  </div>>
 
 </body>
 </html>
