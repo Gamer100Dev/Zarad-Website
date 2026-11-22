@@ -50,6 +50,47 @@
   function dot(a,b){return a[0]*b[0]+a[1]*b[1]+a[2]*b[2];}
   function nm(m){const a00=m[0],a01=m[4],a02=m[8],a10=m[1],a11=m[5],a12=m[9],a20=m[2],a21=m[6],a22=m[10];const b01=a22*a11-a12*a21,b11=-a22*a10+a12*a20,b21=a21*a10-a11*a20;let d=a00*b01+a01*b11+a02*b21;if(!d)d=1;d=1/d;return new Float32Array([b01*d,(-a22*a01+a02*a21)*d,(a12*a01-a02*a11)*d,b11*d,(a22*a00-a02*a20)*d,(-a12*a00+a02*a10)*d,b21*d,(-a21*a00+a01*a20)*d,(a11*a00-a01*a10)*d]);}
   function mesh(gl,p,n){const data=new Float32Array(p.length*2);for(let i=0;i<p.length/3;i++){data.set(p.slice(i*3,i*3+3),i*6);data.set(n.slice(i*3,i*3+3),i*6+3);}const b=gl.createBuffer();gl.bindBuffer(gl.ARRAY_BUFFER,b);gl.bufferData(gl.ARRAY_BUFFER,data,gl.STATIC_DRAW);return{buffer:b,count:p.length/3};}
+  function parseGLB(gl,buffer){
+    const view=new DataView(buffer);
+    if(view.getUint32(0,true)!==0x46546c67)throw new Error("Invalid GLB");
+    const jsonLength=view.getUint32(12,true);
+    const json=JSON.parse(new TextDecoder().decode(new Uint8Array(buffer,20,jsonLength)));
+    const binHeader=20+jsonLength;
+    const binLength=view.getUint32(binHeader,true);
+    const bin=new Uint8Array(buffer,binHeader+8,binLength);
+    const componentInfo={5121:[Uint8Array,1],5123:[Uint16Array,2],5125:[Uint32Array,4],5126:[Float32Array,4]};
+    const componentCount={SCALAR:1,VEC2:2,VEC3:3,VEC4:4,MAT4:16};
+    function accessor(index){
+      const a=json.accessors[index],bv=json.bufferViews[a.bufferView],info=componentInfo[a.componentType],count=componentCount[a.type];
+      const offset=(bv.byteOffset||0)+(a.byteOffset||0),stride=bv.byteStride||info[1]*count;
+      const out=new Array(a.count*count),dv=new DataView(bin.buffer,bin.byteOffset,bin.byteLength);
+      for(let i=0;i<a.count;i++)for(let c=0;c<count;c++){
+        const at=offset+i*stride+c*info[1];
+        out[i*count+c]=a.componentType===5126?dv.getFloat32(at,true):a.componentType===5125?dv.getUint32(at,true):a.componentType===5123?dv.getUint16(at,true):dv.getUint8(at);
+      }
+      return out;
+    }
+    const materials=json.materials||[],parts=[];
+    for(const group of json.meshes||[])for(const primitive of group.primitives||[]){
+      if(primitive.mode!==undefined&&primitive.mode!==4)continue;
+      const raw=accessor(primitive.attributes.POSITION),normals=primitive.attributes.NORMAL!==undefined?accessor(primitive.attributes.NORMAL):null;
+      const indices=primitive.indices!==undefined?accessor(primitive.indices):Array.from({length:raw.length/3},(_,i)=>i);
+      const min=[Infinity,Infinity,Infinity],max=[-Infinity,-Infinity,-Infinity];
+      for(let i=0;i<raw.length;i+=3)for(let k=0;k<3;k++){min[k]=Math.min(min[k],raw[i+k]);max[k]=Math.max(max[k],raw[i+k]);}
+      const center=min.map((v,k)=>(v+max[k])*.5),extent=Math.max(...max.map((v,k)=>v-min[k]),.001);
+      const p=[],n=[];
+      for(let i=0;i+2<indices.length;i+=3){
+        const tri=indices.slice(i,i+3),verts=tri.map(idx=>[0,1,2].map(k=>(raw[idx*3+k]-center[k])*2/extent));
+        let face;
+        if(!normals){const u=verts[1].map((v,k)=>v-verts[0][k]),v=verts[2].map((x,k)=>x-verts[0][k]);face=norm([u[1]*v[2]-u[2]*v[1],u[2]*v[0]-u[0]*v[2],u[0]*v[1]-u[1]*v[0]]);}
+        for(let j=0;j<3;j++){p.push(...verts[j]);n.push(...(normals?normals.slice(tri[j]*3,tri[j]*3+3):face));}
+      }
+      if(!p.length)continue;
+      const mat=materials[primitive.material]||{},base=mat.pbrMetallicRoughness?.baseColorFactor||[.78,.72,.61,1];
+      parts.push({mesh:mesh(gl,p,n),color:base.slice(0,3),metal:mat.pbrMetallicRoughness?.metallicFactor||0});
+    }
+    return parts;
+  }
   function cube(gl){const p=[],n=[],faces=[[[0,0,1],[[-1,-1,1],[1,-1,1],[1,1,1],[-1,1,1]]],[[0,0,-1],[[1,-1,-1],[-1,-1,-1],[-1,1,-1],[1,1,-1]]],[[1,0,0],[[1,-1,1],[1,-1,-1],[1,1,-1],[1,1,1]]],[[-1,0,0],[[-1,-1,-1],[-1,-1,1],[-1,1,1],[-1,1,-1]]],[[0,1,0],[[-1,1,1],[1,1,1],[1,1,-1],[-1,1,-1]]],[[0,-1,0],[[-1,-1,-1],[1,-1,-1],[1,-1,1],[-1,-1,1]]]];for(const [nn,v] of faces)for(const k of [0,1,2,0,2,3]){p.push(...v[k]);n.push(...nn);}return mesh(gl,p,n);}
   function sphere(gl,rows=16,cols=22){const p=[],n=[];const q=(u,v)=>{const ph=v*Math.PI,th=u*Math.PI*2;return[Math.sin(ph)*Math.cos(th),Math.cos(ph),Math.sin(ph)*Math.sin(th)];};for(let y=0;y<rows;y++)for(let x=0;x<cols;x++){const a=q(x/cols,y/rows),b=q(x/cols,(y+1)/rows),c=q((x+1)/cols,(y+1)/rows),d=q((x+1)/cols,y/rows);for(const v of [a,b,d,d,b,c]){p.push(...v);n.push(...v);}}return mesh(gl,p,n);}
   function cylinder(gl,segments=20,top=1,bottom=1){const p=[],n=[];for(let i=0;i<segments;i++){const a=i/segments*Math.PI*2,b=(i+1)/segments*Math.PI*2;const p0=[Math.cos(a)*bottom,-1,Math.sin(a)*bottom],p1=[Math.cos(a)*top,1,Math.sin(a)*top],p2=[Math.cos(b)*top,1,Math.sin(b)*top],p3=[Math.cos(b)*bottom,-1,Math.sin(b)*bottom],n0=norm([Math.cos(a),(bottom-top)/2,Math.sin(a)]),n1=norm([Math.cos(b),(bottom-top)/2,Math.sin(b)]);for(const [v,nn] of [[p0,n0],[p1,n0],[p2,n1],[p0,n0],[p2,n1],[p3,n1]]){p.push(...v);n.push(...nn);}}return mesh(gl,p,n);}
@@ -66,22 +107,42 @@
     function resize(){const r=canvas.getBoundingClientRect(),dpr=Math.min(2,Math.max(1,window.devicePixelRatio||1)),w=Math.max(1,Math.round(r.width*dpr)),h=Math.max(1,Math.round(r.height*dpr));if(canvas.width!==w||canvas.height!==h){canvas.width=w;canvas.height=h;}gl.viewport(0,0,w,h);projection=proj(58*Math.PI/180,w/h,.1,150);}
     function draw(m,pos,scale,color,rot=[0,0,0],metal=0,emissive=0){const M=model(pos,scale,rot);gl.bindBuffer(gl.ARRAY_BUFFER,m.buffer);gl.enableVertexAttribArray(0);gl.enableVertexAttribArray(1);gl.vertexAttribPointer(0,3,gl.FLOAT,false,24,0);gl.vertexAttribPointer(1,3,gl.FLOAT,false,24,12);gl.uniformMatrix4fv(sh.model,false,M);gl.uniformMatrix3fv(sh.normal,false,nm(M));gl.uniform3fv(sh.color,color);gl.uniform1f(sh.metal,metal);gl.uniform1f(sh.emissive,emissive);gl.drawArrays(gl.TRIANGLES,0,m.count);drawCount++;}
     const box=(p,s,c,r=[0,0,0],metal=0)=>draw(cubeMesh,p,s,c,r,metal);
+    const assetDefs={
+      crate:"/assets/game/kenney-crate.glb",
+      barrier:"/assets/game/kenney-barrier.glb",
+      awning:"/assets/game/kenney-awning.glb",
+      building:"/assets/game/kenney-market-building.glb",
+      bottle:"/assets/game/kenney-spice-bottle.glb",
+      character:"/assets/game/kenney-character-male-a.glb"
+    };
+    const assets={};
+    const assetLoads=Object.entries(assetDefs).map(async([name,url])=>{
+      try{const response=await fetch(url);if(!response.ok)throw new Error("HTTP "+response.status);assets[name]=parseGLB(gl,await response.arrayBuffer());}
+      catch(error){console.warn("[Zarad assets] Could not load "+name,error);}
+    });
+    Promise.all(assetLoads).then(()=>{console.info("[Zarad assets] Loaded",Object.keys(assets));});
+    function assetAt(name,pos,scale,override){
+      const parts=assets[name];if(!parts||!parts.length)return false;
+      for(const part of parts)draw(part.mesh,pos,[scale,scale,scale],override||part.color,[0,0,0],part.metal||0);
+      return true;
+    }
     const ball=(p,s,c,metal=0,em=0)=>draw(sphereMesh,p,s,c,[0,0,0],metal,em);
     const tube=(p,s,c,r=[0,0,0],metal=0,em=0)=>draw(cyl,p,s,c,r,metal,em);
     function line(a,b,r,c){const d=norm([b[0]-a[0],b[1]-a[1],b[2]-a[2]]),len=Math.hypot(b[0]-a[0],b[1]-a[1],b[2]-a[2]),dp=Math.max(-1,Math.min(1,d[1])),axis=cross([0,1,0],d),al=Math.hypot(...axis);let rot=[0,0,0];if(al>1e-5){const ang=Math.acos(dp),ax=axis[0]/al,ay=axis[1]/al,az=axis[2]/al,qx=ax*Math.sin(ang/2),qy=ay*Math.sin(ang/2),qz=az*Math.sin(ang/2),qw=Math.cos(ang/2);const sr=2*(qw*qx+qy*qz),cr=1-2*(qx*qx+qy*qy),sp=2*(qw*qy-qz*qx),sy=2*(qw*qz+qx*qy),cy=1-2*(qy*qy+qz*qz);rot=[Math.atan2(sr,cr),Math.asin(Math.max(-1,Math.min(1,sp))),Math.atan2(sy,cy)];}else if(dp<0)rot=[Math.PI,0,0];draw(cyl,[(a[0]+b[0])/2,(a[1]+b[1])/2,(a[2]+b[2])/2],[r,len/2,r],c,rot);}
 
     function arch(z){const base=3.6,rad=5.8,th=.25;box([-5.7,1.8,z],[th,1.8,th],[.71,.43,.30]);box([5.7,1.8,z],[th,1.8,th],[.71,.43,.30]);for(let i=0;i<8;i++){const a=Math.PI-i/8*Math.PI,b=Math.PI-(i+1)/8*Math.PI;line([Math.cos(a)*rad,base+Math.sin(a)*rad,z],[Math.cos(b)*rad,base+Math.sin(b)*rad,z],th,[.83,.63,.39]);}box([0,.14,z],[5.9,.14,.24],[.78,.55,.32]);}
-    function stall(side,z,v){const x=side*7.7;box([x,1.45,z],[1.35,1.45,2],[.53,.25,.19]);box([x,2.95,z],[1.5,.13,2.1],[.78,.55,.34]);const stripe=[[.59,.15,.16],[.88,.69,.39],[.91,.83,.66],[.25,.37,.27]];box([x,2.95,z+1.05],[1.58,.12,1.2],[.56,.19,.18]);for(let i=0;i<8;i++)box([x-1.4+i*.4,2.95,z+1.08],[.20,.125,1.24],stripe[(i+v)%4]);for(let tier=0;tier<2;tier++){box([x,1.08+tier*.56,z+2.0],[1.32,.08,.12],[.68,.43,.24]);for(let j=0;j<3;j++){const xx=x-.62+j*.62,col=powder[(j+tier*3+v)%powder.length];tube([xx,1.34+tier*.56,z+1.96],[.12,.18,.12],col);tube([xx,1.55+tier*.56,z+1.96],[.13,.035,.13],[.83,.63,.31],[0,0,0],.7);}}const lx=x-side*1.65;line([lx,4.1,z+.8],[lx,3.62,z+.8],.025,[.18,.14,.12]);tube([lx,3.42,z+.8],[.14,.21,.14],[.85,.51,.16],[0,0,0],.7,.08);ball([lx,3.42,z+.8],[.09,.16,.09],[1,.66,.25],.2,.15);}
+    function stall(side,z,v){const x=side*7.7;if(assets.building)assetAt("building",[x,1.45,z],1.65);else box([x,1.45,z],[1.35,1.45,2],[.53,.25,.19]);if(!assetAt("awning",[x,2.95,z],.9))box([x,2.95,z],[1.5,.13,2.1],[.78,.55,.34]);const stripe=[[.59,.15,.16],[.88,.69,.39],[.91,.83,.66],[.25,.37,.27]];box([x,2.95,z+1.05],[1.58,.12,1.2],[.56,.19,.18]);for(let i=0;i<8;i++)box([x-1.4+i*.4,2.95,z+1.08],[.20,.125,1.24],stripe[(i+v)%4]);for(let tier=0;tier<2;tier++){box([x,1.08+tier*.56,z+2.0],[1.32,.08,.12],[.68,.43,.24]);for(let j=0;j<3;j++){const xx=x-.62+j*.62,col=powder[(j+tier*3+v)%powder.length];tube([xx,1.34+tier*.56,z+1.96],[.12,.18,.12],col);tube([xx,1.55+tier*.56,z+1.96],[.13,.035,.13],[.83,.63,.31],[0,0,0],.7);}}const lx=x-side*1.65;line([lx,4.1,z+.8],[lx,3.62,z+.8],.025,[.18,.14,.12]);tube([lx,3.42,z+.8],[.14,.21,.14],[.85,.51,.16],[0,0,0],.7,.08);ball([lx,3.42,z+.8],[.09,.16,.09],[1,.66,.25],.2,.15);}
     function palm(x,z,phase){line([x,0,z],[x-.1,2.4,z],.14,[.34,.22,.13]);line([x-.1,2.4,z],[x+.1,3.85,z],.11,[.39,.26,.14]);for(let i=0;i<6;i++){const a=i/6*Math.PI*2+phase,len=1.8+(i%3)*.2,end=[x+.1+Math.cos(a)*len,3.72-Math.abs(Math.sin(a))*.7,z+Math.sin(a)*len];line([x+.1,3.75,z],end,.055,[.17,.34,.19]);}}
     function market(now){box([0,-.48,-17],[22,.38,72],[.64,.43,.30]);box([0,-.27,-19],[14,.12,62],[.36,.29,.24]);box([0,3,-48],[18,3,.55],[.75,.48,.30]);box([0,2.1,-47.35],[3.25,2.2,.08],[.21,.13,.12]);for(const side of [-1,1]){box([side*10.1,2.4,-27],[2.9,2.5,9],[.67,.40,.26]);for(let z=-21;z>=-43;z-=10){box([side*8.7,2.8,z],[.72,2.8,2],[.72,.4,.24]);box([side*8.15,2.2,z+1.02],[.05,.6,.06],[.17,.12,.1]);}}arch(-24);arch(-43);for(const side of [-1,1])for(let i=0;i<2;i++){const z=-7-i*20;stall(side,z,i);palm(side*10.2,z-3,Math.sin(now*.0005+i));ball([side*6.35,.4,z+3],[.52,.43,.54],[.72,.28,.13]);ball([side*7.0,.35,z+3.5],[.49,.4,.5],[.86,.57,.12]);}}
     function tracks(scroll){for(let lane=-1;lane<=1;lane++){const x=lane*LANE_GAP;box([x,-.02,-20],[1.36,.18,48],[.34,.29,.24]);box([x,-.12,-20],[1.2,.06,47],[.46,.34,.26]);for(const side of [-1,1]){const rx=x+side*.65;box([rx,.13,-20],[.085,.16,52],[.48,.51,.54],[0,0,0],.82);box([rx-.018,.218,-20],[.025,.025,52],[.84,.85,.82],[0,0,0],.9);}for(let i=0;i<24;i++){const d=(i/24+scroll)%1,z=FAR_Z+d*TRACK_SPAN,s=.34+d*.86;box([x,.04,z],[1.32*s,.095*s,.30*s],[.34,.20,.12],[0,0,0],.15);}for(let i=0;i<8;i++)for(const side of [-1,1])ball([x+side*.9,.1,-46+i*6.4],[.08,.055,.09],[.30,.27,.23]);}}
-    function crate(x,z,s){box([x,.68*s,z],[.72*s,.68*s,.68*s],[.53,.29,.14]);box([x,.68*s,z+.35*s],[.64*s,.58*s,.055*s],[.68,.43,.24]);for(let i=-2;i<=2;i++)box([x+i*.26*s,.68*s,z+.415*s],[.035*s,.56*s,.014*s],[.40,.22,.12]);box([x,.68*s,z+.435*s],[.38*s,.27*s,.018*s],[.28,.13,.1]);ball([x,.77*s,z+.46*s],[.09*s,.09*s,.018*s],[.87,.62,.27],.3);}
-    function barrier(x,z,s){for(const side of [-1,1]){box([x+side*.52*s,.42*s,z],[.12*s,.45*s,.16*s],[.35,.20,.12]);box([x+side*.52*s,.15*s,z],[.22*s,.06*s,.36*s],[.3,.18,.12]);}box([x,.87*s,z],[1.24*s,.28*s,.24*s],[.86,.78,.6]);for(let i=-3;i<=3;i++)box([x+i*.17*s,.87*s,z+.13*s],[.085*s,.28*s,.018*s],i%2?[.62,.12,.1]:[.91,.82,.64],[0,0,-.42]);}
+    function crate(x,z,s){if(assetAt("crate",[x,.72*s,z],.72*s))return;box([x,.68*s,z],[.72*s,.68*s,.68*s],[.53,.29,.14]);box([x,.68*s,z+.35*s],[.64*s,.58*s,.055*s],[.68,.43,.24]);for(let i=-2;i<=2;i++)box([x+i*.26*s,.68*s,z+.415*s],[.035*s,.56*s,.014*s],[.40,.22,.12]);box([x,.68*s,z+.435*s],[.38*s,.27*s,.018*s],[.28,.13,.1]);ball([x,.77*s,z+.46*s],[.09*s,.09*s,.018*s],[.87,.62,.27],.3);}
+    function barrier(x,z,s){if(assetAt("barrier",[x,.62*s,z],.72*s))return;for(const side of [-1,1]){box([x+side*.52*s,.42*s,z],[.12*s,.45*s,.16*s],[.35,.20,.12]);box([x+side*.52*s,.15*s,z],[.22*s,.06*s,.36*s],[.3,.18,.12]);}box([x,.87*s,z],[1.24*s,.28*s,.24*s],[.86,.78,.6]);for(let i=-3;i<=3;i++)box([x+i*.17*s,.87*s,z+.13*s],[.085*s,.28*s,.018*s],i%2?[.62,.12,.1]:[.91,.82,.64],[0,0,-.42]);}
     function awning(x,z,s){for(const side of [-1,1])box([x+side*.65*s,1.02*s,z],[.12*s,1.02*s,.12*s],[.35,.18,.12]);box([x,1.95*s,z],[1.62*s,.18*s,.72*s],[.61,.18,.16]);for(let i=-3;i<=3;i++)box([x+i*.22*s,1.87*s,z],[.12*s,.06*s,.73*s],i%2?[.91,.76,.51]:[.93,.88,.73]);}
     function train(x,z,s){box([x,1.28*s,z],[1.2*s,1.28*s,2.25*s],[.47,.12,.15]);box([x,2.35*s,z-.1*s],[1.1*s,.22*s,1.9*s],[.86,.78,.59]);box([x,1.58*s,z+1.14*s],[.88*s,.75*s,.035*s],[.10,.18,.22]);box([x,1.58*s,z+1.19*s],[.79*s,.63*s,.025*s],[.17,.30,.36]);box([x,1.05*s,z+1.2*s],[.54*s,.24*s,.035*s],[.84,.65,.30]);for(const side of [-1,1]){ball([x+side*.82*s,1*s,z+1.2*s],[.12*s,.12*s,.07*s],[1,.82,.38],.7,.1);tube([x+side*.74*s,.3*s,z+.65*s],[.2*s,.1*s,.2*s],[.13,.12,.12],[Math.PI/2,0,0],.6);tube([x+side*.74*s,.3*s,z-.55*s],[.2*s,.1*s,.2*s],[.13,.12,.12],[Math.PI/2,0,0],.6);}}
-    function jar(x,z,index,time,s){const c=powder[index%powder.length],bob=Math.sin(time*.005+index)*.12,spin=time*.0011,y=1.05+bob;tube([x,y,z],[.23*s,.31*s,.23*s],c,[0,spin,0],.18,.02);tube([x,y-.05*s,z+.005],[.235*s,.18*s,.235*s],[.90,.77,.57],[0,spin,0],.12);tube([x,y+.31*s,z],[.16*s,.08*s,.16*s],[.74,.45,.18],[0,spin,0],.68,.04);tube([x,y+.43*s,z],[.19*s,.065*s,.19*s],[.91,.70,.34],[0,spin,0],.78);ball([x-.09*s,y+.18*s,z+.205*s],[.035*s,.20*s,.018*s],[1,.93,.77],.25,.02);ball([x,y+.52*s,z],[.045*s,.028*s,.045*s],[.98,.78,.34],.65,.04);}
+    function jar(x,z,index,time,s){const c=powder[index%powder.length],bob=Math.sin(time*.005+index)*.12,spin=time*.0011,y=1.05+bob;if(assetAt("bottle",[x,y,z],.43*s,c))return;tube([x,y,z],[.23*s,.31*s,.23*s],c,[0,spin,0],.18,.02);tube([x,y-.05*s,z+.005],[.235*s,.18*s,.235*s],[.90,.77,.57],[0,spin,0],.12);tube([x,y+.31*s,z],[.16*s,.08*s,.16*s],[.74,.45,.18],[0,spin,0],.68,.04);tube([x,y+.43*s,z],[.19*s,.065*s,.19*s],[.91,.70,.34],[0,spin,0],.78);ball([x-.09*s,y+.18*s,z+.205*s],[.035*s,.20*s,.018*s],[1,.93,.77],.25,.02);ball([x,y+.52*s,z],[.045*s,.028*s,.045*s],[.98,.78,.34],.65,.04);}
     function runner(lane,jumpTime,slideTime,now){
       const x=lane*LANE_GAP;
+      if(assetAt("character",[x,1.15+(jumpTime>0?Math.sin(Math.min(1,jumpTime/.78)*Math.PI)*1.3:0)-(slideTime>0?.35:0),PLAYER_Z],.92))return;
       const jumping=jumpTime>0,sliding=slideTime>0;
       const progress=jumping?Math.min(1,jumpTime/.78):0;
       const lift=jumping?Math.sin(progress*Math.PI)*1.3:0;
