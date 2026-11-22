@@ -11,7 +11,7 @@
   const start = document.querySelector("#spice-game-start");
   const restart = document.querySelector("#spice-game-restart");
   const canvas = document.querySelector("#spice-runner-canvas");
-  const ctx = canvas && canvas.getContext("2d");
+  const renderer = canvas && window.ZaradSpiceWebGL && window.ZaradSpiceWebGL.create(canvas);
   const feedback = document.querySelector("#spice-runner-feedback");
   const distanceEl = document.querySelector("#spice-runner-distance");
   const spicesEl = document.querySelector("#spice-runner-spices");
@@ -20,14 +20,9 @@
   const resultCopy = document.querySelector("#spice-runner-result-copy");
   const resultScore = document.querySelector("#spice-runner-result-score");
   const resultMark = document.querySelector("#spice-runner-result-mark");
-  if (!dialog || !close || !intro || !play || !result || !start || !restart || !canvas || !ctx) return;
+  if (!dialog || !close || !intro || !play || !result || !start || !restart || !canvas || !renderer) return;
 
   const W = 960, H = 540, horizon = 118, playerDepth = 0.82;
-  // Render the virtual 960×540 scene at device resolution for a clean fullscreen view.
-  const renderScale = Math.min(2, Math.max(1, Number(typeof window !== "undefined" && window.devicePixelRatio) || 1));
-  canvas.width = Math.round(W * renderScale);
-  canvas.height = Math.round(H * renderScale);
-  if (typeof ctx.setTransform === "function") ctx.setTransform(renderScale, 0, 0, renderScale, 0, 0);
   const spices = [
     ["Ras el Hanout", "Ras el Hanout", "ras-el-hanout.jpeg", "#bd7941"],
     ["Kamoun", "Cumin", "kamoun.jpeg", "#b18a45"],
@@ -705,32 +700,14 @@
   }
 
   function draw(now) {
-    // Explicitly reset canvas state before every full-scene redraw.
-    ctx.globalAlpha = 1;
-    ctx.globalCompositeOperation = "source-over";
-    if ("filter" in ctx) ctx.filter = "none";
-    drawWorld(now);
-    objects.slice().sort((a, b) => a.depth - b.depth).forEach((item) => {
-      const depth = item.depth;
-      const y = yAt(depth), scale = scaleAt(depth), x = xAt(item.lane, depth);
-      if (item.kind === "spice") drawSpice(item, x, y, scale);
-      else if (item.kind === "crate") drawCrate(x, y, scale);
-      else if (item.kind === "train") drawTrain(x, y, scale);
-      else if (item.kind === "barrier") drawBarrier(x, y, scale);
-      else drawAwning(x, y, scale);
+    renderer.render({
+      lane: visualLane,
+      jumpTime,
+      slideTime,
+      now,
+      objects,
+      roadScroll
     });
-    drawParticles();
-    drawRunner(now);
-    if (toastTime > 0 && toast) {
-      ctx.save();
-      ctx.globalAlpha = Math.min(1, toastTime * 2);
-      rounded(305, 164, 350, 42, 12);
-      ctx.fillStyle = "rgba(55,34,28,.88)"; ctx.fill();
-      ctx.strokeStyle = "rgba(243,198,119,.7)"; ctx.lineWidth = 1; ctx.stroke();
-      ctx.fillStyle = "#ffe6b6"; ctx.font = "700 16px Georgia,serif"; ctx.textAlign = "center";
-      ctx.fillText(toast, W / 2, 191);
-      ctx.restore();
-    }
   }
 
   function spawn() {
