@@ -49,7 +49,7 @@
   runnerSprite.src = "/assets/game/zarad-runner-sprites.svg?v=runner-art-fix-20261122";
   if (runnerSprite.complete && runnerSprite.naturalWidth >= 720) runnerSpriteReady = true;
 
-  let raf = 0, last = 0, spawnClock = 0, elapsed = 0;
+  let raf = 0, last = 0, spawnClock = 0, elapsed = 0, roadScroll = 0;
   let running = false, paused = false, previousFocus = null, pointer = null;
   let lane = 0, visualLane = 0, jumpTime = 0, slideTime = 0;
   let metres = 0, collected = 0, objects = [], particles = [], toast = "", toastTime = 0, best = 0;
@@ -342,7 +342,7 @@
     ctx.fillStyle = road; ctx.beginPath(); ctx.moveTo(366,horizon); ctx.lineTo(594,horizon); ctx.lineTo(1000,H); ctx.lineTo(-40,H); ctx.closePath(); ctx.fill();
     ctx.fillStyle = "rgba(244,210,158,.08)";
     for (let i = 0; i < 15; i++) { const y = yAt(i/14); ctx.fillRect(0,y,W,1+i/5); }
-    const scroll = (t * (.55 + Math.min(1.2, elapsed * .012))) % 1;
+    const scroll = roadScroll % 1;
     for (let laneIndex = -1; laneIndex <= 1; laneIndex++) {
       const topX = xAt(laneIndex,0), bottomX = xAt(laneIndex,1);
       for (const sign of [-1,1]) {
@@ -441,7 +441,7 @@
 
   function drawSpice(item, x, ground, scale) {
     const w = 42 * scale, h = 56 * scale;
-    const bob = Math.sin(elapsed * 5 + item.z * 7) * 3 * scale;
+    const bob = Math.sin(elapsed * 5 + item.depth * 7) * 3 * scale;
     const y = ground - h * .5 - 10 * scale + bob;
     ctx.save(); ctx.translate(x, y);
     // Soft halo behind the floating glass jar.
@@ -694,7 +694,8 @@
   }
   function update(dt) {
     elapsed += dt; metres += dt * (20 + Math.min(13, elapsed * .16));
-    const speed = .47 + Math.min(.34, elapsed * .0034);
+    const speed = .54 + Math.min(.30, elapsed * .0028);
+    roadScroll = (roadScroll + speed * dt) % 1000;
     spawnClock += dt;
     if (spawnClock >= Math.max(.62, 1.02 - elapsed * .002)) { spawnClock = 0; spawn(); }
     jumpTime = jumpTime > 0 ? jumpTime + dt : 0;
@@ -737,7 +738,7 @@
   }
   function startGame() {
     stopLoop(); lane = 0; visualLane = 0; jumpTime = 0; slideTime = 0;
-    metres = 0; collected = 0; elapsed = 0; spawnClock = 0; objects = []; particles = []; toast = ""; toastTime = 0;
+    metres = 0; collected = 0; elapsed = 0; spawnClock = 0; roadScroll = 0; objects = []; particles = []; toast = ""; toastTime = 0;
     running = true; paused = document.hidden;
     intro.hidden = true; result.hidden = true; play.hidden = false;
     feedback.textContent = say("Ferește-te de tramvaie, sari peste bariere și strânge borcanele!", "Dodge trams, jump the barriers and collect the spice jars!");
