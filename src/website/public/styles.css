@@ -2915,3 +2915,20 @@ html[data-theme="dark"] .spice-runner-result-score { border-color: rgba(214,166,
   .spice-runner-mascot img { animation: none; }
   .spice-runner-controls button { transition: none; }
 }
+
+
+/* Rendering correction: keep the canvas crisp and remove the translucent wash. */
+.spice-runner-stage::after { display: none !important; content: none !important; }
+.spice-runner-stage {
+  background: #344b43;
+  box-shadow: 0 10px 24px rgba(37, 21, 18, .32), inset 0 0 0 2px rgba(255, 228, 184, .16);
+}
+#spice-runner-canvas {
+  display: block;
+  opacity: 1 !important;
+  filter: none !important;
+  image-rendering: auto;
+}
+@media (prefers-reduced-motion: reduce) {
+  .spice-runner-stage::after { display: none !important; }
+}
