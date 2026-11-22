@@ -24,8 +24,11 @@ Automatic updates are deliberately conservative. They run only when the
 checkout is on `main`, its `origin` remote is
 `github.com/Gamer100Dev/Zarad-Website`, and there are no tracked local
 modifications or divergent local commits. Untracked files are left untouched.
-If Git, the Go toolchain, GitHub authentication, or the build is unavailable,
-the current server keeps running and the next check retries.
+If the network, GitHub authentication, or an update build temporarily
+fails, the current server keeps running and the next scheduled check retries.
+Git must be installed and the launcher must be started from a Git checkout;
+the Go toolchain must be available before an update can be built. If Git or the
+checkout is missing, restart the launcher after fixing that setup.
 
 The machine running the launcher therefore needs Git, Go 1.22 or newer, and
 working Git credentials for the repository. This is intended for a local
