@@ -45,7 +45,7 @@
   let raf = 0, last = 0, spawnClock = 0, elapsed = 0, roadScroll = 0;
   let running = false, paused = false, previousFocus = null, pointer = null;
   let lane = 0, visualLane = 0, jumpTime = 0, slideTime = 0;
-  let metres = 0, collected = 0, objects = [], toast = "", toastTime = 0, best = 0;
+  let metres = 0, collected = 0, objects = [], best = 0;
   const say = (ro, en) => document.documentElement.lang === "en" ? en : ro;
   try {
     best = Math.max(0, Number(localStorage.getItem("zarad-spice-run-best") || 0) || 0);
@@ -62,8 +62,6 @@
     last = 0;
   }
   function notify(message) {
-    toast = message;
-    toastTime = 1.2;
     feedback.textContent = message;
   }
   function draw(now) {
@@ -121,7 +119,6 @@
     if (jumpTime >= .78) jumpTime = 0;
     slideTime = Math.max(0, slideTime - dt);
     visualLane += (lane - visualLane) * Math.min(1, dt * 13);
-    toastTime = Math.max(0, toastTime - dt);
     for (let i = objects.length - 1; i >= 0; i--) {
       const item = objects[i];
       item.depth += speed * dt;
@@ -131,7 +128,7 @@
           if (item.kind === "spice") {
             collected++;
             const spice = spices[item.spiceIndex];
-            burst(xAt(item.lane, item.depth), yAt(item.depth) - 28, "#ffcf69", 15);
+            // Pickup feedback is reported in the HUD; the WebGL renderer animates the jar itself.
             notify(say("Ai adunat: " + spice[0], "Collected: " + spice[1]));
           } else {
             const cleared = item.kind === "crate" || item.kind === "barrier" ? jumpTime > .12 : item.kind === "awning" ? slideTime > .12 : false;
@@ -158,7 +155,7 @@
     overlay.classList.add("spice-runner-gameplay");
     dialog.classList.add("spice-runner-live");
     lane = 0; visualLane = 0; jumpTime = 0; slideTime = 0;
-    metres = 0; collected = 0; elapsed = 0; spawnClock = 0; roadScroll = 0; objects = []; toast = ""; toastTime = 0;
+    metres = 0; collected = 0; elapsed = 0; spawnClock = 0; roadScroll = 0; objects = [];
     running = true; paused = document.hidden;
     intro.hidden = true; result.hidden = true; play.hidden = false;
     feedback.textContent = say("Ferește-te de tramvaie, sari peste bariere și strânge borcanele!", "Dodge trams, jump the barriers and collect the spice jars!");
