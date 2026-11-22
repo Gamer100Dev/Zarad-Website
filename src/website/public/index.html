@@ -31,7 +31,8 @@
   </script>
   <link rel="stylesheet" href="/styles.css?v=zarad-home-spice-hunt-clickfix-20261121">
   <script src="/theme.js?v=zarad-logo-frame-preload-20261119" defer></script>
-  <script src="/app.js?v=zarad-english-copy-20261121" defer></script>
+  <script src="/app.js?v=zarad-spice-sprint-20261122" defer></script>
+  <script src="/spice-runner.js?v=zarad-spice-sprint-20261122" defer></script>
 </head>
 <body>
   <header class="site-header zarad-header">
@@ -89,7 +90,7 @@
 
         <div class="hero-caption">
           <span id="zarad_slide_caption" data-ro="CULORI ȘI AROME CU PERSONALITATE" data-en="BOLD FLAVOURS, FULL OF CHARACTER">CULORI ȘI AROME CU PERSONALITATE</span>
-          <button class="caption-symbol game-secret-trigger" id="spice-game-trigger" type="button" aria-label="Open Spice Hunt" title="Open Spice Hunt">✳</button>
+          <button class="caption-symbol game-secret-trigger" id="spice-game-trigger" type="button" aria-label="Open Spice Sprint" title="Open Spice Sprint">✳</button>
         </div>
 
               </div>
@@ -215,39 +216,58 @@
   </footer>
 
   <div class="spice-game-overlay" id="spice-game" hidden>
-    <section class="spice-game-dialog" role="dialog" aria-modal="true" aria-labelledby="spice-game-title" aria-describedby="spice-game-description" tabindex="-1">
+    <section class="spice-game-dialog spice-runner-dialog" role="dialog" aria-modal="true" aria-labelledby="spice-game-title" aria-describedby="spice-game-description" tabindex="-1">
       <button class="spice-game-close" id="spice-game-close" type="button" aria-label="Close game">×</button>
-      <p class="spice-game-kicker" data-ro="UN MIC SECRET ZARAD" data-en="A LITTLE ZARAD SECRET">UN MIC SECRET ZARAD</p>
-      <h2 id="spice-game-title">Spice Hunt</h2>
-      <p class="spice-game-subtitle" id="spice-game-description" data-ro="Găsește condimentele potrivite și vezi cât de bine le cunoști." data-en="Find the spices and put your knowledge to the test.">Găsește condimentele potrivite și vezi cât de bine le cunoști.</p>
-
-      <div class="spice-game-intro" id="spice-game-intro">
-        <div class="spice-game-intro-art" aria-hidden="true"><span>🌶️</span><span>✦</span><span>🫚</span></div>
-        <p id="spice-game-intro-copy" data-ro="Ai 40 de secunde pentru a rezolva 5 indicii. Alege condimentul corect dintre borcane. Fiecare răspuns greșit îți ia 3 secunde!" data-en="You have 40 seconds to solve five clues. Choose the correct spice from the jars. Every wrong answer costs you three seconds!">Ai 40 de secunde pentru a rezolva 5 indicii. Alege condimentul corect dintre borcane. Fiecare răspuns greșit îți ia 3 secunde!</p>
-        <button class="spice-game-action" id="spice-game-start" type="button" data-ro="Începe căutarea" data-en="Start the hunt">Începe căutarea</button>
+      <div class="spice-runner-heading">
+        <p class="spice-game-kicker" data-ro="AVENTURĂ ÎN SOUK-UL ZARAD" data-en="A RUN THROUGH THE ZARAD SOUK">AVENTURĂ ÎN SOUK-UL ZARAD</p>
+        <h2 id="spice-game-title">Spice Sprint</h2>
+        <p class="spice-game-subtitle" id="spice-game-description" data-ro="Aleargă prin piață, ferește-te de obstacole și adună aromele Zarad." data-en="Dash through the market, dodge the obstacles and collect Zarad spices.">Aleargă prin piață, ferește-te de obstacole și adună aromele Zarad.</p>
       </div>
 
-      <div class="spice-game-play" id="spice-game-play" hidden>
-        <div class="spice-game-stats" aria-live="polite">
-          <div><span data-ro="SCOR" data-en="SCORE">SCOR</span><strong id="spice-game-score">0 / 5</strong></div>
-          <div><span data-ro="TIMP" data-en="TIME">TIMP</span><strong id="spice-game-time">40s</strong></div>
-          <div><span data-ro="INDICIU" data-en="CLUE">INDICIU</span><strong id="spice-game-round">1 / 5</strong></div>
+      <div class="spice-runner-intro" id="spice-game-intro">
+        <div class="spice-runner-mascot">
+          <img src="/assets/Final%20mascot.png" alt="Mascota Zarad" loading="lazy" decoding="async">
+          <span data-ro="ONE SPICE AWAY" data-en="ONE SPICE AWAY">ONE SPICE AWAY</span>
         </div>
-        <div class="spice-game-clue">
-          <span data-ro="CAUTĂ CONDIMENTUL" data-en="FIND THE SPICE">CAUTĂ CONDIMENTUL</span>
-          <p id="spice-game-clue-text"></p>
+        <div class="spice-runner-intro-copy">
+          <p data-ro="Pornește într-o cursă fără sfârșit printr-un souk plin de culoare. Schimbă banda, sari peste lăzile cu mirodenii, alunecă pe sub copertine și strânge borcanele de condimente." data-en="Take an endless dash through a colourful souk. Switch lanes, jump over spice crates, slide under low awnings and collect spice jars.">Pornește într-o cursă fără sfârșit printr-un souk plin de culoare. Schimbă banda, sari peste lăzile cu mirodenii, alunecă pe sub copertine și strânge borcanele de condimente.</p>
+          <div class="spice-runner-howto">
+            <span><b>← →</b><span data-ro="Schimbă banda" data-en="Change lanes">Schimbă banda</span></span>
+            <span><b>↑ / SPACE</b><span data-ro="Sari peste lăzi" data-en="Jump over crates">Sari peste lăzi</span></span>
+            <span><b>↓</b><span data-ro="Alunecă pe sub copertine" data-en="Slide under awnings">Alunecă pe sub copertine</span></span>
+          </div>
+          <button class="spice-game-action" id="spice-game-start" type="button" data-ro="Începe cursa" data-en="Start running">Începe cursa</button>
         </div>
-        <div class="spice-game-options" id="spice-game-options"></div>
-        <p class="spice-game-feedback" id="spice-game-feedback" role="status" aria-live="polite"></p>
+      </div>
+
+      <div class="spice-runner-play" id="spice-game-play" hidden>
+        <div class="spice-runner-hud" aria-live="polite">
+          <div><span data-ro="DISTANȚĂ" data-en="DISTANCE">DISTANȚĂ</span><strong id="spice-runner-distance">0 m</strong></div>
+          <div><span data-ro="CONDIMENTE" data-en="SPICES">CONDIMENTE</span><strong id="spice-runner-spices">0</strong></div>
+          <div><span data-ro="RECORD" data-en="BEST">RECORD</span><strong id="spice-runner-best">0 m</strong></div>
+        </div>
+        <div class="spice-runner-stage">
+          <canvas id="spice-runner-canvas" width="960" height="540" tabindex="0" role="img" aria-label="Spice Sprint endless runner. Use the arrow keys to move, jump and slide."></canvas>
+          <span class="spice-runner-stage-label" data-ro="PIAȚA ZARAD · ALEARGĂ DUPĂ AROME" data-en="ZARAD MARKET · RUN FOR FLAVOUR">PIAȚA ZARAD · ALEARGĂ DUPĂ AROME</span>
+        </div>
+        <div class="spice-runner-controls" aria-label="Game controls">
+          <button type="button" data-runner-action="left" aria-label="Move left">←</button>
+          <button type="button" data-runner-action="right" aria-label="Move right">→</button>
+          <button type="button" data-runner-action="jump"><span>↑</span><small data-ro="SARI" data-en="JUMP">SARI</small></button>
+          <button type="button" data-runner-action="slide"><span>↓</span><small data-ro="ALUNECĂ" data-en="SLIDE">ALUNECĂ</small></button>
+        </div>
+        <p class="spice-runner-feedback" id="spice-runner-feedback" role="status" aria-live="polite"></p>
       </div>
 
       <div class="spice-game-result" id="spice-game-result" hidden>
-        <div class="spice-game-result-mark" id="spice-game-result-mark" aria-hidden="true">✦</div>
-        <h3 id="spice-game-result-title"></h3>
-        <p id="spice-game-result-copy"></p>
-        <button class="spice-game-action" id="spice-game-restart" type="button" data-ro="Mai încearcă o dată" data-en="Play again">Mai încearcă o dată</button>
+        <div class="spice-game-result-mark" id="spice-runner-result-mark" aria-hidden="true">✦</div>
+        <p class="spice-game-kicker" data-ro="CURSA S-A ÎNCHEIAT" data-en="RUN COMPLETE">CURSA S-A ÎNCHEIAT</p>
+        <h3 id="spice-runner-result-title"></h3>
+        <p id="spice-runner-result-copy"></p>
+        <strong class="spice-runner-result-score" id="spice-runner-result-score">0 pts</strong>
+        <button class="spice-game-action" id="spice-game-restart" type="button" data-ro="Mai încearcă o dată" data-en="Run again">Mai încearcă o dată</button>
       </div>
-      <p class="spice-game-footnote" data-ro="Un mic joc inspirat de aromele Zarad." data-en="A little game inspired by the flavours of Zarad.">Un mic joc inspirat de aromele Zarad.</p>
+      <p class="spice-game-footnote" data-ro="Un joc inspirat de aromele și culorile Zarad." data-en="A little game inspired by the flavours and colours of Zarad.">Un joc inspirat de aromele și culorile Zarad.</p>
     </section>
   </div>
 
