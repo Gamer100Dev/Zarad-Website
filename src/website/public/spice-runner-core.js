@@ -100,6 +100,7 @@
       return snapshot();
     }
 
+    reset();
     return {
       reset, snapshot, move, jump, slide, update,
       collectSpice, collectPowerup, hitBarrier,
