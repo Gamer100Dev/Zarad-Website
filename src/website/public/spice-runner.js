@@ -334,7 +334,7 @@
         ctx.beginPath(); ctx.moveTo(topX+sign*11,horizon); ctx.lineTo(bottomX+sign*34,H); ctx.stroke();
       }
       for (let i = 0; i < 15; i++) {
-        const p = (i/15 + scroll) % 1, z = 1-p, y = yAt(p), x = xAt(laneIndex,z);
+        const p = (i/15 - scroll + 1) % 1, z = p, y = yAt(p), x = xAt(laneIndex,z);
         const depth = .16 + p*1.15, width = 20 + p*54;
         ctx.fillStyle = "rgba(19,13,12,.28)"; rounded(x-width/2,y-2*depth,width,6*depth,2*depth); ctx.fill();
         const wood = ctx.createLinearGradient(x-width/2,y,x+width/2,y);
@@ -722,7 +722,7 @@
   function draw(now) {
     drawWorld(now);
     objects.slice().sort((a, b) => b.z - a.z).forEach((item) => {
-      const y = yAt(1 - item.z), scale = .24 + (1 - item.z) * 1.06, x = xAt(item.lane, item.z);
+      const y = yAt(item.z), scale = .24 + (1 - item.z) * 1.06, x = xAt(item.lane, item.z);
       if (item.kind === "spice") drawSpice(item, x, y, scale);
       else if (item.kind === "crate") drawCrate(x, y, scale);
       else if (item.kind === "train") drawTrain(x, y, scale);
@@ -803,12 +803,12 @@
           if (item.kind === "spice") {
             collected++;
             const spice = spices[item.spiceIndex];
-            burst(xAt(item.lane, item.z), yAt(1 - item.z) - 25, "#ffcf69", 15);
+            burst(xAt(item.lane, item.z), yAt(item.z) - 28, "#ffcf69", 15);
             notify(say("Ai adunat: " + spice[0], "Collected: " + spice[1]));
           } else {
             const cleared = item.kind === "crate" || item.kind === "barrier" ? jumpTime > .12 : item.kind === "awning" ? slideTime > .12 : false;
             if (!cleared) { finish(); return; }
-            notify(item.kind === "crate" ? say("Frumos salt!", "Nice jump!") : say("La fix! Te-ai strecurat pe dedesubt.", "Perfect slide!"));
+            notify(item.kind === "crate" || item.kind === "barrier" ? say("Frumos salt!", "Nice jump!") : say("La fix! Te-ai strecurat pe dedesubt.", "Perfect slide!"));
           }
         }
       }
