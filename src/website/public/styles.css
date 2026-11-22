@@ -2744,3 +2744,174 @@ html[data-theme="dark"] .game-secret-trigger {
   border-color: rgba(237, 199, 131, .85);
   color: #edc783;
 }
+
+
+/* Spice Sprint — premium souk presentation */
+.spice-game-dialog.spice-runner-dialog {
+  border: 1px solid rgba(211, 164, 91, .95);
+  border-radius: 8px;
+  background:
+    radial-gradient(ellipse at 50% 0%, rgba(225, 176, 103, .2), transparent 44%),
+    linear-gradient(145deg, #fff9ee 0%, #f1e4d1 54%, #ead7bd 100%);
+  box-shadow:
+    0 32px 100px rgba(15, 9, 8, .55),
+    0 0 0 5px rgba(62, 31, 29, .6),
+    inset 0 0 0 1px rgba(255, 255, 255, .72);
+}
+.spice-runner-heading { position: relative; }
+.spice-runner-heading::after {
+  content: "✦  ✧  ✦";
+  display: block;
+  margin: 12px auto 0;
+  color: #b9853f;
+  font-size: 11px;
+  letter-spacing: .7em;
+  opacity: .9;
+}
+.spice-runner-mascot {
+  border-radius: 5px;
+  background:
+    radial-gradient(circle at 50% 42%, rgba(255, 249, 229, .98), rgba(227, 200, 157, .9) 70%),
+    repeating-linear-gradient(45deg, rgba(129, 68, 48, .06) 0 2px, transparent 2px 9px);
+  box-shadow: inset 0 0 0 5px rgba(255, 245, 224, .45), 0 15px 34px rgba(72, 42, 30, .12);
+}
+.spice-runner-mascot img { animation: runner-mascot-float 4.6s ease-in-out infinite; }
+@keyframes runner-mascot-float {
+  0%, 100% { transform: translateY(3px); }
+  50% { transform: translateY(-5px); }
+}
+.spice-runner-howto b {
+  border-radius: 5px;
+  background: linear-gradient(180deg, #fffaf0, #ead9bd);
+  box-shadow: inset 0 1px 0 #fff, 0 2px 4px rgba(77, 44, 31, .1);
+}
+.spice-runner-hud { gap: 9px; margin-bottom: 13px; }
+.spice-runner-hud > div {
+  position: relative;
+  overflow: hidden;
+  min-height: 60px;
+  justify-content: center;
+  padding: 9px 12px;
+  border: 1px solid rgba(220, 174, 104, .72);
+  border-radius: 6px;
+  background:
+    radial-gradient(circle at 50% -20%, rgba(220, 166, 92, .19), transparent 72%),
+    linear-gradient(145deg, #683238, #3b252b 72%);
+  box-shadow: 0 5px 12px rgba(51, 29, 25, .17), inset 0 1px 0 rgba(255, 242, 213, .15);
+}
+.spice-runner-hud > div::after {
+  content: "";
+  position: absolute;
+  right: 8px;
+  bottom: 8px;
+  width: 22px;
+  height: 22px;
+  border: 1px solid rgba(230, 186, 111, .22);
+  border-radius: 50%;
+  transform: rotate(45deg);
+}
+.spice-runner-hud span {
+  color: #e7c58b;
+  font-size: 9px;
+  letter-spacing: .19em;
+}
+.spice-runner-hud strong {
+  color: #fff0c9;
+  font-family: "Playfair Display", Georgia, serif;
+  font-size: 21px;
+  text-shadow: 0 1px 8px rgba(244, 190, 100, .18);
+}
+.spice-runner-stage {
+  border: 2px solid #9b6638;
+  border-radius: 6px;
+  background: #4a302d;
+  box-shadow:
+    0 13px 28px rgba(44, 26, 23, .28),
+    inset 0 0 0 4px rgba(255, 229, 185, .2),
+    inset 0 0 30px rgba(34, 19, 17, .25);
+}
+.spice-runner-stage::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  background: linear-gradient(180deg, rgba(255, 234, 195, .07), transparent 20%, transparent 78%, rgba(28, 16, 16, .11));
+  box-shadow: inset 0 0 34px rgba(32, 18, 17, .18);
+}
+#spice-runner-canvas {
+  filter: saturate(1.12) contrast(1.035);
+}
+.spice-runner-stage-label {
+  border: 1px solid rgba(231, 191, 124, .58);
+  border-radius: 3px;
+  background: linear-gradient(135deg, rgba(67, 34, 33, .9), rgba(35, 27, 27, .84));
+  box-shadow: 0 3px 10px rgba(0, 0, 0, .18);
+  text-shadow: 0 1px 3px rgba(0, 0, 0, .6);
+}
+.spice-runner-controls { gap: 9px; }
+.spice-runner-controls button {
+  min-height: 47px;
+  border: 1px solid rgba(179, 126, 62, .72);
+  border-radius: 5px;
+  background: linear-gradient(180deg, #fff9ec, #e9d5b4);
+  color: #6c3032;
+  box-shadow: 0 4px 0 #b58a53, 0 7px 13px rgba(58, 33, 27, .13), inset 0 1px 0 #fff;
+  transition: transform .14s ease, box-shadow .14s ease, filter .14s ease;
+}
+.spice-runner-controls button:hover {
+  border-color: #a46b30;
+  background: linear-gradient(180deg, #fff4d9, #e7c48c);
+  filter: brightness(1.03);
+  transform: translateY(-1px);
+}
+.spice-runner-controls button:active {
+  transform: translateY(3px);
+  box-shadow: 0 1px 0 #b58a53, 0 3px 7px rgba(58, 33, 27, .12);
+}
+.spice-runner-controls button span { font-size: 20px; line-height: 1; }
+.spice-runner-controls small { color: #81523b; font-weight: 800; }
+.spice-runner-feedback {
+  color: #7b5434;
+  letter-spacing: .025em;
+}
+.spice-game-result {
+  border-radius: 6px;
+  background: linear-gradient(145deg, rgba(255, 249, 237, .9), rgba(231, 212, 184, .7));
+  box-shadow: inset 0 1px 0 rgba(255,255,255,.8), 0 8px 22px rgba(67,41,30,.08);
+}
+.spice-runner-result-score {
+  display: inline-block;
+  padding: 8px 18px;
+  border: 1px solid rgba(181, 130, 58, .55);
+  border-radius: 30px;
+  background: #fff7e8;
+  box-shadow: inset 0 1px 0 #fff;
+}
+html[data-theme="dark"] .spice-game-dialog.spice-runner-dialog {
+  background:
+    radial-gradient(ellipse at 50% 0%, rgba(214, 166, 83, .15), transparent 44%),
+    linear-gradient(145deg, #392b2a, #2b2222 70%, #241d1e);
+}
+html[data-theme="dark"] .spice-runner-hud > div {
+  border-color: rgba(214, 166, 83, .5);
+  background: linear-gradient(145deg, #512b32, #2c2024 72%);
+}
+html[data-theme="dark"] .spice-runner-hud span { color: #e4c28a; }
+html[data-theme="dark"] .spice-runner-hud strong { color: #fff0c9; }
+html[data-theme="dark"] .spice-runner-controls button {
+  border-color: rgba(214,166,83,.5);
+  background: linear-gradient(180deg, #59413a, #382b29);
+  color: #f3dbb7;
+  box-shadow: 0 4px 0 #60452f, 0 7px 13px rgba(0,0,0,.25), inset 0 1px 0 rgba(255,255,255,.08);
+}
+html[data-theme="dark"] .spice-runner-controls small { color: #e3c090; }
+html[data-theme="dark"] .spice-runner-result-score { border-color: rgba(214,166,83,.4); background: #3a3029; color: #f0e5d6; }
+@media (max-width: 700px) {
+  .spice-runner-hud > div { min-height: 54px; }
+  .spice-runner-hud strong { font-size: 18px; }
+  .spice-runner-stage { border-width: 1px; }
+}
+@media (prefers-reduced-motion: reduce) {
+  .spice-runner-mascot img { animation: none; }
+  .spice-runner-controls button { transition: none; }
+}
