@@ -204,6 +204,7 @@
       const travel = state.speed * dt / 43;
       for (let i = state.objects.length - 1; i >= 0; i--) {
         const item = state.objects[i];
+        const previousDepth = item.depth;
         item.depth += travel;
 
         if (item.kind === "coin" && !item.resolved) {
@@ -223,7 +224,9 @@
             collectPowerup(item.kind);
           }
         } else if (["train", "crate", "barrier", "awning"].includes(item.kind) && !item.resolved) {
-          const collisionCrossing = item.depth >= PLAYER_DEPTH && item.depth <= PLAYER_DEPTH + 0.026;
+          // Swept crossing: at higher speeds a frame can move the object
+          // beyond the player's depth without ever landing inside a tiny band.
+          const collisionCrossing = previousDepth < PLAYER_DEPTH && item.depth >= PLAYER_DEPTH;
           if (collisionCrossing) {
             item.resolved = true;
             if (item.lane === state.lane) {
