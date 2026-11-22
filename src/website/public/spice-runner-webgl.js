@@ -142,6 +142,12 @@
     function barrier(x,z,s){if(assetAt("barrier",[x,.62*s,z],.72*s))return;for(const side of [-1,1]){box([x+side*.52*s,.42*s,z],[.12*s,.45*s,.16*s],[.35,.20,.12]);box([x+side*.52*s,.15*s,z],[.22*s,.06*s,.36*s],[.3,.18,.12]);}box([x,.87*s,z],[1.24*s,.28*s,.24*s],[.86,.78,.6]);for(let i=-3;i<=3;i++)box([x+i*.17*s,.87*s,z+.13*s],[.085*s,.28*s,.018*s],i%2?[.62,.12,.1]:[.91,.82,.64],[0,0,-.42]);}
     function awning(x,z,s){for(const side of [-1,1])box([x+side*.65*s,1.02*s,z],[.12*s,1.02*s,.12*s],[.35,.18,.12]);box([x,1.95*s,z],[1.62*s,.18*s,.72*s],[.61,.18,.16]);for(let i=-3;i<=3;i++)box([x+i*.22*s,1.87*s,z],[.12*s,.06*s,.73*s],i%2?[.91,.76,.51]:[.93,.88,.73]);}
     function train(x,z,s){box([x,1.28*s,z],[1.2*s,1.28*s,2.25*s],[.47,.12,.15]);box([x,2.35*s,z-.1*s],[1.1*s,.22*s,1.9*s],[.86,.78,.59]);box([x,1.58*s,z+1.14*s],[.88*s,.75*s,.035*s],[.10,.18,.22]);box([x,1.58*s,z+1.19*s],[.79*s,.63*s,.025*s],[.17,.30,.36]);box([x,1.05*s,z+1.2*s],[.54*s,.24*s,.035*s],[.84,.65,.30]);for(const side of [-1,1]){ball([x+side*.82*s,1*s,z+1.2*s],[.12*s,.12*s,.07*s],[1,.82,.38],.7,.1);tube([x+side*.74*s,.3*s,z+.65*s],[.2*s,.1*s,.2*s],[.13,.12,.12],[Math.PI/2,0,0],.6);tube([x+side*.74*s,.3*s,z-.55*s],[.2*s,.1*s,.2*s],[.13,.12,.12],[Math.PI/2,0,0],.6);}}
+    function coin(x,z,time,s){
+      const y=1.08+Math.sin(time*.006+z)*.11,spin=time*.0028;
+      tube([x,y,z],[.34*s,.075*s,.34*s],[1,.70,.08],[Math.PI/2,0,spin],.82,.22);
+      tube([x,y,z+.008],[.23*s,.079*s,.23*s],[.96,.48,.035],[Math.PI/2,0,spin],.76,.10);
+      ball([x-.10*s,y+.10*s,z+.045*s],[.035*s,.11*s,.025*s],[1,.91,.48],.5,.12);
+    }
     function jar(x,z,index,time,s){const c=powder[index%powder.length],bob=Math.sin(time*.005+index)*.12,spin=time*.0011,y=1.05+bob;if(assetAt("bottle",[x,y,z],.43*s,c))return;tube([x,y,z],[.23*s,.31*s,.23*s],c,[0,spin,0],.18,.02);tube([x,y-.05*s,z+.005],[.235*s,.18*s,.235*s],[.90,.77,.57],[0,spin,0],.12);tube([x,y+.31*s,z],[.16*s,.08*s,.16*s],[.74,.45,.18],[0,spin,0],.68,.04);tube([x,y+.43*s,z],[.19*s,.065*s,.19*s],[.91,.70,.34],[0,spin,0],.78);ball([x-.09*s,y+.18*s,z+.205*s],[.035*s,.20*s,.018*s],[1,.93,.77],.25,.02);ball([x,y+.52*s,z],[.045*s,.028*s,.045*s],[.98,.78,.34],.65,.04);}
     function powerup(x,z,kind,time,s){
       const color=kind==="boost-jump"?[.98,.67,.16]:kind==="boost-magnet"?[.22,.68,.46]:[.42,.55,.91];
@@ -262,7 +268,7 @@
       gl.uniformMatrix4fv(sh.projection,false,projection);gl.uniformMatrix4fv(sh.view,false,view);gl.uniform3fv(sh.camera,camera);drawCount=0;
       market(state.now);tracks(state.roadScroll);
       const items=state.objects.slice().sort((a,b)=>a.depth-b.depth);
-      for(const item of items){const z=objectZ(item.depth),x=item.lane*LANE_GAP,s=.82+(item.depth/PLAYER_DEPTH)*.24;if(item.kind==="spice")jar(x,z,item.spiceIndex,state.now,s);else if(item.kind.startsWith("boost-"))powerup(x,z,item.kind,state.now,s);else if(item.kind==="crate")crate(x,z,s);else if(item.kind==="barrier")barrier(x,z,s);else if(item.kind==="awning")awning(x,z,s);else if(item.kind==="train")train(x,z,s);}
+      for(const item of items){const z=objectZ(item.depth),x=item.lane*LANE_GAP,s=.82+(item.depth/PLAYER_DEPTH)*.24;if(item.kind==="coin")coin(x,z,state.now,s);else if(item.kind==="spice")jar(x,z,item.spiceIndex,state.now,s);else if(item.kind.startsWith("boost-"))powerup(x,z,item.kind,state.now,s);else if(item.kind==="crate")crate(x,z,s);else if(item.kind==="barrier")barrier(x,z,s);else if(item.kind==="awning")awning(x,z,s);else if(item.kind==="train")train(x,z,s);}
       guard(state.lane,state.chaser||0,state.now);
       runner(state.lane,state.jumpTime,state.slideTime,state.now,state.jumpHeight);
       return drawCount;
