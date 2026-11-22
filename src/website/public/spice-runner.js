@@ -22,7 +22,7 @@
   const resultMark = document.querySelector("#spice-runner-result-mark");
   if (!dialog || !close || !intro || !play || !result || !start || !restart || !canvas || !ctx) return;
 
-  const W = 960, H = 540, horizon = 148, playerZ = 0.085;
+  const W = 960, H = 540, horizon = 148, playerDepth = 0.90;
   const spices = [
     ["Ras el Hanout", "Ras el Hanout", "ras-el-hanout.jpeg", "#bd7941"],
     ["Kamoun", "Cumin", "kamoun.jpeg", "#b18a45"],
@@ -75,9 +75,22 @@
     ctx.arcTo(x, y, x + w, y, r);
     ctx.closePath();
   }
-  function yAt(z) { return horizon + Math.pow(Math.max(0, 1 - z), 1.72) * 392; }
-  function spacing(z) { return 72 + (1 - z) * 218; }
-  function xAt(which, z) { return W / 2 + which * spacing(z); }
+  // One camera convention everywhere: depth 0 is the distant horizon,
+  // depth 1 is the runner's near-ground plane. Objects move by increasing depth.
+  function clampDepth(depth) { return Math.max(0, Math.min(1.24, depth)); }
+  function yAt(depth) {
+    const d = clampDepth(depth);
+    return horizon + Math.pow(d, 1.62) * 392;
+  }
+  function spacing(depth) {
+    const d = clampDepth(depth);
+    return 72 + d * 218;
+  }
+  function xAt(which, depth) { return W / 2 + which * spacing(depth); }
+  function scaleAt(depth) {
+    const d = clampDepth(depth);
+    return 0.22 + Math.pow(d, 1.12) * 1.08;
+  }
   function hud() {
     distanceEl.textContent = Math.floor(metres) + " m";
     spicesEl.textContent = String(collected);
@@ -331,7 +344,7 @@
     for (let i = 0; i < 15; i++) { const y = yAt(i/14); ctx.fillRect(0,y,W,1+i/5); }
     const scroll = (t * (.55 + Math.min(1.2, elapsed * .012))) % 1;
     for (let laneIndex = -1; laneIndex <= 1; laneIndex++) {
-      const topX = xAt(laneIndex,1), bottomX = xAt(laneIndex,.045);
+      const topX = xAt(laneIndex,0), bottomX = xAt(laneIndex,1);
       for (const sign of [-1,1]) {
         const rail = ctx.createLinearGradient(topX,horizon,bottomX,H);
         rail.addColorStop(0,"#8e7770"); rail.addColorStop(.32,"#f4d7a7"); rail.addColorStop(.6,"#63544d"); rail.addColorStop(1,"#d9c8aa");
@@ -343,13 +356,15 @@
         ctx.beginPath(); ctx.moveTo(topX+sign*11,horizon); ctx.lineTo(bottomX+sign*34,H); ctx.stroke();
       }
       for (let i = 0; i < 15; i++) {
-        const p = (i/15 - scroll + 1) % 1, z = p, y = yAt(p), x = xAt(laneIndex,z);
-        const depth = .16 + p*1.15, width = 20 + p*54;
-        ctx.fillStyle = "rgba(19,13,12,.28)"; rounded(x-width/2,y-2*depth,width,6*depth,2*depth); ctx.fill();
+        const depth = (i / 15 + scroll) % 1;
+        const y = yAt(depth), x = xAt(laneIndex, depth);
+        const depthScale = scaleAt(depth), width = 22 * depthScale + 54 * depth;
+        const tieHeight = 5 * depthScale;
+        ctx.fillStyle = "rgba(19,13,12,.32)"; rounded(x-width/2,y-tieHeight*.3,width,tieHeight*1.35,2*depthScale); ctx.fill();
         const wood = ctx.createLinearGradient(x-width/2,y,x+width/2,y);
         wood.addColorStop(0,"#4d342d"); wood.addColorStop(.5,"#b17b4d"); wood.addColorStop(1,"#4d342d");
-        ctx.fillStyle = wood; rounded(x-width/2,y-4*depth,width,5*depth,2*depth); ctx.fill();
-        ctx.fillStyle = "rgba(241,207,152,.36)"; ctx.fillRect(x-width*.38,y-3.5*depth,width*.76,.8*depth);
+        ctx.fillStyle = wood; rounded(x-width/2,y-tieHeight,width,tieHeight,2*depthScale); ctx.fill();
+        ctx.fillStyle = "rgba(241,207,152,.42)"; ctx.fillRect(x-width*.38,y-tieHeight*.78,width*.76,Math.max(1,tieHeight*.16));
       }
     }
     const reflection = ctx.createLinearGradient(0,210,0,H);
@@ -489,7 +504,7 @@
   }
 
   function drawRunner(now) {
-    const x = xAt(visualLane, playerZ);
+    const x = xAt(visualLane, playerDepth);
     const jumping = jumpTime > 0;
     const sliding = slideTime > 0;
     const jumpProgress = jumping ? Math.min(1, jumpTime / .78) : 0;
@@ -498,7 +513,7 @@
     const frame = sliding ? 3 : jumping ? 2 : runningFrame;
     const lean = Math.max(-.1, Math.min(.1, (lane - visualLane) * .15));
     const idleBob = jumping || sliding ? 0 : Math.abs(Math.sin(now * .014)) * 2.5;
-    const groundY = yAt(playerZ);
+    const groundY = yAt(playerDepth);
     const baseY = groundY - 3 - lift + idleBob;
 
     // Ground shadow stays on the track while the character rises above it.
@@ -614,8 +629,9 @@
     ctx.globalCompositeOperation = "source-over";
     if ("filter" in ctx) ctx.filter = "none";
     drawWorld(now);
-    objects.slice().sort((a, b) => b.z - a.z).forEach((item) => {
-      const y = yAt(item.z), scale = .24 + (1 - item.z) * 1.06, x = xAt(item.lane, item.z);
+    objects.slice().sort((a, b) => a.depth - b.depth).forEach((item) => {
+      const depth = item.depth;
+      const y = yAt(depth), scale = scaleAt(depth), x = xAt(item.lane, depth);
       if (item.kind === "spice") drawSpice(item, x, y, scale);
       else if (item.kind === "crate") drawCrate(x, y, scale);
       else if (item.kind === "train") drawTrain(x, y, scale);
@@ -638,11 +654,11 @@
 
   function spawn() {
     const laneChoice = Math.floor(Math.random() * 3) - 1;
-    if (Math.random() < .37) objects.push({ kind: "spice", lane: laneChoice, z: 1.06, spiceIndex: Math.floor(Math.random() * spices.length), resolved: false });
+    if (Math.random() < .37) objects.push({ kind: "spice", lane: laneChoice, depth: 0.015, spiceIndex: Math.floor(Math.random() * spices.length), resolved: false });
     else {
       const roll = Math.random();
       const kind = roll < .34 ? "crate" : roll < .57 ? "awning" : roll < .79 ? "barrier" : "train";
-      objects.push({ kind, lane: laneChoice, z: 1.06, resolved: false });
+      objects.push({ kind, lane: laneChoice, depth: 0.015, resolved: false });
     }
   }
   function burst(x, y, colour, count) {
@@ -689,14 +705,15 @@
     visualLane += (lane - visualLane) * Math.min(1, dt * 13);
     toastTime = Math.max(0, toastTime - dt);
     for (let i = objects.length - 1; i >= 0; i--) {
-      const item = objects[i]; item.z -= speed * dt;
-      if (item.z <= playerZ && !item.resolved) {
+      const item = objects[i];
+      item.depth += speed * dt;
+      if (item.depth >= playerDepth && !item.resolved) {
         item.resolved = true;
         if (item.lane === lane) {
           if (item.kind === "spice") {
             collected++;
             const spice = spices[item.spiceIndex];
-            burst(xAt(item.lane, item.z), yAt(item.z) - 28, "#ffcf69", 15);
+            burst(xAt(item.lane, item.depth), yAt(item.depth) - 28, "#ffcf69", 15);
             notify(say("Ai adunat: " + spice[0], "Collected: " + spice[1]));
           } else {
             const cleared = item.kind === "crate" || item.kind === "barrier" ? jumpTime > .12 : item.kind === "awning" ? slideTime > .12 : false;
@@ -705,7 +722,7 @@
           }
         }
       }
-      if (item.z < -.12) objects.splice(i, 1);
+      if (item.depth > 1.22) objects.splice(i, 1);
     }
     hud();
   }
