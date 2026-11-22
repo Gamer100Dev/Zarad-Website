@@ -6,38 +6,14 @@ const slider = document.querySelector("#zarad_slider");
 
 let currentLanguage = "ro";
 
-const gameOverlay = document.querySelector("#spice-game");
 const gameTrigger = document.querySelector("#spice-game-trigger");
-const gameClose = document.querySelector("#spice-game-close");
-const gameLanguageButton = document.querySelector("#spice-game-language");
-const gameFrame = document.querySelector("#zarad-dash-frame");
-
-function syncGameLanguage() {
-  if (gameLanguageButton) {
-    const isRomanian = currentLanguage === "ro";
-    gameLanguageButton.textContent = isRomanian ? "EN" : "RO";
-    gameLanguageButton.setAttribute("aria-label", isRomanian ? "Switch to English" : "Schimbă limba în română");
-    gameLanguageButton.title = isRomanian ? "English" : "Română";
-  }
-  if (gameOverlay && !gameOverlay.hidden && gameFrame && gameFrame.contentWindow) {
-    gameFrame.contentWindow.postMessage({ type: "zarad-language", language: currentLanguage }, window.location.origin);
-  }
-}
 
 function openZaradDash() {
-  if (!gameOverlay || !gameFrame) return;
-  gameOverlay.hidden = false;
-  document.body.classList.add("spice-game-open");
-  gameFrame.src = "/Zarad-Dash.html?lang=" + currentLanguage;
-  if (gameClose) gameClose.focus();
-}
-
-function closeZaradDash() {
-  if (!gameOverlay) return;
-  gameOverlay.hidden = true;
-  document.body.classList.remove("spice-game-open");
-  if (gameFrame) gameFrame.src = "about:blank";
-  if (gameTrigger) gameTrigger.focus();
+  try {
+    localStorage.setItem("zarad-language", currentLanguage);
+  } catch {
+  }
+  window.location.assign("/Zarad-Dash.html?lang=" + currentLanguage);
 }
 
 if (currentYear) {
@@ -73,16 +49,10 @@ function setLanguage(language) {
   }
 
   renderCatalog();
-  syncGameLanguage();
   if (gameTrigger) {
     const label = language === "ro" ? "Deschide Zarad Dash" : "Open Zarad Dash";
     gameTrigger.setAttribute("aria-label", label);
     gameTrigger.title = label;
-  }
-  if (gameClose) {
-    const label = language === "ro" ? "Închide jocul" : "Close game";
-    gameClose.setAttribute("aria-label", label);
-    gameClose.title = label;
   }
 }
 
@@ -250,13 +220,7 @@ function setupHomeReveal() {
 
 function setupZaradDash() {
   if (gameTrigger) gameTrigger.addEventListener("click", openZaradDash);
-  if (gameClose) gameClose.addEventListener("click", closeZaradDash);
-  if (gameLanguageButton) gameLanguageButton.addEventListener("click", () => {
-    setLanguage(currentLanguage === "ro" ? "en" : "ro");
-  });
-  if (gameFrame) gameFrame.addEventListener("load", syncGameLanguage);
 }
-
 
 let savedLanguage = "ro";
 

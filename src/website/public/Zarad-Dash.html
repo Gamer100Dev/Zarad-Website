@@ -22,9 +22,19 @@ h1{margin:0 0 4px;font-size:34px;color:var(--acc);letter-spacing:1px}
 p{margin:6px 0 14px;font-size:15px;line-height:1.4}
 button{font:inherit;font-weight:800;font-size:20px;background:var(--acc);color:#fff;border:0;border-radius:14px;padding:10px 30px;box-shadow:0 5px 0 #0005;cursor:pointer}
 button:active{transform:translateY(3px);box-shadow:0 2px 0 #0005}
+
+#page-tools{position:absolute;z-index:20;top:calc(env(safe-area-inset-top,0px) + 48px);right:12px;display:flex;gap:7px}
+#page-tools button{min-height:38px;min-width:42px;padding:7px 12px;border:1px solid #fff4d2;border-radius:999px;background:#4b281ddd;color:#fff5dc;font-size:13px;box-shadow:0 3px 10px #0004}
+#page-tools #exit-game{font-size:20px;padding:5px 12px}
+#page-tools button:focus-visible{outline:3px solid var(--gold);outline-offset:2px}
+@media(max-width:600px){#page-tools{top:calc(env(safe-area-inset-top,0px) + 48px);right:8px}#page-tools button{min-height:36px;min-width:38px}}
 </style></head><body>
 <canvas id="c"></canvas>
 <div id="hud"><div id="sc">0 m</div><div id="co">🌶️ 0</div></div><div id="shelf"></div><div id="toast"></div>
+<div id="page-tools" role="group" aria-label="Game controls">
+  <button id="language-toggle" type="button" aria-label="Switch to English" title="English">EN</button>
+  <button id="exit-game" type="button" aria-label="Back to website" title="Back to website">×</button>
+</div>
 <div id="ov"><div class="card"><h1 id="t">ZARAD DASH</h1><p id="m"></p><div id="pick"></div><p><span id="spice-total-label">Condimente colectate:</span> <b id="tot">0</b> · <span id="catalog-label">colecție</span> <b id="cat">0</b>/8</p><button id="go">Hai!</button></div></div>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
 <script>
@@ -127,6 +137,18 @@ function applyGameLanguage(next) {
   document.getElementById('spice-total-label').textContent=gameText('total');
   document.getElementById('catalog-label').textContent=gameText('collection');
   document.getElementById('go').textContent=st==='over'?gameText('tryAgain'):gameText('start');
+  const languageButton=document.getElementById('language-toggle');
+  const exitButton=document.getElementById('exit-game');
+  if(languageButton){
+    languageButton.textContent=gameLanguage==='ro'?'EN':'RO';
+    languageButton.setAttribute('aria-label',gameLanguage==='ro'?'Switch to English':'Schimbă limba în română');
+    languageButton.title=gameLanguage==='ro'?'English':'Română';
+  }
+  if(exitButton){
+    exitButton.textContent=gameLanguage==='ro'?'Acasă':'Home';
+    exitButton.setAttribute('aria-label',gameLanguage==='ro'?'Înapoi la site':'Back to website');
+    exitButton.title=gameLanguage==='ro'?'Înapoi la site':'Back to website';
+  }
   if(st==='over') {
     tt.textContent=gameText('over');
     mm.innerHTML=gameText('result',{distance:dist|0,coins:coinsN});
@@ -200,12 +222,19 @@ addEventListener('keydown',e=>{const k={ArrowLeft:'l',a:'l',ArrowRight:'r',d:'r'
 let tx,ty;addEventListener('touchstart',e=>{tx=e.touches[0].clientX;ty=e.touches[0].clientY},{passive:true});
 addEventListener('touchend',e=>{const dx=e.changedTouches[0].clientX-tx,dy=e.changedTouches[0].clientY-ty;if(Math.hypot(dx,dy)<25)return;Math.abs(dx)>Math.abs(dy)?act(dx>0?'r':'l'):act(dy>0?'d':'u')});
 document.getElementById('go').onclick=start;
-window.addEventListener('message',event=>{
-  if(event.origin!==location.origin)return;
-  if(event.data&&event.data.type==='zarad-language'&&(event.data.language==='ro'||event.data.language==='en'))applyGameLanguage(event.data.language);
+const languageButton=document.getElementById('language-toggle');
+const exitButton=document.getElementById('exit-game');
+if(languageButton)languageButton.addEventListener('click',()=>{
+  const next=gameLanguage==='ro'?'en':'ro';
+  try{localStorage.setItem('zarad-language',next)}catch(e){}
+  const url=new URL(location.href);
+  url.searchParams.set('lang',next);
+  history.replaceState(null,'',url);
+  applyGameLanguage(next);
 });
-window.addEventListener('storage',event=>{
-  if(event.key==='zarad-language'&&(event.newValue==='ro'||event.newValue==='en'))applyGameLanguage(event.newValue);
+if(exitButton)exitButton.addEventListener('click',()=>{
+  try{localStorage.setItem('zarad-language',gameLanguage)}catch(e){}
+  window.location.assign('/');
 });
 applyGameLanguage(gameLanguage);
 const clk=new T.Clock();
