@@ -132,6 +132,7 @@ function applyGameLanguage(next) {
     mm.innerHTML=gameText('result',{distance:dist|0,coins:coinsN});
   }
   pick();
+  Array.from(sh.children).forEach((item,index)=>{item.title=spiceName(index)});
 }
 let SV={t:0,f:[],s:0};try{Object.assign(SV,JSON.parse(localStorage.getItem('zrd')||'{}'))}catch(e){}
 const sv=()=>{try{localStorage.setItem('zrd',JSON.stringify(SV))}catch(e){}};
