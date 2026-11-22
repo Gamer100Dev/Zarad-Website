@@ -28,12 +28,31 @@ button:active{transform:translateY(3px);box-shadow:0 2px 0 #0005}
 #page-tools #exit-game{font-size:20px;padding:5px 12px}
 #page-tools button:focus-visible{outline:3px solid var(--gold);outline-offset:2px}
 @media(max-width:600px){#page-tools{top:calc(env(safe-area-inset-top,0px) + 48px);right:8px}#page-tools button{min-height:36px;min-width:38px}}
+#sound-tools{position:absolute;z-index:20;left:12px;bottom:calc(env(safe-area-inset-bottom,0px) + 12px);display:flex;gap:7px}
+#sound-tools button{display:flex;align-items:center;gap:7px;min-height:38px;padding:7px 11px;border:1px solid #fff0c4;border-radius:999px;background:#4b281ddd;color:#fff5dc;font-size:12px;box-shadow:0 3px 10px #0004}
+#sound-tools button strong{font-size:10px;letter-spacing:.06em;color:#ffdc86}
+#sound-tools button[aria-pressed="false"]{opacity:.62;background:#34251ddd}
+#sound-tools button:focus-visible{outline:3px solid var(--gold);outline-offset:2px}
+#sound-tools .sound-icon{font-size:16px;line-height:1}
+@media(max-width:600px){
+  #sound-tools{left:8px;bottom:calc(env(safe-area-inset-bottom,0px) + 8px);gap:5px}
+  #sound-tools button{min-height:35px;padding:6px 9px;gap:5px;font-size:11px}
+  #sound-tools button strong{font-size:9px}
+}
 </style></head><body>
 <canvas id="c"></canvas>
 <div id="hud"><div id="sc">0 m</div><div id="co">🌶️ 0</div></div><div id="shelf"></div><div id="toast"></div>
 <div id="page-tools" role="group" aria-label="Game controls">
   <button id="language-toggle" type="button" aria-label="Switch to English" title="English">EN</button>
   <button id="exit-game" type="button" aria-label="Back to website" title="Back to website">×</button>
+</div>
+<div id="sound-tools" role="group" aria-label="Setări audio">
+  <button id="music-toggle" type="button" aria-pressed="true" title="Oprește muzica">
+    <span class="sound-icon" aria-hidden="true">♫</span><span id="music-label">Muzică</span><strong id="music-state">ON</strong>
+  </button>
+  <button id="effects-toggle" type="button" aria-pressed="true" title="Oprește efectele sonore">
+    <span class="sound-icon" aria-hidden="true">✧</span><span id="effects-label">Efecte</span><strong id="effects-state">ON</strong>
+  </button>
 </div>
 <div id="ov"><div class="card"><h1 id="t">ZARAD DASH</h1><p id="m"></p><div id="pick"></div><p><span id="spice-total-label">Condimente colectate:</span> <b id="tot">0</b> · <span id="catalog-label">colecție</span> <b id="cat">0</b>/8</p><button id="go">Hai!</button></div></div>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
@@ -74,6 +93,246 @@ function gameText(key,vars={}) {
 }
 function spiceName(i){return gameLanguage==='ro'?CAT_RO[i]:CAT[i][0]}
 function characterName(c,i){return gameLanguage==='ro'?CHARACTER_RO[i]:c.n}
+
+
+// Original Moroccan-inspired game audio generated with Web Audio (no external audio files).
+const AUDIO_STORAGE_KEY='zarad-dash-audio';
+let audioSettings={music:true,effects:true};
+try {
+  const savedAudio=JSON.parse(localStorage.getItem(AUDIO_STORAGE_KEY)||'{}');
+  if(typeof savedAudio.music==='boolean')audioSettings.music=savedAudio.music;
+  if(typeof savedAudio.effects==='boolean')audioSettings.effects=savedAudio.effects;
+} catch(e) {}
+let audioContext=null,musicBus=null,effectsBus=null,musicDelay=null;
+let musicTimer=null,nextMusicTime=0,musicStep=0,noiseBuffer=null;
+
+function saveAudioSettings(){
+  try{localStorage.setItem(AUDIO_STORAGE_KEY,JSON.stringify(audioSettings))}catch(e){}
+}
+function updateAudioControls(){
+  const musicButton=document.getElementById('music-toggle');
+  const effectsButton=document.getElementById('effects-toggle');
+  const musicState=document.getElementById('music-state');
+  const effectsState=document.getElementById('effects-state');
+  const musicLabel=document.getElementById('music-label');
+  const effectsLabel=document.getElementById('effects-label');
+  const soundTools=document.getElementById('sound-tools');
+  const ro=gameLanguage==='ro';
+  if(soundTools)soundTools.setAttribute('aria-label',ro?'Setări audio':'Audio settings');
+  if(musicState)musicState.textContent=audioSettings.music?'ON':'OFF';
+  if(effectsState)effectsState.textContent=audioSettings.effects?'ON':'OFF';
+  if(musicLabel)musicLabel.textContent=ro?'Muzică':'Music';
+  if(effectsLabel)effectsLabel.textContent=ro?'Efecte':'SFX';
+  if(musicButton){
+    musicButton.setAttribute('aria-pressed',String(audioSettings.music));
+    musicButton.setAttribute('aria-label',ro
+      ?(audioSettings.music?'Oprește muzica':'Pornește muzica')
+      :(audioSettings.music?'Turn music off':'Turn music on'));
+    musicButton.title=musicButton.getAttribute('aria-label');
+  }
+  if(effectsButton){
+    effectsButton.setAttribute('aria-pressed',String(audioSettings.effects));
+    effectsButton.setAttribute('aria-label',ro
+      ?(audioSettings.effects?'Oprește efectele sonore':'Pornește efectele sonore')
+      :(audioSettings.effects?'Turn sound effects off':'Turn sound effects on'));
+    effectsButton.title=effectsButton.getAttribute('aria-label');
+  }
+}
+function ensureAudioContext(){
+  if(audioContext)return true;
+  const AudioContextClass=window.AudioContext||window.webkitAudioContext;
+  if(!AudioContextClass)return false;
+  try{
+    audioContext=new AudioContextClass();
+    const compressor=audioContext.createDynamicsCompressor();
+    compressor.threshold.value=-22;
+    compressor.knee.value=18;
+    compressor.ratio.value=3;
+    compressor.attack.value=.004;
+    compressor.release.value=.24;
+    compressor.connect(audioContext.destination);
+
+    musicBus=audioContext.createGain();
+    musicBus.gain.value=audioSettings.music?.22:.0001;
+    musicBus.connect(compressor);
+
+    effectsBus=audioContext.createGain();
+    effectsBus.gain.value=.62;
+    effectsBus.connect(compressor);
+
+    musicDelay=audioContext.createDelay(.5);
+    musicDelay.delayTime.value=.19;
+    const feedback=audioContext.createGain();
+    feedback.gain.value=.13;
+    const delayReturn=audioContext.createGain();
+    delayReturn.gain.value=.1;
+    musicBus.connect(musicDelay);
+    musicDelay.connect(feedback);
+    feedback.connect(musicDelay);
+    musicDelay.connect(delayReturn);
+    delayReturn.connect(compressor);
+    return true;
+  }catch(error){
+    audioContext=null;
+    return false;
+  }
+}
+function midiFrequency(note){return 440*Math.pow(2,(note-69)/12)}
+function makeEnvelope(bus,when,peak,attack,release){
+  const gain=audioContext.createGain();
+  gain.gain.setValueAtTime(.0001,when);
+  gain.gain.exponentialRampToValueAtTime(Math.max(.0002,peak),when+attack);
+  gain.gain.exponentialRampToValueAtTime(.0001,when+release);
+  gain.connect(bus);
+  return gain;
+}
+function playOudNote(frequency,when,volume){
+  const duration=.34;
+  const filter=audioContext.createBiquadFilter();
+  filter.type='lowpass';
+  filter.frequency.setValueAtTime(Math.min(5200,frequency*8),when);
+  filter.frequency.exponentialRampToValueAtTime(Math.max(520,frequency*2.1),when+duration);
+  filter.Q.value=1.25;
+  const envelope=makeEnvelope(musicBus,when,volume,.009,duration);
+  filter.connect(envelope);
+
+  const fundamental=audioContext.createOscillator();
+  fundamental.type='triangle';
+  fundamental.frequency.setValueAtTime(frequency,when);
+  fundamental.frequency.exponentialRampToValueAtTime(frequency*.992,when+duration);
+  fundamental.connect(filter);
+
+  const upper=audioContext.createOscillator();
+  const upperGain=audioContext.createGain();
+  upper.type='sine';
+  upper.frequency.setValueAtTime(frequency*2.01,when);
+  upperGain.gain.value=.2;
+  upper.connect(upperGain);
+  upperGain.connect(filter);
+
+  fundamental.start(when);upper.start(when);
+  fundamental.stop(when+duration+.025);upper.stop(when+duration+.025);
+}
+function playBassNote(frequency,when){
+  const oscillator=audioContext.createOscillator();
+  const filter=audioContext.createBiquadFilter();
+  filter.type='lowpass';filter.frequency.value=360;
+  const envelope=makeEnvelope(musicBus,when,.095,.035,.42);
+  oscillator.type='triangle';
+  oscillator.frequency.setValueAtTime(frequency,when);
+  oscillator.frequency.exponentialRampToValueAtTime(frequency*.96,when+.34);
+  oscillator.connect(filter);filter.connect(envelope);
+  oscillator.start(when);oscillator.stop(when+.46);
+}
+function getNoiseBuffer(){
+  if(noiseBuffer)return noiseBuffer;
+  const length=Math.floor(audioContext.sampleRate*.2);
+  noiseBuffer=audioContext.createBuffer(1,length,audioContext.sampleRate);
+  const data=noiseBuffer.getChannelData(0);
+  for(let i=0;i<length;i++)data[i]=(Math.random()*2-1)*(1-i/length);
+  return noiseBuffer;
+}
+function playPercussionNoise(kind,when){
+  const duration=kind==='shaker'?.035:.075;
+  const source=audioContext.createBufferSource();
+  source.buffer=getNoiseBuffer();
+  const filter=audioContext.createBiquadFilter();
+  filter.type=kind==='shaker'?'highpass':'bandpass';
+  filter.frequency.value=kind==='shaker'?6800:kind==='tek'?2600:1350;
+  filter.Q.value=kind==='tek'?1.1:.7;
+  const envelope=makeEnvelope(musicBus,when,kind==='shaker'?.018:.052,.003,duration);
+  source.connect(filter);filter.connect(envelope);
+  source.start(when);source.stop(when+duration+.01);
+}
+function playDarbuka(kind,when){
+  if(kind==='dum'){
+    const drum=audioContext.createOscillator();
+    const envelope=makeEnvelope(musicBus,when,.19,.004,.17);
+    drum.type='sine';
+    drum.frequency.setValueAtTime(142,when);
+    drum.frequency.exponentialRampToValueAtTime(57,when+.14);
+    drum.connect(envelope);
+    drum.start(when);drum.stop(when+.19);
+  }else{
+    playPercussionNoise(kind,when);
+  }
+}
+const HIJAZ_MELODY=[12,null,7,null,8,null,10,null,8,null,7,null,5,null,4,null,1,null,4,null,5,null,7,null,8,null,10,null,8,null,7,null];
+const HIJAZ_BASS=[45,45,52,45];
+function scheduleMusicStep(when,step){
+  const semitone=HIJAZ_MELODY[step%HIJAZ_MELODY.length];
+  if(semitone!==null)playOudNote(midiFrequency(57+semitone),when,step%8===0?.13:.105);
+  if(step%8===0)playBassNote(midiFrequency(HIJAZ_BASS[Math.floor(step/8)%HIJAZ_BASS.length]),when);
+  const barStep=step%16;
+  if([0,6,8,14].includes(barStep))playDarbuka('dum',when);
+  else if([3,7,11,15].includes(barStep))playDarbuka('tek',when);
+  if(barStep%2===1)playDarbuka('shaker',when);
+}
+function startMoroccanMusic(){
+  if(!audioContext||audioContext.state!=='running'||!audioSettings.music||musicTimer!==null)return;
+  musicBus.gain.setTargetAtTime(.22,audioContext.currentTime,.08);
+  const stepDuration=60/106/4;
+  nextMusicTime=audioContext.currentTime+.06;
+  musicStep=0;
+  musicTimer=window.setInterval(()=>{
+    if(!audioContext||audioContext.state!=='running')return;
+    const horizon=audioContext.currentTime+.22;
+    while(nextMusicTime<horizon){
+      scheduleMusicStep(nextMusicTime,musicStep);
+      nextMusicTime+=stepDuration;
+      musicStep++;
+    }
+  },40);
+}
+function stopMoroccanMusic(){
+  if(musicTimer!==null){window.clearInterval(musicTimer);musicTimer=null}
+  if(audioContext&&musicBus&&audioContext.state==='running'){
+    musicBus.gain.setTargetAtTime(.0001,audioContext.currentTime,.035);
+  }
+}
+function unlockGameAudio(){
+  if(!ensureAudioContext())return;
+  if(audioContext.state==='suspended'){
+    audioContext.resume().then(()=>{
+      if(audioSettings.music)startMoroccanMusic();
+    }).catch(()=>{});
+  }else if(audioSettings.music){
+    startMoroccanMusic();
+  }
+}
+function playCollectionSound(){
+  if(!audioSettings.effects||!audioContext||audioContext.state!=='running'||!effectsBus)return;
+  const notes=[81,88,93];
+  const now=audioContext.currentTime;
+  notes.forEach((note,index)=>{
+    const when=now+index*.043;
+    const oscillator=audioContext.createOscillator();
+    const overtone=audioContext.createOscillator();
+    const overtoneGain=audioContext.createGain();
+    const envelope=makeEnvelope(effectsBus,when,.19,.004,.19);
+    oscillator.type='sine';
+    oscillator.frequency.setValueAtTime(midiFrequency(note),when);
+    overtone.type='triangle';
+    overtone.frequency.setValueAtTime(midiFrequency(note)*2.01,when);
+    overtoneGain.gain.value=.12;
+    oscillator.connect(envelope);
+    overtone.connect(overtoneGain);overtoneGain.connect(envelope);
+    oscillator.start(when);overtone.start(when);
+    oscillator.stop(when+.22);overtone.stop(when+.22);
+  });
+}
+function toggleMusic(){
+  audioSettings.music=!audioSettings.music;
+  saveAudioSettings();
+  updateAudioControls();
+  if(audioSettings.music)unlockGameAudio();else stopMoroccanMusic();
+}
+function toggleEffects(){
+  audioSettings.effects=!audioSettings.effects;
+  saveAudioSettings();
+  updateAudioControls();
+  if(audioSettings.effects)unlockGameAudio();
+}
 
 const R=new T.WebGLRenderer({canvas:cv,antialias:true});R.setPixelRatio(Math.min(devicePixelRatio,2));
 const S=new T.Scene();S.background=new T.Color(0xf7c98b);S.fog=new T.Fog(0xf2c98a,35,105);
@@ -160,6 +419,7 @@ function applyGameLanguage(next) {
   }
   pick();
   Array.from(sh.children).forEach((item,index)=>{item.title=spiceName(index)});
+  updateAudioControls();
 }
 let SV={t:0,f:[],s:0};try{Object.assign(SV,JSON.parse(localStorage.getItem('zrd')||'{}'))}catch(e){}
 const sv=()=>{try{localStorage.setItem('zrd',JSON.stringify(SV))}catch(e){}};
@@ -189,7 +449,7 @@ function pick(){
 }
 CAT.forEach(([n,c])=>{const s=document.createElement('span');s.title=n;s.style.background='#'+c.toString(16).padStart(6,'0');sh.appendChild(s)});
 let runF=new Set();
-function got(i){coinsN++;SV.t++;runF.add(i);if(!SV.f.includes(i))SV.f.push(i);sh.children[i].className='on';const u=CH.findIndex(c=>c.need==SV.t);if(u>0){SV.s=u;skin(u);sv();toast(gameText('newCharacter',{name:characterName(CH[u],u)}))}else if(runF.size==8&&!got.full){got.full=1;toast(gameText('full'))}else toast(gameText('collected',{name:spiceName(i)}))}
+function got(i){playCollectionSound();coinsN++;SV.t++;runF.add(i);if(!SV.f.includes(i))SV.f.push(i);sh.children[i].className='on';const u=CH.findIndex(c=>c.need==SV.t);if(u>0){SV.s=u;skin(u);sv();toast(gameText('newCharacter',{name:characterName(CH[u],u)}))}else if(runF.size==8&&!got.full){got.full=1;toast(gameText('full'))}else toast(gameText('collected',{name:spiceName(i)}))}
 if(SV.s>=CH.length||SV.t<CH[SV.s].need)SV.s=0;skin(SV.s);pick();
 // obstacles
 const objs=[],LX=[-2,0,2],tC=[0xc8281e,0xe08a00,0x7a4a1e],goldM=M(0xf2b705),coinG=new T.CylinderGeometry(.35,.35,.08,16);
@@ -219,7 +479,7 @@ fr.forEach(l=>{if(Math.random()<.75)coins(LX[l],z+3,5,Math.random()<.3)})}
 // state
 let crashT=0,st='menu',sp=0,dist=0,coinsN=0,nextS=0,lane=1,px=0,py=0,vy=0,roll=0,time=0,shake=0;
 const sc=document.getElementById('sc'),co=document.getElementById('co'),ov=document.getElementById('ov'),tt=document.getElementById('t'),mm=document.getElementById('m');
-function start(){objs.forEach(o=>S.remove(o));objs.length=0;runF.clear();got.full=0;crashT=0;stars.visible=false;piv.rotation.x=0;piv.scale.setScalar(1);piv.position.y=.9;aL.rotation.x=aR.rotation.x=lL.rotation.x=lR.rotation.x=0;[...sh.children].forEach(s=>s.className='');st='play';sp=14;dist=0;coinsN=0;nextS=0;lane=1;px=0;py=0;vy=0;roll=0;shake=0;ov.style.display='none';spawn(-60)}
+function start(){unlockGameAudio();objs.forEach(o=>S.remove(o));objs.length=0;runF.clear();got.full=0;crashT=0;stars.visible=false;piv.rotation.x=0;piv.scale.setScalar(1);piv.position.y=.9;aL.rotation.x=aR.rotation.x=lL.rotation.x=lR.rotation.x=0;[...sh.children].forEach(s=>s.className='');st='play';sp=14;dist=0;coinsN=0;nextS=0;lane=1;px=0;py=0;vy=0;roll=0;shake=0;ov.style.display='none';spawn(-60)}
 function die(){st='over';crashT=.001;sv();pick();shake=.6;tt.textContent=gameText('over');mm.innerHTML=gameText('result',{distance:dist|0,coins:coinsN});document.getElementById('go').textContent=gameText('tryAgain');setTimeout(()=>ov.style.display='flex',700)}
 function act(a){if(st!=='play')return;if(a==='l')lane=Math.max(0,lane-1);if(a==='r')lane=Math.min(2,lane+1);
 if(a==='u'&&py<.05){vy=11.5;roll=0}if(a==='d'){if(py>.05)vy=-22;roll=.6}}
@@ -240,6 +500,10 @@ if(languageButton)languageButton.addEventListener('click',()=>{
 if(exitButton)exitButton.addEventListener('click',()=>{
   window.location.assign('/');
 });
+const musicButton=document.getElementById('music-toggle');
+const effectsButton=document.getElementById('effects-toggle');
+if(musicButton)musicButton.addEventListener('click',toggleMusic);
+if(effectsButton)effectsButton.addEventListener('click',toggleEffects);
 applyGameLanguage(gameLanguage);
 const clk=new T.Clock();
 function loop(){requestAnimationFrame(loop);const dt=Math.min(clk.getDelta(),.05);time+=dt;
