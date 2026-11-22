@@ -42,9 +42,12 @@
 
   // A real four-pose SVG sprite replaces the old hand-drawn character.
   const runnerSprite = new Image();
-  runnerSprite.src = "/assets/game/zarad-runner-sprites.svg?v=runner-art-fix-20261122";
   let runnerSpriteReady = false;
-  runnerSprite.addEventListener("load", () => { runnerSpriteReady = true; });
+  runnerSprite.addEventListener("load", () => {
+    runnerSpriteReady = runnerSprite.naturalWidth >= 720 && runnerSprite.naturalHeight >= 260;
+  });
+  runnerSprite.src = "/assets/game/zarad-runner-sprites.svg?v=runner-art-fix-20261122";
+  if (runnerSprite.complete && runnerSprite.naturalWidth >= 720) runnerSpriteReady = true;
 
   let raf = 0, last = 0, spawnClock = 0, elapsed = 0;
   let running = false, paused = false, previousFocus = null, pointer = null;
