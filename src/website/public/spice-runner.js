@@ -342,7 +342,7 @@
     ctx.fillStyle = road; ctx.beginPath(); ctx.moveTo(366,horizon); ctx.lineTo(594,horizon); ctx.lineTo(1000,H); ctx.lineTo(-40,H); ctx.closePath(); ctx.fill();
     ctx.fillStyle = "rgba(244,210,158,.08)";
     for (let i = 0; i < 15; i++) { const y = yAt(i/14); ctx.fillRect(0,y,W,1+i/5); }
-    const scroll = roadScroll % 1;
+    const scroll = roadScroll;
     for (let laneIndex = -1; laneIndex <= 1; laneIndex++) {
       const topX = xAt(laneIndex, 0);
       const bottomX = xAt(laneIndex, 1);
@@ -768,7 +768,7 @@
   function update(dt) {
     elapsed += dt; metres += dt * (20 + Math.min(13, elapsed * .16));
     const speed = .54 + Math.min(.30, elapsed * .0028);
-    roadScroll = (roadScroll + speed * dt) % 1000;
+    roadScroll = (roadScroll + speed * dt) % 1;
     spawnClock += dt;
     if (spawnClock >= Math.max(.62, 1.02 - elapsed * .002)) { spawnClock = 0; spawn(); }
     jumpTime = jumpTime > 0 ? jumpTime + dt : 0;
