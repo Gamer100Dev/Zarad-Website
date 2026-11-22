@@ -179,6 +179,242 @@
     ctx.restore();
   }
 
+  function drawSpiceBowl(x, y, scale, spiceColour, rimColour) {
+    ctx.save(); ctx.translate(x, y); ctx.scale(scale, scale);
+    ctx.fillStyle = "rgba(31,18,14,.24)";
+    ctx.beginPath(); ctx.ellipse(0, 4, 32, 9, 0, 0, Math.PI * 2); ctx.fill();
+    const ceramic = ctx.createLinearGradient(-30, 0, 30, 0);
+    ceramic.addColorStop(0, "#4b302d"); ceramic.addColorStop(.3, rimColour); ceramic.addColorStop(.7, "#e1b775"); ceramic.addColorStop(1, "#58342e");
+    ctx.fillStyle = ceramic;
+    ctx.beginPath(); ctx.moveTo(-29, -8); ctx.quadraticCurveTo(-22, 19, 0, 20); ctx.quadraticCurveTo(22, 19, 29, -8); ctx.closePath(); ctx.fill();
+    ctx.strokeStyle = "#f1cf91"; ctx.lineWidth = 2; ctx.beginPath(); ctx.ellipse(0, -8, 29, 8, 0, 0, Math.PI * 2); ctx.stroke();
+    const mound = ctx.createRadialGradient(-8, -18, 2, 0, -12, 30);
+    mound.addColorStop(0, "#f0d18c"); mound.addColorStop(.4, spiceColour); mound.addColorStop(1, "#693f32");
+    ctx.fillStyle = mound;
+    ctx.beginPath(); ctx.moveTo(-25, -9); ctx.quadraticCurveTo(-17, -31, 0, -35); ctx.quadraticCurveTo(18, -30, 25, -9); ctx.closePath(); ctx.fill();
+    for (let i = 0; i < 9; i++) {
+      ctx.fillStyle = i % 2 ? "rgba(255,224,162,.45)" : "rgba(65,37,28,.2)";
+      ctx.beginPath(); ctx.arc(-17 + (i * 13 % 34), -13 - (i * 7 % 15), 1.1, 0, Math.PI * 2); ctx.fill();
+    }
+    ctx.restore();
+  }
+
+  function drawMarketAwning(x, y, width, height, phase) {
+    ctx.save(); ctx.translate(x, y);
+    ctx.fillStyle = "rgba(33,19,16,.22)"; ctx.beginPath(); ctx.ellipse(0, height * .14, width * .63, height * .12, 0, 0, Math.PI * 2); ctx.fill();
+    ctx.fillStyle = "#5b342d"; ctx.fillRect(-width * .53, -height * .05, width * .06, height * 1.1); ctx.fillRect(width * .47, -height * .05, width * .06, height * 1.1);
+    ctx.fillStyle = "#6b3731";
+    ctx.beginPath(); ctx.moveTo(-width * .64, 0); ctx.lineTo(width * .64, 0); ctx.lineTo(width * .55, -height * .5); ctx.lineTo(-width * .55, -height * .5); ctx.closePath(); ctx.fill();
+    const colours = ["#913a36", "#e5c58e", "#b77a43", "#f3dfb8", "#46634b"];
+    for (let i = 0; i < 9; i++) {
+      const sx = -width * .6 + i * width * .15;
+      ctx.fillStyle = colours[(i + Math.floor(phase)) % colours.length];
+      ctx.beginPath(); ctx.moveTo(sx, -height * .48); ctx.lineTo(sx + width * .15, -height * .48); ctx.lineTo(sx + width * .16, -height * .1); ctx.quadraticCurveTo(sx + width * .08, -height * .03 + Math.sin(phase + i) * 2, sx - width * .01, -height * .1); ctx.closePath(); ctx.fill();
+    }
+    ctx.strokeStyle = "#e2bb78"; ctx.lineWidth = 2; ctx.beginPath(); ctx.moveTo(-width * .6, -height * .49); ctx.lineTo(width * .6, -height * .49); ctx.stroke();
+    ctx.restore();
+  }
+
+  function drawWorld(now) {
+    const t = now * .001;
+    const sky = ctx.createLinearGradient(0, 0, 0, H);
+    sky.addColorStop(0, "#68434e"); sky.addColorStop(.27, "#c77c5d"); sky.addColorStop(.62, "#f2bf7c"); sky.addColorStop(1, "#a45d43");
+    ctx.fillStyle = sky; ctx.fillRect(0, 0, W, H);
+    const sunGlow = ctx.createRadialGradient(480, 110, 4, 480, 110, 190);
+    sunGlow.addColorStop(0, "rgba(255,237,192,.72)"); sunGlow.addColorStop(.4, "rgba(255,203,128,.25)"); sunGlow.addColorStop(1, "rgba(255,180,100,0)");
+    ctx.fillStyle = sunGlow; ctx.fillRect(260, 0, 440, 315);
+
+    // Distant medina rooftops.
+    for (let i = 0; i < 16; i++) {
+      const bx = i * 66 - 12, bh = 38 + (i * 31 % 42);
+      ctx.fillStyle = i % 2 ? "#825345" : "#9a6149";
+      ctx.fillRect(bx, 170 - bh, 54, bh + 80);
+      ctx.fillStyle = "#d5a06d"; ctx.fillRect(bx + 7, 165 - bh, 40, 4);
+      if (i % 3 === 1) drawDome(bx + 27, 169 - bh, 40, 28, "#b77951");
+    }
+    drawDome(480, 178, 125, 82, "#bd8055");
+    drawDome(340, 189, 75, 49, "#a66d4d");
+    drawDome(628, 188, 81, 53, "#b87b50");
+
+    // Grand tiled gateway with a deep, glowing arch.
+    const gate = ctx.createLinearGradient(340, 55, 620, 230);
+    gate.addColorStop(0, "#9b5644"); gate.addColorStop(.5, "#d6a16d"); gate.addColorStop(1, "#7c493c");
+    ctx.fillStyle = gate;
+    ctx.beginPath(); ctx.moveTo(335, 228); ctx.lineTo(335, 116); ctx.quadraticCurveTo(480, -10, 625, 116); ctx.lineTo(625, 228); ctx.closePath(); ctx.fill();
+    ctx.strokeStyle = "#f0c98b"; ctx.lineWidth = 5;
+    ctx.beginPath(); ctx.moveTo(351, 225); ctx.lineTo(351, 120); ctx.quadraticCurveTo(480, 5, 609, 120); ctx.lineTo(609, 225); ctx.stroke();
+    ctx.fillStyle = "#51343a";
+    ctx.beginPath(); ctx.moveTo(396, 228); ctx.lineTo(396, 148); ctx.quadraticCurveTo(480, 63, 564, 148); ctx.lineTo(564, 228); ctx.closePath(); ctx.fill();
+    ctx.fillStyle = "rgba(255,214,151,.44)"; ctx.beginPath(); ctx.arc(480, 172, 46, Math.PI, 0); ctx.fill();
+    ctx.fillStyle = "#e9c88f";
+    for (let i = 0; i < 7; i++) ctx.fillRect(351 + i * 43, 124 + i % 2 * 3, 17, 6);
+    ctx.font = "700 10px Georgia,serif"; ctx.textAlign = "center"; ctx.fillText("✦  ZARAD  ✦", 480, 207);
+
+    // Market walls and recessed Moorish windows.
+    for (let side = 0; side < 2; side++) {
+      const sx = side ? 792 : 0;
+      const wall = ctx.createLinearGradient(sx, 150, sx + 168, 520);
+      wall.addColorStop(0, "#7d4037"); wall.addColorStop(.5, "#a55d45"); wall.addColorStop(1, "#59342f");
+      ctx.fillStyle = wall; ctx.fillRect(sx, 150, 168, 390);
+      for (let i = 0; i < 3; i++) {
+        const wx = sx + 15 + i * 53;
+        ctx.fillStyle = "#4e3030";
+        ctx.beginPath(); ctx.moveTo(wx, 234); ctx.lineTo(wx, 194); ctx.quadraticCurveTo(wx + 18, 162, wx + 36, 194); ctx.lineTo(wx + 36, 234); ctx.closePath(); ctx.fill();
+        ctx.fillStyle = "rgba(248,190,115,.55)"; ctx.fillRect(wx + 6, 201, 24, 28);
+        ctx.strokeStyle = "#d9aa70"; ctx.lineWidth = 2; ctx.strokeRect(wx + 6, 201, 24, 28);
+      }
+      ctx.fillStyle = "rgba(240,194,132,.12)";
+      for (let y = 250; y < 510; y += 43) ctx.fillRect(sx + 8, y, 151, 2);
+    }
+
+    // Shop stalls with rows of spices and striped canopies.
+    for (let side = 0; side < 2; side++) {
+      const sx = side ? 790 : 0;
+      drawMarketAwning(sx + 83, 285, 174, 102, t * 2 + side);
+      ctx.fillStyle = "#4a2d29"; ctx.fillRect(sx + 10, 294, 154, 198);
+      ctx.fillStyle = "#bd8750"; ctx.fillRect(sx + 8, 291, 158, 9);
+      for (let row = 0; row < 3; row++) {
+        const yy = 333 + row * 50;
+        ctx.fillStyle = "#bd8853"; ctx.fillRect(sx + 17, yy, 139, 5);
+        drawSpiceBowl(sx + 42, yy, .61, ["#b5432c", "#d59b2c", "#75553c"][row], "#844637");
+        drawSpiceBowl(sx + 86, yy, .61, ["#d39a28", "#743b2f", "#607246"][row], "#7d4334");
+        drawSpiceBowl(sx + 130, yy, .61, ["#694b35", "#a53e30", "#d4a342"][row], "#744539");
+      }
+      ctx.fillStyle = "rgba(36,21,18,.38)"; ctx.fillRect(sx + 8, 492, 158, 48);
+    }
+
+    // Decorative blue-and-ochre ceramics around the market edge.
+    [[190,382,.88,"#3f6666"],[770,390,.92,"#405d65"],[236,331,.6,"#a44a38"],[726,329,.6,"#a44a38"],[120,452,1,"#b77d4b"],[842,454,1,"#b77d4b"]].forEach(([x,y,s,c]) => {
+      ctx.save(); ctx.translate(x,y); ctx.scale(s,s);
+      ctx.fillStyle = "rgba(35,21,18,.24)"; ctx.beginPath(); ctx.ellipse(0,5,30,8,0,0,Math.PI*2); ctx.fill();
+      const pot = ctx.createLinearGradient(-26,0,26,0); pot.addColorStop(0,"#4a302e"); pot.addColorStop(.35,c); pot.addColorStop(.7,"#e1b77b"); pot.addColorStop(1,"#4a302e");
+      ctx.fillStyle = pot; ctx.beginPath(); ctx.moveTo(-16,-5); ctx.quadraticCurveTo(-32,-30,-17,-49); ctx.quadraticCurveTo(0,-64,17,-49); ctx.quadraticCurveTo(32,-30,16,-5); ctx.quadraticCurveTo(0,13,-16,-5); ctx.fill();
+      ctx.fillStyle = "#d8b071"; ctx.fillRect(-13,-54,26,7);
+      ctx.strokeStyle = "rgba(248,220,175,.8)"; ctx.lineWidth = 2; ctx.beginPath(); ctx.ellipse(0,-27,20,9,0,0,Math.PI*2); ctx.stroke();
+      ctx.beginPath(); ctx.moveTo(-8,-44); ctx.lineTo(-8,-9); ctx.moveTo(8,-44); ctx.lineTo(8,-9); ctx.stroke();
+      ctx.restore();
+    });
+
+    // Palm leaves sway, while brass lanterns glow on both sides of the route.
+    drawPalm(33, 330, .8, Math.sin(t * 1.2));
+    drawPalm(927, 330, .82, Math.sin(t * 1.2 + 1));
+    drawPalm(282, 236, .35, Math.sin(t * 1.2 + 2));
+    drawPalm(684, 236, .36, Math.sin(t * 1.2 + 3));
+    drawLantern(83, 245, .85, now); drawLantern(876, 245, .85, now);
+    drawLantern(252, 205, .52, now); drawLantern(713, 205, .52, now);
+
+    // Rippling market pennants above the vanishing point.
+    ctx.strokeStyle = "rgba(79,43,38,.75)"; ctx.lineWidth = 1.4;
+    ctx.beginPath(); ctx.moveTo(0, 76); ctx.quadraticCurveTo(480, 153 + Math.sin(t) * 5, 960, 76); ctx.stroke();
+    const flagColours = ["#8f3434", "#d5a04a", "#466b4c", "#eee0bd"];
+    for (let i = 0; i < 15; i++) {
+      const x = 16 + i * 66, y = 78 + Math.sin(x / 160 + t) * 15;
+      ctx.fillStyle = flagColours[i % flagColours.length];
+      ctx.beginPath(); ctx.moveTo(x,y); ctx.lineTo(x+31,y+5); ctx.lineTo(x+27,y+33); ctx.lineTo(x+15,y+24); ctx.lineTo(x+5,y+32); ctx.closePath(); ctx.fill();
+      ctx.fillStyle = "rgba(255,224,168,.7)"; ctx.beginPath(); ctx.arc(x+15,y+12,2.5,0,Math.PI*2); ctx.fill();
+    }
+
+    // Three-track railway bed, polished rails and timber sleepers.
+    const road = ctx.createLinearGradient(0, horizon, 0, H);
+    road.addColorStop(0, "#957255"); road.addColorStop(.38, "#785542"); road.addColorStop(1, "#312a2a");
+    ctx.fillStyle = road; ctx.beginPath(); ctx.moveTo(366,horizon); ctx.lineTo(594,horizon); ctx.lineTo(1000,H); ctx.lineTo(-40,H); ctx.closePath(); ctx.fill();
+    ctx.fillStyle = "rgba(244,210,158,.08)";
+    for (let i = 0; i < 15; i++) { const y = yAt(i/14); ctx.fillRect(0,y,W,1+i/5); }
+    const scroll = (t * (.55 + Math.min(1.2, elapsed * .012))) % 1;
+    for (let laneIndex = -1; laneIndex <= 1; laneIndex++) {
+      const topX = xAt(laneIndex,1), bottomX = xAt(laneIndex,.045);
+      for (const sign of [-1,1]) {
+        const rail = ctx.createLinearGradient(topX,horizon,bottomX,H);
+        rail.addColorStop(0,"#8e7770"); rail.addColorStop(.32,"#f4d7a7"); rail.addColorStop(.6,"#63544d"); rail.addColorStop(1,"#d9c8aa");
+        ctx.strokeStyle = "rgba(20,14,13,.62)"; ctx.lineWidth = 9;
+        ctx.beginPath(); ctx.moveTo(topX+sign*15,horizon); ctx.lineTo(bottomX+sign*38,H); ctx.stroke();
+        ctx.strokeStyle = rail; ctx.lineWidth = 4.5;
+        ctx.beginPath(); ctx.moveTo(topX+sign*12,horizon); ctx.lineTo(bottomX+sign*35,H); ctx.stroke();
+        ctx.strokeStyle = "rgba(255,245,218,.62)"; ctx.lineWidth = 1;
+        ctx.beginPath(); ctx.moveTo(topX+sign*11,horizon); ctx.lineTo(bottomX+sign*34,H); ctx.stroke();
+      }
+      for (let i = 0; i < 15; i++) {
+        const p = (i/15 + scroll) % 1, z = 1-p, y = yAt(p), x = xAt(laneIndex,z);
+        const depth = .16 + p*1.15, width = 20 + p*54;
+        ctx.fillStyle = "rgba(19,13,12,.28)"; rounded(x-width/2,y-2*depth,width,6*depth,2*depth); ctx.fill();
+        const wood = ctx.createLinearGradient(x-width/2,y,x+width/2,y);
+        wood.addColorStop(0,"#4d342d"); wood.addColorStop(.5,"#b17b4d"); wood.addColorStop(1,"#4d342d");
+        ctx.fillStyle = wood; rounded(x-width/2,y-4*depth,width,5*depth,2*depth); ctx.fill();
+        ctx.fillStyle = "rgba(241,207,152,.36)"; ctx.fillRect(x-width*.38,y-3.5*depth,width*.76,.8*depth);
+      }
+    }
+    const reflection = ctx.createLinearGradient(0,210,0,H);
+    reflection.addColorStop(0,"rgba(255,204,116,0)"); reflection.addColorStop(1,"rgba(255,177,87,.11)");
+    ctx.fillStyle = reflection; ctx.fillRect(0,210,W,330);
+
+    ctx.save(); ctx.fillStyle = "rgba(50,27,28,.84)"; rounded(389,91,182,38,9); ctx.fill();
+    ctx.strokeStyle = "#dfb56f"; ctx.lineWidth = 1.6; ctx.stroke();
+    ctx.fillStyle = "#ffebc4"; ctx.font = "700 15px Georgia,serif"; ctx.textAlign = "center";
+    ctx.fillText("✦  ZARAD SOUK  ✦",480,115); ctx.restore();
+
+    for (let i = 0; i < 24; i++) {
+      const x = (i*113 + Math.sin(t*.8+i)*14) % W;
+      const y = (i*47 + t*(8+i%5)) % 330;
+      const alpha = .12 + (Math.sin(t*1.7+i*2)+1)*.12;
+      ctx.fillStyle = "rgba(255,236,186," + alpha + ")";
+      ctx.beginPath(); ctx.arc(x,y,.8+(i%3)*.45,0,Math.PI*2); ctx.fill();
+    }
+  }
+
+  function drawCrate(x, ground, scale) {
+    const w=100*scale, h=82*scale;
+    ctx.save(); ctx.translate(x,ground);
+    ctx.fillStyle="rgba(20,14,12,.34)"; ctx.beginPath(); ctx.ellipse(0,4*scale,w*.7,13*scale,0,0,Math.PI*2); ctx.fill();
+    const face=ctx.createLinearGradient(-w/2,-h,w/2,0);
+    face.addColorStop(0,"#d49b58"); face.addColorStop(.42,"#a66a3c"); face.addColorStop(1,"#65402f");
+    ctx.fillStyle=face; ctx.beginPath(); ctx.moveTo(-w*.47,-h); ctx.lineTo(w*.39,-h); ctx.lineTo(w*.5,-h*.88); ctx.lineTo(w*.5,-h*.08); ctx.lineTo(-w*.39,0); ctx.lineTo(-w*.5,-h*.13); ctx.closePath(); ctx.fill();
+    ctx.strokeStyle="#efc27e"; ctx.lineWidth=3.4*scale; ctx.stroke();
+    ctx.strokeStyle="rgba(77,43,30,.75)"; ctx.lineWidth=3*scale;
+    for(let i=-2;i<=2;i++){const xx=i*w*.16;ctx.beginPath();ctx.moveTo(xx,-h*.94);ctx.lineTo(xx,-h*.09);ctx.stroke();}
+    ctx.strokeStyle="rgba(248,210,151,.42)";ctx.lineWidth=1.1*scale;
+    ctx.beginPath();ctx.moveTo(-w*.42,-h*.76);ctx.lineTo(w*.42,-h*.76);ctx.moveTo(-w*.42,-h*.34);ctx.lineTo(w*.42,-h*.34);ctx.stroke();
+    ctx.fillStyle="#542e29";rounded(-w*.25,-h*.72,w*.5,h*.42,4*scale);ctx.fill();
+    ctx.strokeStyle="#d9a75c";ctx.lineWidth=1.4*scale;ctx.stroke();
+    ctx.fillStyle="#f3d49b";ctx.font="700 "+Math.max(7,9*scale)+"px Georgia,serif";ctx.textAlign="center";ctx.fillText("✧ ZARAD ✧",0,-h*.48);
+    ctx.restore();
+  }
+
+  function drawAwning(x, ground, scale) {
+    const w=126*scale,h=118*scale;
+    ctx.save();ctx.translate(x,ground);
+    ctx.fillStyle="rgba(20,14,12,.28)";ctx.beginPath();ctx.ellipse(0,2*scale,w*.68,11*scale,0,0,Math.PI*2);ctx.fill();
+    ctx.fillStyle="#61372e";ctx.fillRect(-w*.5,-h*.93,w*.11,h*.93);ctx.fillRect(w*.39,-h*.93,w*.11,h*.93);
+    ctx.fillStyle="#a84b3a";rounded(-w*.61,-h,w*1.22,h*.3,5*scale);ctx.fill();
+    for(let i=-3;i<=3;i++){const sx=i*w*.17;ctx.fillStyle=i%2?"#e6bd76":"#f3dfb6";ctx.fillRect(sx-w*.055,-h*.98,w*.11,h*.24);ctx.beginPath();ctx.arc(sx,-h*.72,w*.055,0,Math.PI);ctx.fill();}
+    ctx.strokeStyle="#e5b970";ctx.lineWidth=2*scale;ctx.beginPath();ctx.moveTo(-w*.58,-h*.68);ctx.lineTo(w*.58,-h*.68);ctx.stroke();
+    ctx.fillStyle="#69392f";ctx.fillRect(-w*.52,-h*.72,w*.07,h*.72);ctx.fillRect(w*.45,-h*.72,w*.07,h*.72);
+    ctx.restore();
+  }
+
+  function drawTrain(x, ground, scale) {
+    const w=132*scale,h=164*scale;
+    ctx.save();ctx.translate(x,ground);
+    ctx.fillStyle="rgba(20,14,12,.36)";ctx.beginPath();ctx.ellipse(0,5*scale,w*.72,15*scale,0,0,Math.PI*2);ctx.fill();
+    const body=ctx.createLinearGradient(-w*.5,-h,w*.5,0);
+    body.addColorStop(0,"#5e282e");body.addColorStop(.25,"#9d3d3a");body.addColorStop(.65,"#762b32");body.addColorStop(1,"#3f252b");
+    ctx.fillStyle=body;ctx.beginPath();ctx.moveTo(-w*.48,-h*.83);ctx.quadraticCurveTo(-w*.47,-h,-w*.28,-h);ctx.lineTo(w*.28,-h);ctx.quadraticCurveTo(w*.47,-h,w*.48,-h*.83);ctx.lineTo(w*.5,-h*.08);ctx.quadraticCurveTo(0,3*scale,-w*.5,-h*.08);ctx.closePath();ctx.fill();
+    ctx.strokeStyle="#e7bd78";ctx.lineWidth=3*scale;ctx.stroke();
+    ctx.fillStyle="#efe0c2";rounded(-w*.4,-h*.96,w*.8,h*.1,5*scale);ctx.fill();
+    const glass=ctx.createLinearGradient(0,-h*.82,0,-h*.38);glass.addColorStop(0,"#263a43");glass.addColorStop(.45,"#53666a");glass.addColorStop(1,"#192b34");
+    ctx.fillStyle=glass;rounded(-w*.36,-h*.82,w*.72,h*.43,10*scale);ctx.fill();ctx.strokeStyle="#d7b77e";ctx.lineWidth=2*scale;ctx.stroke();
+    ctx.fillStyle="rgba(255,255,255,.18)";ctx.beginPath();ctx.moveTo(-w*.28,-h*.76);ctx.lineTo(-w*.05,-h*.76);ctx.lineTo(-w*.12,-h*.43);ctx.lineTo(-w*.29,-h*.43);ctx.closePath();ctx.fill();
+    ctx.fillStyle="#f2d49b";rounded(-w*.14,-h*.33,w*.28,h*.12,3*scale);ctx.fill();
+    ctx.fillStyle="#692a30";ctx.font="700 "+Math.max(8,11*scale)+"px Georgia,serif";ctx.textAlign="center";ctx.fillText("ZARAD",0,-h*.245);
+    for(const side of [-1,1]){
+      const glow=ctx.createRadialGradient(side*w*.33,-h*.16,1,side*w*.33,-h*.16,23*scale);glow.addColorStop(0,"rgba(255,237,168,.8)");glow.addColorStop(1,"rgba(255,205,103,0)");
+      ctx.fillStyle=glow;ctx.beginPath();ctx.arc(side*w*.33,-h*.16,23*scale,0,Math.PI*2);ctx.fill();
+      ctx.fillStyle="#fff1bd";ctx.beginPath();ctx.arc(side*w*.33,-h*.16,6*scale,0,Math.PI*2);ctx.fill();
+    }
+    ctx.fillStyle="#402b2c";rounded(-w*.46,-h*.07,w*.92,h*.1,4*scale);ctx.fill();
+    ctx.fillStyle="#d9b377";ctx.fillRect(-w*.3,-h*.035,w*.6,3*scale);
+    ctx.restore();
+  }
+
   function drawSpice(item, x, ground, scale) {
     const w = 42 * scale, h = 56 * scale;
     const bob = Math.sin(elapsed * 5 + item.z * 7) * 3 * scale;
