@@ -157,11 +157,11 @@
       const gap=2.35+(1-pressure)*1.35;
       assetAt("character",[lane*LANE_GAP,1.02,PLAYER_Z+gap],.72);
     }
-    function runner(lane,jumpTime,slideTime,now){
+    function runner(lane,jumpTime,slideTime,now,jumpHeight){
       const x=lane*LANE_GAP;
       const jumping=jumpTime>0,sliding=slideTime>0;
       const progress=jumping?Math.min(1,jumpTime/.78):0;
-      const lift=jumping?Math.sin(progress*Math.PI)*1.3:0;
+      const lift=jumping?(Number.isFinite(jumpHeight)?jumpHeight:Math.sin(progress*Math.PI)*1.3):0;
       const bob=jumping||sliding?0:Math.abs(Math.sin(now*.014))*.04;
       const base=lift+bob;
       const bodyBase=base-(sliding?.46:0);
@@ -264,7 +264,7 @@
       const items=state.objects.slice().sort((a,b)=>a.depth-b.depth);
       for(const item of items){const z=objectZ(item.depth),x=item.lane*LANE_GAP,s=.82+(item.depth/PLAYER_DEPTH)*.24;if(item.kind==="spice")jar(x,z,item.spiceIndex,state.now,s);else if(item.kind.startsWith("boost-"))powerup(x,z,item.kind,state.now,s);else if(item.kind==="crate")crate(x,z,s);else if(item.kind==="barrier")barrier(x,z,s);else if(item.kind==="awning")awning(x,z,s);else if(item.kind==="train")train(x,z,s);}
       guard(state.lane,state.chaser||0,state.now);
-      runner(state.lane,state.jumpTime,state.slideTime,state.now);
+      runner(state.lane,state.jumpTime,state.slideTime,state.now,state.jumpHeight);
       return drawCount;
     }
     return {render,gl,dispose(){[cubeMesh,sphereMesh,cyl,taper,cone].forEach(m=>gl.deleteBuffer(m.buffer));gl.deleteProgram(sh.p);}};
