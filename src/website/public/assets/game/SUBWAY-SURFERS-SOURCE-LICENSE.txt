@@ -31,3 +31,10 @@ AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
 LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
+
+
+## Requested repository clarification
+
+The supplied https://github.com/jirkavrba/vscode-subway-surfers repository is a MIT-licensed Visual Studio Code extension, not a playable game. Its \`src/extension.ts\` selects YouTube video IDs and opens a webview; \`src/player.template.html\` plays those videos. It contains no runner simulation, WebGL scene, coin logic, game models, or level assets. The extension files and video IDs are therefore not copied into Zarad.
+
+The runner mechanics are adapted from the MIT-licensed WebGL game by Rohan Chacko at https://github.com/RohanChacko/Subway-Surfers. The copyright and MIT permission notice for that gameplay reference is reproduced above. Zarad supplies its own renderer, articulated character, user interface, coin treatment and Moroccan souk presentation, together with the CC0 Kenney GLB assets.

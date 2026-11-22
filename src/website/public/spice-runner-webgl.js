@@ -158,15 +158,47 @@
     }
     function jar(x,z,index,time,s){const c=powder[index%powder.length],bob=Math.sin(time*.005+index)*.12,spin=time*.0011,y=1.05+bob;if(assetAt("bottle",[x,y,z],.43*s,c))return;tube([x,y,z],[.23*s,.31*s,.23*s],c,[0,spin,0],.18,.02);tube([x,y-.05*s,z+.005],[.235*s,.18*s,.235*s],[.90,.77,.57],[0,spin,0],.12);tube([x,y+.31*s,z],[.16*s,.08*s,.16*s],[.74,.45,.18],[0,spin,0],.68,.04);tube([x,y+.43*s,z],[.19*s,.065*s,.19*s],[.91,.70,.34],[0,spin,0],.78);ball([x-.09*s,y+.18*s,z+.205*s],[.035*s,.20*s,.018*s],[1,.93,.77],.25,.02);ball([x,y+.52*s,z],[.045*s,.028*s,.045*s],[.98,.78,.34],.65,.04);}
     function powerup(x,z,kind,time,s){
+      const bob=Math.sin(time*.004+z)*.14,y=1.22+bob;
+      // Each pickup has its own silhouette so the power-ups are readable while running.
+      if(kind==="boost-hoverboard"||kind==="boost-shield"){
+        const tilt=Math.sin(time*.002+z)*.08;
+        ball([x,y+.18*s,z],[.49*s,.16*s,.34*s],[.25,.68,.67],.52,.20);
+        box([x,y,z],[.84*s,.075*s,.32*s],[.58,.13,.18],[0,0,tilt],.62);
+        box([x,y+.05*s,z],[.63*s,.018*s,.23*s],[.98,.74,.34],[0,0,tilt],.72);
+        for(const side of [-1,1]){
+          tube([x+side*.29*s,y-.10*s,z],[.12*s,.055*s,.055*s],[.14,.12,.10],[0,0,Math.PI/2],.3);
+        }
+        return;
+      }
+      if(kind==="boost-x2"){
+        ball([x,y,z],[.44*s,.44*s,.44*s],[.57,.29,.76],.42,.22);
+        tube([x,y,z],[.34*s,.09*s,.34*s],[1,.79,.27],[Math.PI/2,0,time*.001],.9,.20);
+        line([x-.18*s,y,z+.28*s],[x+.18*s,y,z+.28*s],.035*s,[1,.94,.66]);
+        line([x,y-.18*s,z+.28*s],[x,y+.18*s,z+.28*s],.035*s,[1,.94,.66]);
+        return;
+      }
+
       const color=kind==="boost-magnet"?[.22,.70,.48]
         :kind==="boost-jetpack"?[.95,.43,.14]
-        :kind==="boost-sneakers"?[.98,.70,.16]
-        :kind==="boost-hoverboard"||kind==="boost-shield"?[.35,.62,.92]
-        :kind==="boost-x2"?[.67,.35,.82]:[.91,.61,.16];
-      const bob=Math.sin(time*.004+z)*.14,y=1.22+bob;
+        :kind==="boost-sneakers"?[.98,.70,.16]:[.91,.61,.16];
       ball([x,y,z],[.46*s,.46*s,.46*s],color,.45,.20);
       if(assets.bottle)assetAt("bottle",[x,y,z],.68*s,color,[0,time*.001,0]);
       else tube([x,y,z],[.18*s,.32*s,.18*s],color,[0,time*.001,0],.2,.16);
+
+      if(kind==="boost-jetpack"){
+        for(const side of [-1,1]){
+          tube([x+side*.29*s,y-.04*s,z],[.095*s,.27*s,.095*s],[.24,.25,.28],[0,0,side*.12],.5);
+          ball([x+side*.29*s,y-.34*s,z],[.065*s,.11*s,.065*s],[1,.43,.12],.2,.45);
+        }
+      }else if(kind==="boost-magnet"){
+        for(const side of [-1,1]){
+          ball([x+side*.30*s,y+.12*s,z],[.085*s,.12*s,.085*s],[.88,.18,.16],.42,.14);
+        }
+      }else if(kind==="boost-sneakers"){
+        for(const side of [-1,1]){
+          box([x+side*.22*s,y-.28*s,z+.05*s],[.20*s,.075*s,.31*s],[.82,.88,.98],[0,0,side*.12],.12);
+        }
+      }
       tube([x,y-.32*s,z],[.52*s,.035*s,.52*s],[.96,.80,.40],[Math.PI/2,0,0],.62,.12);
       ball([x,y+.47*s,z],[.09*s,.09*s,.09*s],[1,.91,.56],.48,.35);
     }
