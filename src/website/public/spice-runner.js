@@ -28,6 +28,9 @@
     return;
   }
 
+  const runnerCore = window.ZaradRunnerCore && window.ZaradRunnerCore.create();
+  if (!runnerCore) { if (feedback) feedback.textContent = "Game systems failed to load. Refresh and try again."; start.disabled = true; restart.disabled = true; return; }
+
   const playerDepth = 0.82;
 
   const spices = [
@@ -71,29 +74,41 @@
       slideTime,
       now,
       objects,
-      roadScroll
+      roadScroll,
+      chaser: runnerCore.snapshot().chaser,
+      boosts: runnerCore.snapshot()
     });
   }
 
   function spawn() {
     const laneChoice = Math.floor(Math.random() * 3) - 1;
-    if (Math.random() < .37) objects.push({ kind: "spice", lane: laneChoice, depth: 0.015, spiceIndex: Math.floor(Math.random() * spices.length), resolved: false });
-    else {
-      const roll = Math.random();
-      const kind = roll < .34 ? "crate" : roll < .57 ? "awning" : roll < .79 ? "barrier" : "train";
-      objects.push({ kind, lane: laneChoice, depth: 0.015, resolved: false });
+    const roll = Math.random();
+    if (roll < .34) {
+      // Coin trail logic from the source runner becomes a Zarad spice trail.
+      const length = 4 + Math.floor(Math.random() * 3);
+      const spiceIndex = Math.floor(Math.random() * spices.length);
+      for (let i = 0; i < length; i++) {
+        objects.push({ kind: "spice", lane: laneChoice, depth: .015 + i * .075, spiceIndex, resolved: false });
+      }
+    } else if (roll < .45) {
+      const kind = Math.random() < .48 ? "boost-jump" : Math.random() < .75 ? "boost-magnet" : "boost-shield";
+      objects.push({ kind, lane: laneChoice, depth: .015, resolved: false });
+    } else {
+      const hazard = Math.random();
+      const kind = hazard < .31 ? "crate" : hazard < .54 ? "awning" : hazard < .76 ? "barrier" : "train";
+      objects.push({ kind, lane: laneChoice, depth: .015, resolved: false });
     }
   }
-  function move(direction) { if (running) lane = Math.max(-1, Math.min(1, lane + direction)); }
-  function jump() { if (running && jumpTime === 0 && slideTime === 0) jumpTime = .001; }
-  function slide() { if (running && slideTime === 0 && jumpTime === 0) slideTime = .66; }
+  function move(direction) { if (running) lane = runnerCore.move(direction); }
+  function jump() { if (running) runnerCore.jump(); }
+  function slide() { if (running) runnerCore.slide(); }
 
   function finish() {
     if (!running) return;
     running = false; stopLoop();
     overlay.classList.remove("spice-runner-gameplay");
     dialog.classList.remove("spice-runner-live");
-    const score = Math.floor(metres) + collected * 25;
+    const score = Math.floor(metres) + runnerCore.snapshot().points;
     const record = metres > best;
     if (record) {
       best = metres;
@@ -110,35 +125,67 @@
     restart.focus();
   }
   function update(dt) {
-    elapsed += dt; metres += dt * (20 + Math.min(13, elapsed * .16));
-    const speed = .54 + Math.min(.30, elapsed * .0028);
-    roadScroll = (roadScroll + speed * dt) % 1;
+    const state = runnerCore.update(dt);
+    elapsed = state.elapsed;
+    lane = state.lane;
+    visualLane = state.visualLane;
+    jumpTime = state.jumpTime;
+    slideTime = state.slideTime;
+    metres += dt * (20 + Math.min(13, elapsed * .16));
+    roadScroll = (roadScroll + state.speed * dt) % 1;
     spawnClock += dt;
-    if (spawnClock >= Math.max(.62, 1.02 - elapsed * .002)) { spawnClock = 0; spawn(); }
-    jumpTime = jumpTime > 0 ? jumpTime + dt : 0;
-    if (jumpTime >= .78) jumpTime = 0;
-    slideTime = Math.max(0, slideTime - dt);
-    visualLane += (lane - visualLane) * Math.min(1, dt * 13);
+    if (spawnClock >= Math.max(.58, 1.02 - elapsed * .002)) { spawnClock = 0; spawn(); }
+
     for (let i = objects.length - 1; i >= 0; i--) {
       const item = objects[i];
-      item.depth += speed * dt;
-      if (item.depth >= playerDepth && !item.resolved) {
+      item.depth += state.speed * dt;
+      const inPickupWindow = item.depth >= playerDepth - .18 && item.depth <= playerDepth + .035;
+      const magnetPickup = item.kind === "spice" && runnerCore.isMagnetActive()
+        && Math.abs(item.lane - lane) <= 1 && inPickupWindow;
+      if ((item.depth >= playerDepth && !item.resolved) || magnetPickup) {
         item.resolved = true;
-        if (item.lane === lane) {
-          if (item.kind === "spice") {
-            collected++;
-            const spice = spices[item.spiceIndex];
-            // Pickup feedback is reported in the HUD; the WebGL renderer animates the jar itself.
-            notify(say("Ai adunat: " + spice[0], "Collected: " + spice[1]));
-          } else {
-            const cleared = item.kind === "crate" || item.kind === "barrier" ? jumpTime > .12 : item.kind === "awning" ? slideTime > .12 : false;
-            if (!cleared) { finish(); return; }
-            notify(item.kind === "crate" || item.kind === "barrier" ? say("Frumos salt!", "Nice jump!") : say("La fix! Te-ai strecurat pe dedesubt.", "Perfect slide!"));
+        if (item.kind === "spice" && (item.lane === lane || magnetPickup)) {
+          const combo = runnerCore.collectSpice();
+          collected = runnerCore.snapshot().collected;
+          const spice = spices[item.spiceIndex];
+          notify(combo > 1
+            ? say("Lanț de arome x" + combo + " · " + spice[0], "Spice streak x" + combo + " · " + spice[1])
+            : say("Ai adunat: " + spice[0], "Collected: " + spice[1]));
+        } else if (item.kind.startsWith("boost-") && item.lane === lane) {
+          runnerCore.collectPowerup(item.kind);
+          const message = item.kind === "boost-jump"
+            ? say("Șofran zburător: salturi mai înalte!", "Flying saffron: higher jumps!")
+            : item.kind === "boost-magnet"
+              ? say("Magnet de mirodenii activ!", "Spice magnet activated!")
+              : say("Scut de condimente activ!", "Spice shield activated!");
+          notify(message);
+        } else if (item.lane === lane && ["crate", "barrier", "awning", "train"].includes(item.kind)) {
+          let cleared = false;
+          if (item.kind === "crate") cleared = runnerCore.canClearCrate();
+          else if (item.kind === "train") cleared = runnerCore.canClearTrain();
+          else if (item.kind === "awning") cleared = runnerCore.canPassAwning();
+          else if (item.kind === "barrier") {
+            if (runnerCore.canClearCrate()) cleared = true;
+            else {
+              const hit = runnerCore.hitBarrier();
+              if (hit === "caught") { finish(); return; }
+              notify(hit === "shield"
+                ? say("Scutul a oprit bariera!", "Shield absorbed the barrier!")
+                : say("Ai lovit bariera! Paznicul se apropie!", "Barrier hit! The guard is catching up!"));
+              cleared = true;
+            }
+          }
+          if (!cleared) { finish(); return; }
+          if (item.kind !== "barrier" || state.setbackTimer <= 0) {
+            notify(item.kind === "awning"
+              ? say("Alunecare perfectă!", "Perfect slide!")
+              : say("Frumos salt!", "Nice jump!"));
           }
         }
       }
       if (item.depth > 1.22) objects.splice(i, 1);
     }
+    if (runnerCore.snapshot().gameOver) { finish(); return; }
     hud();
   }
   function frame(now) {
@@ -154,6 +201,7 @@
     stopLoop();
     overlay.classList.add("spice-runner-gameplay");
     dialog.classList.add("spice-runner-live");
+    runnerCore.reset();
     lane = 0; visualLane = 0; jumpTime = 0; slideTime = 0;
     metres = 0; collected = 0; elapsed = 0; spawnClock = 0; roadScroll = 0; objects = [];
     running = true; paused = document.hidden;
