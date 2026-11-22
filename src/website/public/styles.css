@@ -2653,6 +2653,7 @@ body.spice-game-open { overflow: hidden; }
 .spice-runner-howto { display: grid; gap: 9px; margin-top: 20px; }
 .spice-runner-howto > span { display: flex; align-items: center; gap: 14px; color: #715c50; font-size: 12px; }
 .spice-runner-howto b { display: inline-grid; min-width: 82px; min-height: 30px; place-items: center; padding: 0 8px; border: 1px solid rgba(181,130,58,.48); background: #fffaf2; color: #70272b; font-size: 11px; letter-spacing: .06em; }
+.spice-runner-mobile-help { margin: 12px 0 0; color: #947e6e; font-size: 11px; line-height: 1.55; }
 .spice-game-action {
   display: inline-flex; align-items: center; justify-content: center; min-height: 46px; margin-top: 22px; padding: 0 25px;
   border: 1px solid #d4a443; border-radius: 2px; background: #d49b42; color: #2c3b2e;
@@ -2685,6 +2686,7 @@ html[data-theme="dark"] .spice-game-kicker, html[data-theme="dark"] .spice-runne
 html[data-theme="dark"] .spice-game-subtitle, html[data-theme="dark"] .spice-runner-intro-copy > p, html[data-theme="dark"] .spice-runner-howto > span, html[data-theme="dark"] .spice-game-result > p:not(.spice-game-kicker) { color: #c5b3a5; }
 html[data-theme="dark"] .spice-runner-mascot { border-color: rgba(214,166,83,.4); background: radial-gradient(circle at 50% 42%, #4a3a31 0, #382b27 70%, #302727 100%); }
 html[data-theme="dark"] .spice-runner-mascot span, html[data-theme="dark"] .spice-runner-result-score { color: #e6c7a8; }
+html[data-theme="dark"] .spice-runner-mobile-help { color: #b5a394; }
 html[data-theme="dark"] .spice-runner-howto b, html[data-theme="dark"] .spice-runner-controls button { border-color: rgba(214,166,83,.4); background: #3a302c; color: #f0e5d6; }
 html[data-theme="dark"] .spice-runner-hud > div, html[data-theme="dark"] .spice-game-result { border-color: rgba(214,166,83,.3); background: #3a3029; }
 html[data-theme="dark"] .spice-runner-hud strong { color: #f0e5d6; }
