@@ -3080,3 +3080,10 @@ html[data-theme="dark"] .spice-runner-result-score { border-color: rgba(214,166,
     min-height: 11px;
   }
 }
+
+
+/* Let the gameplay grid consume the available viewport height without overflow. */
+.spice-runner-live .spice-runner-play {
+  flex: 1 1 0;
+  height: auto;
+}
