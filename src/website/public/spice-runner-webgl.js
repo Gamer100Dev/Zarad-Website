@@ -116,7 +116,8 @@
       character:"/assets/game/kenney-character-male-a.glb",
       palm:"/assets/game/kenney-palm.glb",
       barrel:"/assets/game/kenney-spice-barrel.glb",
-      bowl:"/assets/game/kenney-spice-bowl.glb"
+      bowl:"/assets/game/kenney-spice-bowl.glb",
+      coin:"/assets/game/kenney-coin-reference.glb"
     };
     const assets={};
     const assetLoads=Object.entries(assetDefs).map(async([name,url])=>{
@@ -124,9 +125,9 @@
       catch(error){console.warn("[Zarad assets] Could not load "+name,error);}
     });
     Promise.all(assetLoads).then(()=>{console.info("[Zarad assets] Loaded",Object.keys(assets));});
-    function assetAt(name,pos,scale,override){
+    function assetAt(name,pos,scale,override,rot=[0,0,0]){
       const parts=assets[name];if(!parts||!parts.length)return false;
-      for(const part of parts)draw(part.mesh,pos,[scale,scale,scale],override||part.color,[0,0,0],part.metal||0);
+      for(const part of parts)draw(part.mesh,pos,[scale,scale,scale],override||part.color,rot,part.metal||0);
       return true;
     }
     const ball=(p,s,c,metal=0,em=0)=>draw(sphereMesh,p,s,c,[0,0,0],metal,em);
@@ -144,16 +145,27 @@
     function train(x,z,s){box([x,1.28*s,z],[1.2*s,1.28*s,2.25*s],[.47,.12,.15]);box([x,2.35*s,z-.1*s],[1.1*s,.22*s,1.9*s],[.86,.78,.59]);box([x,1.58*s,z+1.14*s],[.88*s,.75*s,.035*s],[.10,.18,.22]);box([x,1.58*s,z+1.19*s],[.79*s,.63*s,.025*s],[.17,.30,.36]);box([x,1.05*s,z+1.2*s],[.54*s,.24*s,.035*s],[.84,.65,.30]);for(const side of [-1,1]){ball([x+side*.82*s,1*s,z+1.2*s],[.12*s,.12*s,.07*s],[1,.82,.38],.7,.1);tube([x+side*.74*s,.3*s,z+.65*s],[.2*s,.1*s,.2*s],[.13,.12,.12],[Math.PI/2,0,0],.6);tube([x+side*.74*s,.3*s,z-.55*s],[.2*s,.1*s,.2*s],[.13,.12,.12],[Math.PI/2,0,0],.6);}}
     function coin(x,z,time,s){
       const y=1.08+Math.sin(time*.006+z)*.11,spin=time*.0028;
+      // Kenney's CC0 coin mesh is the physical pickup; Zarad gold and star
+      // detailing make it read as the in-game currency, not Subway's coin art.
+      if(assetAt("coin",[x,y,z],.46*s,[1,.69,.12],[0,spin,Math.PI/2])){
+        ball([x,y,z+.04*s],[.10*s,.10*s,.045*s],[.73,.19,.13],.32,.08);
+        ball([x,y,z+.075*s],[.045*s,.045*s,.025*s],[1,.88,.48],.55,.18);
+        return;
+      }
       tube([x,y,z],[.34*s,.075*s,.34*s],[1,.70,.08],[Math.PI/2,0,spin],.82,.22);
       tube([x,y,z+.008],[.23*s,.079*s,.23*s],[.96,.48,.035],[Math.PI/2,0,spin],.76,.10);
       ball([x-.10*s,y+.10*s,z+.045*s],[.035*s,.11*s,.025*s],[1,.91,.48],.5,.12);
     }
     function jar(x,z,index,time,s){const c=powder[index%powder.length],bob=Math.sin(time*.005+index)*.12,spin=time*.0011,y=1.05+bob;if(assetAt("bottle",[x,y,z],.43*s,c))return;tube([x,y,z],[.23*s,.31*s,.23*s],c,[0,spin,0],.18,.02);tube([x,y-.05*s,z+.005],[.235*s,.18*s,.235*s],[.90,.77,.57],[0,spin,0],.12);tube([x,y+.31*s,z],[.16*s,.08*s,.16*s],[.74,.45,.18],[0,spin,0],.68,.04);tube([x,y+.43*s,z],[.19*s,.065*s,.19*s],[.91,.70,.34],[0,spin,0],.78);ball([x-.09*s,y+.18*s,z+.205*s],[.035*s,.20*s,.018*s],[1,.93,.77],.25,.02);ball([x,y+.52*s,z],[.045*s,.028*s,.045*s],[.98,.78,.34],.65,.04);}
     function powerup(x,z,kind,time,s){
-      const color=kind==="boost-jump"?[.98,.67,.16]:kind==="boost-magnet"?[.22,.68,.46]:[.42,.55,.91];
+      const color=kind==="boost-magnet"?[.22,.70,.48]
+        :kind==="boost-jetpack"?[.95,.43,.14]
+        :kind==="boost-sneakers"?[.98,.70,.16]
+        :kind==="boost-hoverboard"||kind==="boost-shield"?[.35,.62,.92]
+        :kind==="boost-x2"?[.67,.35,.82]:[.91,.61,.16];
       const bob=Math.sin(time*.004+z)*.14,y=1.22+bob;
       ball([x,y,z],[.46*s,.46*s,.46*s],color,.45,.20);
-      if(assets.bottle)assetAt("bottle",[x,y,z],.68*s,color);
+      if(assets.bottle)assetAt("bottle",[x,y,z],.68*s,color,[0,time*.001,0]);
       else tube([x,y,z],[.18*s,.32*s,.18*s],color,[0,time*.001,0],.2,.16);
       tube([x,y-.32*s,z],[.52*s,.035*s,.52*s],[.96,.80,.40],[Math.PI/2,0,0],.62,.12);
       ball([x,y+.47*s,z],[.09*s,.09*s,.09*s],[1,.91,.56],.48,.35);
@@ -163,7 +175,7 @@
       const gap=2.35+(1-pressure)*1.35;
       assetAt("character",[lane*LANE_GAP,1.02,PLAYER_Z+gap],.72);
     }
-    function runner(lane,jumpTime,slideTime,now,jumpHeight){
+    function runner(lane,jumpTime,slideTime,now,jumpHeight,boostState){
       const x=lane*LANE_GAP;
       const jumping=jumpTime>0,sliding=slideTime>0;
       const progress=jumping?Math.min(1,jumpTime/.78):0;
@@ -176,6 +188,24 @@
 
       // Soft oval contact shadow remains on the track while the runner jumps.
       ball([x,.035,PLAYER_Z],[.57*Math.max(.48,1-lift*.45),.035,.42],[.07,.045,.035]);
+
+      // Subway-style hoverboard protection, recoloured to the Zarad palette.
+      if(boostState&&boostState.hoverboard>0){
+        box([x,.19+lift*.06,PLAYER_Z],[.88,.085,.34],[.58,.13,.18],[0,now*.0018,0],.62);
+        box([x,.255+lift*.06,PLAYER_Z],[.62,.018,.23],[.96,.72,.30],[0,now*.0018,0],.72);
+        for(const side of [-1,1]){
+          ball([x+side*.40,.16+lift*.06,PLAYER_Z-.10],[.07,.035,.09],[.92,.37,.17],.45,.25);
+        }
+      }
+
+      // Jetpack exhaust gives the flight boost a visible state.
+      if(boostState&&boostState.jetpack>0){
+        for(const side of [-1,1]){
+          const fx=x+side*.26, fy=1.25+lift, fz=PLAYER_Z+.28;
+          tube([fx,fy,fz],[.095,.28,.095],[.86,.34,.12],[0,0,0],.18,.30);
+          ball([fx,fy-.30,fz],[.085,.13,.085],[1,.73,.24],.12,.45);
+        }
+      }
 
       // A two-link IK-style gait: hip rotation drives the thigh and the knee
       // flex independently folds the shin. The two legs stay parallel on X.
@@ -269,8 +299,8 @@
       market(state.now);tracks(state.roadScroll);
       const items=state.objects.slice().sort((a,b)=>a.depth-b.depth);
       for(const item of items){const z=objectZ(item.depth),x=item.lane*LANE_GAP,s=.82+(item.depth/PLAYER_DEPTH)*.24;if(item.kind==="coin")coin(x,z,state.now,s);else if(item.kind==="spice")jar(x,z,item.spiceIndex,state.now,s);else if(item.kind.startsWith("boost-"))powerup(x,z,item.kind,state.now,s);else if(item.kind==="crate")crate(x,z,s);else if(item.kind==="barrier")barrier(x,z,s);else if(item.kind==="awning")awning(x,z,s);else if(item.kind==="train")train(x,z,s);}
-      guard(state.lane,state.chaser||0,state.now);
-      runner(state.lane,state.jumpTime,state.slideTime,state.now,state.jumpHeight);
+      guard(state.lane,state.guard||state.chaser||0,state.now);
+      runner(state.lane,state.jumpTime,state.slideTime,state.now,state.jumpHeight,state);
       return drawCount;
     }
     return {render,gl,dispose(){[cubeMesh,sphereMesh,cyl,taper,cone].forEach(m=>gl.deleteBuffer(m.buffer));gl.deleteProgram(sh.p);}};
