@@ -224,10 +224,10 @@
   function drawWorld(now) {
     const t = now * .001;
     const sky = ctx.createLinearGradient(0, 0, 0, H);
-    sky.addColorStop(0, "#68434e"); sky.addColorStop(.27, "#c77c5d"); sky.addColorStop(.62, "#f2bf7c"); sky.addColorStop(1, "#a45d43");
+    sky.addColorStop(0, "#3976a4"); sky.addColorStop(.27, "#8cb8c6"); sky.addColorStop(.62, "#f6ca83"); sky.addColorStop(1, "#bb7146");
     ctx.fillStyle = sky; ctx.fillRect(0, 0, W, H);
     const sunGlow = ctx.createRadialGradient(480, 110, 4, 480, 110, 190);
-    sunGlow.addColorStop(0, "rgba(255,237,192,.72)"); sunGlow.addColorStop(.4, "rgba(255,203,128,.25)"); sunGlow.addColorStop(1, "rgba(255,180,100,0)");
+    sunGlow.addColorStop(0, "rgba(255,237,192,.22)"); sunGlow.addColorStop(.4, "rgba(255,203,128,.08)"); sunGlow.addColorStop(1, "rgba(255,180,100,0)");
     ctx.fillStyle = sunGlow; ctx.fillRect(260, 0, 440, 315);
 
     // Distant medina rooftops.
@@ -269,7 +269,7 @@
         ctx.fillStyle = "rgba(248,190,115,.55)"; ctx.fillRect(wx + 6, 201, 24, 28);
         ctx.strokeStyle = "#d9aa70"; ctx.lineWidth = 2; ctx.strokeRect(wx + 6, 201, 24, 28);
       }
-      ctx.fillStyle = "rgba(240,194,132,.12)";
+      ctx.fillStyle = "rgba(240,194,132,.2)";
       for (let y = 250; y < 510; y += 43) ctx.fillRect(sx + 8, y, 151, 2);
     }
 
@@ -350,7 +350,7 @@
       }
     }
     const reflection = ctx.createLinearGradient(0,210,0,H);
-    reflection.addColorStop(0,"rgba(255,204,116,0)"); reflection.addColorStop(1,"rgba(255,177,87,.11)");
+    reflection.addColorStop(0,"rgba(255,204,116,0)"); reflection.addColorStop(1,"rgba(255,177,87,.045)");
     ctx.fillStyle = reflection; ctx.fillRect(0,210,W,330);
 
     ctx.save(); ctx.fillStyle = "rgba(50,27,28,.84)"; rounded(389,91,182,38,9); ctx.fill();
@@ -428,7 +428,7 @@
     ctx.save(); ctx.translate(x, y);
     // Soft halo behind the floating glass jar.
     const halo = ctx.createRadialGradient(0, 0, 1, 0, 0, 48 * scale);
-    halo.addColorStop(0, "rgba(255,213,111,.48)"); halo.addColorStop(.45, "rgba(255,188,78,.16)"); halo.addColorStop(1, "rgba(255,177,69,0)");
+    halo.addColorStop(0, "rgba(255,213,111,.30)"); halo.addColorStop(.45, "rgba(255,188,78,.10)"); halo.addColorStop(1, "rgba(255,177,69,0)");
     ctx.fillStyle = halo; ctx.beginPath(); ctx.arc(0, 0, 48 * scale, 0, Math.PI * 2); ctx.fill();
     ctx.fillStyle = "rgba(25,16,12,.24)";
     ctx.beginPath(); ctx.ellipse(0, h * .58, w * .74, 6 * scale, 0, 0, Math.PI * 2); ctx.fill();
@@ -606,6 +606,10 @@
   }
 
   function draw(now) {
+    // Explicitly reset canvas state before every full-scene redraw.
+    ctx.globalAlpha = 1;
+    ctx.globalCompositeOperation = "source-over";
+    if ("filter" in ctx) ctx.filter = "none";
     drawWorld(now);
     objects.slice().sort((a, b) => b.z - a.z).forEach((item) => {
       const y = yAt(item.z), scale = .24 + (1 - item.z) * 1.06, x = xAt(item.lane, item.z);
