@@ -1,116 +1,56 @@
 (() => {
   "use strict";
-
-  // Gameplay systems adapted for Zarad from the MIT-licensed
-  // RohanChacko/Subway-Surfers WebGL project (2019).
-  // Adapted systems: three-lane movement, jump physics, boost timers,
-  // obstacle setbacks and a pursuing guard. Art, controls and scoring
-  // are re-authored for Zarad's spice-market setting.
-
-  const clamp = (value, min, max) => Math.max(min, Math.min(max, value));
-
-  function create() {
-    const state = {};
-    function reset() {
-      Object.assign(state, {
-        lane: 0, visualLane: 0,
-        elapsed: 0, speed: .54, speedPenalty: 1,
-        jumpTime: 0, jumpHeight: 0, jumpDuration: .78, jumpMax: 1.28,
-        slideTime: 0,
-        liftTimer: 0, magnetTimer: 0, shieldTimer: 0,
-        setbackTimer: 0, chaser: .12, gameOver: false,
-        combo: 0, comboTimer: 0, points: 0, collected: 0
-      });
+  // Re-authored Zarad adaptation of Subway Surfers-style systems.
+  // The three-lane runner, jump/roll timing, train/ramp rules, coin trails,
+  // boosts and guard pressure follow the MIT-licensed Subway Surfers WebGL
+  // reference by Rohan Chacko (2019); see SUBWAY-SURFERS-SOURCE-LICENSE.txt.
+  const clamp=(v,a,b)=>Math.max(a,Math.min(b,v));
+  function create(){
+    const s={};
+    function reset(){
+      Object.assign(s,{lane:0,visualLane:0,elapsed:0,speed:13.5,score:0,coins:0,
+        jumpTime:0,jumpHeight:0,slideTime:0,magnet:0,jetpack:0,sneakers:0,
+        stumble:0,guard:0,gameOver:false,combo:0,comboTimer:0,
+        trainTop:0,missionCoins:0,missionDistance:0,nearMisses:0});
       return snapshot();
     }
-    function snapshot() { return { ...state }; }
-
-    function move(direction) {
-      state.lane = clamp(state.lane + Math.sign(direction), -1, 1);
-      return state.lane;
+    function snapshot(){return {...s};}
+    function move(d){if(!s.gameOver)s.lane=clamp(s.lane+Math.sign(d),-1,1);return s.lane;}
+    function jump(){if(s.gameOver||s.jumpTime>0||s.slideTime>0)return false;s.jumpTime=.001;s.trainTop=0;return true;}
+    function slide(){if(s.gameOver||s.slideTime>0||s.jumpTime>0)return false;s.slideTime=.72;return true;}
+    function collectCoin(){s.coins++;s.missionCoins++;s.combo=Math.min(5,s.combo+1);s.comboTimer=2.3;s.score+=Math.round(10*s.combo);return s.combo;}
+    function collectPowerup(kind){if(kind==="boost-magnet")s.magnet=10;else if(kind==="boost-jetpack")s.jetpack=6.5;else if(kind==="boost-sneakers")s.sneakers=9;else if(kind==="boost-shield")s.sneakers=7;return snapshot();}
+    function hit(kind){
+      if(s.sneakers>0){s.sneakers=0;return "shield";}
+      if(s.stumble>0.2){s.gameOver=true;return "caught";}
+      s.stumble=2.9;s.guard=clamp(s.guard+.42,0,1);return "stumble";
     }
-    function jump() {
-      if (state.gameOver || state.jumpTime > 0 || state.slideTime > 0) return false;
-      state.jumpTime = .0001;
-      return true;
-    }
-    function slide() {
-      if (state.gameOver || state.slideTime > 0 || state.jumpTime > 0) return false;
-      state.slideTime = .68;
-      return true;
-    }
-    function collectSpice() {
-      state.comboTimer = 2.1;
-      state.combo = Math.min(5, state.combo + 1);
-      state.collected++;
-      state.points += 10 * Math.max(1, state.combo);
-      return state.combo;
-    }
-    function collectPowerup(kind) {
-      if (kind === "boost-jump") state.liftTimer = 7.5;
-      else if (kind === "boost-magnet") state.magnetTimer = 8;
-      else if (kind === "boost-shield") state.shieldTimer = 9;
+    function update(dt){
+      const d=clamp(dt||0,0,.05);s.elapsed+=d;
+      s.speed=Math.min(34,13.5+s.elapsed*.23);
+      s.visualLane+=(s.lane-s.visualLane)*Math.min(1,d*14);
+      if(s.jumpTime>0){
+        s.jumpTime+=d;const t=clamp(s.jumpTime/.82,0,1);
+        s.jumpHeight=Math.sin(t*Math.PI)*(s.sneakers>0?2.45:1.85);
+        if(t>=1){s.jumpTime=0;s.jumpHeight=0;}
+      }
+      if(s.slideTime>0)s.slideTime=Math.max(0,s.slideTime-d);
+      if(s.magnet>0)s.magnet=Math.max(0,s.magnet-d);
+      if(s.jetpack>0)s.jetpack=Math.max(0,s.jetpack-d);
+      if(s.sneakers>0)s.sneakers=Math.max(0,s.sneakers-d);
+      if(s.stumble>0){s.stumble=Math.max(0,s.stumble-d);s.guard=clamp(s.guard+d*.12,0,1);}
+      else s.guard=Math.max(.08,s.guard-d*.045);
+      if(s.comboTimer>0)s.comboTimer=Math.max(0,s.comboTimer-d);else s.combo=0;
+      if(s.guard>=.985)s.gameOver=true;
       return snapshot();
     }
-
-    // Low barriers cause a slowdown and allow the guard to close the gap,
-    // matching the source project's barrier setback / police pursuit loop.
-    function hitBarrier() {
-      if (state.shieldTimer > 0) {
-        state.shieldTimer = 0;
-        return "shield";
-      }
-      if (state.setbackTimer > .1) {
-        state.gameOver = true;
-        return "caught";
-      }
-      state.setbackTimer = 3.8;
-      state.speedPenalty = .67;
-      state.chaser = clamp(state.chaser + .43, 0, 1);
-      return "setback";
-    }
-
-    function update(dt) {
-      const step = clamp(dt || 0, 0, .05);
-      state.elapsed += step;
-      const targetSpeed = .54 + Math.min(.32, state.elapsed * .0028);
-      if (state.setbackTimer > 0) {
-        state.setbackTimer = Math.max(0, state.setbackTimer - step);
-        state.chaser = clamp(state.chaser + step * .075, 0, 1);
-        if (state.setbackTimer === 0) state.speedPenalty = 1;
-      } else {
-        state.chaser = Math.max(.10, state.chaser - step * .035);
-      }
-      state.speed = targetSpeed * state.speedPenalty;
-
-      state.visualLane += (state.lane - state.visualLane) * Math.min(1, step * 13);
-      if (state.jumpTime > 0) {
-        state.jumpTime += step;
-        const t = clamp(state.jumpTime / state.jumpDuration, 0, 1);
-        state.jumpHeight = Math.sin(t * Math.PI) * state.jumpMax * (state.liftTimer > 0 ? 1.32 : 1);
-        if (t >= 1) { state.jumpTime = 0; state.jumpHeight = 0; }
-      }
-      if (state.slideTime > 0) state.slideTime = Math.max(0, state.slideTime - step);
-      if (state.liftTimer > 0) state.liftTimer = Math.max(0, state.liftTimer - step);
-      if (state.magnetTimer > 0) state.magnetTimer = Math.max(0, state.magnetTimer - step);
-      if (state.shieldTimer > 0) state.shieldTimer = Math.max(0, state.shieldTimer - step);
-      if (state.comboTimer > 0) state.comboTimer = Math.max(0, state.comboTimer - step);
-      else state.combo = 0;
-      if (state.chaser >= .985) state.gameOver = true;
-      return snapshot();
-    }
-
     reset();
-    return {
-      reset, snapshot, move, jump, slide, update,
-      collectSpice, collectPowerup, hitBarrier,
-      canClearCrate: () => state.jumpHeight > .55,
-      canClearTrain: () => state.jumpHeight > 1.02,
-      canPassAwning: () => state.slideTime > .12,
-      isMagnetActive: () => state.magnetTimer > 0,
-      isShieldActive: () => state.shieldTimer > 0
-    };
+    return {reset,snapshot,move,jump,slide,update,collectCoin,collectPowerup,hit,
+      canJumpBarrier:()=>s.jumpHeight>(s.sneakers>0?.5:.72),
+      canClearTrain:()=>s.jumpHeight>2.05,
+      canRoll:()=>s.slideTime>.12,
+      magnetActive:()=>s.magnet>0,
+      jetpackActive:()=>s.jetpack>0};
   }
-
-  window.ZaradRunnerCore = Object.freeze({ create });
+  window.ZaradRunnerCore=Object.freeze({create});
 })();
