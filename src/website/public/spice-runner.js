@@ -28,7 +28,7 @@
     $("spice-runner-coins").textContent=String(s.coins);
     $("spice-runner-score").textContent=Math.floor(runScore+s.score).toLocaleString();
     $("spice-runner-best").textContent=Math.floor(best).toLocaleString();
-    $("spice-runner-speed").textContent=Math.round(s.speed)+" km/h";
+    $("spice-runner-speed").textContent=Math.round(s.speed*3.6)+" km/h";
     $("spice-runner-mission").textContent=missions[missionIndex]?say(missions[missionIndex].ro,missions[missionIndex].en):say("Misiune completă","Mission complete");
     $("spice-runner-mission-progress").textContent=missionProgress+"/"+(missions[missionIndex]?.goal||"✓");
     $("spice-runner-mission-fill").style.width=Math.min(100,missionProgress/(missions[missionIndex]?.goal||1)*100)+"%";
@@ -139,6 +139,7 @@
   function closeGame(){stopLoop();running=false;overlay.classList.remove("spice-runner-gameplay");dialog.classList.remove("spice-runner-live");overlay.hidden=true;document.body.classList.remove("spice-game-open");if(previousFocus?.focus)previousFocus.focus();}
   trigger.addEventListener("click",openGame);close.addEventListener("click",closeGame);start.addEventListener("click",startGame);restart.addEventListener("click",startGame);
   $("spice-runner-pause").addEventListener("click",pause);
+  $("spice-runner-resume").addEventListener("click",pause);
   document.querySelectorAll("[data-runner-action]").forEach(b=>b.addEventListener("click",()=>{const a=b.dataset.runnerAction;if(a==="left")move(-1);else if(a==="right")move(1);else if(a==="jump")jump();else if(a==="slide")slide();}));
   document.addEventListener("keydown",e=>{if(overlay.hidden)return;if(e.key==="Escape"){e.preventDefault();if(running)pause();else closeGame();return;}if(!running||paused)return;const k=e.key.toLowerCase();if(k==="arrowleft"||k==="a"){e.preventDefault();move(-1);}else if(k==="arrowright"||k==="d"){e.preventDefault();move(1);}else if(k==="arrowup"||k==="w"||k===" "){e.preventDefault();jump();}else if(k==="arrowdown"||k==="s"){e.preventDefault();slide();}else if(k==="p"){e.preventDefault();pause();}});
   canvas.addEventListener("pointerdown",e=>{pointer={x:e.clientX,y:e.clientY};});
