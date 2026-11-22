@@ -9,11 +9,7 @@ let currentLanguage = "ro";
 const gameTrigger = document.querySelector("#spice-game-trigger");
 
 function openZaradDash() {
-  try {
-    localStorage.setItem("zarad-language", currentLanguage);
-  } catch {
-  }
-  window.location.assign("/Zarad-Dash.html?lang=" + currentLanguage);
+  window.location.assign("/Zarad-Dash.html");
 }
 
 if (currentYear) {

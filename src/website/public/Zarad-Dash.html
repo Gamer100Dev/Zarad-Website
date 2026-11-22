@@ -42,7 +42,12 @@ const T=THREE,cv=document.getElementById('c');
 let gameLanguage=(()=>{
   const requested=new URLSearchParams(location.search).get('lang');
   if(requested==='ro'||requested==='en')return requested;
-  try{return localStorage.getItem('zarad-language')==='en'?'en':'ro'}catch(e){return 'ro'}
+  try {
+    const saved=localStorage.getItem('zarad-game-language');
+    return saved==='en'||saved==='ro'?saved:'ro';
+  } catch(e) {
+    return 'ro';
+  }
 })();
 const GAME_COPY={
   en:{
@@ -226,14 +231,13 @@ const languageButton=document.getElementById('language-toggle');
 const exitButton=document.getElementById('exit-game');
 if(languageButton)languageButton.addEventListener('click',()=>{
   const next=gameLanguage==='ro'?'en':'ro';
-  try{localStorage.setItem('zarad-language',next)}catch(e){}
+  try{localStorage.setItem('zarad-game-language',next)}catch(e){}
   const url=new URL(location.href);
   url.searchParams.set('lang',next);
   history.replaceState(null,'',url);
   applyGameLanguage(next);
 });
 if(exitButton)exitButton.addEventListener('click',()=>{
-  try{localStorage.setItem('zarad-language',gameLanguage)}catch(e){}
   window.location.assign('/');
 });
 applyGameLanguage(gameLanguage);
