@@ -66,8 +66,8 @@
     ctx.arcTo(x, y, x + w, y, r);
     ctx.closePath();
   }
-  function yAt(z) { return horizon + Math.pow(1 - z, 1.72) * 392; }
-  function spacing(z) { return 72 + (1 - z) * 182; }
+  function yAt(z) { return horizon + Math.pow(Math.max(0, 1 - z), 1.72) * 392; }
+  function spacing(z) { return 72 + (1 - z) * 218; }
   function xAt(which, z) { return W / 2 + which * spacing(z); }
   function hud() {
     distanceEl.textContent = Math.floor(metres) + " m";
