@@ -171,7 +171,7 @@ func buildAndApplyUpdate(ctx context.Context, repositoryRoot string) (string, bo
 		return "", false, fmt.Errorf("automatic updates skipped because tracked files have local changes")
 	}
 
-	if _, err := gitOutput(ctx, repositoryRoot, "fetch", "--quiet", "origin", "main"); err != nil {
+	if _, err := gitOutput(ctx, repositoryRoot, "fetch", "--quiet", "origin", "+refs/heads/main:refs/remotes/origin/main"); err != nil {
 		return "", false, err
 	}
 
