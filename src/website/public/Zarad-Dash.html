@@ -39,6 +39,47 @@ button:active{transform:translateY(3px);box-shadow:0 2px 0 #0005}
   #sound-tools button{min-height:35px;padding:6px 9px;gap:5px;font-size:11px}
   #sound-tools button strong{font-size:9px}
 }
+#mobile-controls{
+  position:absolute;z-index:19;right:calc(env(safe-area-inset-right,0px) + 12px);
+  bottom:calc(env(safe-area-inset-bottom,0px) + 12px);
+  display:none;grid-template-columns:repeat(2,58px);gap:8px;pointer-events:none;
+}
+#mobile-controls.active{display:grid}
+#mobile-controls button{
+  display:flex;flex-direction:column;align-items:center;justify-content:center;gap:2px;
+  width:58px;height:54px;min-height:54px;padding:4px;border:1px solid #fff4d2;
+  border-radius:14px;background:#4b281ddd;color:#fff5dc;box-shadow:0 3px 10px #0005;
+  pointer-events:auto;touch-action:manipulation;line-height:1;
+}
+#mobile-controls button span{font-size:20px;font-weight:900}
+#mobile-controls button small{font-size:9px;font-weight:900;letter-spacing:.04em}
+#mobile-controls button:active{transform:translateY(2px) scale(.97);box-shadow:0 1px 5px #0005}
+#mobile-controls button:focus-visible{outline:3px solid var(--gold);outline-offset:2px}
+button,.ch{-webkit-tap-highlight-color:transparent}
+@media(max-width:760px){
+  html,body{height:100%;height:100dvh}
+  canvas{height:100%;height:100dvh}
+  #hud{font-size:clamp(16px,4vw,22px);left:9px;right:9px}
+  #ov{box-sizing:border-box;padding:calc(env(safe-area-inset-top,0px) + 12px) 12px calc(env(safe-area-inset-bottom,0px) + 12px);overflow-y:auto}
+  .card{width:min(100%,420px);max-width:420px;max-height:calc(100dvh - 24px);box-sizing:border-box;overflow-y:auto;padding:clamp(14px,4vw,22px) clamp(14px,5vw,26px)}
+  h1{font-size:clamp(27px,8vw,34px)}
+  #pick{gap:7px;margin-bottom:10px}
+  #pick .ch{min-height:40px;padding:8px 10px}
+  .card>button{min-height:48px;padding:11px 30px}
+  #page-tools{right:8px;gap:6px}
+  #page-tools button{min-height:42px;padding:7px 11px}
+  #sound-tools{left:8px;bottom:calc(env(safe-area-inset-bottom,0px) + 10px)}
+}
+@media(max-width:760px) and (max-height:520px){
+  #mobile-controls{bottom:calc(env(safe-area-inset-bottom,0px) + 7px);grid-template-columns:repeat(2,50px);gap:6px}
+  #mobile-controls button{width:50px;height:46px;min-height:46px}
+  #mobile-controls button span{font-size:17px}
+  #mobile-controls button small{font-size:8px}
+  #sound-tools{bottom:calc(env(safe-area-inset-bottom,0px) + 7px)}
+  .card{padding:10px 16px}
+  .card p{margin:4px 0 8px;font-size:14px}
+  #pick{margin-bottom:6px}
+}
 </style></head><body>
 <canvas id="c"></canvas>
 <div id="hud"><div id="sc">0 m</div><div id="co">🌶️ 0</div></div><div id="shelf"></div><div id="toast"></div>
@@ -53,6 +94,12 @@ button:active{transform:translateY(3px);box-shadow:0 2px 0 #0005}
   <button id="effects-toggle" type="button" aria-pressed="true" title="Oprește efectele sonore">
     <span class="sound-icon" aria-hidden="true">✧</span><span id="effects-label">Efecte</span><strong id="effects-state">ON</strong>
   </button>
+</div>
+<div id="mobile-controls" role="group" aria-label="Comenzi tactile">
+  <button type="button" data-action="l" aria-label="Stânga" title="Stânga"><span aria-hidden="true">◀</span><small id="mobile-left-label">STÂNGA</small></button>
+  <button type="button" data-action="r" aria-label="Dreapta" title="Dreapta"><span aria-hidden="true">▶</span><small id="mobile-right-label">DREAPTA</small></button>
+  <button type="button" data-action="u" aria-label="Sari" title="Sari"><span aria-hidden="true">▲</span><small id="mobile-jump-label">SARI</small></button>
+  <button type="button" data-action="d" aria-label="Alunecă" title="Alunecă"><span aria-hidden="true">▼</span><small id="mobile-roll-label">ALUNECĂ</small></button>
 </div>
 <div id="ov"><div class="card"><h1 id="t">ZARAD DASH</h1><p id="m"></p><div id="pick"></div><p><span id="spice-total-label">Condimente colectate:</span> <b id="tot">0</b> · <span id="catalog-label">colecție</span> <b id="cat">0</b>/8</p><button id="go">Hai!</button></div></div>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
@@ -74,14 +121,16 @@ const GAME_COPY={
     total:'Spices collected:',collection:'collection',start:'Start!',tryAgain:'Try again',
     need:'{name} · {count} spices',newCharacter:'New character: {name}!',
     full:'Full collection!',collected:'{name} +1',over:'Ouch!',
-    result:'You ran <b>{distance} m</b> and collected <b>{coins}</b> spices.'
+    result:'You ran <b>{distance} m</b> and collected <b>{coins}</b> spices.',
+    left:'Left',right:'Right',jump:'Jump',roll:'Slide'
   },
   ro:{
     intro:'Aleargă prin piața de mirodenii și adună condimentele din colecție. Cu cât aduni mai multe, cu atât deblochezi mai multe personaje!<br><b>← →</b> schimbă banda · <b>↑</b> sari · <b>↓</b> rostogolește-te<br>(sau glisează pe ecran)',
     total:'Condimente colectate:',collection:'colecție',start:'Hai!',tryAgain:'Încearcă din nou',
     need:'{name} · {count} condimente',newCharacter:'Personaj nou: {name}!',
     full:'Colecție completă!',collected:'{name} +1',over:'Ups!',
-    result:'Ai alergat <b>{distance} m</b> și ai colectat <b>{coins}</b> condimente.'
+    result:'Ai alergat <b>{distance} m</b> și ai colectat <b>{coins}</b> condimente.',
+    left:'Stânga',right:'Dreapta',jump:'Sari',roll:'Alunecă'
   }
 };
 const CAT_RO=['Turmeric','Ardei iute','Ghimbir','Piper negru','Scorțișoară','Șofran','Cardamom','Boia'];
@@ -413,6 +462,21 @@ function applyGameLanguage(next) {
     exitButton.setAttribute('aria-label',gameLanguage==='ro'?'Înapoi la site':'Back to website');
     exitButton.title=gameLanguage==='ro'?'Înapoi la site':'Back to website';
   }
+  const mobileGroup=document.getElementById('mobile-controls');
+  const mobileLabels={
+    left:document.getElementById('mobile-left-label'),
+    right:document.getElementById('mobile-right-label'),
+    jump:document.getElementById('mobile-jump-label'),
+    roll:document.getElementById('mobile-roll-label')
+  };
+  const mobileCopy=GAME_COPY[gameLanguage];
+  if(mobileGroup)mobileGroup.setAttribute('aria-label',gameLanguage==='ro'?'Comenzi tactile':'Touch controls');
+  Object.keys(mobileLabels).forEach(key=>{
+    const label=mobileLabels[key],value=mobileCopy[key];
+    if(label)label.textContent=value.toLocaleUpperCase(gameLanguage==='ro'?'ro':'en');
+    const control=mobileGroup&&mobileGroup.querySelector('[data-action="'+({left:'l',right:'r',jump:'u',roll:'d'}[key])+'"]');
+    if(control){control.setAttribute('aria-label',value);control.title=value}
+  });
   if(st==='over') {
     tt.textContent=gameText('over');
     mm.innerHTML=gameText('result',{distance:dist|0,coins:coinsN});
@@ -479,13 +543,35 @@ fr.forEach(l=>{if(Math.random()<.75)coins(LX[l],z+3,5,Math.random()<.3)})}
 // state
 let crashT=0,st='menu',sp=0,dist=0,coinsN=0,nextS=0,lane=1,px=0,py=0,vy=0,roll=0,time=0,shake=0;
 const sc=document.getElementById('sc'),co=document.getElementById('co'),ov=document.getElementById('ov'),tt=document.getElementById('t'),mm=document.getElementById('m');
-function start(){unlockGameAudio();objs.forEach(o=>S.remove(o));objs.length=0;runF.clear();got.full=0;crashT=0;stars.visible=false;piv.rotation.x=0;piv.scale.setScalar(1);piv.position.y=.9;aL.rotation.x=aR.rotation.x=lL.rotation.x=lR.rotation.x=0;[...sh.children].forEach(s=>s.className='');st='play';sp=14;dist=0;coinsN=0;nextS=0;lane=1;px=0;py=0;vy=0;roll=0;shake=0;ov.style.display='none';spawn(-60)}
-function die(){st='over';crashT=.001;sv();pick();shake=.6;tt.textContent=gameText('over');mm.innerHTML=gameText('result',{distance:dist|0,coins:coinsN});document.getElementById('go').textContent=gameText('tryAgain');setTimeout(()=>ov.style.display='flex',700)}
+function start(){unlockGameAudio();const mobileControls=document.getElementById('mobile-controls');if(mobileControls)mobileControls.classList.add('active');objs.forEach(o=>S.remove(o));objs.length=0;runF.clear();got.full=0;crashT=0;stars.visible=false;piv.rotation.x=0;piv.scale.setScalar(1);piv.position.y=.9;aL.rotation.x=aR.rotation.x=lL.rotation.x=lR.rotation.x=0;[...sh.children].forEach(s=>s.className='');st='play';sp=14;dist=0;coinsN=0;nextS=0;lane=1;px=0;py=0;vy=0;roll=0;shake=0;ov.style.display='none';spawn(-60)}
+function die(){stopMoroccanMusic();const mobileControls=document.getElementById('mobile-controls');if(mobileControls)mobileControls.classList.remove('active');st='over';crashT=.001;sv();pick();shake=.6;tt.textContent=gameText('over');mm.innerHTML=gameText('result',{distance:dist|0,coins:coinsN});document.getElementById('go').textContent=gameText('tryAgain');setTimeout(()=>ov.style.display='flex',700)}
 function act(a){if(st!=='play')return;if(a==='l')lane=Math.max(0,lane-1);if(a==='r')lane=Math.min(2,lane+1);
 if(a==='u'&&py<.05){vy=11.5;roll=0}if(a==='d'){if(py>.05)vy=-22;roll=.6}}
-addEventListener('keydown',e=>{const k={ArrowLeft:'l',a:'l',ArrowRight:'r',d:'r',ArrowUp:'u',w:'u',' ':'u',ArrowDown:'d',s:'d'}[e.key];if(k){e.preventDefault();act(k)}if(st!=='play'&&(e.key==='Enter')&&ov.style.display!=='none')start()});
-let tx,ty;addEventListener('touchstart',e=>{tx=e.touches[0].clientX;ty=e.touches[0].clientY},{passive:true});
-addEventListener('touchend',e=>{const dx=e.changedTouches[0].clientX-tx,dy=e.changedTouches[0].clientY-ty;if(Math.hypot(dx,dy)<25)return;Math.abs(dx)>Math.abs(dy)?act(dx>0?'r':'l'):act(dy>0?'d':'u')});
+addEventListener('keydown',e=>{
+  const key=e.key.length===1?e.key.toLowerCase():e.key;
+  const k={ArrowLeft:'l',a:'l',ArrowRight:'r',d:'r',ArrowUp:'u',w:'u',' ':'u',ArrowDown:'d',s:'d'}[key];
+  if(k){e.preventDefault();act(k)}
+  if(st!=='play'&&key==='Enter'&&ov.style.display!=='none')start();
+});
+
+// Swipe directly on the game canvas so touching buttons never triggers a lane gesture.
+// Pointer events cover modern iOS Safari and Android browsers without double-firing touch events.
+let activeSwipe=null;
+cv.addEventListener('pointerdown',e=>{
+  if(e.pointerType==='mouse'||e.isPrimary===false||st!=='play')return;
+  activeSwipe={id:e.pointerId,x:e.clientX,y:e.clientY};
+});
+cv.addEventListener('pointerup',e=>{
+  if(!activeSwipe||activeSwipe.id!==e.pointerId)return;
+  const gesture=activeSwipe;activeSwipe=null;
+  const dx=e.clientX-gesture.x,dy=e.clientY-gesture.y;
+  if(Math.hypot(dx,dy)<30)return;
+  if(Math.abs(dx)>Math.abs(dy))act(dx>0?'r':'l');
+  else act(dy>0?'d':'u');
+});
+cv.addEventListener('pointercancel',()=>{activeSwipe=null});
+cv.addEventListener('contextmenu',e=>e.preventDefault());
+
 document.getElementById('go').onclick=start;
 const languageButton=document.getElementById('language-toggle');
 const exitButton=document.getElementById('exit-game');
@@ -504,6 +590,9 @@ const musicButton=document.getElementById('music-toggle');
 const effectsButton=document.getElementById('effects-toggle');
 if(musicButton)musicButton.addEventListener('click',toggleMusic);
 if(effectsButton)effectsButton.addEventListener('click',toggleEffects);
+document.querySelectorAll('#mobile-controls [data-action]').forEach(button=>{
+  button.addEventListener('click',()=>act(button.dataset.action));
+});
 applyGameLanguage(gameLanguage);
 const clk=new T.Clock();
 function loop(){requestAnimationFrame(loop);const dt=Math.min(clk.getDelta(),.05);time+=dt;
