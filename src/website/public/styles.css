@@ -2349,7 +2349,7 @@ html[data-theme="dark"] body.about-page .about-closing-line {
 
   body.about-page .about-culture-note {
     width: min(calc(100% - 20px), 420px);
-    margin: 18px auto 0;
+    margin: 52px auto 0;
     padding: 24px 22px;
   }
 
