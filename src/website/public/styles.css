@@ -2617,13 +2617,12 @@ body.spice-game-open {
 }
 
 
-/* Homepage mascot framing on narrow screens */
+/* Homepage mascot framing on narrow screens — version 1.1 */
 @media (max-width: 680px) {
-  body:not(.about-page) .hero-slide img {
-    object-position: 68% 45%;
-    transform-origin: center;
-  }
+  body:not(.about-page) .hero-slide img,
   body:not(.about-page) .hero-slide.is-active img {
-    object-position: 68% 45%;
+    object-position: 82% 45% !important;
+    transform: translateX(-8%) scale(1.12) !important;
+    transform-origin: center;
   }
 }
