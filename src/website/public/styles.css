@@ -2616,3 +2616,14 @@ body.spice-game-open {
   overflow: hidden;
 }
 
+
+/* Homepage mascot framing on narrow screens */
+@media (max-width: 680px) {
+  body:not(.about-page) .hero-slide img {
+    object-position: 68% 45%;
+    transform-origin: center;
+  }
+  body:not(.about-page) .hero-slide.is-active img {
+    object-position: 68% 45%;
+  }
+}
