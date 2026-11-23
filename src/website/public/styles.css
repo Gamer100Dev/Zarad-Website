@@ -2481,7 +2481,7 @@ html[data-theme="dark"] body.about-page .about-closing-link:hover {
 }
 @media (max-width: 680px) {
   body.about-page .about-culture-note {
-    margin: -26px auto 0;
+    margin: 56px auto 0;
     width: min(calc(100% - 20px), 420px);
   }
   body.about-page .about-closing-inner {
