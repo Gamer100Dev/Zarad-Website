@@ -2771,3 +2771,106 @@ html[data-theme="dark"] body.about-page .about-closing-link:hover {
 @media (prefers-reduced-motion: reduce) {
   body.about-page .about-closing-link:hover { transform: none; }
 }
+
+
+/* Moroccan red accents: a restrained pomegranate/terracotta counterpoint to navy,
+   turquoise and brass, keeping the existing About page structure intact. */
+body.about-page .about-intro {
+  background:
+    radial-gradient(ellipse at 92% 12%, rgba(158, 49, 56, .28), transparent 36%),
+    linear-gradient(135deg, #193b59 0%, #102a44 100%);
+}
+
+body.about-page .about-kicker {
+  padding-left: 11px;
+  border-left: 2px solid #bd514c;
+}
+
+body.about-page .about-catalog-link {
+  border-color: rgba(224, 164, 133, .78);
+  box-shadow: inset 3px 0 0 #a93b40;
+}
+body.about-page .about-catalog-link:hover {
+  border-color: #d88b72;
+  background: #a93b40;
+  color: #fff7ed;
+}
+
+body.about-page .about-flavours-section {
+  border-left: 4px solid #a93b40;
+  background:
+    linear-gradient(90deg, rgba(169, 59, 64, .055), transparent 28%),
+    linear-gradient(125deg, #f6efe4 0%, #ece3d5 100%);
+}
+body.about-page .about-flavours-copy h2 {
+  text-decoration: underline;
+  text-decoration-color: rgba(169, 59, 64, .42);
+  text-decoration-thickness: 2px;
+  text-underline-offset: 9px;
+}
+
+body.about-page .about-culture-note {
+  border-left: 4px solid #b84d49;
+  box-shadow:
+    inset 0 0 0 1px rgba(230, 195, 124, .12),
+    0 16px 38px rgba(16, 39, 60, .22);
+}
+body.about-page .about-culture-note .about-pairings-kicker {
+  color: #e6a18e;
+}
+
+body.about-page .about-closing-rule {
+  background: #bd514c;
+  box-shadow: 0 0 0 1px rgba(240, 214, 159, .42);
+}
+body.about-page .about-closing-kicker {
+  color: #f2c1ad;
+}
+body.about-page .about-closing-link {
+  border-color: #e7c47c;
+  background: #a83d43;
+  color: #fff8ed;
+  box-shadow: 0 9px 24px rgba(8, 47, 57, .2), inset 0 0 0 1px rgba(255,255,255,.08);
+}
+body.about-page .about-closing-link:hover {
+  border-color: #fff0c7;
+  background: #842d38;
+  color: #fff8ed;
+}
+
+html[data-theme="dark"] body.about-page .about-intro {
+  background:
+    radial-gradient(ellipse at 92% 12%, rgba(158, 49, 56, .24), transparent 36%),
+    linear-gradient(135deg, #102941 0%, #091d30 100%);
+}
+html[data-theme="dark"] body.about-page .about-kicker {
+  border-left-color: #c45c58;
+}
+html[data-theme="dark"] body.about-page .about-flavours-section {
+  border-left-color: #c45c58;
+  background:
+    linear-gradient(90deg, rgba(196, 92, 88, .10), transparent 32%),
+    #26343e;
+}
+html[data-theme="dark"] body.about-page .about-flavours-copy h2 {
+  text-decoration-color: rgba(196, 92, 88, .65);
+}
+html[data-theme="dark"] body.about-page .about-culture-note {
+  border-left-color: #c45c58;
+}
+html[data-theme="dark"] body.about-page .about-culture-note .about-pairings-kicker,
+html[data-theme="dark"] body.about-page .about-closing-kicker {
+  color: #efb19e;
+}
+html[data-theme="dark"] body.about-page .about-closing-rule {
+  background: #c45c58;
+}
+html[data-theme="dark"] body.about-page .about-closing-link {
+  border-color: #e8cb8c;
+  background: #a83d43;
+  color: #fff8ed;
+}
+html[data-theme="dark"] body.about-page .about-closing-link:hover {
+  background: #842d38;
+  color: #fff8ed;
+}
