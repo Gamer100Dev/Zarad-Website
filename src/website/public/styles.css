@@ -2627,493 +2627,410 @@ body.spice-game-open {
   }
 }
 
+/* Zarad identity: the eight-point mark paired with the Baystar Script wordmark. */
+@font-face {
+  font-family: "Baystar Script";
+  src: url("/assets/BaystarScriptLight-PERSONAL_USE_ONLY.otf") format("opentype");
+  font-style: normal;
+  font-weight: 300;
+  font-display: swap;
+}
+@font-face {
+  font-family: "Baystar Script";
+  src: url("/assets/BaystarScriptMedium-PERSONAL_USE_ONLY.otf") format("opentype");
+  font-style: normal;
+  font-weight: 500;
+  font-display: swap;
+}
+@font-face {
+  font-family: "Baystar Script";
+  src: url("/assets/BaystarScriptBold-PERSONAL_USE_ONLY.otf") format("opentype");
+  font-style: normal;
+  font-weight: 700;
+  font-display: swap;
+}
 
-/* About page refresh: Moroccan navy, turquoise and geometric tile details. */
+.site-header,
+html[data-theme="dark"] .site-header {
+  background-image: none;
+}
+
+.brand.zarad-logo {
+  width: auto;
+  max-width: 100%;
+  height: 62px;
+  padding: 0;
+  display: inline-flex;
+  align-items: center;
+  justify-self: start;
+  gap: 10px;
+  overflow: visible;
+  text-decoration: none;
+}
+
+.brand.zarad-logo .zarad-brand-mark {
+  flex: 0 0 46px;
+  width: 46px;
+  height: 46px;
+  display: block;
+  object-fit: contain;
+  border-radius: 10px;
+  background: #f4ead9;
+}
+
+.zarad-brand-lockup {
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: flex-start;
+  gap: 3px;
+}
+
+.zarad-wordmark {
+  display: block;
+  color: #751e27;
+  font-family: "Baystar Script", cursive;
+  font-size: 43px;
+  font-style: normal;
+  font-weight: 500;
+  line-height: .88;
+  letter-spacing: 0;
+  white-space: nowrap;
+  transition: color 160ms ease;
+}
+
+.zarad-tagline {
+  display: block;
+  margin-left: 3px;
+  color: #795f4c;
+  font-family: "DM Sans", sans-serif;
+  font-size: 7px;
+  font-weight: 700;
+  line-height: 1;
+  letter-spacing: .2em;
+  text-transform: uppercase;
+  white-space: nowrap;
+}
+
+.brand.zarad-logo:hover .zarad-wordmark {
+  color: #a94345;
+}
+
+.brand.zarad-logo:focus-visible,
+.footer-brand:focus-visible {
+  outline: 2px solid #a94345;
+  outline-offset: 4px;
+}
+
+.footer-brand {
+  width: auto;
+  height: 52px;
+  gap: 9px;
+  overflow: visible;
+  text-decoration: none;
+}
+
+.footer-brand .zarad-brand-mark {
+  flex: 0 0 39px;
+  width: 39px;
+  height: 39px;
+  display: block;
+  object-fit: contain;
+  border-radius: 9px;
+  background: #f4ead9;
+}
+
+.footer-brand .zarad-wordmark {
+  font-size: 34px;
+}
+
+.footer-brand .zarad-tagline {
+  font-size: 6px;
+  letter-spacing: .18em;
+}
+
+html[data-theme="dark"] .zarad-wordmark {
+  color: #e8cbb0;
+}
+html[data-theme="dark"] .zarad-tagline {
+  color: #d3b995;
+}
+html[data-theme="dark"] .brand.zarad-logo:hover .zarad-wordmark {
+  color: #f0b2a0;
+}
+html[data-theme="dark"] .brand.zarad-logo:focus-visible,
+html[data-theme="dark"] .footer-brand:focus-visible {
+  outline-color: #e6c37c;
+}
+
+@media (max-width: 680px) {
+  .brand.zarad-logo {
+    height: 48px;
+    gap: 8px;
+  }
+  .brand.zarad-logo .zarad-brand-mark {
+    flex-basis: 36px;
+    width: 36px;
+    height: 36px;
+    border-radius: 8px;
+  }
+  .brand.zarad-logo .zarad-wordmark {
+    font-size: 35px;
+  }
+  .brand.zarad-logo .zarad-tagline {
+    margin-left: 2px;
+    font-size: 6px;
+    letter-spacing: .17em;
+  }
+  .footer-brand {
+    height: 46px;
+    gap: 8px;
+  }
+  .footer-brand .zarad-brand-mark {
+    flex-basis: 34px;
+    width: 34px;
+    height: 34px;
+  }
+  .footer-brand .zarad-wordmark {
+    font-size: 31px;
+  }
+}
+
+/* About page: restrained Moroccan zellige geometry, drawn from the Zarad star mark. */
+body.about-page .about-main {
+  background: #f5eee3;
+}
+
 body.about-page .about-intro {
   position: relative;
   overflow: hidden;
-  border-bottom: 0;
-  background: linear-gradient(135deg, #193b59 0%, #102a44 100%);
+  border: 0;
+  background: linear-gradient(128deg, #193b59 0%, #102a44 100%);
 }
-body.about-page .about-intro-inner { position: relative; z-index: 1; }
+
+body.about-page .about-intro-inner {
+  position: relative;
+  z-index: 1;
+}
+
 body.about-page .about-intro::after {
   position: absolute;
   right: 0;
   bottom: 0;
   left: 0;
-  height: 22px;
-  border-top: 1px solid rgba(230, 195, 124, .62);
-  background-color: rgba(7, 25, 42, .28);
-  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='48' height='48' viewBox='0 0 48 48'%3E%3Cg fill='none' stroke='%23e6c37c' stroke-width='1'%3E%3Cpath d='M24 1L47 24L24 47L1 24Z'/%3E%3Cpath d='M24 1L18 18L1 24L18 30L24 47L30 30L47 24L30 18Z'/%3E%3Crect x='18' y='18' width='12' height='12'/%3E%3C/g%3E%3C/svg%3E");
+  height: 18px;
+  border-top: 1px solid rgba(231, 196, 124, .68);
+  background-color: #102a44;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='54' height='18' viewBox='0 0 54 18'%3E%3Cg fill='none' stroke-width='1'%3E%3Cpath stroke='%23e1bf83' d='M9 0L12 6L18 9L12 12L9 18L6 12L0 9L6 6Z M27 0L30 6L36 9L30 12L27 18L24 12L18 9L24 6Z M45 0L48 6L54 9L48 12L45 18L42 12L36 9L42 6Z'/%3E%3Cpath stroke='%23bd6459' stroke-width='.8' d='M9 5L13 9L9 13L5 9Z M27 5L31 9L27 13L23 9Z M45 5L49 9L45 13L41 9Z'/%3E%3C/g%3E%3C/svg%3E");
   background-repeat: repeat-x;
-  background-position: center 48%;
-  background-size: 42px 42px;
+  background-position: center;
+  background-size: 54px 18px;
   content: "";
   pointer-events: none;
 }
+
 body.about-page .about-kicker,
-body.about-page .about-pairings-kicker { color: #e6c37c; }
-
-body.about-page .about-flavours-section {
-  border-color: rgba(22, 55, 84, .32);
-  background: linear-gradient(125deg, #f6efe4 0%, #ece3d5 100%);
-  box-shadow: 0 14px 32px rgba(21, 47, 70, .07);
-}
-body.about-page .about-flavours-copy h2 { color: #173b59; }
-body.about-page .about-photo-card {
-  border-color: rgba(29, 65, 92, .34);
-  box-shadow: 0 10px 28px rgba(20, 46, 70, .14);
-}
-body.about-page .about-photo-frame { background: #dce5e8; }
-body.about-page .about-photo-card figcaption { color: #294b65; }
-
-body.about-page .about-culture-note {
-  position: relative;
-  isolation: isolate;
-  overflow: hidden;
-  border-color: rgba(230, 195, 124, .72);
-  background: linear-gradient(145deg, #183a58 0%, #102941 100%);
-  color: #fff7ed;
-  box-shadow: 0 16px 38px rgba(16, 39, 60, .22);
-}
-body.about-page .about-culture-note::before {
-  position: absolute;
-  z-index: 0;
-  inset: 0;
-  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='48' height='48' viewBox='0 0 48 48'%3E%3Cg fill='none' stroke='%23e6c37c' stroke-width='1'%3E%3Cpath d='M24 1L47 24L24 47L1 24Z'/%3E%3Cpath d='M24 1L18 18L1 24L18 30L24 47L30 30L47 24L30 18Z'/%3E%3Crect x='18' y='18' width='12' height='12'/%3E%3C/g%3E%3C/svg%3E");
-  background-repeat: repeat;
-  background-size: 48px 48px;
-  content: "";
-  opacity: .13;
-  pointer-events: none;
-}
-body.about-page .about-culture-note > * { position: relative; z-index: 1; }
-body.about-page .about-culture-note .about-pairings-kicker { color: #e6c37c; }
-body.about-page .about-culture-note h2 { color: #fff7ed; }
-body.about-page .about-culture-text { color: rgba(255, 247, 237, .88); }
-
-body.about-page .about-closing {
-  position: relative;
-  isolation: isolate;
-  overflow: hidden;
-  border-top: 2px solid #e0ba70;
-  border-bottom: 2px solid #e0ba70;
-  background: #0d7b80;
-  color: #fff8ed;
-}
-body.about-page .about-closing::before {
-  position: absolute;
-  z-index: 0;
-  inset: 0;
-  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='48' height='48' viewBox='0 0 48 48'%3E%3Cg fill='none' stroke='%23e6c37c' stroke-width='1'%3E%3Cpath d='M24 1L47 24L24 47L1 24Z'/%3E%3Cpath d='M24 1L18 18L1 24L18 30L24 47L30 30L47 24L30 18Z'/%3E%3Crect x='18' y='18' width='12' height='12'/%3E%3C/g%3E%3C/svg%3E");
-  background-repeat: repeat;
-  background-size: 48px 48px;
-  content: "";
-  opacity: .17;
-  pointer-events: none;
-}
-body.about-page .about-closing-inner { position: relative; z-index: 1; }
-body.about-page .about-closing-rule { background: #e7c47c; }
-body.about-page .about-closing-kicker { color: #f0d69f; }
-body.about-page .about-closing h2 { color: #fff9ef; }
-body.about-page .about-closing-line { color: rgba(255, 249, 239, .9); }
-body.about-page .about-closing-link {
-  border-color: #f0d69f;
-  background: #f0d69f;
-  color: #153852;
-  box-shadow: 0 9px 24px rgba(8, 47, 57, .2);
-}
-body.about-page .about-closing-link:hover {
-  border-color: #fff0c7;
-  background: #fff0c7;
-  color: #102a44;
-  transform: translateY(-2px);
+body.about-page .about-pairings-kicker {
+  color: #e6c37c;
+  letter-spacing: .16em;
 }
 
-html[data-theme="dark"] body.about-page .about-main { background: #18232d; }
-html[data-theme="dark"] body.about-page .about-intro {
-  border-color: rgba(230, 195, 124, .4);
-  background: linear-gradient(135deg, #102941 0%, #091d30 100%);
-}
-html[data-theme="dark"] body.about-page .about-flavours-section {
-  border-color: rgba(125, 170, 190, .28);
-  background: #26343e;
-}
-html[data-theme="dark"] body.about-page .about-flavours-copy h2 { color: #d9e6e9; }
-html[data-theme="dark"] body.about-page .about-flavours-copy > p:last-child,
-html[data-theme="dark"] body.about-page .about-flavours-extra,
-html[data-theme="dark"] body.about-page .about-photo-card figcaption { color: #c5d1d6; }
-html[data-theme="dark"] body.about-page .about-photo-card {
-  border-color: rgba(230, 195, 124, .42);
-  background: #26343e;
-}
-html[data-theme="dark"] body.about-page .about-photo-frame { background: #1a2c39; }
-html[data-theme="dark"] body.about-page .about-culture-note {
-  border-color: rgba(230, 195, 124, .5);
-  background: linear-gradient(145deg, #102941 0%, #0b2034 100%);
-}
-html[data-theme="dark"] body.about-page .about-culture-text { color: #d4e0e3; }
-html[data-theme="dark"] body.about-page .about-closing {
-  border-color: #c99e58;
-  background: #08676d;
-}
-html[data-theme="dark"] body.about-page .about-closing h2 { color: #fff9ef; }
-html[data-theme="dark"] body.about-page .about-closing-line { color: #e2eeee; }
-html[data-theme="dark"] body.about-page .about-closing-link {
-  border-color: #e8cb8c;
-  background: #e8cb8c;
-  color: #102a44;
-}
-html[data-theme="dark"] body.about-page .about-closing-link:hover {
-  background: #fff0c7;
-  color: #102a44;
-}
-@media (prefers-reduced-motion: reduce) {
-  body.about-page .about-closing-link:hover { transform: none; }
-}
-
-
-/* Moroccan red accents: a restrained pomegranate/terracotta counterpoint to navy,
-   turquoise and brass, keeping the existing About page structure intact. */
-body.about-page .about-intro {
-  background:
-    radial-gradient(ellipse at 92% 12%, rgba(158, 49, 56, .28), transparent 36%),
-    linear-gradient(135deg, #193b59 0%, #102a44 100%);
-}
-
-body.about-page .about-kicker {
-  padding-left: 11px;
-  border-left: 2px solid #bd514c;
-}
-
-body.about-page .about-catalog-link {
-  border-color: rgba(224, 164, 133, .78);
-  box-shadow: inset 3px 0 0 #a93b40;
-}
-body.about-page .about-catalog-link:hover {
-  border-color: #d88b72;
-  background: #a93b40;
-  color: #fff7ed;
-}
-
-body.about-page .about-flavours-section {
-  border-left: 4px solid #a93b40;
-  background:
-    linear-gradient(90deg, rgba(169, 59, 64, .055), transparent 28%),
-    linear-gradient(125deg, #f6efe4 0%, #ece3d5 100%);
-}
-body.about-page .about-flavours-copy h2 {
-  text-decoration: underline;
-  text-decoration-color: rgba(169, 59, 64, .42);
-  text-decoration-thickness: 2px;
-  text-underline-offset: 9px;
-}
-
-body.about-page .about-culture-note {
-  border-left: 4px solid #b84d49;
-  box-shadow:
-    inset 0 0 0 1px rgba(230, 195, 124, .12),
-    0 16px 38px rgba(16, 39, 60, .22);
-}
-body.about-page .about-culture-note .about-pairings-kicker {
-  color: #e6a18e;
-}
-
-body.about-page .about-closing-rule {
-  background: #bd514c;
-  box-shadow: 0 0 0 1px rgba(240, 214, 159, .42);
-}
-body.about-page .about-closing-kicker {
-  color: #f2c1ad;
-}
-body.about-page .about-closing-link {
-  border-color: #e7c47c;
-  background: #a83d43;
-  color: #fff8ed;
-  box-shadow: 0 9px 24px rgba(8, 47, 57, .2), inset 0 0 0 1px rgba(255,255,255,.08);
-}
-body.about-page .about-closing-link:hover {
-  border-color: #fff0c7;
-  background: #842d38;
-  color: #fff8ed;
-}
-
-html[data-theme="dark"] body.about-page .about-intro {
-  background:
-    radial-gradient(ellipse at 92% 12%, rgba(158, 49, 56, .24), transparent 36%),
-    linear-gradient(135deg, #102941 0%, #091d30 100%);
-}
-html[data-theme="dark"] body.about-page .about-kicker {
-  border-left-color: #c45c58;
-}
-html[data-theme="dark"] body.about-page .about-flavours-section {
-  border-left-color: #c45c58;
-  background:
-    linear-gradient(90deg, rgba(196, 92, 88, .10), transparent 32%),
-    #26343e;
-}
-html[data-theme="dark"] body.about-page .about-flavours-copy h2 {
-  text-decoration-color: rgba(196, 92, 88, .65);
-}
-html[data-theme="dark"] body.about-page .about-culture-note {
-  border-left-color: #c45c58;
-}
-html[data-theme="dark"] body.about-page .about-culture-note .about-pairings-kicker,
-html[data-theme="dark"] body.about-page .about-closing-kicker {
-  color: #efb19e;
-}
-html[data-theme="dark"] body.about-page .about-closing-rule {
-  background: #c45c58;
-}
-html[data-theme="dark"] body.about-page .about-closing-link {
-  border-color: #e8cb8c;
-  background: #a83d43;
-  color: #fff8ed;
-}
-html[data-theme="dark"] body.about-page .about-closing-link:hover {
-  background: #842d38;
-  color: #fff8ed;
-}
-
-
-/* Moroccan decorative refinement: replace sharp accent bars with a quiet,
-   repeating star-and-square tile, framed medallions and woven colour. */
-body.about-page {
-  --about-moroccan-tile: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='96' height='96' viewBox='0 0 96 96'%3E%3Cg fill='none' stroke-width='1.15'%3E%3Cpath stroke='%23a94345' stroke-opacity='.19' d='M48 2L58 22L78 18L74 38L94 48L74 58L78 78L58 74L48 94L38 74L18 78L22 58L2 48L22 38L18 18L38 22Z'/%3E%3Cpath stroke='%231d4966' stroke-opacity='.17' d='M48 19L77 48L48 77L19 48Z M48 28L68 48L48 68L28 48Z'/%3E%3Cpath stroke='%23c9963b' stroke-opacity='.24' d='M48 34L62 48L48 62L34 48Z M48 39L57 48L48 57L39 48Z'/%3E%3C/g%3E%3Crect x='43' y='43' width='10' height='10' fill='none' stroke='%23a94345' stroke-opacity='.24' stroke-width='1'/%3E%3C/svg%3E");
-  --about-moroccan-rosette: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='64' height='64' viewBox='0 0 64 64'%3E%3Cg fill='none' stroke-width='1.5'%3E%3Cpath stroke='%23e7c47c' d='M32 2L39 18L56 8L46 25L62 32L46 39L56 56L39 46L32 62L25 46L8 56L18 39L2 32L18 25L8 8L25 18Z'/%3E%3Cpath stroke='%23b84d49' d='M32 13L51 32L32 51L13 32Z M32 20L44 32L32 44L20 32Z'/%3E%3Crect x='27' y='27' width='10' height='10' stroke='%23e7c47c'/%3E%3C/g%3E%3C/svg%3E");
-}
-
-body.about-page .about-main {
-  background-color: #f7f1e7;
-  background-image:
-    linear-gradient(rgba(247, 241, 231, .93), rgba(247, 241, 231, .93)),
-    var(--about-moroccan-tile);
-  background-repeat: repeat;
-  background-size: auto, 96px 96px;
-}
-
-body.about-page .about-intro {
-  background-image:
-    radial-gradient(circle at 84% 22%, rgba(190, 77, 70, .22), transparent 25%),
-    linear-gradient(135deg, #193b59 0%, #102a44 100%),
-    var(--about-moroccan-tile);
-  background-repeat: no-repeat, no-repeat, repeat;
-  background-size: auto, auto, 112px 112px;
-}
-
-body.about-page .about-intro::after {
-  height: 34px;
-  border: 0;
-  background-color: rgba(8, 27, 44, .4);
-  background-image:
-    linear-gradient(90deg, rgba(201, 150, 59, .22), rgba(201, 150, 59, .22)),
-    var(--about-moroccan-tile);
-  background-repeat: no-repeat, repeat-x;
-  background-size: 100% 1px, 48px 48px;
-  background-position: center top, center 45%;
-  opacity: .9;
-}
-
-body.about-page .about-kicker {
-  padding-left: 0;
-  border-left: 0;
-}
 body.about-page .about-kicker::before,
 body.about-page .about-pairings-kicker::before {
-  display: inline-block;
-  margin-right: 9px;
-  color: #c45b52;
-  content: "✧";
-  font-size: 1.15em;
-  line-height: 1;
-  vertical-align: -1px;
-}
-body.about-page .about-pairings-kicker::before {
-  color: #e6a18e;
-}
-
-body.about-page .about-catalog-link {
-  border-color: rgba(230, 195, 124, .78);
-  box-shadow: none;
-  background: rgba(255, 248, 237, .06);
-}
-body.about-page .about-catalog-link:hover {
-  border-color: #e6c37c;
-  background: #a43d43;
-  color: #fff7ed;
+  content: none;
 }
 
 body.about-page .about-flavours-section {
-  position: relative;
-  isolation: isolate;
-  overflow: hidden;
-  border-left: 0;
-  border-top: 1px solid rgba(201, 150, 59, .42);
-  border-bottom: 1px solid rgba(201, 150, 59, .42);
-  background-color: #f1e7d8;
-  background-image:
-    linear-gradient(105deg, rgba(246, 239, 228, .92), rgba(236, 227, 213, .88)),
-    var(--about-moroccan-tile);
-  background-repeat: no-repeat, repeat;
-  background-size: auto, 112px 112px;
+  border: 0;
+  border-inline-start: 4px solid #a94345;
+  background: #f8f2e8;
+  box-shadow: 0 12px 30px rgba(32, 42, 47, .07);
 }
-body.about-page .about-flavours-section > * {
-  position: relative;
-  z-index: 1;
-}
-body.about-page .about-flavours-section::after {
-  position: absolute;
-  z-index: 0;
-  right: -56px;
-  bottom: -78px;
-  width: 230px;
-  height: 230px;
-  background-image: var(--about-moroccan-rosette);
-  background-repeat: no-repeat;
-  background-position: center;
-  background-size: contain;
-  content: "";
-  opacity: .2;
-  pointer-events: none;
-}
+
 body.about-page .about-flavours-copy h2 {
+  color: #173b59;
   text-decoration: none;
 }
 
 body.about-page .about-photo-card {
   position: relative;
-  border-color: rgba(201, 150, 59, .64);
-  background:
-    linear-gradient(135deg, rgba(255, 250, 242, .98), rgba(239, 228, 211, .98));
-  box-shadow: 0 10px 28px rgba(20, 46, 70, .13);
+  padding: 7px;
+  border: 1px solid rgba(166, 126, 70, .72);
+  background: #f8f2e8;
+  box-shadow: 0 9px 25px rgba(20, 46, 70, .12);
 }
+
 body.about-page .about-photo-card::before,
 body.about-page .about-photo-card::after {
   position: absolute;
   z-index: 2;
-  width: 27px;
-  height: 27px;
-  background-image: var(--about-moroccan-rosette);
-  background-repeat: no-repeat;
-  background-size: contain;
+  width: 18px;
+  height: 18px;
   content: "";
   pointer-events: none;
-  opacity: .76;
 }
+
 body.about-page .about-photo-card::before {
-  top: 2px;
-  left: 2px;
+  top: 1px;
+  left: 1px;
+  border-top: 2px solid #a94345;
+  border-left: 2px solid #a94345;
 }
+
 body.about-page .about-photo-card::after {
-  right: 2px;
-  bottom: 2px;
+  right: 1px;
+  bottom: 1px;
+  border-right: 2px solid #c9963b;
+  border-bottom: 2px solid #c9963b;
+}
+
+body.about-page .about-photo-frame {
+  background: #e8ddca;
+}
+
+body.about-page .about-photo-card figcaption {
+  color: #294b65;
 }
 
 body.about-page .about-culture-note {
-  border-left: 0;
-  border-color: rgba(224, 190, 124, .72);
-  background-image:
-    linear-gradient(145deg, rgba(24, 58, 88, .92), rgba(16, 41, 65, .94)),
-    var(--about-moroccan-tile);
-  background-repeat: no-repeat, repeat;
-  background-size: auto, 96px 96px;
+  position: relative;
+  overflow: hidden;
+  border: 1px solid rgba(231, 196, 124, .68);
+  border-inline-start: 4px solid #a94345;
+  background: #173b59;
+  color: #fff7ed;
+  box-shadow: 0 14px 32px rgba(16, 39, 60, .17);
 }
+
 body.about-page .about-culture-note::before {
-  background-image: var(--about-moroccan-rosette);
-  background-repeat: repeat;
-  background-size: 88px 88px;
-  opacity: .12;
+  content: none;
+  display: none;
+}
+
+body.about-page .about-culture-note h2 {
+  color: #fff7ed;
+}
+
+body.about-page .about-culture-text {
+  color: rgba(255, 247, 237, .88);
+}
+
+/* The turquoise close is intentionally plain: no pattern, medallion or overlay. */
+body.about-page .about-closing {
+  position: relative;
+  isolation: auto;
+  width: 100%;
+  margin: clamp(58px, 8vw, 100px) 0 0;
+  padding: clamp(38px, 5vw, 58px) 24px;
+  border: 0;
+  border-radius: 0;
+  background: #0d777c;
+  background-image: none;
+  box-shadow: none;
+  color: #fff8ed;
+}
+
+body.about-page .about-closing::before,
+body.about-page .about-closing::after {
+  display: none;
+  content: none;
+}
+
+body.about-page .about-closing-inner {
+  position: relative;
+  z-index: auto;
 }
 
 body.about-page .about-closing-rule {
-  width: 48px;
-  height: 40px;
-  margin: 0 auto 14px;
-  background-image: var(--about-moroccan-rosette);
-  background-repeat: no-repeat;
-  background-position: center;
-  background-size: contain;
+  display: none;
+}
+
+body.about-page .about-closing-kicker {
+  color: #f0d69f;
+}
+
+body.about-page .about-closing h2 {
+  color: #fff8ed;
+}
+
+body.about-page .about-closing-line {
+  color: rgba(255, 248, 237, .9);
+}
+
+body.about-page .about-closing-link {
+  border: 1px solid #f5ead8;
+  background: #f5ead8;
+  color: #173b59;
   box-shadow: none;
 }
-body.about-page .about-closing {
-  background-image:
-    linear-gradient(rgba(13, 123, 128, .9), rgba(13, 123, 128, .9)),
-    var(--about-moroccan-tile);
-  background-repeat: no-repeat, repeat;
-  background-size: auto, 112px 112px;
-}
-body.about-page .about-closing::before {
-  background-image: var(--about-moroccan-rosette);
-  background-repeat: repeat;
-  background-size: 104px 104px;
-  opacity: .13;
-}
-body.about-page .about-closing-link {
-  box-shadow: 0 9px 24px rgba(8, 47, 57, .2);
+
+body.about-page .about-closing-link:hover {
+  border-color: #fff;
+  background: #fff;
+  color: #102a44;
+  transform: translateY(-1px);
 }
 
 html[data-theme="dark"] body.about-page .about-main {
-  background-color: #18232d;
-  background-image:
-    linear-gradient(rgba(24, 35, 45, .94), rgba(24, 35, 45, .94)),
-    var(--about-moroccan-tile);
+  background: #18232d;
 }
 html[data-theme="dark"] body.about-page .about-intro {
-  background-image:
-    radial-gradient(circle at 84% 22%, rgba(190, 77, 70, .2), transparent 25%),
-    linear-gradient(135deg, #102941 0%, #091d30 100%),
-    var(--about-moroccan-tile);
-  background-repeat: no-repeat, no-repeat, repeat;
-  background-size: auto, auto, 112px 112px;
+  background: linear-gradient(128deg, #102941 0%, #091d30 100%);
 }
 html[data-theme="dark"] body.about-page .about-flavours-section {
-  border-left: 0;
-  border-top-color: rgba(201, 150, 59, .32);
-  border-bottom-color: rgba(201, 150, 59, .32);
-  background-image:
-    linear-gradient(rgba(38, 52, 62, .93), rgba(38, 52, 62, .93)),
-    var(--about-moroccan-tile);
-  background-repeat: no-repeat, repeat;
-  background-size: auto, 112px 112px;
+  border-inline-start-color: #c45c58;
+  background: #26343e;
+  box-shadow: none;
 }
 html[data-theme="dark"] body.about-page .about-flavours-copy h2 {
-  text-decoration: none;
+  color: #d9e6e9;
 }
 html[data-theme="dark"] body.about-page .about-photo-card {
+  border-color: rgba(230, 195, 124, .46);
   background: #26343e;
 }
-html[data-theme="dark"] body.about-page .about-culture-note {
-  border-left: 0;
-  background-image:
-    linear-gradient(145deg, rgba(16, 41, 65, .94), rgba(11, 32, 52, .96)),
-    var(--about-moroccan-tile);
-  background-repeat: no-repeat, repeat;
-  background-size: auto, 96px 96px;
+html[data-theme="dark"] body.about-page .about-photo-frame {
+  background: #1a2c39;
 }
-html[data-theme="dark"] body.about-page .about-culture-note::before {
-  opacity: .17;
+html[data-theme="dark"] body.about-page .about-photo-card figcaption {
+  color: #c5d1d6;
+}
+html[data-theme="dark"] body.about-page .about-culture-note {
+  border-color: rgba(230, 195, 124, .48);
+  border-inline-start-color: #c45c58;
+  background: #102941;
+}
+html[data-theme="dark"] body.about-page .about-culture-text {
+  color: #d4e0e3;
 }
 html[data-theme="dark"] body.about-page .about-closing {
-  background-image:
-    linear-gradient(rgba(8, 103, 109, .91), rgba(8, 103, 109, .91)),
-    var(--about-moroccan-tile);
-  background-repeat: no-repeat, repeat;
-  background-size: auto, 112px 112px;
+  background: #086b70;
+  color: #fff8ed;
 }
-html[data-theme="dark"] body.about-page .about-closing::before {
-  opacity: .16;
+html[data-theme="dark"] body.about-page .about-closing-link {
+  border-color: #f5ead8;
+  background: #f5ead8;
+  color: #173b59;
+}
+html[data-theme="dark"] body.about-page .about-closing-link:hover {
+  background: #fff;
 }
 
 @media (max-width: 680px) {
-  body.about-page .about-flavours-section::after {
-    right: -110px;
-    bottom: -100px;
-    width: 190px;
-    height: 190px;
+  body.about-page .about-intro::after {
+    height: 14px;
+    background-size: 42px 14px;
   }
   body.about-page .about-photo-card::before,
   body.about-page .about-photo-card::after {
-    width: 23px;
-    height: 23px;
+    width: 15px;
+    height: 15px;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  body.about-page .about-closing-link:hover {
+    transform: none;
   }
 }
