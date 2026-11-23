@@ -214,6 +214,25 @@ const server = http.createServer((request, response) => {
     return;
   }
 
+  // Events are currently disabled in the public site. Keep the source pages
+  // available in the repository, but send old public URLs to the catalog.
+  if (
+    pathname === "/events" || pathname === "/events/" ||
+    pathname === "/events.html" || pathname.startsWith("/events/") ||
+    pathname === "/event-list" || pathname === "/event-list/" ||
+    pathname === "/event-list.html"
+  ) {
+    response.writeHead(302, { Location: "/catalog", "Cache-Control": "no-store" });
+    response.end();
+    return;
+  }
+
+  if (pathname === "/events.json") {
+    response.writeHead(404, { "Cache-Control": "no-store" });
+    response.end("Events are disabled");
+    return;
+  }
+
   if (
     pathname === "/about" || pathname === "/about/" ||
     pathname === "/despre-noi" || pathname === "/despre-noi/"
@@ -223,14 +242,6 @@ const server = http.createServer((request, response) => {
 
   if (pathname === "/catalog" || pathname === "/catalog/") {
     pathname = "/catalog.html";
-  }
-
-  if (pathname === "/events" || pathname === "/events/") {
-    pathname = "/events/index.html";
-  }
-
-  if (pathname === "/event-list" || pathname === "/event-list/") {
-    pathname = "/event-list.html";
   }
 
   if (pathname === "/contact" || pathname === "/contact/") {
