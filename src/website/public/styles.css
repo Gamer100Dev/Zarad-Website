@@ -2626,3 +2626,148 @@ body.spice-game-open {
     transform-origin: center;
   }
 }
+
+
+/* About page refresh: Moroccan navy, turquoise and geometric tile details. */
+body.about-page .about-intro {
+  position: relative;
+  overflow: hidden;
+  border-bottom: 0;
+  background: linear-gradient(135deg, #193b59 0%, #102a44 100%);
+}
+body.about-page .about-intro-inner { position: relative; z-index: 1; }
+body.about-page .about-intro::after {
+  position: absolute;
+  right: 0;
+  bottom: 0;
+  left: 0;
+  height: 22px;
+  border-top: 1px solid rgba(230, 195, 124, .62);
+  background-color: rgba(7, 25, 42, .28);
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='48' height='48' viewBox='0 0 48 48'%3E%3Cg fill='none' stroke='%23e6c37c' stroke-width='1'%3E%3Cpath d='M24 1L47 24L24 47L1 24Z'/%3E%3Cpath d='M24 1L18 18L1 24L18 30L24 47L30 30L47 24L30 18Z'/%3E%3Crect x='18' y='18' width='12' height='12'/%3E%3C/g%3E%3C/svg%3E");
+  background-repeat: repeat-x;
+  background-position: center 48%;
+  background-size: 42px 42px;
+  content: "";
+  pointer-events: none;
+}
+body.about-page .about-kicker,
+body.about-page .about-pairings-kicker { color: #e6c37c; }
+
+body.about-page .about-flavours-section {
+  border-color: rgba(22, 55, 84, .32);
+  background: linear-gradient(125deg, #f6efe4 0%, #ece3d5 100%);
+  box-shadow: 0 14px 32px rgba(21, 47, 70, .07);
+}
+body.about-page .about-flavours-copy h2 { color: #173b59; }
+body.about-page .about-photo-card {
+  border-color: rgba(29, 65, 92, .34);
+  box-shadow: 0 10px 28px rgba(20, 46, 70, .14);
+}
+body.about-page .about-photo-frame { background: #dce5e8; }
+body.about-page .about-photo-card figcaption { color: #294b65; }
+
+body.about-page .about-culture-note {
+  position: relative;
+  isolation: isolate;
+  overflow: hidden;
+  border-color: rgba(230, 195, 124, .72);
+  background: linear-gradient(145deg, #183a58 0%, #102941 100%);
+  color: #fff7ed;
+  box-shadow: 0 16px 38px rgba(16, 39, 60, .22);
+}
+body.about-page .about-culture-note::before {
+  position: absolute;
+  z-index: 0;
+  inset: 0;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='48' height='48' viewBox='0 0 48 48'%3E%3Cg fill='none' stroke='%23e6c37c' stroke-width='1'%3E%3Cpath d='M24 1L47 24L24 47L1 24Z'/%3E%3Cpath d='M24 1L18 18L1 24L18 30L24 47L30 30L47 24L30 18Z'/%3E%3Crect x='18' y='18' width='12' height='12'/%3E%3C/g%3E%3C/svg%3E");
+  background-repeat: repeat;
+  background-size: 48px 48px;
+  content: "";
+  opacity: .13;
+  pointer-events: none;
+}
+body.about-page .about-culture-note > * { position: relative; z-index: 1; }
+body.about-page .about-culture-note .about-pairings-kicker { color: #e6c37c; }
+body.about-page .about-culture-note h2 { color: #fff7ed; }
+body.about-page .about-culture-text { color: rgba(255, 247, 237, .88); }
+
+body.about-page .about-closing {
+  position: relative;
+  isolation: isolate;
+  overflow: hidden;
+  border-top: 2px solid #e0ba70;
+  border-bottom: 2px solid #e0ba70;
+  background: #0d7b80;
+  color: #fff8ed;
+}
+body.about-page .about-closing::before {
+  position: absolute;
+  z-index: 0;
+  inset: 0;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='48' height='48' viewBox='0 0 48 48'%3E%3Cg fill='none' stroke='%23e6c37c' stroke-width='1'%3E%3Cpath d='M24 1L47 24L24 47L1 24Z'/%3E%3Cpath d='M24 1L18 18L1 24L18 30L24 47L30 30L47 24L30 18Z'/%3E%3Crect x='18' y='18' width='12' height='12'/%3E%3C/g%3E%3C/svg%3E");
+  background-repeat: repeat;
+  background-size: 48px 48px;
+  content: "";
+  opacity: .17;
+  pointer-events: none;
+}
+body.about-page .about-closing-inner { position: relative; z-index: 1; }
+body.about-page .about-closing-rule { background: #e7c47c; }
+body.about-page .about-closing-kicker { color: #f0d69f; }
+body.about-page .about-closing h2 { color: #fff9ef; }
+body.about-page .about-closing-line { color: rgba(255, 249, 239, .9); }
+body.about-page .about-closing-link {
+  border-color: #f0d69f;
+  background: #f0d69f;
+  color: #153852;
+  box-shadow: 0 9px 24px rgba(8, 47, 57, .2);
+}
+body.about-page .about-closing-link:hover {
+  border-color: #fff0c7;
+  background: #fff0c7;
+  color: #102a44;
+  transform: translateY(-2px);
+}
+
+html[data-theme="dark"] body.about-page .about-main { background: #18232d; }
+html[data-theme="dark"] body.about-page .about-intro {
+  border-color: rgba(230, 195, 124, .4);
+  background: linear-gradient(135deg, #102941 0%, #091d30 100%);
+}
+html[data-theme="dark"] body.about-page .about-flavours-section {
+  border-color: rgba(125, 170, 190, .28);
+  background: #26343e;
+}
+html[data-theme="dark"] body.about-page .about-flavours-copy h2 { color: #d9e6e9; }
+html[data-theme="dark"] body.about-page .about-flavours-copy > p:last-child,
+html[data-theme="dark"] body.about-page .about-flavours-extra,
+html[data-theme="dark"] body.about-page .about-photo-card figcaption { color: #c5d1d6; }
+html[data-theme="dark"] body.about-page .about-photo-card {
+  border-color: rgba(230, 195, 124, .42);
+  background: #26343e;
+}
+html[data-theme="dark"] body.about-page .about-photo-frame { background: #1a2c39; }
+html[data-theme="dark"] body.about-page .about-culture-note {
+  border-color: rgba(230, 195, 124, .5);
+  background: linear-gradient(145deg, #102941 0%, #0b2034 100%);
+}
+html[data-theme="dark"] body.about-page .about-culture-text { color: #d4e0e3; }
+html[data-theme="dark"] body.about-page .about-closing {
+  border-color: #c99e58;
+  background: #08676d;
+}
+html[data-theme="dark"] body.about-page .about-closing h2 { color: #fff9ef; }
+html[data-theme="dark"] body.about-page .about-closing-line { color: #e2eeee; }
+html[data-theme="dark"] body.about-page .about-closing-link {
+  border-color: #e8cb8c;
+  background: #e8cb8c;
+  color: #102a44;
+}
+html[data-theme="dark"] body.about-page .about-closing-link:hover {
+  background: #fff0c7;
+  color: #102a44;
+}
+@media (prefers-reduced-motion: reduce) {
+  body.about-page .about-closing-link:hover { transform: none; }
+}
