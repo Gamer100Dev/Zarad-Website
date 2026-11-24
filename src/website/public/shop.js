@@ -145,11 +145,12 @@
   function updateQuantity(id, delta) {
     const items = readCart();
     const item = items.find(entry => entry.id === id);
-    if (!item) return;
+    if (!item) return false;
     item.quantity = Math.max(0, Math.min(99, item.quantity + delta));
-    writeCart(items.filter(entry => entry.quantity > 0));
+    if (!writeCart(items.filter(entry => entry.quantity > 0))) return false;
     renderCartPage();
     renderCheckoutSummary();
+    return true;
   }
 
   function removeItem(id, row, triggerButton) {
@@ -328,8 +329,14 @@
           removeItem(item.id, row, minus);
           return;
         }
+        minus.disabled = true;
         playButtonFeedback(minus, "is-decreasing", 560);
-        updateQuantity(item.id, -1);
+        window.setTimeout(() => {
+          if (!updateQuantity(item.id, -1)) {
+            minus.disabled = false;
+            minus.classList.remove("is-decreasing");
+          }
+        }, 430);
       });
 
       const quantity = document.createElement("span");
@@ -342,8 +349,14 @@
       plus.textContent = "+";
       plus.setAttribute("aria-label", language() === "ro" ? "Crește cantitatea" : "Increase quantity");
       plus.addEventListener("click", () => {
+        plus.disabled = true;
         playButtonFeedback(plus, "is-increasing", 560);
-        updateQuantity(item.id, 1);
+        window.setTimeout(() => {
+          if (!updateQuantity(item.id, 1)) {
+            plus.disabled = false;
+            plus.classList.remove("is-increasing");
+          }
+        }, 430);
       });
 
       const remove = document.createElement("button");
