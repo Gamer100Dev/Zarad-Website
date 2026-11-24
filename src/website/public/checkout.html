@@ -15,50 +15,99 @@
 <body class="catalog-page shop-page">
   <header class="site-header zarad-header">
     <div class="header-inner">
-      <a class="brand zarad-logo" href="/" aria-label="Zarad — One Spice Away"><img id="zarad_logo" src="/assets/Zarad_logo_for_white.png?v=zarad-logo-light-synced-20261119" alt="Zarad — One Spice Away"></a>
+      <a class="brand zarad-logo" href="/" aria-label="Zarad — One Spice Away">
+        <img id="zarad_logo" src="/assets/Zarad_logo_for_white.png?v=zarad-logo-light-synced-20261119" alt="Zarad — One Spice Away">
+      </a>
+
       <nav class="main-nav zarad-nav" aria-label="Navigare principală">
-        <a class="nav-link" href="/" data-ro="Acasă" data-en="Home">Acasă</a><a class="nav-link" href="/catalog" data-ro="Catalog" data-en="Catalogue">Catalog</a><a class="nav-link" href="/contact" data-ro="Contact" data-en="Contact">Contact</a><a class="nav-link" href="/about" data-ro="Despre noi" data-en="About us">Despre noi</a>
+        <a class="nav-link" href="/" data-ro="Acasă" data-en="Home">Acasă</a>
+        <a class="nav-link" href="/catalog" data-ro="Catalog" data-en="Catalogue">Catalog</a>
+        <a class="nav-link" href="/contact" data-ro="Contact" data-en="Contact">Contact</a>
+        <a class="nav-link" href="/about" data-ro="Despre noi" data-en="About us">Despre noi</a>
       </nav>
+
       <div class="zarad-right">
-        <button class="language-toggle zarad-lang-pill is-ro" id="zarad_language" type="button" aria-label="Switch to English" title="English"><span class="zarad-lang-slider" aria-hidden="true"></span><span class="zarad-lang-label label-ro" aria-hidden="true">RO</span><span class="zarad-lang-divider" aria-hidden="true"></span><span class="zarad-lang-label label-en" aria-hidden="true">EN</span></button>
+        <button class="language-toggle zarad-lang-pill is-ro" id="zarad_language" type="button" aria-label="Switch to English" title="English">
+          <span class="zarad-lang-slider" aria-hidden="true"></span>
+          <span class="zarad-lang-label label-ro" aria-hidden="true">RO</span>
+          <span class="zarad-lang-divider" aria-hidden="true"></span>
+          <span class="zarad-lang-label label-en" aria-hidden="true">EN</span>
+        </button>
       </div>
     </div>
   </header>
+
   <main class="shop-main">
     <section class="shop-heading">
       <p class="section-kicker" data-ro="ULTIMUL PAS" data-en="FINAL STEP">ULTIMUL PAS</p>
       <h1 data-ro="Detaliile livrării" data-en="Delivery details">Detaliile livrării</h1>
       <p data-ro="Completează datele de livrare și verifică produsele înainte de a continua." data-en="Enter your delivery details and review your basket before continuing.">Completează datele de livrare și verifică produsele înainte de a continua.</p>
     </section>
-    
+
     <div id="checkout_empty" class="shop-empty-state" hidden>
       <h2 data-ro="Coșul este gol" data-en="Your basket is empty">Coșul este gol</h2>
       <p data-ro="Adaugă produse înainte de a continua." data-en="Add products before continuing.">Adaugă produse înainte de a continua.</p>
       <a href="/catalog" class="shop-primary-link" data-ro="Mergi la catalog" data-en="Browse the catalogue">Mergi la catalog</a>
     </div>
+
     <div id="checkout_form_area" class="shop-checkout-layout">
       <form id="checkout_form" class="shop-checkout-form">
         <h2 data-ro="Date de contact" data-en="Contact details">Date de contact</h2>
+
         <div class="shop-form-grid">
-          <label><span data-ro="Nume complet" data-en="Full name">Nume complet</span><input name="customer_name" autocomplete="name" required maxlength="120"></label>
-          <label><span>E-mail</span><input name="email" type="email" autocomplete="email" required maxlength="160"></label>
-          <label><span data-ro="Telefon" data-en="Phone">Telefon</span><input name="phone" type="tel" autocomplete="tel" required maxlength="40"></label>
-          <label class="shop-form-wide"><span data-ro="Adresă (stradă și număr)" data-en="Address (street and number)">Adresă (stradă și număr)</span><input name="address" autocomplete="street-address" required maxlength="180"></label>
-          <label><span data-ro="Oraș" data-en="City">Oraș</span><input name="city" autocomplete="address-level2" required maxlength="100"></label>
-          <label><span data-ro="Județ / sector" data-en="County / district">Județ / sector</span><input name="region" autocomplete="address-level1" required maxlength="100"></label>
-          <label><span data-ro="Cod poștal" data-en="Postal code">Cod poștal</span><input name="postal_code" autocomplete="postal-code" maxlength="20"></label>
-          <label class="shop-form-wide"><span data-ro="Observații (opțional)" data-en="Notes (optional)">Observații (opțional)</span><textarea name="notes" rows="3" maxlength="500"></textarea></label>
+          <label>
+            <span data-ro="Nume complet" data-en="Full name">Nume complet</span>
+            <input name="customer_name" autocomplete="name" required maxlength="120">
+          </label>
+
+          <label>
+            <span>E-mail</span>
+            <input name="email" type="email" autocomplete="email" required maxlength="160">
+          </label>
+
+          <label>
+            <span data-ro="Telefon" data-en="Phone">Telefon</span>
+            <input name="phone" type="tel" autocomplete="tel" required maxlength="40">
+          </label>
+
+          <label class="shop-form-wide">
+            <span data-ro="Adresă (stradă și număr)" data-en="Address (street and number)">Adresă (stradă și număr)</span>
+            <input name="address" autocomplete="street-address" required maxlength="180">
+          </label>
+
+          <label>
+            <span data-ro="Oraș" data-en="City">Oraș</span>
+            <input name="city" autocomplete="address-level2" required maxlength="100">
+          </label>
+
+          <label>
+            <span data-ro="Județ / sector" data-en="County / district">Județ / sector</span>
+            <input name="region" autocomplete="address-level1" required maxlength="100">
+          </label>
+
+          <label>
+            <span data-ro="Cod poștal" data-en="Postal code">Cod poștal</span>
+            <input name="postal_code" autocomplete="postal-code" maxlength="20">
+          </label>
+
+          <label class="shop-form-wide">
+            <span data-ro="Observații (opțional)" data-en="Notes (optional)">Observații (opțional)</span>
+            <textarea name="notes" rows="3" maxlength="500"></textarea>
+          </label>
         </div>
+
         <fieldset class="shop-payment-methods">
           <legend data-ro="Alege metoda de plată" data-en="Choose a payment method">Alege metoda de plată</legend>
+
           <div class="shop-payment-options">
             <label class="shop-payment-choice">
               <input type="radio" name="payment" value="cash-on-delivery" checked>
               <span>
                 <strong data-ro="Ramburs la livrare" data-en="Cash on delivery">Ramburs la livrare</strong>
-                <small data.ro="Platiti cu numerar la livrare" data-en="Pay with cash when it arrives">Platiti cu numerar la livrare </small>
+                <small data-ro="Plătiți cu numerar la livrare" data-en="Pay with cash on delivery">Plătiți cu numerar la livrare</small>
               </span>
             </label>
+
             <label class="shop-payment-choice">
               <input type="radio" name="payment" value="bank-card">
               <span>
@@ -67,55 +116,125 @@
               </span>
             </label>
           </div>
+
           <div id="card-details" class="shop-card-details" hidden>
             <p class="shop-card-caption" data-ro="Date card" data-en="Card details">Date card</p>
-            <label class="shop-card-number"><span data-ro="Număr card" data-en="Card number">Număr card</span><input name="card_number" type="text" inputmode="numeric" autocomplete="off" maxlength="23" placeholder="0000 0000 0000 0000"></label>
+
+            <label class="shop-card-number">
+              <span data-ro="Număr card" data-en="Card number">Număr card</span>
+              <input name="card_number" type="text" inputmode="numeric" autocomplete="off" maxlength="23" placeholder="0000 0000 0000 0000">
+            </label>
+
             <div class="shop-card-grid">
-              <label><span data-ro="Data expirării" data-en="Expiry date">Data expirării</span><input name="card_expiry" type="text" inputmode="numeric" autocomplete="off" maxlength="5" placeholder="MM/YY"></label>
-              <label><span>CVV</span><input name="card_cvv" type="password" inputmode="numeric" autocomplete="off" maxlength="4" placeholder="•••"></label>
+              <label>
+                <span data-ro="Data expirării" data-en="Expiry date">Data expirării</span>
+                <input name="card_expiry" type="text" inputmode="numeric" autocomplete="off" maxlength="5" placeholder="MM/YY">
+              </label>
+
+              <label>
+                <span>CVV</span>
+                <input name="card_cvv" type="password" inputmode="numeric" autocomplete="off" maxlength="4" placeholder="•••">
+              </label>
             </div>
-            
+
+            <p class="shop-card-test-note" data-ro="Plata nu este procesată pe acest site. Nu introduce date reale ale cardului." data-en="Payments are not processed on this website. Do not enter real card details.">Plata nu este procesată pe acest site. Nu introduce date reale ale cardului.</p>
           </div>
         </fieldset>
-        <label class="shop-terms-check"><input type="checkbox" name="terms" required><span><span data-ro="Am citit și accept " data-en="I have read and accept the ">Am citit și accept </span><a href="/terms"><span data-ro="Termenii și condițiile" data-en="Terms & Conditions">Termenii și condițiile</span></span></label>
+
+        <label class="shop-terms-check">
+          <input type="checkbox" name="terms" required>
+          <span>
+            <span data-ro="Am citit și accept " data-en="I have read and accept the ">Am citit și accept </span>
+            <a href="/terms">
+              <span data-ro="Termenii și condițiile" data-en="Terms & Conditions">Termenii și condițiile</span>
+            </a>
+            <span data-ro=". Înțeleg că plata nu este procesată pe acest site." data-en=". I understand that payment is not processed on this website.">. Înțeleg că plata nu este procesată pe acest site.</span>
+          </span>
+        </label>
+
         <button class="shop-primary-button" type="submit" data-ro="Finalizează comanda" data-en="Complete order">Finalizează comanda</button>
-       
       </form>
+
       <aside class="shop-summary shop-checkout-summary">
         <h2 data-ro="Coșul tău" data-en="Your basket">Coșul tău</h2>
+
         <div id="checkout_summary_items" class="checkout-summary-items"></div>
-        <div class="shop-total-line"><span data-ro="Subtotal produse" data-en="Products subtotal">Subtotal produse</span><strong id="checkout_subtotal">0 lei</strong></div>
-        <div class="shop-total-line"><span data-ro="Reducere" data-en="Discount">Reducere</span><strong id="checkout_discount">− 0 lei</strong></div>
-        <div class="shop-total-line shop-total-final"><span data-ro="Total produse" data-en="Products total">Total produse</span><strong id="checkout_total">0 lei</strong></div>
+
+        <div class="shop-total-line">
+          <span data-ro="Subtotal produse" data-en="Products subtotal">Subtotal produse</span>
+          <strong id="checkout_subtotal">0 lei</strong>
+        </div>
+
+        <div class="shop-total-line">
+          <span data-ro="Reducere" data-en="Discount">Reducere</span>
+          <strong id="checkout_discount">− 0 lei</strong>
+        </div>
+
+        <div class="shop-total-line shop-total-final">
+          <span data-ro="Total produse" data-en="Products total">Total produse</span>
+          <strong id="checkout_total">0 lei</strong>
+        </div>
+
         <p id="checkout_coupon_note" class="shop-active-coupon"></p>
+
         <p class="shop-shipping-note" data-ro="Costul livrării nu este inclus în totalul afișat." data-en="Delivery charges are not included in the displayed total.">Costul livrării nu este inclus în totalul afișat.</p>
       </aside>
     </div>
   </main>
+
   <footer class="site-footer">
-    <a class="footer-brand" href="/" aria-label="Zarad — One Spice Away"><img src="/assets/Zarad_logo_for_white.png?v=zarad-logo-light-synced-20261119" alt="Zarad"></a>
-    <div class="footer-contact-details"><a href="tel:+40757109006">0757.109.006</a><a href="mailto:zarad.spiceshop@gmail.com">zarad.spiceshop@gmail.com</a><span>București, România</span><a href="/terms">Termeni și condiții</a></div>
+    <a class="footer-brand" href="/" aria-label="Zarad — One Spice Away">
+      <img src="/assets/Zarad_logo_for_white.png?v=zarad-logo-light-synced-20261119" alt="Zarad">
+    </a>
+
+    <div class="footer-contact-details">
+      <a href="tel:+40757109006">0757.109.006</a>
+      <a href="mailto:zarad.spiceshop@gmail.com">zarad.spiceshop@gmail.com</a>
+      <span>București, România</span>
+      <a href="/terms">Termeni și condiții</a>
+    </div>
+
     <span class="footer-copy">© <span id="current-year"></span> Zarad</span>
   </footer>
+
   <script>
     const languageButton = document.getElementById("zarad_language");
     let currentLanguage = "ro";
+
     function setLanguage(language) {
       currentLanguage = language;
       document.documentElement.lang = language;
-      document.querySelectorAll("[data-ro][data-en]").forEach(el => { el.textContent = el.dataset[language]; });
+
+      document.querySelectorAll("[data-ro][data-en]").forEach(element => {
+        element.textContent = element.dataset[language];
+      });
+
       const english = language === "en";
+
       languageButton.classList.toggle("is-en", english);
       languageButton.classList.toggle("is-ro", !english);
       languageButton.setAttribute("aria-label", english ? "Schimbă limba în română" : "Switch to English");
       languageButton.title = english ? "Română" : "English";
-      try { localStorage.setItem("zarad-language", language); } catch {}
+
+      try {
+        localStorage.setItem("zarad-language", language);
+      } catch {}
+
       document.dispatchEvent(new Event("zarad-language-change"));
     }
+
     let savedLanguage = "ro";
-    try { savedLanguage = localStorage.getItem("zarad-language") === "en" ? "en" : "ro"; } catch {}
+
+    try {
+      savedLanguage = localStorage.getItem("zarad-language") === "en" ? "en" : "ro";
+    } catch {}
+
     setLanguage(savedLanguage);
-    languageButton.addEventListener("click", () => setLanguage(currentLanguage === "ro" ? "en" : "ro"));
+
+    languageButton.addEventListener("click", () => {
+      setLanguage(currentLanguage === "ro" ? "en" : "ro");
+    });
+
     document.getElementById("current-year").textContent = new Date().getFullYear();
   </script>
 </body>
