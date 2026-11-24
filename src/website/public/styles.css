@@ -6150,3 +6150,68 @@ html[data-theme="dark"] body.about-page .about-culture-section .about-culture-la
     width: 15px !important;
   }
 }
+
+
+/* Refined About hero catalog action: antique gold, warm ivory and Zarad wine. */
+body.about-page .about-intro-copy > .about-catalog-link {
+  min-height: 50px !important;
+  display: inline-flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  gap: 14px !important;
+  padding: 0 23px !important;
+  border: 1px solid #edc783 !important;
+  border-radius: 3px !important;
+  background: linear-gradient(135deg, #f0d49f 0%, #d9ad68 100%) !important;
+  color: #4b171d !important;
+  box-shadow:
+    0 5px 14px rgba(23, 9, 12, .2),
+    inset 0 1px 0 rgba(255, 250, 241, .6) !important;
+  font-family: "DM Sans", sans-serif !important;
+  font-size: 11px !important;
+  font-weight: 800 !important;
+  letter-spacing: .075em !important;
+  line-height: 1 !important;
+  text-decoration: none !important;
+  transition:
+    transform 180ms ease,
+    background 180ms ease,
+    border-color 180ms ease,
+    box-shadow 180ms ease !important;
+}
+body.about-page .about-intro-copy > .about-catalog-link:hover {
+  transform: translateY(-2px) !important;
+  border-color: #f6dfb4 !important;
+  background: linear-gradient(135deg, #7b2930 0%, #5d1b23 100%) !important;
+  color: #fff6e9 !important;
+  box-shadow:
+    0 8px 18px rgba(23, 9, 12, .26),
+    inset 0 1px 0 rgba(255, 246, 233, .12) !important;
+}
+body.about-page .about-intro-copy > .about-catalog-link span:last-child {
+  display: inline-flex !important;
+  align-items: center !important;
+  font-size: 15px !important;
+  line-height: 1 !important;
+  filter: saturate(.72) sepia(.12) !important;
+  transition: transform 180ms ease, filter 180ms ease !important;
+}
+body.about-page .about-intro-copy > .about-catalog-link:hover span:last-child {
+  transform: translateX(2px) !important;
+  filter: grayscale(.25) brightness(1.12) !important;
+}
+body.about-page .about-intro-copy > .about-catalog-link:focus-visible {
+  outline: 2px solid #edc783 !important;
+  outline-offset: 4px !important;
+}
+@media (prefers-reduced-motion: reduce) {
+  body.about-page .about-intro-copy > .about-catalog-link,
+  body.about-page .about-intro-copy > .about-catalog-link span:last-child {
+    transition: none !important;
+  }
+}
+html[data-theme="dark"] body.about-page .about-intro-copy > .about-catalog-link {
+  border-color: #d6a653 !important;
+  background: linear-gradient(135deg, #e5c181 0%, #c7964e 100%) !important;
+  color: #351b19 !important;
+}
