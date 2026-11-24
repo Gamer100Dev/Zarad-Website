@@ -3104,3 +3104,54 @@ html[data-theme="dark"] body.about-page .about-closing-link:hover {
     transform: none;
   }
 }
+
+
+/* Revert Zarad branding to the original theme-aware black/white logo artwork. */
+.brand.zarad-logo {
+  width: 180px !important;
+  height: 60px !important;
+  gap: 0 !important;
+  overflow: hidden !important;
+}
+.brand.zarad-logo img#zarad_logo {
+  display: block !important;
+  width: 100% !important;
+  height: 100% !important;
+  max-width: 100% !important;
+  object-fit: contain !important;
+  border-radius: 0 !important;
+  background: transparent !important;
+}
+.brand.zarad-logo .zarad-brand-lockup,
+.brand.zarad-logo .zarad-wordmark,
+.brand.zarad-logo .zarad-tagline {
+  display: none !important;
+}
+.footer-brand {
+  width: 150px !important;
+  height: 50px !important;
+  gap: 0 !important;
+  overflow: hidden !important;
+}
+.footer-brand img {
+  display: block !important;
+  width: 100% !important;
+  height: 100% !important;
+  max-width: 100% !important;
+  object-fit: contain !important;
+  border-radius: 0 !important;
+  background: transparent !important;
+}
+.footer-brand .zarad-brand-lockup {
+  display: none !important;
+}
+@media (max-width: 680px) {
+  .brand.zarad-logo {
+    width: 148px !important;
+    height: 50px !important;
+  }
+  .footer-brand {
+    width: 132px !important;
+    height: 44px !important;
+  }
+}
