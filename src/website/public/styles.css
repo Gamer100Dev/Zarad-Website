@@ -3399,3 +3399,27 @@ html[data-theme="dark"] body.about-page .about-flavours-copy h2 {
     padding: .55rem .75rem;
   }
 }
+
+
+/* Keep panel outlines in the contrasting Zarad colour: maroon fills get blue outlines, blue fills get maroon outlines. */
+body.about-page .about-intro {
+  border: 4px solid #477fa8 !important;
+  border-bottom: 4px solid #477fa8 !important;
+}
+body.about-page .about-culture-section .about-culture-note {
+  border: 9px solid #70272b !important;
+  border-image: none !important;
+  border-inline-start: 9px solid #70272b !important;
+  background: linear-gradient(145deg, #164e70 0%, #123d5a 100%) !important;
+}
+html[data-theme="dark"] body.about-page .about-culture-section .about-culture-note {
+  border-color: #70272b !important;
+  border-inline-start-color: #70272b !important;
+  background: linear-gradient(145deg, #123f5c 0%, #0e324a 100%) !important;
+}
+body.about-page .about-flavours-copy h2 {
+  border: 4px solid #477fa8 !important;
+}
+html[data-theme="dark"] body.about-page .about-flavours-copy h2 {
+  border-color: #6f9fc1 !important;
+}
