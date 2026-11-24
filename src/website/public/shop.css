@@ -750,8 +750,11 @@ html[data-theme="dark"] .shop-page .shop-secondary-link {
 .order-status-page .order-status-actions .shop-secondary-link {
   flex: 1 1 0;
   width: 100%;
-  min-width: min(220px, 100%);
+  height: 48px;
   min-height: 48px;
+  max-height: 48px;
+  min-width: min(220px, 100%);
+  box-sizing: border-box;
   padding: 0 20px;
   border: 1px solid #70272b;
   border-radius: 3px;
