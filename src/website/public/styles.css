@@ -6556,3 +6556,22 @@ body.about-page .about-intro .about-photo-card--hero > figcaption[data-ro="Masco
   font-size: 1.08em !important;
   line-height: 1 !important;
 }
+
+/* Show the complete flavours-section photograph at its natural proportions. */
+body.about-page .about-flavours-card .about-photo-frame {
+  height: auto !important;
+  aspect-ratio: auto !important;
+  overflow: hidden !important;
+}
+body.about-page .about-flavours-card .about-photo-frame img {
+  display: block !important;
+  width: 100% !important;
+  height: auto !important;
+  max-height: none !important;
+  object-fit: contain !important;
+  object-position: center !important;
+  transform: none !important;
+}
+body.about-page .about-flavours-card .about-photo-card:hover .about-photo-frame img {
+  transform: none !important;
+}
