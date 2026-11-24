@@ -1,0 +1,110 @@
+/* Zarad shopping flow — restrained spice-market palette with responsive controls. */
+.zarad-cart-link{display:inline-flex;align-items:center;justify-content:center;gap:8px;min-height:38px;margin-right:10px;padding:7px 12px;border:1px solid rgba(201,150,59,.62);border-radius:24px;background:rgba(255,250,241,.72);color:var(--wine);font-size:.78rem;font-weight:750;text-decoration:none;white-space:nowrap}
+.zarad-cart-link:hover{background:#f2e4cb;border-color:var(--gold)}
+.zarad-cart-count{display:inline-grid;min-width:19px;height:19px;padding:0 4px;place-items:center;border-radius:50%;background:var(--wine);color:#fff8ed;font-size:.68rem;font-variant-numeric:tabular-nums}
+.catalog-categories{display:flex;flex-wrap:wrap;justify-content:center;gap:10px;margin:0 0 30px}
+.catalog-category-chip{min-height:40px;padding:9px 15px;border:1px solid rgba(167,123,62,.5);border-radius:24px;background:var(--paper-light);color:var(--wine);font:inherit;font-size:.82rem;font-weight:700;cursor:pointer;transition:background .18s ease,color .18s ease,border-color .18s ease,transform .18s ease}
+.catalog-category-chip:hover{transform:translateY(-1px);border-color:var(--gold)}
+.catalog-category-chip.is-active{border-color:var(--wine);background:var(--wine);color:#fff8ed}
+.catalog-card{display:flex;min-width:0;flex-direction:column;overflow:hidden}
+.catalog-card-link{display:block;flex:1 1 auto;color:inherit;text-decoration:none}
+.catalog-card-category{display:inline-block;color:#977044;font-size:.68rem;font-weight:750;letter-spacing:.08em;text-transform:uppercase}
+.catalog-card-price{display:block;margin-top:13px;color:var(--wine);font-size:1rem}
+.catalog-card-actions{display:flex;padding:0 22px 22px}
+.catalog-add-button{width:100%;min-height:43px;padding:10px 14px;border:1px solid var(--wine);border-radius:2px;background:var(--wine);color:#fff8ed;font:inherit;font-size:.82rem;font-weight:750;cursor:pointer;transition:background .18s ease,transform .18s ease}
+.catalog-add-button:hover{transform:translateY(-1px);background:#6d292e}
+.catalog-add-button.is-added{border-color:#0d777c;background:#0d777c}
+.catalog-category-empty{grid-column:1/-1;padding:35px;color:var(--muted);text-align:center}
+
+.shop-page{min-height:100vh}
+.shop-main{width:min(1120px,calc(100% - 48px));margin:0 auto;padding:68px 0 100px}
+.shop-heading{margin:0 auto 32px;text-align:center}
+.shop-heading .section-kicker{margin:0 0 12px;color:var(--gold);font-size:.72rem;font-weight:750;letter-spacing:.18em}
+.shop-heading h1{margin:0 0 14px;color:var(--wine);font-family:"Playfair Display",Georgia,serif;font-size:clamp(2.3rem,5vw,3.6rem);font-weight:500;line-height:1.1}
+.shop-heading>p:last-child{max-width:680px;margin:0 auto;color:var(--muted);line-height:1.7}
+.shop-demo-notice{display:flex;flex-direction:column;gap:5px;margin:0 0 28px;padding:16px 19px;border:1px solid rgba(201,150,59,.45);border-left:4px solid var(--gold);background:#fbf6ed;color:#634b39;font-size:.88rem;line-height:1.6}
+.shop-demo-warning{border-left-color:#b36a34}
+.shop-cart-layout,.shop-checkout-layout{display:grid;grid-template-columns:minmax(0,1.55fr) minmax(280px,.8fr);align-items:start;gap:26px}
+.shop-cart-items{display:grid;gap:13px}
+.shop-cart-item{display:flex;align-items:center;justify-content:space-between;gap:20px;padding:22px;border:1px solid rgba(201,150,59,.3);background:var(--paper-light);box-shadow:0 7px 22px rgba(53,27,25,.045)}
+.shop-cart-item-details{min-width:0}
+.shop-cart-item h2{margin:0 0 6px;color:var(--wine);font-size:1.2rem;font-weight:600}
+.shop-cart-item-price{margin:0;color:var(--muted);font-size:.86rem}
+.shop-quantity-controls{display:flex;align-items:center;gap:9px;flex:0 0 auto}
+.shop-quantity-controls button{min-width:34px;min-height:34px;border:1px solid rgba(167,123,62,.5);background:transparent;color:var(--wine);font:inherit;font-weight:700;cursor:pointer}
+.shop-quantity-controls button:hover{background:#efe2cb}
+.shop-quantity-controls span{min-width:20px;text-align:center;font-weight:700;font-variant-numeric:tabular-nums}
+.shop-quantity-controls .shop-remove-item{width:auto;padding:0 9px;border:0;color:#8c433c;font-size:.78rem}
+.shop-summary{padding:24px;border:1px solid rgba(201,150,59,.5);background:var(--paper-light);box-shadow:0 10px 28px rgba(53,27,25,.06)}
+.shop-summary h2{margin:0 0 20px;color:var(--wine);font-size:1.35rem}
+.shop-coupon-form{margin:0 0 18px}
+.shop-coupon-form>label{display:block;margin-bottom:8px;color:var(--wine);font-size:.8rem;font-weight:700}
+.shop-coupon-row{display:flex;gap:7px}
+.shop-coupon-row input{min-width:0;flex:1;padding:10px 11px;border:1px solid rgba(167,123,62,.52);background:#fffdf8;color:#38231f;font:inherit;text-transform:uppercase}
+.shop-secondary-button{padding:9px 13px;border:1px solid var(--wine);background:var(--wine);color:#fff8ed;font:inherit;font-size:.8rem;font-weight:700;cursor:pointer}
+.shop-coupon-hint,.shop-shipping-note,.shop-smallprint{color:var(--muted);font-size:.76rem;line-height:1.6}
+.shop-feedback{min-height:1.25em;margin:7px 0 0;font-size:.76rem}
+.shop-feedback.is-success{color:#167b57}.shop-feedback.is-error{color:#a13c32}
+.shop-active-coupon{margin:10px 0;color:#167b57;font-size:.8rem;font-weight:700}
+.shop-total-line{display:flex;justify-content:space-between;gap:15px;margin:12px 0;color:var(--muted);font-size:.86rem}
+.shop-total-line strong{color:var(--wine);white-space:nowrap}
+.shop-total-final{margin-top:17px;padding-top:16px;border-top:1px solid rgba(167,123,62,.35);color:var(--wine);font-size:1rem;font-weight:750}
+.shop-total-final strong{font-size:1.2rem}
+.shop-primary-link,.shop-primary-button{display:inline-flex;align-items:center;justify-content:center;gap:8px;min-height:46px;padding:12px 18px;border:1px solid var(--wine);border-radius:2px;background:var(--wine);color:#fff8ed;font:inherit;font-size:.84rem;font-weight:750;text-align:center;text-decoration:none;cursor:pointer}
+.shop-primary-link:hover,.shop-primary-button:hover{background:#6d292e}
+.shop-checkout-link{width:100%;margin-top:13px;box-sizing:border-box}
+.shop-text-button{margin-top:12px;padding:5px 0;border:0;background:none;color:#8c433c;font:inherit;font-size:.78rem;text-decoration:underline;cursor:pointer}
+.shop-empty-state,.shop-confirmation{max-width:680px;margin:25px auto;padding:35px 28px;border:1px solid rgba(201,150,59,.4);background:var(--paper-light);text-align:center}
+.shop-empty-state h2,.shop-confirmation h2{margin:0 0 12px;color:var(--wine);font-family:"Playfair Display",Georgia,serif;font-size:clamp(1.7rem,4vw,2.5rem)}
+.shop-empty-state p,.shop-confirmation p{color:var(--muted);line-height:1.7}
+.shop-checkout-layout{grid-template-columns:minmax(0,1.3fr) minmax(270px,.7fr)}
+.shop-checkout-form{padding:26px;border:1px solid rgba(201,150,59,.4);background:var(--paper-light)}
+.shop-checkout-form>h2{margin:0 0 20px;color:var(--wine);font-size:1.35rem}
+.shop-form-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:15px}
+.shop-form-grid label{display:flex;min-width:0;flex-direction:column;gap:7px;color:var(--wine);font-size:.8rem;font-weight:700}
+.shop-form-grid input,.shop-form-grid textarea{box-sizing:border-box;width:100%;min-width:0;padding:11px 12px;border:1px solid rgba(167,123,62,.5);border-radius:2px;background:#fffdf8;color:#38231f;font:inherit;font-weight:400}
+.shop-form-grid textarea{resize:vertical}
+.shop-form-wide{grid-column:1/-1}
+.shop-payment-methods{display:grid;gap:12px;margin:22px 0;padding:16px;border:1px solid rgba(167,123,62,.35)}
+.shop-payment-methods legend{padding:0 7px;color:var(--wine);font-size:.82rem;font-weight:750}
+.shop-payment-choice{display:flex;align-items:flex-start;gap:10px;color:var(--wine)}
+.shop-payment-choice input{margin-top:4px;accent-color:var(--wine)}
+.shop-payment-choice span{display:grid;gap:4px}
+.shop-payment-choice small{color:var(--muted);line-height:1.45}
+.shop-payment-choice.is-disabled{opacity:.55}
+.shop-terms-check{display:flex;align-items:flex-start;gap:10px;margin:17px 0;color:var(--muted);font-size:.79rem;line-height:1.5}
+.shop-terms-check input{margin-top:3px;accent-color:var(--wine)}
+.shop-terms-check a{color:var(--wine);font-weight:700}
+.shop-primary-button{width:100%}
+.shop-smallprint{margin:12px 0 0}
+.shop-checkout-summary{position:sticky;top:20px}
+.checkout-summary-items{display:grid;gap:10px;margin-bottom:18px}
+.checkout-summary-row{display:flex;justify-content:space-between;gap:12px;color:var(--muted);font-size:.8rem}
+.checkout-summary-row strong{color:var(--wine);white-space:nowrap}
+.shop-confirmation-mark{display:inline-grid;width:52px;height:52px;place-items:center;border-radius:50%;background:#147b57;color:white;font-size:1.5rem}
+.shop-confirmation .shop-primary-link{margin-top:12px}
+.terms-main{max-width:920px}
+.terms-document{padding:clamp(22px,4vw,42px);border:1px solid rgba(201,150,59,.42);background:var(--paper-light)}
+.terms-document section{margin:0 0 25px}
+.terms-document h2{margin:0 0 9px;color:var(--wine);font-size:1.15rem}
+.terms-document p{margin:0;color:var(--muted);font-size:.9rem;line-height:1.8}
+.terms-draft-note{margin-top:30px;padding:18px;border-left:4px solid #b36a34;background:#f5e8d8}
+.terms-draft-note strong{display:block;margin-bottom:6px;color:#70442b}
+.terms-draft-note p{margin:0;color:#704f3d;font-size:.84rem;line-height:1.7}
+html[data-theme="dark"] .zarad-cart-link{background:#302727;color:#f0d9bf;border-color:rgba(214,166,83,.55)}
+html[data-theme="dark"] .zarad-cart-count{background:#d6a653;color:#291b1b}
+html[data-theme="dark"] .catalog-category-chip,html[data-theme="dark"] .shop-summary,html[data-theme="dark"] .shop-cart-item,html[data-theme="dark"] .shop-checkout-form,html[data-theme="dark"] .terms-document,html[data-theme="dark"] .shop-empty-state,html[data-theme="dark"] .shop-confirmation{background:#302727;border-color:rgba(214,166,83,.42)}
+html[data-theme="dark"] .catalog-category-chip{color:#f0d9bf}
+html[data-theme="dark"] .catalog-category-chip.is-active{background:#603039;color:#fff8ed}
+html[data-theme="dark"] .catalog-card-category,html[data-theme="dark"] .catalog-card-price{color:#e6c7a8}
+html[data-theme="dark"] .shop-demo-notice{background:#302727;color:#e4d0bb;border-color:rgba(214,166,83,.4)}
+html[data-theme="dark"] .shop-heading h1,html[data-theme="dark"] .shop-summary h2,html[data-theme="dark"] .shop-cart-item h2,html[data-theme="dark"] .shop-total-line strong,html[data-theme="dark"] .shop-total-final,html[data-theme="dark"] .shop-checkout-form>h2,html[data-theme="dark"] .shop-form-grid label,html[data-theme="dark"] .shop-payment-methods legend,html[data-theme="dark"] .shop-payment-choice,html[data-theme="dark"] .terms-document h2{color:#e6c7a8}
+html[data-theme="dark"] .shop-heading>p:last-child,html[data-theme="dark"] .shop-cart-item-price,html[data-theme="dark"] .shop-coupon-hint,html[data-theme="dark"] .shop-shipping-note,html[data-theme="dark"] .shop-smallprint,html[data-theme="dark"] .shop-empty-state p,html[data-theme="dark"] .terms-document p{color:#c5b3a5}
+html[data-theme="dark"] .shop-form-grid input,html[data-theme="dark"] .shop-form-grid textarea,html[data-theme="dark"] .shop-coupon-row input{background:#221d1d;border-color:rgba(214,166,83,.4);color:#f4ead9}
+html[data-theme="dark"] .shop-terms-check{color:#c5b3a5}
+html[data-theme="dark"] .shop-terms-check a{color:#e6c7a8}
+html[data-theme="dark"] .terms-draft-note{background:#3c3029}
+html[data-theme="dark"] .terms-draft-note strong,html[data-theme="dark"] .terms-draft-note p{color:#e9c59a}
+@media(max-width:820px){.shop-cart-layout,.shop-checkout-layout{grid-template-columns:1fr}.shop-checkout-summary{position:static}.zarad-cart-link{min-height:34px;margin-right:4px;padding:6px 9px;font-size:.72rem}}
+@media(max-width:620px){.shop-main{width:calc(100% - 32px);padding:48px 0 72px}.catalog-categories{justify-content:flex-start;gap:8px;margin-bottom:23px}.catalog-category-chip{min-height:37px;padding:8px 12px;font-size:.76rem}.shop-cart-item{align-items:flex-start;flex-direction:column;gap:13px;padding:17px}.shop-quantity-controls{width:100%}.shop-quantity-controls .shop-remove-item{margin-left:auto}.shop-form-grid{grid-template-columns:1fr}.shop-form-wide{grid-column:auto}.shop-checkout-form,.shop-summary{padding:19px}}
+@media(max-width:420px){.zarad-cart-link{gap:5px;margin-right:2px;padding:5px 7px;font-size:.68rem}}
