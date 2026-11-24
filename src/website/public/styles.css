@@ -3276,3 +3276,36 @@ html[data-theme="dark"] body.about-page .about-culture-section .about-culture-no
     linear-gradient(145deg, #123f5c 0%, #0e324a 100%) padding-box,
     url("/assets/zarad-zellige-blue.svg") border-box !important;
 }
+
+
+/* Reuse the Moroccan textured frame for the About section labels and heading. */
+body.about-page .about-photo-card figcaption,
+body.about-page .about-flavours-copy h2 {
+  display: block;
+  width: fit-content;
+  max-width: 100%;
+  box-sizing: border-box;
+  padding: .65rem 1rem;
+  border: 6px solid transparent;
+  border-image: url("/assets/zarad-zellige-blue.svg") 24 round;
+  background: linear-gradient(145deg, #164e70 0%, #123d5a 100%);
+  color: #fff8ed !important;
+  text-align: center;
+  box-shadow: 0 8px 20px rgba(16, 39, 60, .14);
+}
+body.about-page .about-flavours-copy h2 {
+  margin-inline: 0;
+  line-height: 1.25;
+}
+html[data-theme="dark"] body.about-page .about-photo-card figcaption,
+html[data-theme="dark"] body.about-page .about-flavours-copy h2 {
+  background: linear-gradient(145deg, #123f5c 0%, #0e324a 100%);
+  color: #fff8ed !important;
+}
+@media (max-width: 680px) {
+  body.about-page .about-photo-card figcaption,
+  body.about-page .about-flavours-copy h2 {
+    padding: .55rem .75rem;
+    border-width: 5px;
+  }
+}
