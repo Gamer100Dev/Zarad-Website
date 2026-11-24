@@ -4402,3 +4402,62 @@ html[data-theme="dark"] body.about-page .about-gold-frieze--sand {
   }
   body.about-page .about-closing .zarad-cta-corner { font-size: 13px; }
 }
+
+
+/* About page restraint pass: one gold frieze remains on the closing CTA only. */
+body.about-page .about-intro {
+  background-image:
+    radial-gradient(ellipse at 82% 18%, rgba(213,164,93,.10), transparent 32%),
+    linear-gradient(120deg, #4b171d, #5d2326) !important;
+  background-repeat: no-repeat !important;
+  background-size: cover !important;
+}
+body.about-page .about-intro::before,
+body.about-page .about-intro::after,
+body.about-page .about-photo-card::before,
+body.about-page .about-photo-card::after {
+  display: none !important;
+  content: none !important;
+  background-image: none !important;
+}
+body.about-page .about-intro-inner {
+  position: relative;
+  z-index: 2;
+}
+body.about-page .about-intro .about-photo-card--hero,
+body.about-page .about-intro .about-photo-card--hero .about-photo-frame {
+  position: relative;
+  z-index: 2;
+}
+body.about-page .about-intro .about-photo-frame {
+  box-shadow: 12px 12px 0 rgba(20,135,138,.22) !important;
+}
+body.about-page .about-gold-frieze {
+  height: 11px;
+  min-height: 11px;
+  background-size: 28px 11px;
+  opacity: .82;
+}
+body.about-page .about-gold-frieze--sand {
+  display: none !important;
+}
+body.about-page .about-closing {
+  background:
+    radial-gradient(ellipse at 50% 0%, rgba(213,164,93,.10), transparent 45%),
+    #4b171d !important;
+}
+html[data-theme="dark"] body.about-page .about-intro {
+  background-image:
+    radial-gradient(ellipse at 82% 18%, rgba(213,164,93,.08), transparent 32%),
+    linear-gradient(120deg, #32171e, #402027) !important;
+}
+@media (max-width: 680px) {
+  body.about-page .about-intro .about-photo-frame {
+    box-shadow: 8px 8px 0 rgba(20,135,138,.2) !important;
+  }
+  body.about-page .about-gold-frieze {
+    height: 9px;
+    min-height: 9px;
+    background-size: 28px 9px;
+  }
+}
