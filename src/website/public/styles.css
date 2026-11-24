@@ -6296,7 +6296,10 @@ html[data-theme="dark"] body.about-page .about-closing {
     radial-gradient(ellipse at 50% 0%, rgba(213, 164, 93, .08), transparent 45%) !important;
 }
 @media (max-width: 680px) {
-  body.about-page .about-intro,
+  body.about-page .about-intro {
+    background-position: left -52px top, right -52px top, 82% 24%, center !important;
+    background-size: 150px 375px, 150px 375px, auto, cover !important;
+  }
   body.about-page .about-flavours-section,
   body.about-page .about-culture-section,
   body.about-page .about-closing {
