@@ -805,3 +805,54 @@ html[data-theme="dark"] .order-status-page .order-status-actions .shop-secondary
     min-width: 0;
   }
 }
+
+
+/* Card preview panel and refined order-status actions. */
+.shop-page .shop-card-details {
+  margin-top: 14px;
+  padding: 18px;
+  border: 1px solid rgba(167, 123, 62, .34);
+  border-radius: 4px;
+  background: #fffaf2;
+}
+.shop-page .shop-card-details[hidden] { display: none !important; }
+.shop-page .shop-card-caption {
+  margin: 0 0 13px;
+  color: #70272b;
+  font-size: .82rem;
+  font-weight: 750;
+}
+.shop-page .shop-card-details label { display: grid; gap: 7px; color: #60463b; font-size: .75rem; font-weight: 700; }
+.shop-page .shop-card-details input {
+  box-sizing: border-box;
+  width: 100%;
+  min-height: 46px;
+  padding: 11px 12px;
+  border: 1px solid rgba(167, 123, 62, .42);
+  border-radius: 3px;
+  background: #fffdf8;
+  color: #382722;
+  font: inherit;
+  font-size: .9rem;
+  letter-spacing: .04em;
+}
+.shop-page .shop-card-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin-top: 12px; }
+.shop-page .shop-card-test-note { margin: 12px 0 0; color: #806b5e; font-size: .7rem; line-height: 1.5; }
+.order-status-page .order-status-actions .shop-secondary-link {
+  border-color: rgba(112, 39, 43, .55);
+  background: #f7efe2;
+  color: #70272b;
+}
+.order-status-page .order-status-actions .shop-secondary-link:hover {
+  border-color: #8b3439;
+  background: #efe0c9;
+  color: #70272b;
+}
+html[data-theme="dark"] .shop-page .shop-card-details { border-color: rgba(214,166,83,.3); background: #282121; }
+html[data-theme="dark"] .shop-page .shop-card-caption { color: #e6c7a8; }
+html[data-theme="dark"] .shop-page .shop-card-details label { color: #e0c8b3; }
+html[data-theme="dark"] .shop-page .shop-card-details input { border-color: rgba(214,166,83,.36); background: #221d1d; color: #f4ead9; }
+html[data-theme="dark"] .shop-page .shop-card-test-note { color: #c5b3a5; }
+html[data-theme="dark"] .order-status-page .order-status-actions .shop-secondary-link { border-color: rgba(214,166,83,.6); background: #302727; color: #e6c7a8; }
+html[data-theme="dark"] .order-status-page .order-status-actions .shop-secondary-link:hover { border-color: #e0b86f; background: #40312b; color: #f4ead9; }
+@media (max-width: 620px) { .shop-page .shop-card-details { padding: 14px; } }
