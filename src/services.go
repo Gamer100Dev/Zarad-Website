@@ -233,6 +233,31 @@ http {
             proxy_send_timeout 60s;
         }
 
+        # The app resolves both clean basket paths to public/cart.html.
+        location = /cart {
+            proxy_pass http://127.0.0.1:%s;
+            proxy_http_version 1.1;
+            proxy_set_header Host $host;
+            proxy_set_header X-Real-IP $remote_addr;
+            proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
+            proxy_set_header X-Forwarded-Proto $scheme;
+            proxy_connect_timeout 5s;
+            proxy_read_timeout 60s;
+            proxy_send_timeout 60s;
+        }
+
+        location = /cart/ {
+            proxy_pass http://127.0.0.1:%s;
+            proxy_http_version 1.1;
+            proxy_set_header Host $host;
+            proxy_set_header X-Real-IP $remote_addr;
+            proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
+            proxy_set_header X-Forwarded-Proto $scheme;
+            proxy_connect_timeout 5s;
+            proxy_read_timeout 60s;
+            proxy_send_timeout 60s;
+        }
+
         # Route the clean Events URL and every Events subpath through the
         # application. The Node server serves /events/ from its index document.
         location = /events {
@@ -269,7 +294,7 @@ http {
         }
     }
 }
-`, nginxPort, s.port, s.port, s.port, s.port)
+`, nginxPort, s.port, s.port, s.port, s.port, s.port, s.port)
 
 	if err := os.WriteFile(configPath, []byte(config), 0600); err != nil {
 		return nil, fmt.Errorf("could not write Nginx configuration: %w", err)
