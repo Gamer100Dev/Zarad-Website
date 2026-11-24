@@ -7,8 +7,8 @@
 
   function readJson(key, fallback) {
     try {
-      const value = localStorage.getItem(key);
-      return value ? JSON.parse(value) : fallback;
+      const raw = localStorage.getItem(key);
+      return raw ? JSON.parse(raw) : fallback;
     } catch {
       return fallback;
     }
@@ -23,10 +23,31 @@
     }
   }
 
+  function language() {
+    return document.documentElement.lang === "en" ? "en" : "ro";
+  }
+
+  function formatMoney(value) {
+    const number = new Intl.NumberFormat(language() === "ro" ? "ro-RO" : "en-GB", {
+      minimumFractionDigits: 0,
+      maximumFractionDigits: 2
+    }).format(Number(value) || 0);
+    return language() === "ro" ? number + " lei" : "RON " + number;
+  }
+
+  function descriptor(value) {
+    return String(value || "")
+      .normalize("NFD")
+      .replace(/[\u0300-\u036f]/g, "")
+      .toLowerCase()
+      .replace(/[^a-z0-9]+/g, "-")
+      .replace(/^-|-$/g, "");
+  }
+
   function readCart() {
-    const value = readJson(CART_KEY, []);
-    if (!Array.isArray(value)) return [];
-    return value.filter(item =>
+    const data = readJson(CART_KEY, []);
+    if (!Array.isArray(data)) return [];
+    return data.filter(item =>
       item &&
       typeof item.id === "string" &&
       typeof item.name === "string" &&
@@ -45,38 +66,16 @@
     }));
   }
 
-  function writeCart(items) {
-    writeJson(CART_KEY, items);
-    updateCartBadge();
-  }
-
-  function getLanguage() {
-    return document.documentElement.lang === "en" ? "en" : "ro";
-  }
-
-  function money(value) {
-    const language = getLanguage();
-    const number = new Intl.NumberFormat(language === "ro" ? "ro-RO" : "en-GB", {
-      minimumFractionDigits: 0,
-      maximumFractionDigits: 2
-    }).format(Number(value) || 0);
-    return language === "ro" ? number + " lei" : "RON " + number;
-  }
-
   function getCoupon() {
-    const code = String(readJson(COUPON_KEY, "") || "").trim().toUpperCase();
-    return Object.prototype.hasOwnProperty.call(COUPONS, code) ? code : "";
-  }
-
-  function couponRate() {
-    const code = getCoupon();
-    return code ? COUPONS[code] : 0;
+    const value = String(readJson(COUPON_KEY, "") || "").trim().toUpperCase();
+    return Object.prototype.hasOwnProperty.call(COUPONS, value) ? value : "";
   }
 
   function totals() {
     const items = readCart();
     const subtotal = items.reduce((sum, item) => sum + item.price * item.quantity, 0);
-    const discount = Math.round(subtotal * couponRate()) / 100;
+    const rate = getCoupon() ? COUPONS[getCoupon()] : 0;
+    const discount = Math.round(subtotal * rate) / 100;
     return {
       subtotal: Math.round(subtotal * 100) / 100,
       discount: Math.round(discount * 100) / 100,
@@ -85,13 +84,45 @@
     };
   }
 
-  function descriptor(name) {
-    return String(name || "")
-      .normalize("NFD")
-      .replace(/[\u0300-\u036f]/g, "")
-      .toLowerCase()
-      .replace(/[^a-z0-9]+/g, "-")
-      .replace(/^-|-$/g, "");
+  function updateCartBadge() {
+    const count = totals().count;
+    document.querySelectorAll("[data-zarad-cart-count]").forEach(element => {
+      element.textContent = String(count);
+    });
+  }
+
+  function writeCart(items) {
+    const saved = writeJson(CART_KEY, items);
+    updateCartBadge();
+    return saved;
+  }
+
+  function addProduct(product, options = {}) {
+    if (!product || typeof product.name !== "string") return false;
+    const price = options.price !== undefined ? Number(options.price) : Number(product.price_amount);
+    if (!Number.isFinite(price) || price < 0) return false;
+
+    const id = descriptor(product.name) + (options.variant ? "-" + descriptor(options.variant) : "");
+    const items = readCart();
+    const existing = items.find(item => item.id === id);
+
+    if (existing) {
+      existing.quantity = Math.min(99, existing.quantity + 1);
+    } else {
+      items.push({
+        id,
+        name: product.name,
+        name_en: product.name_en || product.name,
+        price: Math.round(price * 100) / 100,
+        quantity: 1,
+        image: product.image || "",
+        category: product.category || ""
+      });
+    }
+
+    if (!writeCart(items)) return false;
+    renderCartPage();
+    return true;
   }
 
   function setText(id, value) {
@@ -99,9 +130,172 @@
     if (element) element.textContent = value;
   }
 
+  function updateQuantity(id, delta) {
+    const items = readCart();
+    const item = items.find(entry => entry.id === id);
+    if (!item) return;
+    item.quantity = Math.max(0, Math.min(99, item.quantity + delta));
+    writeCart(items.filter(entry => entry.quantity > 0));
+    renderCartPage();
+    renderCheckoutSummary();
+  }
+
+  function removeItem(id) {
+    writeCart(readCart().filter(item => item.id !== id));
+    renderCartPage();
+    renderCheckoutSummary();
+  }
+
+  function applyCoupon(input) {
+    const code = String(input || "").trim().toUpperCase();
+    if (!Object.prototype.hasOwnProperty.call(COUPONS, code)) {
+      return {
+        ok: false,
+        message: language() === "ro"
+          ? "Cod invalid. Încearcă ZARAD5, ZARAD10 sau ZARAD15."
+          : "Invalid code. Try ZARAD5, ZARAD10 or ZARAD15."
+      };
+    }
+    if (readCart().length === 0) {
+      return {
+        ok: false,
+        message: language() === "ro"
+          ? "Adaugă produse în coș înainte de a aplica un cupon."
+          : "Add items to your basket before applying a coupon."
+      };
+    }
+    if (!writeJson(COUPON_KEY, code)) {
+      return {
+        ok: false,
+        message: language() === "ro"
+          ? "Browserul nu a putut salva cuponul. Verifică setările de stocare."
+          : "Your browser could not save the coupon. Check storage settings."
+      };
+    }
+    renderCartPage();
+    renderCheckoutSummary();
+    return {
+      ok: true,
+      message: language() === "ro"
+        ? "Cupon aplicat: " + code + " — reducere de " + COUPONS[code] + "%."
+        : "Coupon applied: " + code + " — " + COUPONS[code] + "% off."
+    };
+  }
+
+  function clearCoupon() {
+    try { localStorage.removeItem(COUPON_KEY); } catch {}
+    renderCartPage();
+    renderCheckoutSummary();
+  }
+
+  function ensureCartLink() {
+    const right = document.querySelector(".zarad-right");
+    if (right && !right.querySelector(".zarad-cart-link")) {
+      const link = document.createElement("a");
+      link.className = "zarad-cart-link";
+      link.href = "/cart";
+      link.setAttribute("aria-label", language() === "ro" ? "Deschide coșul" : "Open shopping cart");
+
+      const label = document.createElement("span");
+      label.dataset.ro = "Coș";
+      label.dataset.en = "Cart";
+      label.textContent = language() === "ro" ? "Coș" : "Cart";
+
+      const count = document.createElement("span");
+      count.className = "zarad-cart-count";
+      count.dataset.zaradCartCount = "";
+      count.textContent = String(totals().count);
+      link.append(label, count);
+      right.prepend(link);
+    }
+
+    const footer = document.querySelector(".footer-contact-details");
+    if (footer && !footer.querySelector('a[href="/terms"]')) {
+      const link = document.createElement("a");
+      link.href = "/terms";
+      link.dataset.ro = "Termeni și condiții";
+      link.dataset.en = "Terms & Conditions";
+      link.textContent = language() === "ro" ? "Termeni și condiții" : "Terms & Conditions";
+      footer.appendChild(link);
+    }
+  }
+
+  function renderCartPage() {
+    const container = document.getElementById("cart_items");
+    if (!container) return;
+
+    const items = readCart();
+    const total = totals();
+    container.replaceChildren();
+
+    items.forEach(item => {
+      const row = document.createElement("article");
+      row.className = "shop-cart-item";
+
+      const details = document.createElement("div");
+      details.className = "shop-cart-item-details";
+      const heading = document.createElement("h2");
+      heading.textContent = language() === "en" ? item.name_en : item.name;
+      const price = document.createElement("p");
+      price.className = "shop-cart-item-price";
+      price.textContent = formatMoney(item.price) + (language() === "ro" ? " / buc." : " / item");
+      details.append(heading, price);
+
+      const controls = document.createElement("div");
+      controls.className = "shop-quantity-controls";
+      const minus = document.createElement("button");
+      minus.type = "button";
+      minus.textContent = "−";
+      minus.setAttribute("aria-label", language() === "ro" ? "Scade cantitatea" : "Decrease quantity");
+      minus.addEventListener("click", () => updateQuantity(item.id, -1));
+
+      const quantity = document.createElement("span");
+      quantity.textContent = String(item.quantity);
+      quantity.setAttribute("aria-live", "polite");
+
+      const plus = document.createElement("button");
+      plus.type = "button";
+      plus.textContent = "+";
+      plus.setAttribute("aria-label", language() === "ro" ? "Crește cantitatea" : "Increase quantity");
+      plus.addEventListener("click", () => updateQuantity(item.id, 1));
+
+      const remove = document.createElement("button");
+      remove.type = "button";
+      remove.className = "shop-remove-item";
+      remove.textContent = language() === "ro" ? "Elimină" : "Remove";
+      remove.addEventListener("click", () => removeItem(item.id));
+
+      controls.append(minus, quantity, plus, remove);
+      row.append(details, controls);
+      container.appendChild(row);
+    });
+
+    const empty = document.getElementById("cart_empty");
+    const checkoutLink = document.getElementById("cart_checkout_link");
+    const summary = document.getElementById("cart_summary");
+    const emptyButton = document.getElementById("cart_empty_button");
+    if (empty) empty.hidden = items.length > 0;
+    if (checkoutLink) checkoutLink.hidden = items.length === 0;
+    if (summary) summary.hidden = items.length === 0;
+    if (emptyButton) emptyButton.hidden = items.length === 0;
+
+    setText("cart_subtotal", formatMoney(total.subtotal));
+    setText("cart_discount", "− " + formatMoney(total.discount));
+    setText("cart_total", formatMoney(total.total));
+
+    const coupon = getCoupon();
+    setText("cart_active_coupon", coupon
+      ? (language() === "ro" ? coupon + " · " + COUPONS[coupon] + "% reducere" : coupon + " · " + COUPONS[coupon] + "% off")
+      : (language() === "ro" ? "Niciun cupon aplicat" : "No coupon applied"));
+    const couponInput = document.getElementById("coupon_code");
+    if (couponInput && coupon) couponInput.value = coupon;
+    updateCartBadge();
+  }
+
   function renderCheckoutSummary() {
     const container = document.getElementById("checkout_summary_items");
     if (!container) return;
+
     const items = readCart();
     const total = totals();
     container.replaceChildren();
@@ -110,29 +304,29 @@
       const row = document.createElement("div");
       row.className = "checkout-summary-row";
       const label = document.createElement("span");
-      label.textContent = (getLanguage() === "en" ? item.name_en : item.name) + " × " + item.quantity;
+      label.textContent = (language() === "en" ? item.name_en : item.name) + " × " + item.quantity;
       const amount = document.createElement("strong");
-      amount.textContent = money(item.price * item.quantity);
+      amount.textContent = formatMoney(item.price * item.quantity);
       row.append(label, amount);
       container.appendChild(row);
     });
 
-    setText("checkout_subtotal", money(total.subtotal));
-    setText("checkout_discount", "− " + money(total.discount));
-    setText("checkout_total", money(total.total));
+    setText("checkout_subtotal", formatMoney(total.subtotal));
+    setText("checkout_discount", "− " + formatMoney(total.discount));
+    setText("checkout_total", formatMoney(total.total));
     const coupon = getCoupon();
     setText("checkout_coupon_note", coupon
-      ? (getLanguage() === "ro" ? "Cupon activ: " + coupon : "Active coupon: " + coupon)
-      : (getLanguage() === "ro" ? "Fără cupon" : "No coupon"));
+      ? (language() === "ro" ? "Cupon activ: " + coupon : "Active coupon: " + coupon)
+      : (language() === "ro" ? "Fără cupon" : "No coupon"));
+
     const empty = document.getElementById("checkout_empty");
-    if (empty) empty.hidden = items.length > 0;
     const area = document.getElementById("checkout_form_area");
+    if (empty) empty.hidden = items.length > 0;
     if (area) area.hidden = items.length === 0;
   }
 
   function initCartPage() {
-    const container = document.getElementById("cart_items");
-    if (!container) return;
+    if (!document.getElementById("cart_items")) return;
     renderCartPage();
 
     const couponForm = document.getElementById("coupon_form");
@@ -146,75 +340,53 @@
           feedback.textContent = result.message;
           feedback.className = result.ok ? "shop-feedback is-success" : "shop-feedback is-error";
         }
-        if (result.ok && input) input.value = getCoupon();
       });
     }
+
     const clear = document.getElementById("coupon_clear");
     if (clear) clear.addEventListener("click", clearCoupon);
+
     const emptyButton = document.getElementById("cart_empty_button");
-    if (emptyButton) emptyButton.addEventListener("click", () => {
-      writeCart([]);
-      clearCoupon();
-      renderCartPage();
-    });
+    if (emptyButton) {
+      emptyButton.addEventListener("click", () => {
+        writeCart([]);
+        clearCoupon();
+        renderCartPage();
+      });
+    }
   }
 
   function initCheckout() {
     const form = document.getElementById("checkout_form");
     if (!form) return;
     renderCheckoutSummary();
+
     form.addEventListener("submit", event => {
       event.preventDefault();
-      const items = readCart();
-      if (!items.length) {
+      if (readCart().length === 0) {
         renderCheckoutSummary();
         return;
       }
       if (!form.reportValidity()) return;
 
-      const language = getLanguage();
       const name = String(new FormData(form).get("customer_name") || "").trim();
       const confirmation = document.getElementById("checkout_confirmation");
       const message = document.getElementById("checkout_confirmation_message");
-      const formArea = document.getElementById("checkout_form_area");
+      const area = document.getElementById("checkout_form_area");
       if (message) {
-        message.textContent = language === "ro"
+        message.textContent = language() === "ro"
           ? "Îți mulțumim pentru cumpărăturile de astăzi, " + name + "! Aceasta este o confirmare demonstrativă: nu s-a încasat nicio plată, comanda nu a fost transmisă către Zarad, iar datele completate nu au fost salvate sau trimise."
           : "Thank you for shopping with us today, " + name + "! This is a demo confirmation: no payment was taken, the order was not sent to Zarad, and the details you entered were not saved or transmitted.";
       }
-      if (formArea) formArea.hidden = true;
+      if (area) area.hidden = true;
       if (confirmation) confirmation.hidden = false;
+
       writeCart([]);
-      clearCoupon();
+      try { localStorage.removeItem(COUPON_KEY); } catch {}
+      const empty = document.getElementById("checkout_empty");
+      if (empty) empty.hidden = true;
       updateCartBadge();
     });
-  }
-
-  function addProduct(product, options = {}) {
-    const ok = addProductInternal(product, options);
-    return ok;
-  }
-
-  function addProductInternal(product, options) {
-    if (!product || typeof product.name !== "string") return false;
-    const price = options.price !== undefined ? Number(options.price) : Number(product.price_amount);
-    if (!Number.isFinite(price) || price < 0) return false;
-    const id = descriptor(product.name) + (options.variant ? "-" + descriptor(options.variant) : "");
-    const items = readCart();
-    const existing = items.find(item => item.id === id);
-    if (existing) existing.quantity = Math.min(99, existing.quantity + 1);
-    else items.push({
-      id,
-      name: product.name,
-      name_en: product.name_en || product.name,
-      price: Math.round(price * 100) / 100,
-      quantity: 1,
-      image: product.image || "",
-      category: product.category || ""
-    });
-    writeCart(items);
-    renderCartPage();
-    return true;
   }
 
   const languageObserver = new MutationObserver(() => {
@@ -240,7 +412,7 @@
 
   window.ZaradShop = Object.freeze({
     addProduct,
-    formatMoney: money,
+    formatMoney,
     getCart: readCart,
     getTotals: totals,
     applyCoupon,
