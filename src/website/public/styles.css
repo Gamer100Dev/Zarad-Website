@@ -5002,3 +5002,59 @@ body.about-page .about-culture-section > .about-culture-layout {
     font-size: clamp(1.85rem, 8vw, 2.25rem) !important;
   }
 }
+
+
+
+/* About flavours card typography: use Zarad's parchment, gold and wine palette consistently. */
+body.about-page .about-flavours-card .about-flavours-copy .about-flavours-kicker {
+  color: #edc783 !important;
+}
+body.about-page .about-flavours-card .about-flavours-copy h2 {
+  color: #fffaf1 !important;
+}
+body.about-page .about-flavours-card .about-flavours-copy > p:not(.about-flavours-kicker) {
+  color: #f4ead9 !important;
+}
+body.about-page .about-flavours-card .about-flavours-copy > p.about-flavours-extra {
+  color: rgba(244, 234, 217, .82) !important;
+}
+
+/* Reuse the homepage's transparent gold diamond SVG pattern inside the story frame. */
+body.about-page .zarad-story-frame {
+  position: relative;
+  overflow: hidden;
+}
+body.about-page .zarad-story-frame > .about-story-frieze {
+  position: absolute !important;
+  z-index: 0 !important;
+  display: block !important;
+  left: 0 !important;
+  right: 0 !important;
+  width: auto !important;
+  height: 14px !important;
+  min-height: 14px !important;
+  margin: 0 !important;
+  padding: 0 !important;
+  box-sizing: border-box !important;
+  background-color: transparent !important;
+  background-repeat: repeat-x !important;
+  background-position: center !important;
+  background-size: 28px 14px !important;
+  border-color: rgba(212, 164, 67, .4) !important;
+  pointer-events: none !important;
+}
+body.about-page .zarad-story-frame > .about-story-frieze.zarad-cta-frieze-top {
+  top: 0 !important;
+  bottom: auto !important;
+}
+body.about-page .zarad-story-frame > .about-story-frieze.zarad-cta-frieze-bottom {
+  top: auto !important;
+  bottom: 0 !important;
+}
+body.about-page .zarad-story-frame > :not(.about-story-frieze):not(.zarad-corner) {
+  position: relative;
+  z-index: 1;
+}
+body.about-page .zarad-story-frame > .zarad-corner {
+  z-index: 2;
+}
