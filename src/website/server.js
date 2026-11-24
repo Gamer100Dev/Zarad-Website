@@ -248,6 +248,11 @@ const server = http.createServer((request, response) => {
     pathname = "/contact.html";
   }
 
+  if (pathname === "/cart" || pathname === "/cart/") pathname = "/cart.html";
+  if (pathname === "/checkout" || pathname === "/checkout/") pathname = "/checkout.html";
+  if (pathname === "/terms" || pathname === "/terms/") pathname = "/terms.html";
+
+
   sendFile(request, response, pathname);
 });
 
