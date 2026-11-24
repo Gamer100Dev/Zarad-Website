@@ -9,7 +9,8 @@
     "price": "18 lei",
     "price_en": "RON 18",
     "currency": "RON",
-    "price_amount": 18
+    "price_amount": 18,
+    "category": "blends"
   },
   {
     "name": "Kamoun",
@@ -21,7 +22,8 @@
     "price": "14 lei",
     "price_en": "RON 14",
     "currency": "RON",
-    "price_amount": 14
+    "price_amount": 14,
+    "category": "everyday"
   },
   {
     "name": "Kharkoum",
@@ -33,7 +35,8 @@
     "price": "12 lei",
     "price_en": "RON 12",
     "currency": "RON",
-    "price_amount": 12
+    "price_amount": 12,
+    "category": "everyday"
   },
   {
     "name": "Gingembre",
@@ -45,7 +48,8 @@
     "price": "13 lei",
     "price_en": "RON 13",
     "currency": "RON",
-    "price_amount": 13
+    "price_amount": 13,
+    "category": "warm"
   },
   {
     "name": "Karfa",
@@ -57,7 +61,8 @@
     "price": "13 lei",
     "price_en": "RON 13",
     "currency": "RON",
-    "price_amount": 13
+    "price_amount": 13,
+    "category": "warm"
   },
   {
     "name": "Felfel Kahal",
@@ -69,7 +74,8 @@
     "price": "16 lei",
     "price_en": "RON 16",
     "currency": "RON",
-    "price_amount": 16
+    "price_amount": 16,
+    "category": "spicy"
   },
   {
     "name": "Tahmira",
@@ -81,7 +87,8 @@
     "price": "12 lei",
     "price_en": "RON 12",
     "currency": "RON",
-    "price_amount": 12
+    "price_amount": 12,
+    "category": "everyday"
   },
   {
     "name": "Zaafrane",
@@ -93,7 +100,8 @@
     "price": "25 lei",
     "price_en": "RON 25",
     "currency": "RON",
-    "price_amount": 25
+    "price_amount": 25,
+    "category": "specialty"
   },
   {
     "name": "Maadnous",
@@ -105,7 +113,8 @@
     "price": "10 lei",
     "price_en": "RON 10",
     "currency": "RON",
-    "price_amount": 10
+    "price_amount": 10,
+    "category": "herbs"
   },
   {
     "name": "Zarad",
@@ -117,6 +126,7 @@
     "price": "22 lei",
     "price_en": "RON 22",
     "currency": "RON",
-    "price_amount": 22
+    "price_amount": 22,
+    "category": "blends"
   }
 ]
