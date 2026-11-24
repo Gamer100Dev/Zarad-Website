@@ -856,3 +856,42 @@ html[data-theme="dark"] .shop-page .shop-card-test-note { color: #c5b3a5; }
 html[data-theme="dark"] .order-status-page .order-status-actions .shop-secondary-link { border-color: rgba(214,166,83,.6); background: #302727; color: #e6c7a8; }
 html[data-theme="dark"] .order-status-page .order-status-actions .shop-secondary-link:hover { border-color: #e0b86f; background: #40312b; color: #f4ead9; }
 @media (max-width: 620px) { .shop-page .shop-card-details { padding: 14px; } }
+
+/* Match secondary actions to the primary button dimensions. */
+.shop-page .shop-coupon-row {
+  display: flex;
+  flex-direction: column;
+  gap: 9px;
+}
+.shop-page .shop-secondary-button {
+  display: inline-flex;
+  width: 100%;
+  min-width: 0;
+  min-height: 46px;
+  box-sizing: border-box;
+  align-items: center;
+  justify-content: center;
+  padding: 12px 18px;
+  border: 1px solid var(--wine);
+  border-radius: 2px;
+  background: var(--wine);
+  color: #fff8ed;
+  font: inherit;
+  font-size: .84rem;
+  font-weight: 750;
+  line-height: 1.2;
+  text-align: center;
+  cursor: pointer;
+}
+.shop-page .shop-secondary-button:hover {
+  background: #6d292e;
+}
+html[data-theme="dark"] .shop-page .shop-secondary-button {
+  border-color: #d6a653;
+  background: #603039;
+  color: #fff8ed;
+}
+html[data-theme="dark"] .shop-page .shop-secondary-button:hover {
+  border-color: #e0b86f;
+  background: #754047;
+}
