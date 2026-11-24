@@ -2797,16 +2797,22 @@ html[data-theme="dark"] .footer-brand:focus-visible {
   }
 }
 
-/* About page: restrained Moroccan zellige geometry, drawn from the Zarad star mark. */
+/* About page: restore Zarad maroon and use blue Moroccan zellige geometry. */
 body.about-page .about-main {
-  background: #f5eee3;
+  background: #f7f1e7;
 }
 
 body.about-page .about-intro {
   position: relative;
   overflow: hidden;
   border: 0;
-  background: linear-gradient(128deg, #193b59 0%, #102a44 100%);
+  border-bottom: 1px solid rgba(209, 154, 74, .72);
+  background-color: #4b171d;
+  background-image:
+    linear-gradient(rgba(75, 23, 29, .54), rgba(75, 23, 29, .54)),
+    url("/assets/zarad-zellige-blue.svg");
+  background-repeat: repeat, repeat;
+  background-size: auto, 148px 148px;
 }
 
 body.about-page .about-intro-inner {
@@ -2814,25 +2820,13 @@ body.about-page .about-intro-inner {
   z-index: 1;
 }
 
-body.about-page .about-intro::after {
-  position: absolute;
-  right: 0;
-  bottom: 0;
-  left: 0;
-  height: 18px;
-  border-top: 1px solid rgba(231, 196, 124, .68);
-  background-color: #102a44;
-  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='54' height='18' viewBox='0 0 54 18'%3E%3Cg fill='none' stroke-width='1'%3E%3Cpath stroke='%23e1bf83' d='M9 0L12 6L18 9L12 12L9 18L6 12L0 9L6 6Z M27 0L30 6L36 9L30 12L27 18L24 12L18 9L24 6Z M45 0L48 6L54 9L48 12L45 18L42 12L36 9L42 6Z'/%3E%3Cpath stroke='%23bd6459' stroke-width='.8' d='M9 5L13 9L9 13L5 9Z M27 5L31 9L27 13L23 9Z M45 5L49 9L45 13L41 9Z'/%3E%3C/g%3E%3C/svg%3E");
-  background-repeat: repeat-x;
-  background-position: center;
-  background-size: 54px 18px;
-  content: "";
-  pointer-events: none;
+body.about-page .about-intro h1 {
+  color: #fff7ed;
 }
 
 body.about-page .about-kicker,
 body.about-page .about-pairings-kicker {
-  color: #e6c37c;
+  color: #e8c17e;
   letter-spacing: .16em;
 }
 
@@ -2841,22 +2835,64 @@ body.about-page .about-pairings-kicker::before {
   content: none;
 }
 
+body.about-page .about-lead,
+body.about-page .about-lead-extra {
+  color: rgba(255, 247, 237, .88);
+}
+
+body.about-page .about-lead-extra {
+  color: rgba(255, 247, 237, .76);
+}
+
+body.about-page .about-intro::after {
+  position: absolute;
+  right: 0;
+  bottom: 0;
+  left: 0;
+  height: 20px;
+  border-top: 1px solid rgba(118, 169, 205, .7);
+  background-color: #3f1724;
+  background-image: url("/assets/zarad-zellige-blue.svg");
+  background-repeat: repeat-x;
+  background-position: center 50%;
+  background-size: 68px 68px;
+  content: "";
+  pointer-events: none;
+}
+
+body.about-page .about-catalog-link {
+  border-color: rgba(232, 193, 126, .8);
+  background: rgba(255, 247, 237, .035);
+  color: #fff7ed;
+}
+
+body.about-page .about-catalog-link:hover {
+  border-color: #d19a4a;
+  background: #d19a4a;
+  color: #351b19;
+}
+
 body.about-page .about-flavours-section {
   border: 0;
-  border-inline-start: 4px solid #a94345;
+  border-inline-start: 4px solid #477fa8;
   background: #f8f2e8;
   box-shadow: 0 12px 30px rgba(32, 42, 47, .07);
 }
 
 body.about-page .about-flavours-copy h2 {
-  color: #173b59;
+  color: #70272b;
   text-decoration: none;
+}
+
+body.about-page .about-flavours-copy > p:last-child,
+body.about-page .about-flavours-extra {
+  color: #705f54;
 }
 
 body.about-page .about-photo-card {
   position: relative;
   padding: 7px;
-  border: 1px solid rgba(166, 126, 70, .72);
+  border: 1px solid rgba(71, 127, 168, .66);
   background: #f8f2e8;
   box-shadow: 0 9px 25px rgba(20, 46, 70, .12);
 }
@@ -2874,15 +2910,15 @@ body.about-page .about-photo-card::after {
 body.about-page .about-photo-card::before {
   top: 1px;
   left: 1px;
-  border-top: 2px solid #a94345;
-  border-left: 2px solid #a94345;
+  border-top: 2px solid #477fa8;
+  border-left: 2px solid #477fa8;
 }
 
 body.about-page .about-photo-card::after {
   right: 1px;
   bottom: 1px;
-  border-right: 2px solid #c9963b;
-  border-bottom: 2px solid #c9963b;
+  border-right: 2px solid #477fa8;
+  border-bottom: 2px solid #477fa8;
 }
 
 body.about-page .about-photo-frame {
@@ -2896,11 +2932,16 @@ body.about-page .about-photo-card figcaption {
 body.about-page .about-culture-note {
   position: relative;
   overflow: hidden;
-  border: 1px solid rgba(231, 196, 124, .68);
-  border-inline-start: 4px solid #a94345;
-  background: #173b59;
+  border: 1px solid rgba(118, 169, 205, .62);
+  border-inline-start: 4px solid #477fa8;
+  background-color: #70272b;
+  background-image:
+    linear-gradient(rgba(112, 39, 43, .82), rgba(112, 39, 43, .82)),
+    url("/assets/zarad-zellige-blue.svg");
+  background-repeat: repeat, repeat;
+  background-size: auto, 112px 112px;
   color: #fff7ed;
-  box-shadow: 0 14px 32px rgba(16, 39, 60, .17);
+  box-shadow: 0 14px 32px rgba(16, 39, 60, .15);
 }
 
 body.about-page .about-culture-note::before {
@@ -2913,10 +2954,10 @@ body.about-page .about-culture-note h2 {
 }
 
 body.about-page .about-culture-text {
-  color: rgba(255, 247, 237, .88);
+  color: rgba(255, 247, 237, .9);
 }
 
-/* The turquoise close is intentionally plain: no pattern, medallion or overlay. */
+/* Keep the turquoise closing panel clean; the blue tilework stays on maroon sections. */
 body.about-page .about-closing {
   position: relative;
   isolation: auto;
@@ -2961,67 +3002,96 @@ body.about-page .about-closing-line {
 body.about-page .about-closing-link {
   border: 1px solid #f5ead8;
   background: #f5ead8;
-  color: #173b59;
+  color: #70272b;
   box-shadow: none;
 }
 
 body.about-page .about-closing-link:hover {
   border-color: #fff;
   background: #fff;
-  color: #102a44;
+  color: #4b171d;
   transform: translateY(-1px);
 }
 
 html[data-theme="dark"] body.about-page .about-main {
-  background: #18232d;
+  background: #211b1b;
 }
+
 html[data-theme="dark"] body.about-page .about-intro {
-  background: linear-gradient(128deg, #102941 0%, #091d30 100%);
+  border-color: rgba(118, 169, 205, .44);
+  background-color: #32171e;
+  background-image:
+    linear-gradient(rgba(50, 23, 30, .48), rgba(50, 23, 30, .48)),
+    url("/assets/zarad-zellige-blue.svg");
 }
+
+html[data-theme="dark"] body.about-page .about-intro::after {
+  background-color: #28141b;
+  border-top-color: rgba(118, 169, 205, .55);
+}
+
 html[data-theme="dark"] body.about-page .about-flavours-section {
-  border-inline-start-color: #c45c58;
-  background: #26343e;
+  border-inline-start-color: #6f9fc1;
+  background: #302727;
   box-shadow: none;
 }
+
 html[data-theme="dark"] body.about-page .about-flavours-copy h2 {
-  color: #d9e6e9;
+  color: #e6bda9;
 }
+
+html[data-theme="dark"] body.about-page .about-flavours-copy > p:last-child,
+html[data-theme="dark"] body.about-page .about-flavours-extra {
+  color: #c5b3a5;
+}
+
 html[data-theme="dark"] body.about-page .about-photo-card {
-  border-color: rgba(230, 195, 124, .46);
-  background: #26343e;
+  border-color: rgba(118, 169, 205, .55);
+  background: #302727;
 }
+
 html[data-theme="dark"] body.about-page .about-photo-frame {
-  background: #1a2c39;
+  background: #241d1a;
 }
+
 html[data-theme="dark"] body.about-page .about-photo-card figcaption {
   color: #c5d1d6;
 }
+
 html[data-theme="dark"] body.about-page .about-culture-note {
-  border-color: rgba(230, 195, 124, .48);
-  border-inline-start-color: #c45c58;
-  background: #102941;
+  border-color: rgba(118, 169, 205, .55);
+  border-inline-start-color: #6f9fc1;
+  background-color: #421d27;
+  background-image:
+    linear-gradient(rgba(66, 29, 39, .76), rgba(66, 29, 39, .76)),
+    url("/assets/zarad-zellige-blue.svg");
 }
+
 html[data-theme="dark"] body.about-page .about-culture-text {
-  color: #d4e0e3;
+  color: #eee0d6;
 }
+
 html[data-theme="dark"] body.about-page .about-closing {
   background: #086b70;
   color: #fff8ed;
 }
+
 html[data-theme="dark"] body.about-page .about-closing-link {
   border-color: #f5ead8;
   background: #f5ead8;
-  color: #173b59;
+  color: #70272b;
 }
+
 html[data-theme="dark"] body.about-page .about-closing-link:hover {
   background: #fff;
 }
 
 @media (max-width: 680px) {
   body.about-page .about-intro::after {
-    height: 14px;
-    background-size: 42px 14px;
+    height: 16px;
+    background-size: 56px 56px;
   }
+
   body.about-page .about-photo-card::before,
   body.about-page .about-photo-card::after {
     width: 15px;
