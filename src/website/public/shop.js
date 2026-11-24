@@ -369,23 +369,11 @@
       }
       if (!form.reportValidity()) return;
 
-      const name = String(new FormData(form).get("customer_name") || "").trim();
-      const confirmation = document.getElementById("checkout_confirmation");
-      const message = document.getElementById("checkout_confirmation_message");
-      const area = document.getElementById("checkout_form_area");
-      if (message) {
-        message.textContent = language() === "ro"
-          ? "Îți mulțumim pentru cumpărăturile de astăzi, " + name + "! Aceasta este o confirmare demonstrativă: nu s-a încasat nicio plată, comanda nu a fost transmisă către Zarad, iar datele completate nu au fost salvate sau trimise."
-          : "Thank you for shopping with us today, " + name + "! This is a demo confirmation: no payment was taken, the order was not sent to Zarad, and the details you entered were not saved or transmitted.";
-      }
-      if (area) area.hidden = true;
-      if (confirmation) confirmation.hidden = false;
-
-      writeCart([]);
-      try { localStorage.removeItem(COUPON_KEY); } catch {}
-      const empty = document.getElementById("checkout_empty");
-      if (empty) empty.hidden = true;
-      updateCartBadge();
+      // This storefront has no live payment or order service. Keep the basket
+      // intact and move to a clearly labelled checkout-preview status page.
+      const submitButton = form.querySelector('[type="submit"]');
+      if (submitButton) submitButton.disabled = true;
+      window.location.assign("/order-status.html");
     });
   }
 
