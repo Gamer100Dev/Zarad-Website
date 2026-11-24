@@ -5379,3 +5379,506 @@ html[data-theme="dark"] body.about-page .about-intro .about-photo-card--hero .ab
     inset: 5px;
   }
 }
+
+
+/* About upper and middle sections aligned to the homepage's editorial style.
+   The lantern garland stays; the closing story CTA below is intentionally untouched. */
+body.about-page .about-main {
+  padding-bottom: 0 !important;
+  background: #f4ead9 !important;
+}
+
+/* Intro: use the homepage's dark photographic-hero palette without extra frames. */
+body.about-page .about-intro {
+  position: relative;
+  isolation: isolate;
+  overflow: hidden;
+  padding: clamp(148px, 12vw, 174px) 36px clamp(78px, 8vw, 108px) !important;
+  border: 0 !important;
+  background:
+    radial-gradient(ellipse at 82% 24%, rgba(20, 135, 138, .14), transparent 34%),
+    linear-gradient(112deg, #291713 0%, #3d1d1a 56%, #4b171d 100%) !important;
+}
+body.about-page .about-intro::before,
+body.about-page .about-intro::after {
+  display: none !important;
+  content: none !important;
+  background-image: none !important;
+}
+body.about-page .about-intro-inner {
+  position: relative;
+  z-index: 2;
+  display: grid;
+  grid-template-columns: minmax(0, .96fr) minmax(0, 1.04fr);
+  align-items: center;
+  gap: clamp(48px, 7vw, 104px);
+  width: min(1240px, calc(100% - 24px));
+  margin: 0 auto;
+}
+body.about-page .about-intro-copy {
+  max-width: 620px;
+}
+body.about-page .about-kicker {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin: 0 0 20px;
+  color: #edc783 !important;
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: 2.3px;
+  line-height: 1.5;
+}
+body.about-page .about-kicker::before {
+  content: "";
+  display: block;
+  width: 40px;
+  height: 1px;
+  flex: 0 0 40px;
+  background: #d19a4a;
+}
+body.about-page .about-intro h1 {
+  max-width: 720px;
+  margin: 0;
+  color: #fff6e9 !important;
+  font-family: "Playfair Display", Georgia, serif;
+  font-size: clamp(58px, 7.3vw, 92px);
+  font-weight: 500;
+  line-height: 1.02;
+  letter-spacing: -2.8px;
+}
+body.about-page .about-lead,
+body.about-page .about-lead-extra {
+  max-width: 620px;
+  margin: 26px 0 0;
+  color: rgba(255, 246, 233, .9) !important;
+  font-size: 15px;
+  line-height: 1.9;
+}
+body.about-page .about-lead-extra {
+  margin-top: 14px;
+  color: rgba(255, 246, 233, .72) !important;
+}
+body.about-page .about-catalog-link {
+  min-height: 49px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 22px;
+  margin-top: 30px;
+  padding: 0 22px;
+  border: 1px solid #e6b65f;
+  border-radius: 3px;
+  background: #d19a4a;
+  color: #351b19 !important;
+  font-size: 12px;
+  font-weight: 700;
+  letter-spacing: .02em;
+  transition: background 160ms ease, transform 160ms ease;
+}
+body.about-page .about-catalog-link:hover {
+  transform: translateY(-2px);
+  border-color: #edc783;
+  background: #e5b461;
+  color: #351b19 !important;
+}
+body.about-page .about-intro .about-photo-card--hero {
+  position: relative;
+  z-index: 1;
+  min-width: 0;
+  width: 100%;
+  margin: 0;
+  padding: 0 !important;
+  border: 0 !important;
+  border-radius: 0;
+  background: transparent !important;
+  box-shadow: none !important;
+}
+body.about-page .about-intro .about-photo-card--hero::before {
+  content: "" !important;
+  display: block !important;
+  position: absolute;
+  z-index: 0;
+  inset: 18px -16px -16px 18px;
+  border: 1px solid rgba(198, 141, 76, .9);
+  background: none !important;
+  pointer-events: none;
+}
+body.about-page .about-intro .about-photo-card--hero .about-photo-frame {
+  position: relative;
+  z-index: 1;
+  display: block;
+  width: 100%;
+  aspect-ratio: 3 / 2;
+  overflow: hidden;
+  background: rgba(20, 127, 131, .08) !important;
+  box-shadow: 10px 10px 0 rgba(20, 135, 138, .16) !important;
+}
+body.about-page .about-intro .about-photo-card--hero .about-photo-frame img {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: center;
+}
+body.about-page .about-intro .about-photo-card--hero figcaption {
+  position: relative;
+  z-index: 1;
+  padding: 13px 4px 0;
+  color: rgba(255, 246, 233, .78);
+  font-family: "Playfair Display", Georgia, serif;
+  font-size: 13px;
+  text-align: right;
+}
+
+/* Retain the photo-and-copy composition, but remove the heavy turquoise panel. */
+body.about-page .about-flavours-section {
+  display: block !important;
+  width: 100% !important;
+  max-width: none !important;
+  margin: 0 !important;
+  padding: clamp(76px, 8vw, 106px) 36px !important;
+  border: 0 !important;
+  background: #eee1ce !important;
+  box-shadow: none !important;
+}
+body.about-page .about-flavours-section > .about-flavours-card {
+  position: relative;
+  isolation: auto;
+  display: grid !important;
+  grid-template-columns: minmax(0, .96fr) minmax(0, 1.04fr) !important;
+  align-items: center !important;
+  gap: clamp(46px, 7vw, 96px) !important;
+  width: min(1160px, 100%) !important;
+  max-width: 1160px !important;
+  margin: 0 auto !important;
+  padding: 0 !important;
+  overflow: visible !important;
+  border: 0 !important;
+  outline: 0 !important;
+  background: transparent !important;
+  box-shadow: none !important;
+  color: var(--ink);
+}
+body.about-page .about-flavours-card::before,
+body.about-page .about-flavours-corner {
+  display: none !important;
+  content: none !important;
+  background: none !important;
+}
+body.about-page .about-flavours-card .about-photo-card--flavours {
+  position: relative;
+  z-index: 1;
+  width: 100% !important;
+  max-width: 490px !important;
+  margin: 0 auto !important;
+  padding: 0 !important;
+  border: 0 !important;
+  background: transparent !important;
+  box-shadow: none !important;
+}
+body.about-page .about-flavours-card .about-photo-card--flavours::before {
+  content: "" !important;
+  display: block !important;
+  position: absolute;
+  z-index: -1;
+  inset: 16px -14px -14px 16px;
+  border: 1px solid #c68d4c;
+  background: none !important;
+  pointer-events: none;
+}
+body.about-page .about-flavours-card .about-photo-frame {
+  display: block !important;
+  width: 100% !important;
+  aspect-ratio: 4 / 3 !important;
+  padding: 0 !important;
+  overflow: hidden !important;
+  border: 0 !important;
+  outline: 0 !important;
+  background: #d9c4a6 !important;
+  box-shadow: 0 12px 30px rgba(53, 27, 25, .1) !important;
+}
+body.about-page .about-flavours-card .about-photo-frame img {
+  display: block !important;
+  width: 100% !important;
+  height: 100% !important;
+  object-fit: cover !important;
+  object-position: center !important;
+}
+body.about-page .about-flavours-card .about-photo-card figcaption {
+  padding: 12px 2px 0 !important;
+  color: #806b5e !important;
+  font-family: "Playfair Display", Georgia, serif;
+  font-size: 13px;
+}
+body.about-page .about-flavours-card .about-flavours-copy {
+  width: 100%;
+  max-width: 600px !important;
+  margin: 0 !important;
+  padding: 0 !important;
+}
+body.about-page .about-flavours-card .about-flavours-kicker {
+  margin: 0 0 18px !important;
+  color: #a46b30 !important;
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: 2.3px;
+}
+body.about-page .about-flavours-card .about-flavours-copy h2 {
+  max-width: 720px;
+  margin: 0 !important;
+  color: #751e27 !important;
+  font-family: "Playfair Display", Georgia, serif;
+  font-size: clamp(36px, 4.2vw, 54px) !important;
+  font-weight: 500;
+  line-height: 1.13 !important;
+  letter-spacing: -1.3px;
+}
+body.about-page .about-flavours-card .about-flavours-rule {
+  width: 52px;
+  height: 2px;
+  margin: 23px 0 0;
+  background: linear-gradient(90deg, #c9963b 0 68%, #14878a 68% 100%);
+}
+body.about-page .about-flavours-card .about-flavours-copy > p:not(.about-flavours-kicker) {
+  margin: 22px 0 0 !important;
+  color: #715c50 !important;
+  font-size: 14px;
+  line-height: 1.95;
+}
+body.about-page .about-flavours-card .about-flavours-copy > p.about-flavours-extra {
+  margin-top: 13px !important;
+  color: #806b5e !important;
+}
+
+/* The final middle section becomes a calm homepage-style story section. */
+body.about-page .about-culture-section {
+  display: block !important;
+  width: 100% !important;
+  max-width: none !important;
+  margin: 0 !important;
+  padding: clamp(76px, 8vw, 108px) 36px !important;
+  border: 0 !important;
+  background: #f4ead9 !important;
+  box-shadow: none !important;
+}
+body.about-page .about-culture-section > .zarad-cta-frieze-top,
+body.about-page .about-culture-section > .zarad-cta-frieze-bottom,
+body.about-page .about-culture-section > .about-gold-frieze-top,
+body.about-page .about-culture-section > .about-gold-frieze-bottom {
+  display: none !important;
+}
+body.about-page .about-culture-section > .about-culture-layout {
+  position: relative;
+  z-index: 1;
+  display: grid !important;
+  grid-template-columns: minmax(0, 1fr) minmax(0, 1fr) !important;
+  align-items: center !important;
+  gap: clamp(48px, 7vw, 96px) !important;
+  width: min(1160px, 100%) !important;
+  max-width: 1160px !important;
+  margin: 0 auto !important;
+  padding: 0 !important;
+}
+body.about-page .about-culture-section .about-photo-card--wide {
+  position: relative;
+  z-index: 1;
+  width: 100% !important;
+  max-width: 490px !important;
+  justify-self: center !important;
+  margin: 0 !important;
+  padding: 0 !important;
+  border: 0 !important;
+  background: transparent !important;
+  box-shadow: none !important;
+}
+body.about-page .about-culture-section .about-photo-card--wide::before {
+  content: "" !important;
+  display: block !important;
+  position: absolute;
+  z-index: -1;
+  inset: 16px -14px -14px 16px;
+  border: 1px solid #c68d4c;
+  background: none !important;
+  pointer-events: none;
+}
+body.about-page .about-culture-section .about-photo-card--wide .about-photo-frame {
+  display: block !important;
+  width: 100% !important;
+  aspect-ratio: 4 / 5 !important;
+  overflow: hidden !important;
+  background: #d9c4a6 !important;
+  box-shadow: 0 12px 30px rgba(53, 27, 25, .1) !important;
+}
+body.about-page .about-culture-section .about-photo-card--wide .about-photo-frame img {
+  display: block !important;
+  width: 100% !important;
+  height: 100% !important;
+  object-fit: cover !important;
+  object-position: center !important;
+}
+body.about-page .about-culture-section .about-photo-card--wide figcaption {
+  padding: 12px 2px 0 !important;
+  color: #806b5e !important;
+  font-family: "Playfair Display", Georgia, serif;
+  font-size: 13px;
+}
+body.about-page .about-culture-section .about-culture-layout > .about-culture-note {
+  position: relative !important;
+  z-index: 1;
+  align-self: center !important;
+  width: 100% !important;
+  max-width: 560px !important;
+  min-height: 0 !important;
+  margin: 0 !important;
+  padding: 0 !important;
+  overflow: visible !important;
+  border: 0 !important;
+  border-radius: 0 !important;
+  outline: 0 !important;
+  background: transparent !important;
+  background-image: none !important;
+  color: #351b19 !important;
+  box-shadow: none !important;
+  transform: none !important;
+}
+body.about-page .about-culture-section .about-culture-layout > .about-culture-note::before,
+body.about-page .about-culture-section .about-culture-layout > .about-culture-note::after,
+body.about-page .about-culture-section .about-culture-corner {
+  display: none !important;
+  content: none !important;
+  background: none !important;
+  box-shadow: none !important;
+}
+body.about-page .about-culture-section .about-culture-layout > .about-culture-note > .about-pairings-kicker {
+  display: block !important;
+  margin: 0 0 18px !important;
+  color: #a46b30 !important;
+  font-size: 10px !important;
+  font-weight: 700 !important;
+  letter-spacing: 2.3px !important;
+}
+body.about-page .about-culture-section .about-culture-layout > .about-culture-note > .about-pairings-kicker::before,
+body.about-page .about-culture-section .about-culture-layout > .about-culture-note > .about-pairings-kicker::after {
+  content: none !important;
+}
+body.about-page .about-culture-section .about-culture-layout > .about-culture-note > h2 {
+  margin: 0 !important;
+  color: #751e27 !important;
+  font-family: "Playfair Display", Georgia, serif !important;
+  font-size: clamp(36px, 4.2vw, 54px) !important;
+  font-weight: 500 !important;
+  line-height: 1.13 !important;
+  letter-spacing: -1.3px !important;
+}
+body.about-page .about-culture-section .about-culture-layout > .about-culture-note > h2::after {
+  content: "";
+  display: block;
+  width: 52px;
+  height: 2px;
+  margin-top: 22px;
+  background: linear-gradient(90deg, #c9963b 0 68%, #14878a 68% 100%);
+}
+body.about-page .about-culture-section .about-culture-layout > .about-culture-note > .about-culture-text {
+  margin: 22px 0 0 !important;
+  color: #715c50 !important;
+  font-size: 14px;
+  line-height: 1.95 !important;
+}
+
+/* Dark theme follows the same restrained wine, parchment and turquoise balance. */
+html[data-theme="dark"] body.about-page .about-main,
+html[data-theme="dark"] body.about-page .about-culture-section {
+  background: #211b1b !important;
+}
+html[data-theme="dark"] body.about-page .about-intro {
+  background:
+    radial-gradient(ellipse at 82% 24%, rgba(20, 135, 138, .12), transparent 34%),
+    linear-gradient(112deg, #211719 0%, #321c1d 56%, #402027 100%) !important;
+}
+html[data-theme="dark"] body.about-page .about-flavours-section {
+  background: #302727 !important;
+}
+html[data-theme="dark"] body.about-page .about-flavours-card .about-flavours-copy h2,
+html[data-theme="dark"] body.about-page .about-culture-section .about-culture-note > h2 {
+  color: #e6c7a8 !important;
+}
+html[data-theme="dark"] body.about-page .about-flavours-card .about-flavours-copy > p:not(.about-flavours-kicker),
+html[data-theme="dark"] body.about-page .about-culture-section .about-culture-note > .about-culture-text {
+  color: #c5b3a5 !important;
+}
+html[data-theme="dark"] body.about-page .about-flavours-card .about-flavours-kicker,
+html[data-theme="dark"] body.about-page .about-culture-section .about-culture-note > .about-pairings-kicker {
+  color: #d6a653 !important;
+}
+html[data-theme="dark"] body.about-page .about-photo-card figcaption {
+  color: #c5b3a5 !important;
+}
+
+@media (max-width: 900px) {
+  body.about-page .about-intro {
+    padding-inline: 28px !important;
+    padding-block-start: 132px !important;
+  }
+  body.about-page .about-intro-inner {
+    width: min(100%, 760px);
+    gap: 40px;
+  }
+  body.about-page .about-flavours-section,
+  body.about-page .about-culture-section {
+    padding-inline: 28px !important;
+  }
+  body.about-page .about-flavours-section > .about-flavours-card,
+  body.about-page .about-culture-section > .about-culture-layout {
+    gap: 42px !important;
+  }
+}
+@media (max-width: 680px) {
+  body.about-page .about-intro {
+    padding: 122px 22px 58px !important;
+  }
+  body.about-page .about-intro-inner,
+  body.about-page .about-flavours-section > .about-flavours-card,
+  body.about-page .about-culture-section > .about-culture-layout {
+    grid-template-columns: minmax(0, 1fr) !important;
+  }
+  body.about-page .about-intro-inner {
+    width: min(100%, 520px);
+    gap: 34px;
+  }
+  body.about-page .about-intro h1 {
+    font-size: clamp(48px, 12vw, 64px) !important;
+    letter-spacing: -1.8px;
+  }
+  body.about-page .about-intro .about-photo-card--hero {
+    width: calc(100% - 14px);
+    margin: 0 auto !important;
+  }
+  body.about-page .about-flavours-section,
+  body.about-page .about-culture-section {
+    padding: 66px 24px !important;
+  }
+  body.about-page .about-flavours-section > .about-flavours-card,
+  body.about-page .about-culture-section > .about-culture-layout {
+    gap: 38px !important;
+  }
+  body.about-page .about-flavours-card .about-photo-card--flavours,
+  body.about-page .about-culture-section .about-photo-card--wide {
+    width: calc(100% - 14px) !important;
+    max-width: 500px !important;
+  }
+  body.about-page .about-flavours-card .about-flavours-copy h2,
+  body.about-page .about-culture-section .about-culture-layout > .about-culture-note > h2 {
+    font-size: clamp(34px, 9vw, 44px) !important;
+  }
+}
+@media (max-width: 420px) {
+  body.about-page .about-intro {
+    padding-inline: 18px !important;
+    padding-block-start: 112px !important;
+  }
+  body.about-page .about-flavours-section,
+  body.about-page .about-culture-section {
+    padding-inline: 21px !important;
+  }
+}
