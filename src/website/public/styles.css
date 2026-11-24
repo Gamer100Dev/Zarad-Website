@@ -5279,3 +5279,103 @@ html[data-theme="dark"] body.about-page .about-culture-section .about-culture-la
     bottom: 14px;
   }
 }
+
+
+/* Zarad about hero photo: patterned zellige surround and refined frame. */
+body.about-page .about-intro .about-photo-card--hero {
+  position: relative;
+  isolation: isolate;
+  padding: 13px;
+  border: 2px solid #167d80;
+  border-radius: 0;
+  outline: 1px solid rgba(167, 123, 62, .82);
+  outline-offset: 4px;
+  background:
+    linear-gradient(#f3d59b, #f3d59b) 8px 8px / 23px 1px no-repeat,
+    linear-gradient(#f3d59b, #f3d59b) 8px 8px / 1px 23px no-repeat,
+    linear-gradient(#f3d59b, #f3d59b) right 8px top 8px / 23px 1px no-repeat,
+    linear-gradient(#f3d59b, #f3d59b) right 8px top 8px / 1px 23px no-repeat,
+    linear-gradient(#f3d59b, #f3d59b) left 8px bottom 8px / 23px 1px no-repeat,
+    linear-gradient(#f3d59b, #f3d59b) left 8px bottom 8px / 1px 23px no-repeat,
+    linear-gradient(#f3d59b, #f3d59b) right 8px bottom 8px / 23px 1px no-repeat,
+    linear-gradient(#f3d59b, #f3d59b) right 8px bottom 8px / 1px 23px no-repeat,
+    linear-gradient(145deg, #70272b 0%, #4b2027 58%, #70272b 100%);
+  box-shadow: 0 15px 34px rgba(34, 15, 18, .22);
+}
+
+body.about-page .about-intro .about-photo-card--hero::before {
+  content: "";
+  position: absolute;
+  z-index: 3;
+  inset: 6px;
+  border: 1px solid rgba(243, 213, 155, .78);
+  pointer-events: none;
+}
+
+body.about-page .about-intro .about-photo-card--hero .about-photo-frame {
+  position: relative;
+  aspect-ratio: 3 / 2;
+  padding: 10px;
+  border: 1px solid rgba(112, 39, 43, .5);
+  background-color: #ead9bd;
+  background-image:
+    radial-gradient(circle at 50% 50%, rgba(22, 125, 128, .14) 0 2px, transparent 2.8px),
+    url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='64' height='64' viewBox='0 0 64 64'%3E%3Cg fill='none' stroke='%2370272b' stroke-width='1' stroke-opacity='.2'%3E%3Cpath d='M32 2 62 32 32 62 2 32Z M32 14 50 32 32 50 14 32Z M2 32h12m36 0h12M32 2v12m0 36v12'/%3E%3Cpath d='M32 23 41 32 32 41 23 32Z' stroke='%23167d80' stroke-opacity='.55'/%3E%3C/g%3E%3Ccircle cx='32' cy='32' r='2' fill='%23a77b3e' fill-opacity='.6'/%3E%3C/svg%3E");
+  background-size: 64px 64px;
+  box-shadow: inset 0 0 0 2px rgba(255, 250, 241, .52);
+}
+
+body.about-page .about-intro .about-photo-card--hero .about-photo-frame img {
+  object-fit: contain;
+  background: transparent;
+  filter: drop-shadow(0 4px 8px rgba(48, 25, 20, .12));
+}
+
+body.about-page .about-intro .about-photo-card--hero figcaption {
+  position: relative;
+  z-index: 1;
+  padding: 12px 8px 2px;
+  color: #f3d59b;
+  font-family: Georgia, "Times New Roman", serif;
+  font-size: 14px;
+  font-style: italic;
+  letter-spacing: .04em;
+  text-align: center;
+}
+
+html[data-theme="dark"] body.about-page .about-intro .about-photo-card--hero {
+  border-color: #41aaa8;
+  outline-color: rgba(243, 213, 155, .62);
+  background:
+    linear-gradient(#f3d59b, #f3d59b) 8px 8px / 23px 1px no-repeat,
+    linear-gradient(#f3d59b, #f3d59b) 8px 8px / 1px 23px no-repeat,
+    linear-gradient(#f3d59b, #f3d59b) right 8px top 8px / 23px 1px no-repeat,
+    linear-gradient(#f3d59b, #f3d59b) right 8px top 8px / 1px 23px no-repeat,
+    linear-gradient(#f3d59b, #f3d59b) left 8px bottom 8px / 23px 1px no-repeat,
+    linear-gradient(#f3d59b, #f3d59b) left 8px bottom 8px / 1px 23px no-repeat,
+    linear-gradient(#f3d59b, #f3d59b) right 8px bottom 8px / 23px 1px no-repeat,
+    linear-gradient(#f3d59b, #f3d59b) right 8px bottom 8px / 1px 23px no-repeat,
+    linear-gradient(145deg, #55212a 0%, #321d24 58%, #55212a 100%);
+}
+
+html[data-theme="dark"] body.about-page .about-intro .about-photo-card--hero .about-photo-frame {
+  border-color: rgba(243, 213, 155, .52);
+  background-color: #26383a;
+  background-image:
+    radial-gradient(circle at 50% 50%, rgba(91, 193, 188, .13) 0 2px, transparent 2.8px),
+    url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='64' height='64' viewBox='0 0 64 64'%3E%3Cg fill='none' stroke='%23f3d59b' stroke-width='1' stroke-opacity='.2'%3E%3Cpath d='M32 2 62 32 32 62 2 32Z M32 14 50 32 32 50 14 32Z M2 32h12m36 0h12M32 2v12m0 36v12'/%3E%3Cpath d='M32 23 41 32 32 41 23 32Z' stroke='%235bc1bc' stroke-opacity='.62'/%3E%3C/g%3E%3Ccircle cx='32' cy='32' r='2' fill='%23f3d59b' fill-opacity='.55'/%3E%3C/svg%3E");
+}
+
+@media (max-width: 620px) {
+  body.about-page .about-intro .about-photo-card--hero {
+    padding: 10px;
+  }
+
+  body.about-page .about-intro .about-photo-card--hero .about-photo-frame {
+    padding: 7px;
+  }
+
+  body.about-page .about-intro .about-photo-card--hero::before {
+    inset: 5px;
+  }
+}
