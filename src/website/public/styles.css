@@ -5069,3 +5069,213 @@ body.about-page .about-closing .zarad-story-frame {
     background-size: 28px 14px !important;
   }
 }
+
+
+
+/* Culture panel finish: true mirrored corners, a restrained zellige texture,
+   and layered inner outlines that follow the rectangular panel edges. */
+body.about-page .about-culture-section .about-culture-layout > .about-culture-note {
+  position: relative !important;
+  isolation: isolate;
+  overflow: hidden !important;
+  box-sizing: border-box !important;
+  border: 8px solid #70272b !important;
+  border-image: none !important;
+  border-radius: 2px !important;
+  outline: 1px solid rgba(231, 197, 143, .72);
+  outline-offset: 3px;
+  background-color: #147f83 !important;
+  background-image:
+    radial-gradient(ellipse at 84% 12%, rgba(244, 234, 217, .16), transparent 42%),
+    url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='72' height='72' viewBox='0 0 72 72'%3E%3Cg fill='none' stroke='%23f3d59b' stroke-width='1' stroke-opacity='.2'%3E%3Cpath d='M36 3 69 36 36 69 3 36Z M36 15 57 36 36 57 15 36Z M3 36h12m42 0h12M36 3v12m0 42v12'/%3E%3Cpath d='M36 24 48 36 36 48 24 36Z'/%3E%3C/g%3E%3Ccircle cx='36' cy='36' r='2' fill='%23f3d59b' fill-opacity='.28'/%3E%3C/svg%3E"),
+    linear-gradient(145deg, #188d8e 0%, #0d6269 100%) !important;
+  background-repeat: no-repeat, repeat, no-repeat !important;
+  background-size: auto, 72px 72px, auto !important;
+  background-position: center, 0 0, center !important;
+  color: #fff8ed !important;
+  box-shadow:
+    0 16px 34px rgba(13, 75, 78, .2),
+    inset 0 0 0 1px rgba(255, 250, 241, .62),
+    inset 0 0 0 4px rgba(231, 197, 143, .35) !important;
+}
+body.about-page .about-culture-section .about-culture-layout > .about-culture-note::before {
+  content: "" !important;
+  display: block !important;
+  position: absolute !important;
+  z-index: 0 !important;
+  inset: 12px !important;
+  width: auto !important;
+  height: auto !important;
+  border: 1px solid rgba(243, 213, 155, .58);
+  border-radius: 1px;
+  background: transparent;
+  box-shadow: inset 0 0 0 4px rgba(255, 250, 241, .035);
+  pointer-events: none;
+}
+body.about-page .about-culture-section .about-culture-layout > .about-culture-note::after {
+  content: "" !important;
+  display: block !important;
+  position: absolute !important;
+  z-index: 0 !important;
+  right: -30px !important;
+  bottom: -34px !important;
+  width: 150px !important;
+  height: 150px !important;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 150 150'%3E%3Cg fill='none' stroke='%23f3d59b' stroke-width='1.2' stroke-opacity='.24'%3E%3Cpath d='M75 4 91 39 126 24 111 59 146 75 111 91 126 126 91 111 75 146 59 111 24 126 39 91 4 75 39 59 24 24 59 39Z'/%3E%3Cpath d='M75 25 125 75 75 125 25 75Z M75 44 106 75 75 106 44 75Z'/%3E%3Ccircle cx='75' cy='75' r='8'/%3E%3C/g%3E%3C/svg%3E");
+  background-size: contain;
+  background-repeat: no-repeat;
+  opacity: .72;
+  pointer-events: none;
+}
+body.about-page .about-culture-section .about-culture-layout > .about-culture-note > .about-pairings-kicker,
+body.about-page .about-culture-section .about-culture-layout > .about-culture-note > h2,
+body.about-page .about-culture-section .about-culture-layout > .about-culture-note > .about-culture-text {
+  position: relative;
+  z-index: 1;
+}
+body.about-page .about-culture-section .about-culture-layout > .about-culture-note > .about-pairings-kicker {
+  display: flex;
+  align-items: center;
+  gap: 9px;
+  margin: 0 0 13px !important;
+  color: #f3d59b !important;
+  font-size: .68rem;
+  font-weight: 800;
+  letter-spacing: .16em;
+}
+body.about-page .about-culture-section .about-culture-layout > .about-culture-note > .about-pairings-kicker::before,
+body.about-page .about-culture-section .about-culture-layout > .about-culture-note > .about-pairings-kicker::after {
+  content: "✧";
+  flex: 0 0 auto;
+  color: #f3d59b;
+  font-size: .9rem;
+  line-height: 1;
+}
+body.about-page .about-culture-section .about-culture-layout > .about-culture-note > h2 {
+  margin: 0 0 17px !important;
+  color: #fffaf1 !important;
+  font-family: Georgia, "Times New Roman", serif;
+  font-weight: 500;
+  letter-spacing: -.025em;
+}
+body.about-page .about-culture-section .about-culture-layout > .about-culture-note > h2::after {
+  content: "";
+  display: block;
+  width: 64px;
+  height: 2px;
+  margin-top: 16px;
+  background: linear-gradient(90deg, #f3d59b 0%, #66c7c0 100%);
+}
+body.about-page .about-culture-section .about-culture-layout > .about-culture-note > .about-culture-text {
+  color: rgba(255, 250, 241, .93) !important;
+  line-height: 1.78;
+}
+body.about-page .about-culture-section .about-culture-corner {
+  position: absolute;
+  z-index: 2;
+  display: block;
+  width: 25px;
+  height: 25px;
+  border-color: #f3d59b;
+  border-style: solid;
+  border-width: 0;
+  pointer-events: none;
+}
+body.about-page .about-culture-section .about-culture-corner::after {
+  content: "";
+  position: absolute;
+  display: block;
+  width: 7px;
+  height: 7px;
+  border: 1px solid rgba(75, 23, 29, .8);
+  background: #f3d59b;
+  transform: rotate(45deg);
+}
+body.about-page .about-culture-section .about-culture-corner--tl {
+  top: 17px;
+  left: 17px;
+  border-top-width: 1.5px;
+  border-left-width: 1.5px;
+}
+body.about-page .about-culture-section .about-culture-corner--tl::after {
+  top: -4px;
+  left: -4px;
+}
+body.about-page .about-culture-section .about-culture-corner--tr {
+  top: 17px;
+  right: 17px;
+  border-top-width: 1.5px;
+  border-right-width: 1.5px;
+}
+body.about-page .about-culture-section .about-culture-corner--tr::after {
+  top: -4px;
+  right: -4px;
+}
+body.about-page .about-culture-section .about-culture-corner--bl {
+  bottom: 17px;
+  left: 17px;
+  border-bottom-width: 1.5px;
+  border-left-width: 1.5px;
+}
+body.about-page .about-culture-section .about-culture-corner--bl::after {
+  bottom: -4px;
+  left: -4px;
+}
+body.about-page .about-culture-section .about-culture-corner--br {
+  right: 17px;
+  bottom: 17px;
+  border-right-width: 1.5px;
+  border-bottom-width: 1.5px;
+}
+body.about-page .about-culture-section .about-culture-corner--br::after {
+  right: -4px;
+  bottom: -4px;
+}
+html[data-theme="dark"] body.about-page .about-culture-section .about-culture-layout > .about-culture-note {
+  border-color: #56242b !important;
+  outline-color: rgba(231, 197, 143, .58);
+  background-color: #0a555d !important;
+  background-image:
+    radial-gradient(ellipse at 84% 12%, rgba(244, 234, 217, .1), transparent 42%),
+    url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='72' height='72' viewBox='0 0 72 72'%3E%3Cg fill='none' stroke='%23f3d59b' stroke-width='1' stroke-opacity='.16'%3E%3Cpath d='M36 3 69 36 36 69 3 36Z M36 15 57 36 36 57 15 36Z M3 36h12m42 0h12M36 3v12m0 42v12'/%3E%3Cpath d='M36 24 48 36 36 48 24 36Z'/%3E%3C/g%3E%3Ccircle cx='36' cy='36' r='2' fill='%23f3d59b' fill-opacity='.2'/%3E%3C/svg%3E"),
+    linear-gradient(145deg, #147b80 0%, #0a555d 100%) !important;
+}
+html[data-theme="dark"] body.about-page .about-culture-section .about-culture-layout > .about-culture-note > .about-pairings-kicker,
+html[data-theme="dark"] body.about-page .about-culture-section .about-culture-layout > .about-culture-note > h2,
+html[data-theme="dark"] body.about-page .about-culture-section .about-culture-layout > .about-culture-note > .about-culture-text {
+  color: #fff8ed !important;
+}
+@media (max-width: 820px) {
+  body.about-page .about-culture-section .about-culture-layout > .about-culture-note {
+    padding: 34px 32px !important;
+  }
+}
+@media (max-width: 480px) {
+  body.about-page .about-culture-section .about-culture-layout > .about-culture-note {
+    border-width: 7px !important;
+    padding: 30px 26px !important;
+  }
+  body.about-page .about-culture-section .about-culture-layout > .about-culture-note::before {
+    inset: 9px !important;
+  }
+  body.about-page .about-culture-section .about-culture-corner {
+    width: 19px;
+    height: 19px;
+  }
+  body.about-page .about-culture-section .about-culture-corner--tl {
+    top: 14px;
+    left: 14px;
+  }
+  body.about-page .about-culture-section .about-culture-corner--tr {
+    top: 14px;
+    right: 14px;
+  }
+  body.about-page .about-culture-section .about-culture-corner--bl {
+    bottom: 14px;
+    left: 14px;
+  }
+  body.about-page .about-culture-section .about-culture-corner--br {
+    right: 14px;
+    bottom: 14px;
+  }
+}
