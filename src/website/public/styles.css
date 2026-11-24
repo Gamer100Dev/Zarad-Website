@@ -6231,44 +6231,38 @@ body.about-page .zarad-cta-kicker::after {
 }
 
 
-/* About page backgrounds: Moroccan lanterns, arches and zellige ornaments. */
+/* About page backgrounds: distinct, non-repeating Moroccan details. */
 body.about-page .about-intro {
   background-image:
-    url("/assets/about-moroccan-ornaments.svg"),
-    url("/assets/about-moroccan-ornaments.svg"),
+    url("/assets/about-hero-ornament.svg"),
     radial-gradient(ellipse at 82% 24%, rgba(42, 77, 130, .14), transparent 34%),
     linear-gradient(112deg, #291713 0%, #3d1d1a 56%, #4b171d 100%) !important;
-  background-repeat: repeat-y, repeat-y, no-repeat, no-repeat !important;
-  background-position: left -22px top, right -22px top, 82% 24%, center !important;
-  background-size: 190px 475px, 190px 475px, auto, cover !important;
+  background-repeat: no-repeat, no-repeat, no-repeat !important;
+  background-position: right -150px bottom -20px, 82% 24%, center !important;
+  background-size: 520px 620px, auto, cover !important;
 }
 body.about-page .about-flavours-section {
-  background-image:
-    url("/assets/about-moroccan-ornaments.svg"),
-    url("/assets/about-moroccan-ornaments.svg") !important;
-  background-repeat: repeat-y, repeat-y !important;
-  background-position: left -22px top, right -22px top !important;
-  background-size: 190px 475px, 190px 475px !important;
+  background-image: url("/assets/about-flavours-ornament.svg") !important;
+  background-repeat: no-repeat !important;
+  background-position: right -205px bottom -40px !important;
+  background-size: 610px 502px !important;
 }
 body.about-page .about-culture-section {
-  background-image:
-    url("/assets/about-moroccan-ornaments.svg"),
-    url("/assets/about-moroccan-ornaments.svg") !important;
-  background-repeat: repeat-y, repeat-y !important;
-  background-position: left -22px top, right -22px top !important;
-  background-size: 190px 475px, 190px 475px !important;
+  background-image: url("/assets/about-culture-ornament.svg") !important;
+  background-repeat: no-repeat !important;
+  background-position: left -205px bottom -70px !important;
+  background-size: 440px 576px !important;
 }
 body.about-page .about-closing {
   background-image:
-    url("/assets/about-moroccan-ornaments.svg"),
-    url("/assets/about-moroccan-ornaments.svg"),
+    url("/assets/about-closing-ornament.svg"),
     radial-gradient(ellipse at 50% 0%, rgba(213, 164, 93, .10), transparent 45%) !important;
-  background-repeat: repeat-y, repeat-y, no-repeat !important;
-  background-position: left -22px top, right -22px top, center top !important;
-  background-size: 190px 475px, 190px 475px, auto !important;
+  background-repeat: no-repeat, no-repeat !important;
+  background-position: center bottom -1px, center top !important;
+  background-size: 100% 320px, auto !important;
 }
 
-/* Keep the side ornaments in the background layer and away from content cards. */
+/* Background art stays behind the layout, never on a card or text panel. */
 body.about-page .about-intro-inner,
 body.about-page .about-flavours-section > .about-flavours-card,
 body.about-page .about-culture-section > .about-culture-layout,
@@ -6278,32 +6272,52 @@ body.about-page .about-closing > .zarad-story-container {
 }
 html[data-theme="dark"] body.about-page .about-intro {
   background-image:
-    url("/assets/about-moroccan-ornaments.svg"),
-    url("/assets/about-moroccan-ornaments.svg"),
+    url("/assets/about-hero-ornament.svg"),
     radial-gradient(ellipse at 82% 24%, rgba(55, 91, 148, .13), transparent 34%),
     linear-gradient(112deg, #211719 0%, #321c1d 56%, #402027 100%) !important;
 }
-html[data-theme="dark"] body.about-page .about-flavours-section,
+html[data-theme="dark"] body.about-page .about-flavours-section {
+  background-image: url("/assets/about-flavours-ornament.svg") !important;
+}
 html[data-theme="dark"] body.about-page .about-culture-section {
-  background-image:
-    url("/assets/about-moroccan-ornaments.svg"),
-    url("/assets/about-moroccan-ornaments.svg") !important;
+  background-image: url("/assets/about-culture-ornament.svg") !important;
 }
 html[data-theme="dark"] body.about-page .about-closing {
   background-image:
-    url("/assets/about-moroccan-ornaments.svg"),
-    url("/assets/about-moroccan-ornaments.svg"),
+    url("/assets/about-closing-ornament.svg"),
     radial-gradient(ellipse at 50% 0%, rgba(213, 164, 93, .08), transparent 45%) !important;
+}
+@media (max-width: 900px) {
+  body.about-page .about-intro {
+    background-position: right -245px bottom -16px, 82% 24%, center !important;
+    background-size: 470px 560px, auto, cover !important;
+  }
+  body.about-page .about-flavours-section {
+    background-position: right -275px bottom -30px !important;
+    background-size: 510px 420px !important;
+  }
+  body.about-page .about-culture-section {
+    background-position: left -255px bottom -60px !important;
+    background-size: 390px 510px !important;
+  }
+  body.about-page .about-closing {
+    background-size: 100% 250px, auto !important;
+  }
 }
 @media (max-width: 680px) {
   body.about-page .about-intro {
-    background-position: left -52px top, right -52px top, 82% 24%, center !important;
-    background-size: 150px 375px, 150px 375px, auto, cover !important;
+    background-position: right -330px bottom -8px, 82% 24%, center !important;
+    background-size: 410px 490px, auto, cover !important;
   }
-  body.about-page .about-flavours-section,
-  body.about-page .about-culture-section,
+  body.about-page .about-flavours-section {
+    background-position: right -365px bottom -20px !important;
+    background-size: 430px 355px !important;
+  }
+  body.about-page .about-culture-section {
+    background-position: left -320px bottom -45px !important;
+    background-size: 340px 444px !important;
+  }
   body.about-page .about-closing {
-    background-position: left -52px top, right -52px top !important;
-    background-size: 150px 375px, 150px 375px !important;
+    background-size: 100% 190px, auto !important;
   }
 }
