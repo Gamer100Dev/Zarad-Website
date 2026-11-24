@@ -361,6 +361,15 @@
     if (!form) return;
     renderCheckoutSummary();
 
+    const cardPanel = document.getElementById("card-details");
+    const paymentChoices = form.querySelectorAll('input[name="payment"]');
+    const syncCardPanel = () => {
+      const selected = form.querySelector('input[name="payment"]:checked');
+      if (cardPanel) cardPanel.hidden = !selected || selected.value !== "bank-card";
+    };
+    paymentChoices.forEach(choice => choice.addEventListener("change", syncCardPanel));
+    syncCardPanel();
+
     form.addEventListener("submit", event => {
       event.preventDefault();
       if (readCart().length === 0) {
@@ -369,8 +378,8 @@
       }
       if (!form.reportValidity()) return;
 
-      // This storefront has no live payment or order service. Keep the basket
-      // intact and move to a clearly labelled checkout-preview status page.
+      // Payment preview fields are never read, stored, or transmitted.
+      // Keep the basket intact and continue to the order-status page.
       const submitButton = form.querySelector('[type="submit"]');
       if (submitButton) submitButton.disabled = true;
       window.location.assign("/order-status.html");
