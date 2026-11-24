@@ -94,177 +94,6 @@
       .replace(/^-|-$/g, "");
   }
 
-  function addProduct(product, options = {}) {
-    if (!product || typeof product.name !== "string") return false;
-    const priceValue = options.price !== undefined ? Number(options.price) : Number(product.price_amount);
-    if (!Number.isFinite(priceValue) || priceValue < 0) return false;
-
-    const id = descriptor(product.name) + (options.variant ? "-" + descriptor(options.variant) : "");
-    const items = readCart();
-    const existing = items.find(item => item.id === id);
-    if (existing) {
-      existing.quantity = Math.min(99, existing.quantity + 1);
-    } else {
-      items.push({
-        id,
-        name: product.name,
-        name_en: product.name_en || product.name,
-        price: Math.round(priceValue * 100) / 100,
-        quantity: 1,
-        image: product.image || "",
-        category: product.category || ""
-      });
-    }
-    writeCart(items);
-    return true;
-  }
-
-  function updateQuantity(id, change) {
-    const items = readCart();
-    const item = items.find(entry => entry.id === id);
-    if (!item) return;
-    item.quantity = Math.max(0, Math.min(99, item.quantity + change));
-    writeCart(items.filter(entry => entry.quantity > 0));
-    renderCartPage();
-    renderCheckoutSummary();
-  }
-
-  function removeItem(id) {
-    writeCart(readCart().filter(item => item.id !== id));
-    renderCartPage();
-    renderCheckoutSummary();
-  }
-
-  function applyCoupon(code) {
-    const normalized = String(code || "").trim().toUpperCase();
-    if (!Object.prototype.hasOwnProperty.call(COUPONS, normalized)) {
-      return { ok: false, message: getLanguage() === "ro"
-        ? "Cod invalid. Încearcă ZARAD5, ZARAD10 sau ZARAD15."
-        : "Invalid code. Try ZARAD5, ZARAD10 or ZARAD15." };
-    }
-    if (readCart().length === 0) {
-      return { ok: false, message: getLanguage() === "ro"
-        ? "Adaugă produse în coș înainte de a aplica un cupon."
-        : "Add items to your cart before applying a coupon." };
-    }
-    writeJson(COUPON_KEY, normalized);
-    renderCartPage();
-    renderCheckoutSummary();
-    return { ok: true, message: getLanguage() === "ro"
-      ? "Cupon aplicat: " + normalized + " — reducere de " + COUPONS[normalized] + "%."
-      : "Coupon applied: " + normalized + " — " + COUPONS[normalized] + "% off." };
-  }
-
-  function clearCoupon() {
-    try { localStorage.removeItem(COUPON_KEY); } catch {}
-    renderCartPage();
-    renderCheckoutSummary();
-  }
-
-  function updateCartBadge() {
-    const count = totals().count;
-    document.querySelectorAll("[data-zarad-cart-count]").forEach(node => {
-      node.textContent = String(count);
-    });
-  }
-
-  function ensureCartLink() {
-    const right = document.querySelector(".zarad-right");
-    if (right && !right.querySelector(".zarad-cart-link")) {
-      const link = document.createElement("a");
-      link.className = "zarad-cart-link";
-      link.href = "/cart";
-      link.setAttribute("aria-label", getLanguage() === "ro" ? "Deschide coșul" : "Open shopping cart");
-      const label = document.createElement("span");
-      label.dataset.ro = "Coș";
-      label.dataset.en = "Cart";
-      label.textContent = getLanguage() === "ro" ? "Coș" : "Cart";
-      const count = document.createElement("span");
-      count.className = "zarad-cart-count";
-      count.dataset.zaradCartCount = "";
-      count.textContent = String(totals().count);
-      link.append(label, count);
-      right.prepend(link);
-    }
-
-    const footerDetails = document.querySelector(".footer-contact-details");
-    if (footerDetails && !footerDetails.querySelector('a[href="/terms"]')) {
-      const link = document.createElement("a");
-      link.href = "/terms";
-      link.dataset.ro = "Termeni și condiții";
-      link.dataset.en = "Terms & Conditions";
-      link.textContent = getLanguage() === "ro" ? "Termeni și condiții" : "Terms & Conditions";
-      footerDetails.appendChild(link);
-    }
-  }
-
-  function renderCartPage() {
-    const container = document.getElementById("cart_items");
-    if (!container) return;
-
-    const empty = document.getElementById("cart_empty");
-    const checkout = document.getElementById("cart_checkout_link");
-    const items = readCart();
-    const total = totals();
-    container.replaceChildren();
-
-    items.forEach(item => {
-      const row = document.createElement("article");
-      row.className = "shop-cart-item";
-
-      const details = document.createElement("div");
-      details.className = "shop-cart-item-details";
-      const title = document.createElement("h2");
-      title.textContent = getLanguage() === "en" ? item.name_en : item.name;
-      const price = document.createElement("p");
-      price.className = "shop-cart-item-price";
-      price.textContent = money(item.price) + (getLanguage() === "ro" ? " / buc." : " / item");
-      details.append(title, price);
-
-      const controls = document.createElement("div");
-      controls.className = "shop-quantity-controls";
-      const minus = document.createElement("button");
-      minus.type = "button";
-      minus.textContent = "−";
-      minus.setAttribute("aria-label", getLanguage() === "ro" ? "Scade cantitatea" : "Decrease quantity");
-      minus.addEventListener("click", () => updateQuantity(item.id, -1));
-      const quantity = document.createElement("span");
-      quantity.textContent = String(item.quantity);
-      quantity.setAttribute("aria-live", "polite");
-      const plus = document.createElement("button");
-      plus.type = "button";
-      plus.textContent = "+";
-      plus.setAttribute("aria-label", getLanguage() === "ro" ? "Crește cantitatea" : "Increase quantity");
-      plus.addEventListener("click", () => updateQuantity(item.id, 1));
-      const remove = document.createElement("button");
-      remove.type = "button";
-      remove.className = "shop-remove-item";
-      remove.textContent = getLanguage() === "ro" ? "Elimină" : "Remove";
-      remove.addEventListener("click", () => removeItem(item.id));
-      controls.append(minus, quantity, plus, remove);
-      row.append(details, controls);
-      container.appendChild(row);
-    });
-
-    if (empty) empty.hidden = items.length > 0;
-    if (checkout) checkout.hidden = items.length === 0;
-    const summary = document.getElementById("cart_summary");
-    if (summary) summary.hidden = items.length === 0;
-
-    setText("cart_subtotal", money(total.subtotal));
-    setText("cart_discount", "− " + money(total.discount));
-    setText("cart_total", money(total.total));
-
-    const coupon = getCoupon();
-    setText("cart_active_coupon", coupon
-      ? (getLanguage() === "ro" ? coupon + " · " + COUPONS[coupon] + "% reducere" : coupon + " · " + COUPONS[coupon] + "% off")
-      : (getLanguage() === "ro" ? "Niciun cupon aplicat" : "No coupon applied"));
-
-    const input = document.getElementById("coupon_code");
-    if (input && coupon) input.value = coupon;
-    updateCartBadge();
-  }
-
   function setText(id, value) {
     const element = document.getElementById(id);
     if (element) element.textContent = value;
@@ -297,8 +126,8 @@
       : (getLanguage() === "ro" ? "Fără cupon" : "No coupon"));
     const empty = document.getElementById("checkout_empty");
     if (empty) empty.hidden = items.length > 0;
-    const form = document.getElementById("checkout_form");
-    if (form && items.length === 0) form.hidden = true;
+    const area = document.getElementById("checkout_form_area");
+    if (area) area.hidden = items.length === 0;
   }
 
   function initCartPage() {
@@ -387,6 +216,14 @@
     renderCartPage();
     return true;
   }
+
+  const languageObserver = new MutationObserver(() => {
+    ensureCartLink();
+    updateCartBadge();
+    renderCartPage();
+    renderCheckoutSummary();
+  });
+  languageObserver.observe(document.documentElement, { attributes: true, attributeFilter: ["lang"] });
 
   ensureCartLink();
   updateCartBadge();
