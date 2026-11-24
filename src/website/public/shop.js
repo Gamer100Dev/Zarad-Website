@@ -134,6 +134,14 @@
     if (element) element.textContent = value;
   }
 
+  function playButtonFeedback(button, className, duration = 700) {
+    if (!button) return;
+    button.classList.remove(className);
+    void button.offsetWidth;
+    button.classList.add(className);
+    window.setTimeout(() => button.classList.remove(className), duration);
+  }
+
   function updateQuantity(id, delta) {
     const items = readCart();
     const item = items.find(entry => entry.id === id);
@@ -144,10 +152,53 @@
     renderCheckoutSummary();
   }
 
-  function removeItem(id) {
-    writeCart(readCart().filter(item => item.id !== id));
-    renderCartPage();
-    renderCheckoutSummary();
+  function removeItem(id, row, triggerButton) {
+    if (!row || row.classList.contains("is-removing")) return;
+    row.classList.add("is-removing");
+    if (triggerButton) {
+      triggerButton.disabled = true;
+      triggerButton.classList.add("is-removing");
+    }
+
+    window.setTimeout(() => {
+      const remaining = readCart().filter(item => item.id !== id);
+      if (!writeCart(remaining)) {
+        row.classList.remove("is-removing");
+        if (triggerButton) {
+          triggerButton.disabled = false;
+          triggerButton.classList.remove("is-removing");
+        }
+        return;
+      }
+      renderCartPage();
+      renderCheckoutSummary();
+    }, 280);
+  }
+
+  function clearBasket(button) {
+    const rows = Array.from(document.querySelectorAll("#cart_items .shop-cart-item"));
+    if (!rows.length || button.disabled) return;
+
+    button.disabled = true;
+    button.classList.add("is-clearing");
+    const lastDelay = Math.min(Math.max(rows.length - 1, 0), 5) * 38;
+    rows.forEach((row, index) => {
+      row.style.setProperty("--cart-removal-delay", (Math.min(index, 5) * 38) + "ms");
+      row.classList.add("is-removing");
+    });
+
+    window.setTimeout(() => {
+      button.disabled = false;
+      button.classList.remove("is-clearing");
+      if (!writeCart([])) {
+        rows.forEach(row => {
+          row.classList.remove("is-removing");
+          row.style.removeProperty("--cart-removal-delay");
+        });
+        return;
+      }
+      clearCoupon();
+    }, 280 + lastDelay);
   }
 
   function applyCoupon(input) {
@@ -269,9 +320,17 @@
       controls.className = "shop-quantity-controls";
       const minus = document.createElement("button");
       minus.type = "button";
+      minus.className = "shop-quantity-decrease";
       minus.textContent = "−";
       minus.setAttribute("aria-label", language() === "ro" ? "Scade cantitatea" : "Decrease quantity");
-      minus.addEventListener("click", () => updateQuantity(item.id, -1));
+      minus.addEventListener("click", () => {
+        if (item.quantity <= 1) {
+          removeItem(item.id, row, minus);
+          return;
+        }
+        playButtonFeedback(minus, "is-decreasing", 560);
+        updateQuantity(item.id, -1);
+      });
 
       const quantity = document.createElement("span");
       quantity.textContent = String(item.quantity);
@@ -279,15 +338,19 @@
 
       const plus = document.createElement("button");
       plus.type = "button";
+      plus.className = "shop-quantity-increase";
       plus.textContent = "+";
       plus.setAttribute("aria-label", language() === "ro" ? "Crește cantitatea" : "Increase quantity");
-      plus.addEventListener("click", () => updateQuantity(item.id, 1));
+      plus.addEventListener("click", () => {
+        playButtonFeedback(plus, "is-increasing", 560);
+        updateQuantity(item.id, 1);
+      });
 
       const remove = document.createElement("button");
       remove.type = "button";
       remove.className = "shop-remove-item";
       remove.textContent = language() === "ro" ? "Elimină" : "Remove";
-      remove.addEventListener("click", () => removeItem(item.id));
+      remove.addEventListener("click", () => removeItem(item.id, row, remove));
 
       controls.append(minus, quantity, plus, remove);
       row.append(image, details, controls);
@@ -362,6 +425,10 @@
         const input = document.getElementById("coupon_code");
         const result = applyCoupon(input ? input.value : "");
         const feedback = document.getElementById("coupon_feedback");
+        const applyButton = couponForm.querySelector('[type="submit"]');
+        if (applyButton) {
+          playButtonFeedback(applyButton, result.ok ? "is-applied" : "is-invalid", 760);
+        }
         if (feedback) {
           feedback.textContent = result.message;
           feedback.className = result.ok ? "shop-feedback is-success" : "shop-feedback is-error";
@@ -370,15 +437,14 @@
     }
 
     const clear = document.getElementById("coupon_clear");
-    if (clear) clear.addEventListener("click", clearCoupon);
+    if (clear) clear.addEventListener("click", () => {
+      playButtonFeedback(clear, "is-clearing-coupon", 680);
+      clearCoupon();
+    });
 
     const emptyButton = document.getElementById("cart_empty_button");
     if (emptyButton) {
-      emptyButton.addEventListener("click", () => {
-        writeCart([]);
-        clearCoupon();
-        renderCartPage();
-      });
+      emptyButton.addEventListener("click", () => clearBasket(emptyButton));
     }
   }
 
