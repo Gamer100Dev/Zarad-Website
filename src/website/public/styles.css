@@ -5882,3 +5882,110 @@ html[data-theme="dark"] body.about-page .about-photo-card figcaption {
     padding-inline: 21px !important;
   }
 }
+
+
+/* About royal-blue accent and navy editorial panel.
+   Remove the last turquoise shadows and use blue only as a deliberate accent. */
+body.about-page .about-intro {
+  background:
+    radial-gradient(ellipse at 82% 24%, rgba(42, 77, 130, .14), transparent 34%),
+    linear-gradient(112deg, #291713 0%, #3d1d1a 56%, #4b171d 100%) !important;
+}
+html[data-theme="dark"] body.about-page .about-intro {
+  background:
+    radial-gradient(ellipse at 82% 24%, rgba(55, 91, 148, .13), transparent 34%),
+    linear-gradient(112deg, #211719 0%, #321c1d 56%, #402027 100%) !important;
+}
+
+/* No turquoise drop-shadow, border or halo around the hero photograph. */
+body.about-page .about-intro .about-photo-card--hero .about-photo-frame {
+  background: #342724 !important;
+  border: 0 !important;
+  outline: 0 !important;
+  box-shadow: none !important;
+}
+
+/* A fine royal-blue note in the lantern details and section dividers only. */
+body.about-page .about-lantern .lantern-detail {
+  stroke: #8ea7cd !important;
+}
+body.about-page .about-flavours-card .about-flavours-rule,
+body.about-page .about-culture-section .about-culture-layout > .about-culture-note > h2::after {
+  background: linear-gradient(90deg, #c9963b 0 72%, #315887 72% 100%) !important;
+}
+
+/* A single navy text panel gives the middle section a clear blue accent,
+   while its gold trim and typography stay within the homepage visual system. */
+body.about-page .about-culture-section .about-culture-layout > .about-culture-note {
+  padding: clamp(30px, 3.6vw, 44px) !important;
+  border: 1px solid rgba(201, 150, 59, .82) !important;
+  outline: 0 !important;
+  background:
+    radial-gradient(ellipse at 88% 8%, rgba(110, 143, 190, .15), transparent 42%),
+    linear-gradient(145deg, #17345b 0%, #1d416f 58%, #18345a 100%) !important;
+  color: #fff6e9 !important;
+  box-shadow:
+    0 14px 32px rgba(21, 43, 73, .18),
+    inset 0 0 0 1px rgba(255, 246, 233, .08) !important;
+}
+body.about-page .about-culture-section .about-culture-layout > .about-culture-note::before {
+  display: block !important;
+  content: "" !important;
+  position: absolute !important;
+  z-index: 0 !important;
+  inset: 10px !important;
+  width: auto !important;
+  height: auto !important;
+  border: 1px solid rgba(237, 199, 131, .26) !important;
+  background: transparent !important;
+  box-shadow: none !important;
+  pointer-events: none;
+}
+body.about-page .about-culture-section .about-culture-layout > .about-culture-note::after {
+  display: none !important;
+  content: none !important;
+  background: none !important;
+}
+body.about-page .about-culture-section .about-culture-layout > .about-culture-note > .about-pairings-kicker,
+body.about-page .about-culture-section .about-culture-layout > .about-culture-note > h2,
+body.about-page .about-culture-section .about-culture-layout > .about-culture-note > .about-culture-text {
+  position: relative;
+  z-index: 1;
+}
+body.about-page .about-culture-section .about-culture-layout > .about-culture-note > .about-pairings-kicker {
+  color: #edc783 !important;
+}
+body.about-page .about-culture-section .about-culture-layout > .about-culture-note > h2 {
+  color: #fff6e9 !important;
+}
+body.about-page .about-culture-section .about-culture-layout > .about-culture-note > .about-culture-text {
+  color: rgba(255, 246, 233, .88) !important;
+}
+
+html[data-theme="dark"] body.about-page .about-culture-section .about-culture-layout > .about-culture-note {
+  border-color: rgba(214, 166, 83, .68) !important;
+  background:
+    radial-gradient(ellipse at 88% 8%, rgba(110, 143, 190, .12), transparent 42%),
+    linear-gradient(145deg, #132944 0%, #19365d 58%, #142b49 100%) !important;
+  box-shadow:
+    0 14px 32px rgba(0, 0, 0, .25),
+    inset 0 0 0 1px rgba(255, 246, 233, .07) !important;
+}
+html[data-theme="dark"] body.about-page .about-culture-section .about-culture-layout > .about-culture-note::before {
+  border-color: rgba(214, 166, 83, .25) !important;
+}
+html[data-theme="dark"] body.about-page .about-culture-section .about-culture-layout > .about-culture-note > h2 {
+  color: #fff6e9 !important;
+}
+html[data-theme="dark"] body.about-page .about-culture-section .about-culture-layout > .about-culture-note > .about-culture-text {
+  color: rgba(255, 246, 233, .84) !important;
+}
+
+@media (max-width: 680px) {
+  body.about-page .about-culture-section .about-culture-layout > .about-culture-note {
+    padding: 30px 26px !important;
+  }
+  body.about-page .about-culture-section .about-culture-layout > .about-culture-note::before {
+    inset: 9px !important;
+  }
+}
