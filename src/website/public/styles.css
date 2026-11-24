@@ -3309,3 +3309,48 @@ html[data-theme="dark"] body.about-page .about-flavours-copy h2 {
     border-width: 5px;
   }
 }
+
+
+/* About page: remove decorative accent strokes and keep photography clean. */
+body.about-page .about-intro::after,
+body.about-page .about-closing-rule {
+  display: none !important;
+}
+body.about-page .about-flavours-section {
+  border: 0 !important;
+  border-inline-start: 0 !important;
+}
+body.about-page .about-culture-section .about-culture-note {
+  border-inline-start: 9px solid transparent !important;
+}
+/* Photos should sit cleanly in the layout, without frames, corner marks or outlines. */
+body.about-page .about-photo-card,
+body.about-page .about-photo-card--hero,
+body.about-page .about-photo-card--wide,
+body.about-page .about-photo-card--portrait {
+  padding: 0 !important;
+  border: 0 !important;
+  outline: 0 !important;
+  background: transparent !important;
+  box-shadow: none !important;
+}
+body.about-page .about-photo-card::before,
+body.about-page .about-photo-card::after {
+  display: none !important;
+  content: none !important;
+}
+body.about-page .about-photo-frame {
+  padding: 0 !important;
+  border: 0 !important;
+  outline: 0 !important;
+  background: transparent !important;
+  box-shadow: none !important;
+}
+body.about-page .about-photo-frame img,
+body.about-page .about-photo-card img {
+  display: block;
+  border: 0 !important;
+  outline: 0 !important;
+  box-shadow: none !important;
+  border-radius: 0 !important;
+}
