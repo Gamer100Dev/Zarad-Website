@@ -6575,3 +6575,22 @@ body.about-page .about-flavours-card .about-photo-frame img {
 body.about-page .about-flavours-card .about-photo-card:hover .about-photo-frame img {
   transform: none !important;
 }
+
+/* Make the full ✧ MASCOTA FIRMEI ✧ caption in the flavours photo antique gold. */
+body.about-page .about-flavours-card .about-photo-card--flavours > figcaption {
+  display: flex !important;
+  align-items: center !important;
+  justify-content: flex-start !important;
+  gap: 9px !important;
+  color: #edc783 !important;
+  font-family: "DM Sans", sans-serif !important;
+  font-size: 12px !important;
+  font-weight: 800 !important;
+  letter-spacing: .14em !important;
+  line-height: 1.4 !important;
+  text-transform: uppercase !important;
+  text-shadow: 0 1px 8px rgba(30, 16, 14, .16) !important;
+}
+body.about-page .about-flavours-card .about-photo-card--flavours > figcaption > span {
+  color: #edc783 !important;
+}
