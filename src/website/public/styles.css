@@ -4461,3 +4461,168 @@ html[data-theme="dark"] body.about-page .about-intro {
     background-size: 28px 9px;
   }
 }
+
+
+/* Moroccan hanging lanterns and restrained zellige-inspired gold outlines. */
+body.about-page .about-intro {
+  padding-block-start: clamp(126px, 10.5vw, 150px) !important;
+  border: 0 !important;
+  overflow: hidden;
+}
+body.about-page .about-intro::before {
+  display: none !important;
+  content: none !important;
+}
+body.about-page .about-intro::after {
+  content: "" !important;
+  display: block !important;
+  position: absolute;
+  z-index: 1;
+  inset: 13px;
+  border: 1px solid rgba(231,197,143,.38);
+  border-radius: 2px;
+  pointer-events: none;
+  background-image:
+    url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Cpath d='M16 2 30 16 16 30 2 16Z' fill='none' stroke='%23e7c58f' stroke-width='1.2'/%3E%3Cpath d='M16 8 24 16 16 24 8 16Z' fill='none' stroke='%23e7c58f' stroke-opacity='.65'/%3E%3Ccircle cx='16' cy='16' r='2' fill='%23e7c58f' fill-opacity='.8'/%3E%3C/svg%3E"),
+    url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Cpath d='M16 2 30 16 16 30 2 16Z' fill='none' stroke='%23e7c58f' stroke-width='1.2'/%3E%3Cpath d='M16 8 24 16 16 24 8 16Z' fill='none' stroke='%23e7c58f' stroke-opacity='.65'/%3E%3Ccircle cx='16' cy='16' r='2' fill='%23e7c58f' fill-opacity='.8'/%3E%3C/svg%3E"),
+    url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Cpath d='M16 2 30 16 16 30 2 16Z' fill='none' stroke='%23e7c58f' stroke-width='1.2'/%3E%3Cpath d='M16 8 24 16 16 24 8 16Z' fill='none' stroke='%23e7c58f' stroke-opacity='.65'/%3E%3Ccircle cx='16' cy='16' r='2' fill='%23e7c58f' fill-opacity='.8'/%3E%3C/svg%3E"),
+    url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Cpath d='M16 2 30 16 16 30 2 16Z' fill='none' stroke='%23e7c58f' stroke-width='1.2'/%3E%3Cpath d='M16 8 24 16 16 24 8 16Z' fill='none' stroke='%23e7c58f' stroke-opacity='.65'/%3E%3Ccircle cx='16' cy='16' r='2' fill='%23e7c58f' fill-opacity='.8'/%3E%3C/svg%3E");
+  background-repeat: no-repeat;
+  background-size: 28px 28px;
+  background-position: 0 0, 100% 0, 0 100%, 100% 100%;
+}
+body.about-page .about-intro-inner {
+  position: relative;
+  z-index: 2;
+}
+body.about-page .about-lantern-garland {
+  position: absolute;
+  z-index: 3;
+  top: 0;
+  left: 0;
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  width: 100%;
+  height: 120px;
+  padding: 0 clamp(72px, 11vw, 160px);
+  box-sizing: border-box;
+  pointer-events: none;
+}
+body.about-page .about-lantern {
+  display: block;
+  width: 44px;
+  height: 108px;
+  overflow: visible;
+  filter: drop-shadow(0 3px 9px rgba(213,164,93,.18));
+  transform-origin: 50% 0;
+  animation: about-lantern-sway 7.5s ease-in-out infinite;
+}
+body.about-page .about-lantern--left {
+  width: 39px;
+  height: 96px;
+  animation-delay: -2s;
+}
+body.about-page .about-lantern--middle {
+  width: 49px;
+  height: 118px;
+  animation-delay: -4.5s;
+}
+body.about-page .about-lantern--right {
+  width: 41px;
+  height: 100px;
+  animation-delay: -1s;
+}
+body.about-page .about-lantern .lantern-metal {
+  fill: none;
+  stroke: #e7c58f;
+  stroke-width: 1.55;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+}
+body.about-page .about-lantern .lantern-glass {
+  fill: #d79d4c;
+  fill-opacity: .12;
+  stroke: #e7c58f;
+  stroke-width: 1.65;
+  stroke-linejoin: round;
+}
+body.about-page .about-lantern .lantern-detail {
+  fill: none;
+  stroke: #66c7c0;
+  stroke-width: 1.4;
+  stroke-linejoin: round;
+}
+body.about-page .about-lantern .lantern-detail-fill {
+  fill: #e7c58f;
+}
+@keyframes about-lantern-sway {
+  0%, 100% { transform: rotate(-1.8deg); }
+  50% { transform: rotate(1.8deg); }
+}
+body.about-page .about-culture-section .about-culture-layout > .about-culture-note {
+  border: 1px solid rgba(231,197,143,.7) !important;
+  border-image: none !important;
+  box-shadow:
+    0 12px 30px rgba(13,98,105,.16),
+    inset 0 0 0 1px rgba(231,197,143,.22) !important;
+  background-image:
+    url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 28 28'%3E%3Cpath d='M1 27V1h26M1 12 12 1m-11 8 8-8' fill='none' stroke='%23f3d59b' stroke-opacity='.85' stroke-width='1'/%3E%3C/svg%3E"),
+    url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 28 28'%3E%3Cpath d='M1 27V1h26M1 12 12 1m-11 8 8-8' fill='none' stroke='%23f3d59b' stroke-opacity='.85' stroke-width='1'/%3E%3C/svg%3E"),
+    url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 28 28'%3E%3Cpath d='M1 27V1h26M1 12 12 1m-11 8 8-8' fill='none' stroke='%23f3d59b' stroke-opacity='.85' stroke-width='1'/%3E%3C/svg%3E"),
+    url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 28 28'%3E%3Cpath d='M1 27V1h26M1 12 12 1m-11 8 8-8' fill='none' stroke='%23f3d59b' stroke-opacity='.85' stroke-width='1'/%3E%3C/svg%3E"),
+    linear-gradient(145deg, #188d8e 0%, #0d6269 100%) !important;
+  background-size: 26px 26px, 26px 26px, 26px 26px, 26px 26px, auto !important;
+  background-repeat: no-repeat !important;
+  background-position: top left, top right, bottom left, bottom right, center !important;
+}
+body.about-page .about-intro .about-gold-frieze {
+  height: 10px;
+  min-height: 10px;
+  opacity: .72;
+}
+html[data-theme="dark"] body.about-page .about-culture-section .about-culture-layout > .about-culture-note {
+  border-color: rgba(231,197,143,.62) !important;
+}
+@media (max-width: 800px) {
+  body.about-page .about-intro {
+    padding-block-start: 94px !important;
+  }
+  body.about-page .about-lantern-garland {
+    height: 82px;
+    padding: 0 13%;
+  }
+  body.about-page .about-lantern {
+    width: 34px;
+    height: 78px;
+  }
+  body.about-page .about-lantern--middle {
+    display: none;
+  }
+  body.about-page .about-intro::after {
+    inset: 9px;
+    background-size: 22px 22px;
+  }
+}
+@media (max-width: 480px) {
+  body.about-page .about-intro {
+    padding-block-start: 84px !important;
+  }
+  body.about-page .about-lantern-garland {
+    height: 72px;
+    padding: 0 14%;
+  }
+  body.about-page .about-lantern {
+    width: 30px;
+    height: 68px;
+  }
+  body.about-page .about-intro::after {
+    inset: 7px;
+    background-size: 18px 18px;
+  }
+}
+@media (prefers-reduced-motion: reduce) {
+  body.about-page .about-lantern {
+    animation: none !important;
+  }
+}
