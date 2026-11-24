@@ -3423,3 +3423,159 @@ body.about-page .about-flavours-copy h2 {
 html[data-theme="dark"] body.about-page .about-flavours-copy h2 {
   border-color: #6f9fc1 !important;
 }
+
+
+/* Zarad About page palette: parchment, wine and gold, with turquoise as a complementary accent. */
+body.about-page {
+  --about-paper: #f4ead9;
+  --about-paper-light: #fbf6ed;
+  --about-wine: #4b171d;
+  --about-wine-mid: #70272b;
+  --about-gold: #d19a4a;
+  --about-turquoise: #147f83;
+  --about-turquoise-deep: #0d6269;
+  background: var(--about-paper);
+  color: #351b19;
+}
+body.about-page .about-main {
+  background: var(--about-paper);
+}
+/* Intro: keep Zarad's signature maroon, replacing the cold blue trim with turquoise. */
+body.about-page .about-intro {
+  border: 0 !important;
+  border-bottom: 4px solid var(--about-turquoise) !important;
+  background-color: var(--about-wine) !important;
+  background-image:
+    linear-gradient(rgba(75, 23, 29, .88), rgba(75, 23, 29, .88)),
+    url("/assets/zarad-zellige-blue.svg") !important;
+  background-size: auto, 240px 240px !important;
+  color: #fff8ed;
+}
+body.about-page .about-intro h1,
+body.about-page .about-lead,
+body.about-page .about-lead-extra {
+  color: #fff8ed !important;
+}
+body.about-page .about-kicker,
+body.about-page .about-pairings-kicker {
+  color: #e7bd79 !important;
+}
+body.about-page .about-catalog-link {
+  border: 1px solid #39b8b5 !important;
+  background: rgba(20, 127, 131, .22) !important;
+  color: #fff8ed !important;
+}
+body.about-page .about-catalog-link:hover {
+  background: var(--about-turquoise) !important;
+  border-color: #65d0c9 !important;
+  color: #fff8ed !important;
+}
+/* Middle section: warm paper surfaces, wine typography and restrained turquoise details. */
+body.about-page .about-flavours-section {
+  border: 0 !important;
+  background: var(--about-paper-light) !important;
+  box-shadow: 0 12px 30px rgba(53, 27, 25, .06) !important;
+}
+body.about-page .about-flavours-copy h2 {
+  border: 3px solid #27a5a5 !important;
+  background: var(--about-wine-mid) !important;
+  color: #fff8ed !important;
+  box-shadow: none !important;
+}
+body.about-page .about-flavours-copy > p:last-child,
+body.about-page .about-flavours-extra {
+  color: #705b50 !important;
+}
+body.about-page .about-flavours-copy .about-kicker {
+  color: var(--about-turquoise-deep) !important;
+}
+/* Culture panel: turquoise is the feature colour, framed in Zarad maroon. */
+body.about-page .about-culture-section .about-culture-note {
+  border: 9px solid var(--about-wine-mid) !important;
+  border-image: none !important;
+  background: linear-gradient(145deg, #188d8e 0%, #0d6269 100%) !important;
+  color: #fff8ed !important;
+  box-shadow: 0 14px 32px rgba(13, 98, 105, .16) !important;
+}
+body.about-page .about-culture-section .about-culture-note .about-pairings-kicker {
+  color: #f3d59b !important;
+}
+body.about-page .about-culture-section .about-culture-note h2,
+body.about-page .about-culture-section .about-culture-note .about-culture-text {
+  color: #fff8ed !important;
+}
+/* The closing call-to-action returns to wine, with turquoise and gold used as accents. */
+body.about-page .about-closing {
+  border: 0 !important;
+  border-top: 4px solid var(--about-turquoise) !important;
+  border-bottom: 4px solid var(--about-gold) !important;
+  background:
+    linear-gradient(rgba(75, 23, 29, .94), rgba(75, 23, 29, .94)),
+    url("/assets/zarad-zellige-blue.svg") center / 180px 180px repeat !important;
+  color: #fff8ed !important;
+}
+body.about-page .about-closing-kicker {
+  color: #e7bd79 !important;
+}
+body.about-page .about-closing h2,
+body.about-page .about-closing-line {
+  color: #fff8ed !important;
+}
+body.about-page .about-closing-link {
+  border: 1px solid #48c1bd !important;
+  background: var(--about-turquoise) !important;
+  color: #fff8ed !important;
+}
+body.about-page .about-closing-link:hover {
+  border-color: #f0c77f !important;
+  background: var(--about-turquoise-deep) !important;
+  color: #fff8ed !important;
+}
+/* Dark mode keeps the same palette rather than introducing unrelated colours. */
+html[data-theme="dark"] body.about-page {
+  background: #211b1b;
+  color: #f4ead9;
+}
+html[data-theme="dark"] body.about-page .about-main {
+  background: #211b1b !important;
+}
+html[data-theme="dark"] body.about-page .about-intro {
+  background-color: #32171e !important;
+  background-image:
+    linear-gradient(rgba(50, 23, 30, .9), rgba(50, 23, 30, .9)),
+    url("/assets/zarad-zellige-blue.svg") !important;
+  border-bottom-color: #188d8e !important;
+}
+html[data-theme="dark"] body.about-page .about-flavours-section {
+  background: #302727 !important;
+  box-shadow: none !important;
+}
+html[data-theme="dark"] body.about-page .about-flavours-copy h2 {
+  background: #563039 !important;
+  border-color: #36aaa8 !important;
+  color: #fff8ed !important;
+}
+html[data-theme="dark"] body.about-page .about-flavours-copy > p:last-child,
+html[data-theme="dark"] body.about-page .about-flavours-extra {
+  color: #d2c1b5 !important;
+}
+html[data-theme="dark"] body.about-page .about-flavours-copy .about-kicker {
+  color: #67c7c1 !important;
+}
+html[data-theme="dark"] body.about-page .about-culture-section .about-culture-note {
+  border-color: #70272b !important;
+  background: linear-gradient(145deg, #147b80 0%, #0a555d 100%) !important;
+}
+html[data-theme="dark"] body.about-page .about-closing {
+  border-top-color: #188d8e !important;
+  border-bottom-color: #d19a4a !important;
+  background:
+    linear-gradient(rgba(50, 23, 30, .96), rgba(50, 23, 30, .96)),
+    url("/assets/zarad-zellige-blue.svg") center / 180px 180px repeat !important;
+}
+@media (max-width: 680px) {
+  body.about-page .about-intro,
+  html[data-theme="dark"] body.about-page .about-intro {
+    background-size: auto, 190px 190px !important;
+  }
+}
