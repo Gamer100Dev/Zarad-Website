@@ -20,8 +20,9 @@
     }
   </script>
   <link rel="preload" href="/assets/BaystarScriptMedium-PERSONAL_USE_ONLY.otf" as="font" type="font/otf" crossorigin>
-  <link rel="stylesheet" href="/styles.css?v=zarad-logo-black-white-revert-20261124">
+  <link rel="stylesheet" href="/styles.css?v=zarad-shop-cart-20261124">
   <script src="/theme.js?v=zarad-logo-frame-preload-20261119" defer></script>
+  <script src="/shop.js?v=zarad-shop-demo-20261124" defer></script>
 
   <style>
     .product-main {
@@ -357,6 +358,9 @@
           </div>
         </div>
 
+        <button class="shop-primary-button product-add-to-cart" id="add_to_cart" type="button" data-ro="Adaugă în coș" data-en="Add to basket">Adaugă în coș</button>
+        <p class="shop-smallprint product-demo-note" data-ro="Checkout-ul este demonstrativ. Nu se procesează plăți reale." data-en="Checkout is a demo. No real payments are processed.">Checkout-ul este demonstrativ. Nu se procesează plăți reale.</p>
+
         <a href="/catalog" class="product-back">
         <span aria-hidden="true">←</span>
         <span data-ro="Înapoi la catalog" data-en="Back to the shop">Înapoi la catalog</span>
@@ -411,6 +415,27 @@
     const productWeightSelector = document.getElementById("product_weight_selector");
     const productWeightOptions = document.getElementById("product_weight_options");
     const productPhoto = document.getElementById("product_photo");
+
+    const addToCartButton = document.getElementById("add_to_cart");
+    addToCartButton.addEventListener("click", () => {
+      if (!currentProduct || !window.ZaradShop) return;
+      let price = Number(currentProduct.price_amount);
+      let variant = "";
+      const options = Array.isArray(currentProduct.weight_options) ? currentProduct.weight_options : [];
+      if (options.length) {
+        const selected = options.find(option => Number(option.grams) === Number(selectedWeightGrams)) || options[0];
+        price = Number(selected.price);
+        variant = String(selected.grams) + "g";
+      }
+      if (!Number.isFinite(price)) return;
+      if (window.ZaradShop.addProduct(currentProduct, { price, variant })) {
+        addToCartButton.textContent = currentLanguage === "ro" ? "Adăugat în coș ✓" : "Added to basket ✓";
+        window.setTimeout(() => {
+          addToCartButton.textContent = currentLanguage === "ro" ? "Adaugă în coș" : "Add to basket";
+        }, 1400);
+      }
+    });
+
 
     const statusTitle = document.getElementById("product_status_title");
     const statusMessage = document.getElementById("product_status_message");
