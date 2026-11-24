@@ -4186,3 +4186,143 @@ html[data-theme="dark"] body.about-page .about-culture-section > .about-culture-
     font-size: clamp(1.8rem, 8vw, 2.25rem);
   }
 }
+
+
+/* Dedicated culture layout: one stable grid controls the third photo and its text panel. */
+body.about-page .about-culture-section {
+  display: block !important;
+  width: 100%;
+  box-sizing: border-box;
+  padding: clamp(44px, 5.5vw, 72px) 6vw !important;
+  overflow: hidden;
+}
+body.about-page .about-culture-section .about-culture-layout {
+  display: grid !important;
+  grid-template-columns: minmax(0, 440px) minmax(0, 500px);
+  align-items: center;
+  justify-content: center;
+  gap: clamp(28px, 4.5vw, 58px);
+  width: 100%;
+  max-width: 1040px;
+  margin: 0 auto;
+  box-sizing: border-box;
+}
+body.about-page .about-culture-section .about-culture-layout > .about-photo-card {
+  display: block;
+  position: relative;
+  width: 100% !important;
+  max-width: 440px !important;
+  min-width: 0;
+  margin: 0 !important;
+  padding: 0 !important;
+  justify-self: center;
+  box-sizing: border-box;
+}
+body.about-page .about-culture-section .about-culture-layout > .about-photo-card .about-photo-frame {
+  display: block;
+  width: 100%;
+  height: auto !important;
+  aspect-ratio: 4 / 3;
+  overflow: hidden;
+  margin: 0;
+  box-sizing: border-box;
+}
+body.about-page .about-culture-section .about-culture-layout > .about-photo-card .about-photo-frame img {
+  display: block;
+  width: 100% !important;
+  height: 100% !important;
+  max-width: none;
+  object-fit: cover;
+  object-position: center;
+}
+body.about-page .about-culture-section .about-culture-layout > .about-photo-card figcaption {
+  display: block;
+  position: static;
+  width: auto;
+  margin: 10px 0 0 !important;
+  padding: 0 !important;
+  line-height: 1.45;
+  font-size: .7rem;
+}
+body.about-page .about-culture-section .about-culture-layout > .about-culture-note {
+  display: block;
+  position: relative;
+  inset: auto;
+  width: 100% !important;
+  max-width: 500px !important;
+  min-width: 0;
+  min-height: 0 !important;
+  height: auto !important;
+  margin: 0 !important;
+  padding: clamp(26px, 3.2vw, 38px) !important;
+  box-sizing: border-box;
+  overflow: hidden;
+  justify-self: stretch;
+  align-self: center;
+}
+body.about-page .about-culture-section .about-culture-layout > .about-culture-note .about-pairings-kicker {
+  display: block;
+  max-width: 100%;
+  margin: 0 0 12px !important;
+  font-size: clamp(.62rem, .85vw, .72rem);
+  line-height: 1.55;
+  letter-spacing: .12em;
+  overflow-wrap: anywhere;
+}
+body.about-page .about-culture-section .about-culture-layout > .about-culture-note h2 {
+  display: block;
+  max-width: 100%;
+  margin: 0 0 14px !important;
+  font-size: clamp(2rem, 3.4vw, 3rem);
+  line-height: 1.08;
+  overflow-wrap: break-word;
+}
+body.about-page .about-culture-section .about-culture-layout > .about-culture-note .about-culture-text {
+  display: block;
+  max-width: 54ch;
+  margin: 0 !important;
+  font-size: clamp(.9rem, 1vw, .98rem);
+  line-height: 1.72;
+  overflow-wrap: break-word;
+}
+@media (max-width: 820px) {
+  body.about-page .about-culture-section {
+    padding: 44px 7vw !important;
+  }
+  body.about-page .about-culture-section .about-culture-layout {
+    grid-template-columns: minmax(0, 1fr);
+    justify-items: center;
+    gap: 24px;
+    max-width: 620px;
+  }
+  body.about-page .about-culture-section .about-culture-layout > .about-photo-card {
+    width: 100% !important;
+    max-width: 560px !important;
+  }
+  body.about-page .about-culture-section .about-culture-layout > .about-photo-card .about-photo-frame {
+    aspect-ratio: 5 / 4;
+  }
+  body.about-page .about-culture-section .about-culture-layout > .about-culture-note {
+    width: 100% !important;
+    max-width: 560px !important;
+    justify-self: center;
+    padding: clamp(24px, 5vw, 34px) !important;
+  }
+}
+@media (max-width: 480px) {
+  body.about-page .about-culture-section {
+    padding: 36px 6vw !important;
+  }
+  body.about-page .about-culture-section .about-culture-layout {
+    gap: 20px;
+  }
+  body.about-page .about-culture-section .about-culture-layout > .about-photo-card .about-photo-frame {
+    aspect-ratio: 4 / 3;
+  }
+  body.about-page .about-culture-section .about-culture-layout > .about-culture-note {
+    padding: 22px 20px !important;
+  }
+  body.about-page .about-culture-section .about-culture-layout > .about-culture-note h2 {
+    font-size: clamp(1.8rem, 8vw, 2.3rem);
+  }
+}
