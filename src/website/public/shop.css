@@ -743,17 +743,19 @@ html[data-theme="dark"] .shop-page .shop-secondary-link {
 
 /* Order-status controls: match the checkout action system and avoid browser-blue focus rings. */
 .order-status-page .order-status-actions {
-  align-items: stretch;
+  align-items: center;
+  justify-content: center;
   gap: 12px;
 }
 .order-status-page .order-status-actions .shop-primary-link,
 .order-status-page .order-status-actions .shop-secondary-link {
-  flex: 1 1 0;
-  width: 100%;
+  flex: 0 1 275px;
+  width: 275px;
+  max-width: calc(50% - 6px);
+  min-width: 0;
   height: 48px;
   min-height: 48px;
   max-height: 48px;
-  min-width: min(220px, 100%);
   box-sizing: border-box;
   padding: 0 20px;
   border: 1px solid #70272b;
@@ -806,7 +808,9 @@ html[data-theme="dark"] .order-status-page .order-status-actions .shop-secondary
   }
   .order-status-page .order-status-actions .shop-primary-link,
   .order-status-page .order-status-actions .shop-secondary-link {
+    flex: 0 0 auto;
     width: 100%;
+    max-width: none;
     min-width: 0;
   }
 }
