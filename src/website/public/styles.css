@@ -3354,3 +3354,48 @@ body.about-page .about-photo-card img {
   box-shadow: none !important;
   border-radius: 0 !important;
 }
+
+
+/* Final About page visual hierarchy: patterned frame only around the culture note. */
+body.about-page .about-culture-section .about-culture-note {
+  border: 9px solid transparent !important;
+  border-image: url("/assets/zarad-zellige-blue.svg") 24 round !important;
+  border-inline-start: 9px solid transparent !important;
+  background: linear-gradient(145deg, #164e70 0%, #123d5a 100%) !important;
+}
+html[data-theme="dark"] body.about-page .about-culture-section .about-culture-note {
+  background: linear-gradient(145deg, #123f5c 0%, #0e324a 100%) !important;
+}
+/* Mascot captions stay simple: no boxes or decorative outlines. */
+body.about-page .about-photo-card figcaption {
+  display: block;
+  width: auto;
+  max-width: 100%;
+  padding: .45rem 0 0 !important;
+  border: 0 !important;
+  background: transparent !important;
+  box-shadow: none !important;
+  color: inherit !important;
+  text-align: start;
+}
+/* The first introductory content panel uses Zarad's warm maroon/terracotta palette. */
+body.about-page .about-intro {
+  background-color: #4b171d;
+}
+body.about-page .about-flavours-copy h2 {
+  padding: .65rem 1rem;
+  border: 0 !important;
+  background: #7b3435 !important;
+  color: #fff8ed !important;
+  box-shadow: none !important;
+  text-align: start;
+}
+html[data-theme="dark"] body.about-page .about-flavours-copy h2 {
+  background: #563039 !important;
+  color: #fff8ed !important;
+}
+@media (max-width: 680px) {
+  body.about-page .about-flavours-copy h2 {
+    padding: .55rem .75rem;
+  }
+}
