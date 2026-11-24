@@ -6321,3 +6321,34 @@ html[data-theme="dark"] body.about-page .about-closing {
     background-size: 100% 190px, auto !important;
   }
 }
+
+/* About culture card: gold title, clean edge, persistent carpet frieze. */
+body.about-page .about-culture-section .about-culture-layout > .about-culture-note {
+  outline: none !important;
+  outline-offset: 0 !important;
+}
+body.about-page .about-culture-section .about-culture-layout > .about-culture-note::before {
+  display: none !important;
+  content: none !important;
+  border: 0 !important;
+  box-shadow: none !important;
+}
+body.about-page .about-culture-section .about-culture-layout > .about-culture-note > h2 {
+  color: #edc783 !important;
+}
+body.about-page .about-culture-section .about-photo-card--wide figcaption[data-ro="Mascota firmei"] {
+  color: #d6a653 !important;
+  font-weight: 750 !important;
+  text-shadow: 0 1px 8px rgba(30, 16, 14, .18);
+}
+html[data-theme="dark"] body.about-page .about-culture-section .about-culture-layout > .about-culture-note > h2 {
+  color: #e6c27d !important;
+}
+html[data-theme="dark"] body.about-page .about-culture-section .about-photo-card--wide figcaption[data-ro="Mascota firmei"] {
+  color: #e6c27d !important;
+}
+
+/* The four patterned frieze strips remain the card's decorative border. */
+body.about-page .about-culture-section .about-culture-layout > .about-culture-note > .about-culture-frieze {
+  display: block !important;
+}
