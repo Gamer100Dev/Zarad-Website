@@ -734,10 +734,6 @@ html[data-theme="dark"] .shop-page .shop-secondary-link {
   .shop-page .shop-coupon-row {
     grid-template-columns: minmax(0, 1fr) 96px;
   }
-  .shop-page .shop-secondary-button {
-    width: 96px;
-    min-width: 96px;
-  }
 }
 
 
