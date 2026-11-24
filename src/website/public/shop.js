@@ -194,7 +194,7 @@
       const link = document.createElement("a");
       link.className = "zarad-cart-link";
       link.href = "/cart";
-      link.setAttribute("aria-label", language() === "ro" ? "Deschide coșul" : "Open shopping cart");
+      link.setAttribute("aria-label", language() === "ro" ? "Deschide coșul" : "Open basket");
 
       const label = document.createElement("span");
       label.dataset.ro = "Coș";
