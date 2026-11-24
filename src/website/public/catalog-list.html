@@ -21,7 +21,7 @@
   </script>
   <link rel="preload" href="/assets/BaystarScriptMedium-PERSONAL_USE_ONLY.otf" as="font" type="font/otf" crossorigin>
   <link rel="stylesheet" href="/styles.css?v=zarad-shop-cart-20261124">
-  <link rel="stylesheet" href="/shop.css?v=zarad-product-actions-20261124-2">
+  <link rel="stylesheet" href="/shop.css?v=zarad-product-button-motion-20261124">
   <script src="/theme.js?v=zarad-logo-frame-preload-20261119" defer></script>
   <script src="/shop.js?v=zarad-shop-checkout-review-20261124" defer></script>
 
@@ -266,6 +266,70 @@
       }
     }
 
+    .product-add-to-cart {
+      position: relative;
+      overflow: hidden;
+      isolation: isolate;
+      transition: transform .22s ease, box-shadow .22s ease, background .22s ease, border-color .22s ease;
+    }
+
+    .product-add-to-cart::after {
+      content: "";
+      position: absolute;
+      top: -45%;
+      bottom: -45%;
+      left: -65%;
+      width: 42%;
+      pointer-events: none;
+      opacity: 0;
+      background: linear-gradient(105deg, transparent, rgba(255, 231, 175, .55), transparent);
+      transform: skewX(-22deg);
+    }
+
+    .product-add-to-cart:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 8px 18px rgba(75, 35, 29, .18);
+    }
+
+    .product-add-to-cart:active {
+      transform: translateY(0) scale(.98);
+    }
+
+    .product-add-to-cart.is-added {
+      border-color: #d6a653;
+      background: #8b3439;
+      box-shadow: 0 0 0 3px rgba(201, 150, 59, .18), 0 8px 20px rgba(75, 35, 29, .16);
+      animation: zarad-basket-pop .62s cubic-bezier(.2, .8, .25, 1);
+    }
+
+    .product-add-to-cart.is-added::after {
+      animation: zarad-basket-sheen .85s ease-out;
+    }
+
+    @keyframes zarad-basket-pop {
+      0% { transform: scale(1); }
+      38% { transform: scale(1.045) translateY(-2px); }
+      68% { transform: scale(.985); }
+      100% { transform: scale(1); }
+    }
+
+    @keyframes zarad-basket-sheen {
+      0% { left: -65%; opacity: 0; }
+      20% { opacity: 1; }
+      100% { left: 130%; opacity: 0; }
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      .product-add-to-cart,
+      .product-add-to-cart.is-added {
+        animation: none;
+        transition: none;
+      }
+      .product-add-to-cart.is-added::after {
+        animation: none;
+      }
+    }
+
     @media (prefers-reduced-motion: reduce) {
       .product-details {
         animation: none;
@@ -441,10 +505,14 @@
       }
       if (!Number.isFinite(price)) return;
       if (window.ZaradShop.addProduct(currentProduct, { price, variant })) {
-        addToCartButton.textContent = currentLanguage === "ro" ? "Adăugat în coș ✓" : "Added to basket ✓";
+        addToCartButton.classList.remove("is-added");
+        void addToCartButton.offsetWidth;
+        addToCartButton.textContent = currentLanguage === "ro" ? "✅ Adăugat în coș" : "✅ Added to basket";
+        addToCartButton.classList.add("is-added");
         window.setTimeout(() => {
           addToCartButton.textContent = currentLanguage === "ro" ? "Adaugă în coș" : "Add to basket";
-        }, 1400);
+          addToCartButton.classList.remove("is-added");
+        }, 1600);
       }
     });
 
