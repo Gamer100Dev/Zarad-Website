@@ -6535,3 +6535,24 @@ body.about-page .footer-contact-details a:focus-visible {
     transition: none !important;
   }
 }
+
+/* About hero mascot caption: antique-gold ornamental label. */
+body.about-page .about-intro .about-photo-card--hero > figcaption[data-ro="Mascota firmei"] {
+  display: flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  gap: 10px !important;
+  color: #edc783 !important;
+  font-weight: 800 !important;
+  letter-spacing: .16em !important;
+  text-transform: uppercase !important;
+  text-shadow: 0 1px 10px rgba(20, 10, 8, .42) !important;
+}
+body.about-page .about-intro .about-photo-card--hero > figcaption[data-ro="Mascota firmei"]::before,
+body.about-page .about-intro .about-photo-card--hero > figcaption[data-ro="Mascota firmei"]::after {
+  content: "✧" !important;
+  display: inline-block !important;
+  color: #edc783 !important;
+  font-size: 1.08em !important;
+  line-height: 1 !important;
+}
