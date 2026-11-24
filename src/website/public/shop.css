@@ -739,3 +739,69 @@ html[data-theme="dark"] .shop-page .shop-secondary-link {
     min-width: 96px;
   }
 }
+
+
+/* Order-status controls: match the checkout action system and avoid browser-blue focus rings. */
+.order-status-page .order-status-actions {
+  align-items: stretch;
+  gap: 12px;
+}
+.order-status-page .order-status-actions .shop-primary-link,
+.order-status-page .order-status-actions .shop-secondary-link {
+  min-width: min(220px, 100%);
+  min-height: 48px;
+  padding: 0 22px;
+  border: 1px solid #70272b;
+  border-radius: 3px;
+  background: #70272b;
+  color: #fff8ed;
+  font: inherit;
+  font-size: .82rem;
+  font-weight: 750;
+  line-height: 1.2;
+  text-decoration: none;
+  box-shadow: none;
+  transition: background .18s ease, border-color .18s ease, transform .18s ease;
+}
+.order-status-page .order-status-actions .shop-primary-link:hover,
+.order-status-page .order-status-actions .shop-secondary-link:hover {
+  border-color: #8b3439;
+  background: #8b3439;
+  color: #fff8ed;
+  transform: translateY(-1px);
+}
+.order-status-page :is(a, button, input, textarea):focus {
+  outline: none !important;
+  box-shadow: none;
+}
+.order-status-page :is(a, button):focus-visible {
+  outline: 2px solid #c9963b !important;
+  outline-offset: 3px !important;
+  box-shadow: none !important;
+}
+.order-status-page :is(input, textarea):focus-visible {
+  border-color: #b88945 !important;
+  outline: none !important;
+  box-shadow: 0 0 0 2px rgba(184, 137, 69, .18) !important;
+}
+html[data-theme="dark"] .order-status-page .order-status-actions .shop-primary-link,
+html[data-theme="dark"] .order-status-page .order-status-actions .shop-secondary-link {
+  border-color: #d6a653;
+  background: #603039;
+  color: #fff8ed;
+}
+html[data-theme="dark"] .order-status-page .order-status-actions .shop-primary-link:hover,
+html[data-theme="dark"] .order-status-page .order-status-actions .shop-secondary-link:hover {
+  border-color: #e0b86f;
+  background: #754047;
+}
+@media (max-width: 620px) {
+  .order-status-page .order-status-actions {
+    align-items: stretch;
+  }
+  .order-status-page .order-status-actions .shop-primary-link,
+  .order-status-page .order-status-actions .shop-secondary-link {
+    width: 100%;
+    min-width: 0;
+  }
+}
