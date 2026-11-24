@@ -6215,3 +6215,17 @@ html[data-theme="dark"] body.about-page .about-intro-copy > .about-catalog-link 
   background: linear-gradient(135deg, #e5c181 0%, #c7964e 100%) !important;
   color: #351b19 !important;
 }
+
+
+/* About page: remove decorative gradient divider strokes only. */
+body.about-page .about-flavours-rule,
+body.about-page .about-culture-section .about-culture-layout > .about-culture-note > h2::after,
+body.about-page .zarad-divider-line,
+body.about-page .about-closing .zarad-cta-ornament .line,
+body.about-page .zarad-cta-kicker::before,
+body.about-page .zarad-cta-kicker::after {
+  display: none !important;
+  content: none !important;
+  background: none !important;
+  background-image: none !important;
+}
