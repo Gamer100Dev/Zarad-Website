@@ -8,9 +8,9 @@
   <title>Finalizare comandă — Zarad</title>
   <link rel="icon" type="image/png" href="/assets/Zarad_logo_for_white.png?v=zarad-logo-light-synced-20261119">
   <link rel="stylesheet" href="/styles.css?v=zarad-checkout-review-20261124">
-  <link rel="stylesheet" href="/shop.css?v=zarad-cart-polish-20261124">
+  <link rel="stylesheet" href="/shop.css?v=zarad-payment-panel-20261124">
   <script src="/theme.js?v=zarad-shop-20261124" defer></script>
-  <script src="/shop.js?v=zarad-cart-polish-20261124" defer></script>
+  <script src="/shop.js?v=zarad-payment-panel-20261124" defer></script>
 </head>
 <body class="catalog-page shop-page">
   <header class="site-header zarad-header">
@@ -63,12 +63,21 @@
               <input type="radio" name="payment" value="bank-card">
               <span>
                 <strong data-ro="Card bancar" data-en="Bank card">Card bancar</strong>
-                <small data-ro="Opțiune ilustrativă. Nu introduce datele cardului." data-en="Illustrative option. Do not enter card details.">Opțiune ilustrativă. Nu introduce datele cardului.</small>
+                <small data-ro="Plată cu cardul" data-en="Card payment">Plată cu cardul</small>
               </span>
             </label>
           </div>
+          <div id="card-details" class="shop-card-details" hidden>
+            <p class="shop-card-caption" data-ro="Date card" data-en="Card details">Date card</p>
+            <label class="shop-card-number"><span data-ro="Număr card" data-en="Card number">Număr card</span><input name="card_number" type="text" inputmode="numeric" autocomplete="off" maxlength="23" placeholder="0000 0000 0000 0000"></label>
+            <div class="shop-card-grid">
+              <label><span data-ro="Data expirării" data-en="Expiry date">Data expirării</span><input name="card_expiry" type="text" inputmode="numeric" autocomplete="off" maxlength="5" placeholder="MM/YY"></label>
+              <label><span>CVV</span><input name="card_cvv" type="password" inputmode="numeric" autocomplete="off" maxlength="4" placeholder="•••"></label>
+            </div>
+            <p class="shop-card-test-note" data-ro="Folosește doar valori fictive pentru previzualizarea formularului. Datele cardului nu sunt verificate, salvate sau transmise." data-en="Use fictional values only to preview the form. Card details are not validated, stored or transmitted.">Folosește doar valori fictive pentru previzualizarea formularului. Datele cardului nu sunt verificate, salvate sau transmise.</p>
+          </div>
         </fieldset>
-        <label class="shop-terms-check"><input type="checkbox" name="terms" required><span><span data-ro="Am citit și accept " data-en="I have read and accept the ">Am citit și accept </span><a href="/terms"><span data-ro="Termenii și condițiile" data-en="Terms & Conditions">Termenii și condițiile</span></a><span data-ro=". Înțeleg că această comandă face parte dintr-o activitate educațională și nu implică o plată reală." data-en=". I understand this order is part of an educational exercise and does not involve a real payment.">. Înțeleg că această comandă face parte dintr-o activitate educațională și nu implică o plată reală.</span></span></label>
+        <label class="shop-terms-check"><input type="checkbox" name="terms" required><span><span data-ro="Am citit și accept " data-en="I have read and accept the ">Am citit și accept </span><a href="/terms"><span data-ro="Termenii și condițiile" data-en="Terms & Conditions">Termenii și condițiile</span></a><span data-ro=". Înțeleg că această comandă face parte dintr-o activitate educațională și nu implică o plată reală." data-en=". I understand that payment is not processed on this website.">. Înțeleg că această comandă face parte dintr-o activitate educațională și nu implică o plată reală.</span></span></label>
         <button class="shop-primary-button" type="submit" data-ro="Finalizează comanda" data-en="Complete order">Finalizează comanda</button>
         <p class="shop-smallprint" data-ro="Datele formularului rămân în sesiunea curentă a browserului și nu sunt stocate sau transmise către Zarad." data-en="Form details remain in the current browser session and are not stored or sent to Zarad.">Datele formularului rămân în sesiunea curentă a browserului și nu sunt stocate sau transmise către Zarad.</p>
       </form>
