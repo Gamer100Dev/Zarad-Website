@@ -3579,3 +3579,379 @@ html[data-theme="dark"] body.about-page .about-closing {
     background-size: auto, 190px 190px !important;
   }
 }
+
+
+/* About page redesign — Moroccan editorial layout, warm spice palette, and quieter geometry. */
+body.about-page {
+  --ab-ink: #321b19;
+  --ab-wine: #4b171d;
+  --ab-terracotta: #8a3e32;
+  --ab-paper: #f5ecdc;
+  --ab-cream: #fffaf1;
+  --ab-muted: #76665a;
+  --ab-gold: #d5a45d;
+  --ab-teal: #16878a;
+  --ab-teal-dark: #0e666b;
+  background: var(--ab-paper);
+  color: var(--ab-ink);
+  font-family: inherit;
+}
+body.about-page .about-main {
+  width: 100%;
+  max-width: none;
+  overflow: hidden;
+  background: var(--ab-paper);
+}
+body.about-page .about-intro {
+  position: relative;
+  display: grid;
+  align-items: center;
+  min-height: 570px;
+  padding: clamp(76px, 9vw, 132px) max(7vw, calc((100vw - 1220px) / 2));
+  border: 0 !important;
+  border-radius: 0;
+  background:
+    radial-gradient(ellipse at 82% 18%, rgba(213,164,93,.17), transparent 32%),
+    linear-gradient(120deg, rgba(75,23,29,.98), rgba(93,35,38,.96)) !important;
+  color: #fffaf1;
+}
+body.about-page .about-intro::before {
+  position: absolute;
+  inset: 0 0 0 auto;
+  width: min(43vw, 560px);
+  background: url("/assets/zarad-zellige-blue.svg") center / 190px 190px repeat;
+  opacity: .11;
+  content: "";
+  pointer-events: none;
+  mask-image: linear-gradient(90deg, transparent, #000 28%);
+}
+body.about-page .about-intro::after { display: none !important; }
+body.about-page .about-intro-inner {
+  position: relative;
+  z-index: 1;
+  display: grid;
+  grid-template-columns: minmax(0, 1.08fr) minmax(280px, .82fr);
+  align-items: center;
+  gap: clamp(42px, 7vw, 100px);
+  width: 100%;
+  max-width: 1220px;
+  margin: 0 auto;
+}
+body.about-page .about-intro-copy { max-width: 660px; }
+body.about-page .about-kicker,
+body.about-page .about-pairings-kicker {
+  margin-bottom: 18px;
+  color: #e7c58f !important;
+  font-size: .72rem;
+  font-weight: 750;
+  letter-spacing: .2em;
+  line-height: 1.6;
+}
+body.about-page .about-intro h1 {
+  max-width: 10ch;
+  margin: 0 0 24px;
+  color: #fffaf1 !important;
+  font-family: Georgia, "Times New Roman", serif;
+  font-size: clamp(3.4rem, 7vw, 6.5rem);
+  font-weight: 500;
+  letter-spacing: -.055em;
+  line-height: .98;
+}
+body.about-page .about-lead {
+  max-width: 62ch;
+  color: rgba(255,250,241,.91) !important;
+  font-size: clamp(1.05rem, 1.35vw, 1.2rem);
+  line-height: 1.85;
+}
+body.about-page .about-lead-extra {
+  max-width: 64ch;
+  margin-top: 16px;
+  color: rgba(255,250,241,.72) !important;
+  font-size: .94rem;
+  line-height: 1.8;
+}
+body.about-page .about-catalog-link {
+  display: inline-flex;
+  align-items: center;
+  gap: 12px;
+  margin-top: 28px;
+  padding: 14px 21px;
+  border: 1px solid rgba(231,197,143,.72) !important;
+  border-radius: 3px;
+  background: var(--ab-teal) !important;
+  color: #fffaf1 !important;
+  font-size: .9rem;
+  font-weight: 700;
+  letter-spacing: .025em;
+  text-decoration: none;
+  transition: background .2s ease, transform .2s ease;
+}
+body.about-page .about-catalog-link:hover {
+  transform: translateY(-2px);
+  background: var(--ab-teal-dark) !important;
+}
+body.about-page .about-photo-card,
+body.about-page .about-photo-card--hero,
+body.about-page .about-photo-card--portrait,
+body.about-page .about-photo-card--wide {
+  min-width: 0;
+  margin: 0;
+  padding: 0 !important;
+  border: 0 !important;
+  outline: 0 !important;
+  background: transparent !important;
+  box-shadow: none !important;
+}
+body.about-page .about-photo-frame {
+  overflow: hidden;
+  padding: 0 !important;
+  border: 0 !important;
+  border-radius: 2px;
+  background: transparent !important;
+  box-shadow: 18px 18px 0 rgba(20,135,138,.38);
+}
+body.about-page .about-photo-card--hero .about-photo-frame { aspect-ratio: 4 / 5; }
+body.about-page .about-photo-card--portrait .about-photo-frame { aspect-ratio: 4 / 5; }
+body.about-page .about-photo-card--wide .about-photo-frame { aspect-ratio: 5 / 4; }
+body.about-page .about-photo-frame img {
+  display: block;
+  width: 100%;
+  height: 100%;
+  min-height: 0;
+  object-fit: cover;
+  border: 0 !important;
+  border-radius: 2px;
+  box-shadow: none !important;
+  transition: transform .6s cubic-bezier(.2,.7,.2,1);
+}
+body.about-page .about-photo-card:hover .about-photo-frame img { transform: scale(1.035); }
+body.about-page .about-photo-card figcaption {
+  display: block;
+  width: auto;
+  margin-top: 15px;
+  padding: 0 !important;
+  border: 0 !important;
+  background: transparent !important;
+  box-shadow: none !important;
+  color: inherit !important;
+  font-size: .78rem;
+  letter-spacing: .08em;
+  text-transform: uppercase;
+}
+body.about-page .about-intro .about-photo-card figcaption { color: rgba(255,250,241,.7) !important; }
+
+body.about-page .about-flavours-section {
+  display: grid;
+  grid-template-columns: minmax(280px, .85fr) minmax(0, 1fr);
+  align-items: center;
+  gap: clamp(44px, 8vw, 116px);
+  width: min(1180px, calc(100% - 12vw));
+  margin: clamp(78px, 10vw, 142px) auto;
+  padding: 0;
+  border: 0 !important;
+  border-radius: 0;
+  background: transparent !important;
+  box-shadow: none !important;
+}
+body.about-page .about-flavours-section .about-photo-frame {
+  box-shadow: -18px 18px 0 rgba(213,164,93,.55);
+}
+body.about-page .about-flavours-copy { max-width: 610px; }
+body.about-page .about-flavours-copy .about-kicker { color: var(--ab-teal-dark) !important; }
+body.about-page .about-flavours-copy h2 {
+  max-width: 13ch;
+  margin: 0 0 24px;
+  padding: 0 !important;
+  border: 0 !important;
+  background: transparent !important;
+  box-shadow: none !important;
+  color: var(--ab-wine) !important;
+  font-family: Georgia, "Times New Roman", serif;
+  font-size: clamp(2.4rem, 4.5vw, 4.2rem);
+  font-weight: 500;
+  letter-spacing: -.045em;
+  line-height: 1.06;
+}
+body.about-page .about-flavours-copy > p:not(.about-kicker) {
+  color: var(--ab-muted) !important;
+  font-size: 1rem;
+  line-height: 1.9;
+}
+body.about-page .about-flavours-copy > p + p { margin-top: 16px; }
+
+body.about-page .about-culture-section {
+  display: grid;
+  grid-template-columns: minmax(0, .92fr) minmax(0, 1fr);
+  align-items: center;
+  gap: clamp(38px, 7vw, 92px);
+  padding: clamp(72px, 9vw, 118px) max(7vw, calc((100vw - 1180px) / 2));
+  background: #e9deca;
+}
+body.about-page .about-culture-section .about-photo-frame {
+  box-shadow: 18px 18px 0 rgba(75,23,29,.16);
+}
+body.about-page .about-culture-section .about-culture-note {
+  position: relative;
+  overflow: hidden;
+  padding: clamp(34px, 5vw, 64px) !important;
+  border: 0 !important;
+  border-radius: 2px;
+  background:
+    radial-gradient(circle at 100% 0%, rgba(255,255,255,.12), transparent 38%),
+    linear-gradient(145deg, #188f91, #0e666b) !important;
+  color: #fffaf1 !important;
+  box-shadow: 14px 14px 0 rgba(75,23,29,.12) !important;
+}
+body.about-page .about-culture-section .about-culture-note::before {
+  position: absolute;
+  right: -42px;
+  bottom: -62px;
+  width: 210px;
+  height: 210px;
+  border: 1px solid rgba(255,250,241,.18);
+  border-radius: 50%;
+  box-shadow: 0 0 0 18px rgba(255,250,241,.045), 0 0 0 38px rgba(255,250,241,.035);
+  content: "";
+  pointer-events: none;
+}
+body.about-page .about-culture-section .about-pairings-kicker {
+  position: relative;
+  color: #f3d69f !important;
+}
+body.about-page .about-culture-section .about-culture-note h2 {
+  position: relative;
+  margin: 0 0 18px;
+  color: #fffaf1 !important;
+  font-family: Georgia, "Times New Roman", serif;
+  font-size: clamp(2.25rem, 4vw, 3.8rem);
+  font-weight: 500;
+  letter-spacing: -.04em;
+  line-height: 1.06;
+}
+body.about-page .about-culture-section .about-culture-text {
+  position: relative;
+  max-width: 55ch;
+  color: rgba(255,250,241,.9) !important;
+  font-size: 1rem;
+  line-height: 1.9;
+}
+body.about-page .about-closing {
+  position: relative;
+  margin: 0 !important;
+  padding: clamp(78px, 10vw, 132px) 24px !important;
+  border: 0 !important;
+  border-radius: 0 !important;
+  background:
+    radial-gradient(ellipse at 50% 0%, rgba(213,164,93,.16), transparent 45%),
+    var(--ab-wine) !important;
+  color: #fffaf1 !important;
+  text-align: center;
+}
+body.about-page .about-closing-inner { max-width: 760px; margin: 0 auto; }
+body.about-page .about-closing-kicker {
+  margin-bottom: 18px;
+  color: #e7c58f !important;
+  font-size: .72rem;
+  font-weight: 750;
+  letter-spacing: .24em;
+}
+body.about-page .about-closing h2 {
+  margin: 0 auto 18px;
+  color: #fffaf1 !important;
+  font-family: Georgia, "Times New Roman", serif;
+  font-size: clamp(2.5rem, 5.5vw, 5rem);
+  font-weight: 500;
+  letter-spacing: -.05em;
+  line-height: 1.04;
+}
+body.about-page .about-closing-line {
+  color: rgba(255,250,241,.78) !important;
+  font-size: 1rem;
+  line-height: 1.8;
+}
+body.about-page .about-closing-link {
+  display: inline-flex;
+  align-items: center;
+  gap: 12px;
+  margin-top: 28px;
+  padding: 14px 22px;
+  border: 1px solid var(--ab-gold) !important;
+  border-radius: 3px;
+  background: var(--ab-teal) !important;
+  color: #fffaf1 !important;
+  box-shadow: none !important;
+  font-weight: 700;
+  text-decoration: none;
+  transition: transform .2s ease, background .2s ease;
+}
+body.about-page .about-closing-link:hover {
+  transform: translateY(-2px);
+  background: var(--ab-teal-dark) !important;
+}
+html[data-theme="dark"] body.about-page {
+  --ab-ink: #f5ecdc;
+  --ab-paper: #211b1b;
+  --ab-cream: #302727;
+  --ab-muted: #d0c0b2;
+  background: #211b1b;
+  color: #f5ecdc;
+}
+html[data-theme="dark"] body.about-page .about-main { background: #211b1b !important; }
+html[data-theme="dark"] body.about-page .about-intro {
+  background:
+    radial-gradient(ellipse at 82% 18%, rgba(213,164,93,.12), transparent 32%),
+    linear-gradient(120deg, #32171e, #402027) !important;
+}
+html[data-theme="dark"] body.about-page .about-flavours-copy h2 { color: #f0d9bf !important; }
+html[data-theme="dark"] body.about-page .about-flavours-copy .about-kicker { color: #70c9c5 !important; }
+html[data-theme="dark"] body.about-page .about-flavours-copy > p:not(.about-kicker) { color: #d0c0b2 !important; }
+html[data-theme="dark"] body.about-page .about-culture-section { background: #302727; }
+html[data-theme="dark"] body.about-page .about-culture-section .about-culture-note {
+  background: linear-gradient(145deg, #147b80, #0a555d) !important;
+}
+html[data-theme="dark"] body.about-page .about-closing {
+  background:
+    radial-gradient(ellipse at 50% 0%, rgba(213,164,93,.1), transparent 45%),
+    #32171e !important;
+}
+@media (max-width: 800px) {
+  body.about-page .about-intro { min-height: 0; padding: 72px 7vw 82px; }
+  body.about-page .about-intro-inner {
+    grid-template-columns: 1fr;
+    gap: 42px;
+  }
+  body.about-page .about-intro-copy { max-width: 720px; }
+  body.about-page .about-photo-card--hero { width: min(100%, 520px); }
+  body.about-page .about-photo-card--hero .about-photo-frame { aspect-ratio: 5 / 4; }
+  body.about-page .about-flavours-section {
+    grid-template-columns: 1fr;
+    width: min(680px, calc(100% - 14vw));
+    gap: 42px;
+    margin: 76px auto;
+  }
+  body.about-page .about-flavours-section .about-photo-card { width: min(100%, 480px); }
+  body.about-page .about-flavours-section .about-photo-frame { aspect-ratio: 5 / 4; }
+  body.about-page .about-culture-section {
+    grid-template-columns: 1fr;
+    padding: 72px 7vw;
+    gap: 42px;
+  }
+  body.about-page .about-culture-section .about-photo-card { width: min(100%, 560px); }
+  body.about-page .about-culture-section .about-photo-frame { aspect-ratio: 5 / 4; }
+}
+@media (max-width: 480px) {
+  body.about-page .about-intro { padding: 58px 6vw 66px; }
+  body.about-page .about-intro h1 { font-size: clamp(3rem, 15vw, 4.2rem); }
+  body.about-page .about-flavours-section { width: calc(100% - 12vw); margin: 62px auto; }
+  body.about-page .about-culture-section { padding: 60px 6vw; }
+  body.about-page .about-culture-section .about-culture-note { padding: 30px 25px !important; }
+  body.about-page .about-photo-frame { box-shadow: 10px 10px 0 rgba(20,135,138,.32); }
+}
+@media (prefers-reduced-motion: reduce) {
+  body.about-page .about-photo-frame img,
+  body.about-page .about-catalog-link,
+  body.about-page .about-closing-link { transition: none; }
+  body.about-page .about-photo-card:hover .about-photo-frame img,
+  body.about-page .about-catalog-link:hover,
+  body.about-page .about-closing-link:hover { transform: none; }
+}
