@@ -4326,3 +4326,79 @@ body.about-page .about-culture-section .about-culture-layout > .about-culture-no
     font-size: clamp(1.8rem, 8vw, 2.3rem);
   }
 }
+
+
+/* Homepage gold diamond frieze and CTA star ornaments, adapted to the About palette. */
+body.about-page .about-intro,
+body.about-page .about-culture-section,
+body.about-page .about-closing {
+  position: relative;
+}
+body.about-page .about-gold-frieze {
+  position: absolute;
+  z-index: 4;
+  left: 0;
+  width: 100%;
+  height: 14px;
+  min-height: 14px;
+  margin: 0;
+  padding: 0;
+  background-repeat: repeat-x;
+  background-position: center;
+  background-size: 28px 14px;
+  pointer-events: none;
+}
+body.about-page .about-gold-frieze--wine {
+  background-color: rgba(45, 15, 22, .86);
+  border-color: rgba(213, 164, 93, .72);
+}
+body.about-page .about-gold-frieze--sand {
+  background-color: #e9deca;
+  border-color: rgba(157, 105, 36, .48);
+}
+body.about-page .about-intro > .about-gold-frieze-top,
+body.about-page .about-culture-section > .about-gold-frieze-top,
+body.about-page .about-closing > .about-gold-frieze-top {
+  top: 0;
+}
+body.about-page .about-intro > .about-gold-frieze-bottom,
+body.about-page .about-culture-section > .about-gold-frieze-bottom,
+body.about-page .about-closing > .about-gold-frieze-bottom {
+  bottom: 0;
+}
+body.about-page .about-closing .about-closing-inner.zarad-cta-frame {
+  position: relative;
+  z-index: 1;
+  box-sizing: border-box;
+  width: min(900px, 100%);
+  max-width: 900px;
+  margin: 0 auto;
+  padding: clamp(30px, 4.5vw, 48px) clamp(24px, 5vw, 56px);
+  border: 1px solid rgba(213, 164, 93, .56);
+  box-shadow:
+    inset 0 0 0 5px rgba(75, 23, 29, .55),
+    inset 0 0 0 6px rgba(213, 164, 93, .22);
+}
+body.about-page .about-closing .zarad-cta-corner {
+  color: #e7c58f;
+  font-size: 15px;
+}
+body.about-page .about-closing .zarad-cta-ornament {
+  margin: 16px 0 2px;
+  color: #e7c58f;
+}
+body.about-page .about-closing .zarad-cta-ornament .line {
+  background: linear-gradient(to right, transparent, rgba(231,197,143,.85), transparent);
+}
+html[data-theme="dark"] body.about-page .about-gold-frieze--sand {
+  background-color: #302727;
+  border-color: rgba(213, 164, 93, .55);
+}
+@media (max-width: 680px) {
+  body.about-page .about-gold-frieze { height: 12px; min-height: 12px; }
+  body.about-page .about-closing .about-closing-inner.zarad-cta-frame {
+    width: 100%;
+    padding: 30px 22px;
+  }
+  body.about-page .about-closing .zarad-cta-corner { font-size: 13px; }
+}
