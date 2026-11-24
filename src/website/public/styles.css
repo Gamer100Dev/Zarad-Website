@@ -4862,3 +4862,143 @@ body.about-page .zarad-cta-btn:hover {
   body.about-page .zarad-story-frame { padding: 38px 20px; }
   body.about-page .zarad-story-heading { font-size: 34px; }
 }
+
+
+
+/* Final About layout correction: the flavours section now wraps one full-width card,
+   and both frieze modifier naming conventions are positioned explicitly. */
+body.about-page .about-flavours-section {
+  display: block !important;
+  grid-template-columns: none !important;
+  align-items: initial !important;
+  gap: 0 !important;
+  width: 100% !important;
+  max-width: none !important;
+  margin: clamp(42px, 5.5vw, 76px) 0 !important;
+  padding: 0 clamp(18px, 3vw, 32px) !important;
+  border: 0 !important;
+  background: transparent !important;
+  box-shadow: none !important;
+  box-sizing: border-box !important;
+}
+body.about-page .about-flavours-section > .about-flavours-card {
+  display: grid !important;
+  grid-template-columns: minmax(0, .9fr) minmax(0, 1.1fr) !important;
+  align-items: center !important;
+  gap: clamp(28px, 4.5vw, 58px) !important;
+  width: min(1120px, 100%) !important;
+  max-width: 1120px !important;
+  min-width: 0 !important;
+  min-height: 0 !important;
+  margin: 0 auto !important;
+  padding: clamp(30px, 4.5vw, 54px) !important;
+  box-sizing: border-box !important;
+}
+body.about-page .about-flavours-card .about-photo-card--flavours {
+  width: 100% !important;
+  max-width: 440px !important;
+  min-width: 0 !important;
+  margin: 0 auto !important;
+  box-sizing: border-box !important;
+}
+body.about-page .about-flavours-card .about-photo-frame {
+  display: block !important;
+  width: 100% !important;
+  height: auto !important;
+  aspect-ratio: 4 / 3 !important;
+  overflow: hidden !important;
+  box-sizing: border-box !important;
+}
+body.about-page .about-flavours-card .about-photo-frame img {
+  display: block !important;
+  width: 100% !important;
+  height: 100% !important;
+  object-fit: cover !important;
+  object-position: center !important;
+}
+body.about-page .about-flavours-card .about-flavours-copy {
+  width: 100% !important;
+  max-width: 560px !important;
+  min-width: 0 !important;
+  margin: 0 auto !important;
+  padding: 0 !important;
+  box-sizing: border-box !important;
+}
+body.about-page .about-flavours-card .about-flavours-copy h2 {
+  max-width: 16ch;
+  margin: 0 0 18px !important;
+  padding: 0 !important;
+  border: 0 !important;
+  background: transparent !important;
+  box-shadow: none !important;
+  font-size: clamp(2rem, 3.4vw, 3rem) !important;
+  line-height: 1.12 !important;
+  overflow-wrap: anywhere;
+}
+body.about-page .about-culture-section {
+  position: relative !important;
+}
+body.about-page .about-culture-section > .zarad-cta-frieze-top,
+body.about-page .about-culture-section > .about-gold-frieze-top {
+  position: absolute !important;
+  top: 0 !important;
+  right: 0 !important;
+  bottom: auto !important;
+  left: 0 !important;
+  display: block !important;
+  width: 100% !important;
+  height: 13px !important;
+  min-height: 13px !important;
+  margin: 0 !important;
+  padding: 0 !important;
+  transform: none !important;
+}
+body.about-page .about-culture-section > .zarad-cta-frieze-bottom,
+body.about-page .about-culture-section > .about-gold-frieze-bottom {
+  position: absolute !important;
+  top: auto !important;
+  right: 0 !important;
+  bottom: 0 !important;
+  left: 0 !important;
+  display: block !important;
+  width: 100% !important;
+  height: 13px !important;
+  min-height: 13px !important;
+  margin: 0 !important;
+  padding: 0 !important;
+  transform: none !important;
+}
+body.about-page .about-culture-section > .about-culture-layout {
+  position: relative;
+  z-index: 1;
+}
+@media (max-width: 760px) {
+  body.about-page .about-flavours-section {
+    margin: 38px 0 !important;
+    padding-inline: 18px !important;
+  }
+  body.about-page .about-flavours-section > .about-flavours-card {
+    grid-template-columns: minmax(0, 1fr) !important;
+    gap: 26px !important;
+    padding: 34px 24px !important;
+  }
+  body.about-page .about-flavours-card .about-photo-card--flavours {
+    width: min(100%, 520px) !important;
+    max-width: 520px !important;
+  }
+  body.about-page .about-flavours-card .about-flavours-copy {
+    max-width: 620px !important;
+  }
+}
+@media (max-width: 480px) {
+  body.about-page .about-flavours-section {
+    padding-inline: 14px !important;
+  }
+  body.about-page .about-flavours-section > .about-flavours-card {
+    gap: 22px !important;
+    padding: 30px 19px !important;
+  }
+  body.about-page .about-flavours-card .about-flavours-copy h2 {
+    font-size: clamp(1.85rem, 8vw, 2.25rem) !important;
+  }
+}
