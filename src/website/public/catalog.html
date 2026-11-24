@@ -23,7 +23,7 @@
   </script>
   <link rel="preload" href="/assets/BaystarScriptMedium-PERSONAL_USE_ONLY.otf" as="font" type="font/otf" crossorigin>
   <link rel="stylesheet" href="/styles.css?v=zarad-shop-cart-20261124">
-  <link rel="stylesheet" href="/shop.css?v=zarad-shop-style-20261124">
+  <link rel="stylesheet" href="/shop.css?v=zarad-catalog-browse-20261124-2">
   <script src="/theme.js?v=zarad-logo-frame-preload-20261119" defer></script>
   <script src="/shop.js?v=zarad-shop-checkout-review-20261124" defer></script>
 
@@ -249,33 +249,9 @@
         heading.textContent = getProductName(product);
         const description = document.createElement("p");
         description.textContent = getProductDescription(product);
-        const price = document.createElement("strong");
-        price.className = "catalog-card-price";
-        const amount = Number(product.price_amount);
-        price.textContent = Number.isFinite(amount)
-          ? (window.ZaradShop ? window.ZaradShop.formatMoney(amount) : String(product.price || ""))
-          : String(product.price || "");
-        details.append(category, heading, description, price);
+        details.append(category, heading, description);
         productLink.append(imageFrame, details);
-
-        const actions = document.createElement("div");
-        actions.className = "catalog-card-actions";
-        const addButton = document.createElement("button");
-        addButton.type = "button";
-        addButton.className = "catalog-add-button";
-        addButton.textContent = currentLanguage === "ro" ? "Adaugă în coș" : "Add to basket";
-        addButton.addEventListener("click", () => {
-          const added = window.ZaradShop && window.ZaradShop.addProduct(product);
-          if (!added) return;
-          addButton.textContent = currentLanguage === "ro" ? "Adăugat ✓" : "Added ✓";
-          addButton.classList.add("is-added");
-          window.setTimeout(() => {
-            addButton.textContent = currentLanguage === "ro" ? "Adaugă în coș" : "Add to basket";
-            addButton.classList.remove("is-added");
-          }, 1400);
-        });
-        actions.appendChild(addButton);
-        card.append(productLink, actions);
+        card.appendChild(productLink);
         catalogGrid.appendChild(card);
       });
 
