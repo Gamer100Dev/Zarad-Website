@@ -1,0 +1,107 @@
+<!doctype html>
+<html lang="ro">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#f4ead9">
+  <meta name="description" content="Coșul tău de cumpărături Zarad.">
+  <title>Coșul meu — Zarad</title>
+  <link rel="icon" type="image/png" href="/assets/Zarad_logo_for_white.png?v=zarad-logo-light-synced-20261119">
+  <link rel="stylesheet" href="/styles.css?v=zarad-shop-cart-20261124">
+  <script src="/theme.js?v=zarad-shop-20261124" defer></script>
+  <script src="/shop.js?v=zarad-shop-demo-20261124" defer></script>
+</head>
+<body class="catalog-page shop-page">
+  <header class="site-header zarad-header">
+    <div class="header-inner">
+      <a class="brand zarad-logo" href="/" aria-label="Zarad — One Spice Away"><img id="zarad_logo" src="/assets/Zarad_logo_for_white.png?v=zarad-logo-light-synced-20261119" alt="Zarad — One Spice Away"></a>
+      <nav class="main-nav zarad-nav" aria-label="Navigare principală">
+        <a class="nav-link" href="/" data-ro="Acasă" data-en="Home">Acasă</a>
+        <a class="nav-link" href="/catalog" data-ro="Catalog" data-en="Catalogue">Catalog</a>
+        <a class="nav-link" href="/contact" data-ro="Contact" data-en="Contact">Contact</a>
+        <a class="nav-link" href="/about" data-ro="Despre noi" data-en="About us">Despre noi</a>
+      </nav>
+      <div class="zarad-right">
+        <button class="language-toggle zarad-lang-pill is-ro" id="zarad_language" type="button" aria-label="Switch to English" title="English">
+          <span class="zarad-lang-slider" aria-hidden="true"></span><span class="zarad-lang-label label-ro" aria-hidden="true">RO</span><span class="zarad-lang-divider" aria-hidden="true"></span><span class="zarad-lang-label label-en" aria-hidden="true">EN</span>
+        </button>
+      </div>
+    </div>
+  </header>
+  <main class="shop-main">
+    <section class="shop-heading">
+      <p class="section-kicker" data-ro="COȘUL TĂU" data-en="YOUR BASKET">COȘUL TĂU</p>
+      <h1 data-ro="Coșul de cumpărături" data-en="Shopping basket">Coșul de cumpărături</h1>
+      <p data-ro="Verifică produsele și aplică un cod de reducere înainte de a continua." data-en="Review your items and apply a discount code before continuing.">Verifică produsele și aplică un cod de reducere înainte de a continua.</p>
+    </section>
+    <div class="shop-demo-notice" role="note">
+      <strong data-ro="Magazin demonstrativ" data-en="Demo storefront">Magazin demonstrativ</strong>
+      <span data-ro="Coșul și cupoanele funcționează în browser. Checkout-ul este doar o demonstrație: nu se încasează bani și nu se trimite o comandă." data-en="The basket and coupons work in your browser. Checkout is a demonstration only: no money is collected and no order is sent.">Coșul și cupoanele funcționează în browser. Checkout-ul este doar o demonstrație: nu se încasează bani și nu se trimite o comandă.</span>
+    </div>
+    <section class="shop-cart-layout" aria-label="Coșul de cumpărături">
+      <div class="shop-cart-list">
+        <div id="cart_items" class="shop-cart-items" aria-live="polite"></div>
+        <div id="cart_empty" class="shop-empty-state" hidden>
+          <h2 data-ro="Coșul tău este gol" data-en="Your basket is empty">Coșul tău este gol</h2>
+          <p data-ro="Descoperă condimentele Zarad și adaugă produsele preferate." data-en="Explore Zarad spices and add your favourites.">Descoperă condimentele Zarad și adaugă produsele preferate.</p>
+          <a class="shop-primary-link" href="/catalog" data-ro="Mergi la catalog" data-en="Browse the catalogue">Mergi la catalog</a>
+        </div>
+        <button class="shop-text-button" id="cart_empty_button" type="button" data-ro="Golește coșul" data-en="Clear basket">Golește coșul</button>
+      </div>
+      <aside class="shop-summary" id="cart_summary">
+        <h2 data-ro="Rezumat comandă" data-en="Order summary">Rezumat comandă</h2>
+        <form id="coupon_form" class="shop-coupon-form">
+          <label for="coupon_code" data-ro="Cod de reducere" data-en="Discount code">Cod de reducere</label>
+          <div class="shop-coupon-row">
+            <input id="coupon_code" name="coupon" type="text" autocomplete="off" placeholder="ZARAD10" maxlength="20">
+            <button type="submit" class="shop-secondary-button" data-ro="Aplică" data-en="Apply">Aplică</button>
+          </div>
+          <p id="coupon_feedback" class="shop-feedback" role="status"></p>
+          <p class="shop-coupon-hint" data-ro="Coduri demo: ZARAD5 (5%), ZARAD10 (10%), ZARAD15 (15%). Se poate folosi un singur cod." data-en="Demo codes: ZARAD5 (5%), ZARAD10 (10%), ZARAD15 (15%). Only one code can be used per basket.">Coduri demo: ZARAD5 (5%), ZARAD10 (10%), ZARAD15 (15%). Se poate folosi un singur cod.</p>
+          <p id="cart_active_coupon" class="shop-active-coupon">Niciun cupon aplicat</p>
+          <button id="coupon_clear" class="shop-text-button" type="button" data-ro="Elimină cuponul" data-en="Remove coupon">Elimină cuponul</button>
+        </form>
+        <div class="shop-total-line"><span data-ro="Subtotal produse" data-en="Products subtotal">Subtotal produse</span><strong id="cart_subtotal">0 lei</strong></div>
+        <div class="shop-total-line"><span data-ro="Reducere" data-en="Discount">Reducere</span><strong id="cart_discount">− 0 lei</strong></div>
+        <div class="shop-total-line shop-total-final"><span data-ro="Total produse" data-en="Products total">Total produse</span><strong id="cart_total">0 lei</strong></div>
+        <p class="shop-shipping-note" data-ro="Costul livrării nu este inclus și nu este calculat în această versiune demonstrativă." data-en="Delivery is not included and is not calculated in this demo version.">Costul livrării nu este inclus și nu este calculat în această versiune demonstrativă.</p>
+        <a class="shop-primary-link shop-checkout-link" href="/checkout" id="cart_checkout_link" hidden data-ro="Continuă la checkout (demo)" data-en="Continue to demo checkout">Continuă la checkout (demo)</a>
+      </aside>
+    </section>
+  </main>
+  <footer class="site-footer">
+    <a class="footer-brand" href="/" aria-label="Zarad — One Spice Away"><img src="/assets/Zarad_logo_for_white.png?v=zarad-logo-light-synced-20261119" alt="Zarad"></a>
+    <div class="footer-contact-details">
+      <a href="tel:+40757109006">Telefon: 0757.109.006</a>
+      <a href="mailto:zarad.spiceshop@gmail.com">zarad.spiceshop@gmail.com</a>
+      <span>București, România</span>
+      <a href="/terms">Termeni și condiții</a>
+    </div>
+    <span class="footer-copy">© <span id="current-year"></span> Zarad</span>
+  </footer>
+  <script>
+    const languageButton = document.getElementById("zarad_language");
+    let currentLanguage = "ro";
+    function setLanguage(language) {
+      currentLanguage = language;
+      document.documentElement.lang = language;
+      document.querySelectorAll("[data-ro][data-en]").forEach(el => { el.textContent = el.dataset[language]; });
+      const english = language === "en";
+      languageButton.classList.toggle("is-en", english);
+      languageButton.classList.toggle("is-ro", !english);
+      languageButton.setAttribute("aria-label", english ? "Schimbă limba în română" : "Switch to English");
+      languageButton.title = english ? "Română" : "English";
+      try { localStorage.setItem("zarad-language", language); } catch {}
+      if (window.ZaradShop) {
+        window.ZaradShop.getTotals();
+        document.dispatchEvent(new Event("zarad-language-change"));
+      }
+    }
+    let savedLanguage = "ro";
+    try { savedLanguage = localStorage.getItem("zarad-language") === "en" ? "en" : "ro"; } catch {}
+    setLanguage(savedLanguage);
+    languageButton.addEventListener("click", () => setLanguage(currentLanguage === "ro" ? "en" : "ro"));
+    document.getElementById("current-year").textContent = new Date().getFullYear();
+  </script>
+</body>
+</html>
