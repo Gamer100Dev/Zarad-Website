@@ -22,18 +22,18 @@
     }
   </script>
   <link rel="preload" href="/assets/BaystarScriptMedium-PERSONAL_USE_ONLY.otf" as="font" type="font/otf" crossorigin>
-  <link rel="stylesheet" href="/styles.css?v=zarad-logo-black-white-revert-20261124">
+  <link rel="stylesheet" href="/styles.css?v=zarad-shop-cart-20261124">
   <script src="/theme.js?v=zarad-logo-frame-preload-20261119" defer></script>
 
   <style>
-    .catalog-grid > a.catalog-card {
+    .catalog-grid .catalog-card-link {
       display: block;
       color: inherit;
       text-decoration: none;
       cursor: pointer;
     }
 
-    .catalog-grid > a.catalog-card:focus-visible {
+    .catalog-grid .catalog-card-link:focus-visible {
       outline: 2px solid #98734c;
       outline-offset: 5px;
       border-radius: 4px;
@@ -93,6 +93,7 @@
     </section>
 
     <section class="catalog-content" aria-label="Produse Zarad">
+      <nav class="catalog-categories" id="catalog_categories" aria-label="Categorii de condimente"></nav>
       <div class="catalog-grid" id="zarad_catalog" aria-live="polite"></div>
 
       <p
@@ -173,81 +174,115 @@
       window.location.assign(productUrl.toString());
     }
 
+    const categoryBar = document.getElementById("catalog_categories");
+    let activeCategory = "all";
+    const categoryOptions = [
+      { id: "all", ro: "Toate condimentele", en: "All spices" },
+      { id: "spicy", ro: "Iuți și intense", en: "Hot and intense" },
+      { id: "blends", ro: "Amestecuri marocane", en: "Moroccan blends" },
+      { id: "warm", ro: "Calde și aromate", en: "Warm and aromatic" },
+      { id: "everyday", ro: "Condimente de bază", en: "Everyday essentials" },
+      { id: "herbs", ro: "Ierburi", en: "Herbs" },
+      { id: "specialty", ro: "Condimente speciale", en: "Speciality spices" }
+    ];
+
+    function getCategoryLabel(product) {
+      const option = categoryOptions.find(item => item.id === product.category);
+      return option ? option[currentLanguage] : (currentLanguage === "ro" ? "Condiment" : "Spice");
+    }
+
+    function renderCategoryFilters() {
+      categoryBar.replaceChildren();
+      categoryOptions.forEach(option => {
+        const button = document.createElement("button");
+        button.type = "button";
+        button.className = "catalog-category-chip" + (activeCategory === option.id ? " is-active" : "");
+        button.textContent = option[currentLanguage];
+        button.setAttribute("aria-pressed", String(activeCategory === option.id));
+        button.addEventListener("click", () => {
+          activeCategory = option.id;
+          renderCategoryFilters();
+          renderCatalog();
+        });
+        categoryBar.appendChild(button);
+      });
+    }
+
     function renderCatalog() {
       catalogGrid.replaceChildren();
+      const visibleProducts = activeCategory === "all"
+        ? catalogProducts
+        : catalogProducts.filter(product => product.category === activeCategory);
 
-      catalogProducts.forEach(product => {
+      visibleProducts.forEach(product => {
         const descriptor = getProductDescriptor(product.name);
-
-        const card = document.createElement("a");
+        const card = document.createElement("article");
         card.className = "catalog-card";
-        card.dataset.descriptor = descriptor;
 
-        const productUrl = new URL(
-          "/catalog-list.html",
-          window.location.origin
-        );
-
+        const productLink = document.createElement("a");
+        productLink.className = "catalog-card-link";
+        productLink.dataset.descriptor = descriptor;
+        const productUrl = new URL("/catalog-list.html", window.location.origin);
         productUrl.searchParams.set("descriptor", descriptor);
-
-        card.href = productUrl.pathname + productUrl.search;
-        card.setAttribute("aria-label", getProductName(product));
-
-        card.addEventListener("click", event => {
-          if (
-            event.button !== 0 ||
-            event.ctrlKey ||
-            event.metaKey ||
-            event.shiftKey ||
-            event.altKey
-          ) {
-            return;
-          }
-
-          event.preventDefault();
-          openProduct(card.dataset.descriptor);
-        });
+        productLink.href = productUrl.pathname + productUrl.search;
+        productLink.setAttribute("aria-label", getProductName(product));
 
         const imageFrame = document.createElement("div");
         imageFrame.className = "catalog-card-image";
-
         const image = document.createElement("img");
-
-        const folder = product.folder
-          .split("/")
-          .map(encodeURIComponent)
-          .join("/");
-
-        const imageFile = product.image
-          .split("/")
-          .map(encodeURIComponent)
-          .join("/");
-
+        const folder = product.folder.split("/").map(encodeURIComponent).join("/");
+        const imageFile = product.image.split("/").map(encodeURIComponent).join("/");
         image.src = `/assets/${folder}/${imageFile}`;
         image.alt = getProductName(product);
         image.loading = catalogGrid.children.length < 3 ? "eager" : "lazy";
         image.decoding = "async";
-        if (catalogGrid.children.length < 3) {
-          image.fetchPriority = "high";
-        }
-
         imageFrame.appendChild(image);
 
         const details = document.createElement("div");
         details.className = "catalog-card-details";
-
+        const category = document.createElement("span");
+        category.className = "catalog-card-category";
+        category.textContent = getCategoryLabel(product);
         const heading = document.createElement("h2");
         heading.textContent = getProductName(product);
-
         const description = document.createElement("p");
         description.textContent = getProductDescription(product);
+        const price = document.createElement("strong");
+        price.className = "catalog-card-price";
+        const amount = Number(product.price_amount);
+        price.textContent = Number.isFinite(amount)
+          ? (window.ZaradShop ? window.ZaradShop.formatMoney(amount) : String(product.price || ""))
+          : String(product.price || "");
+        details.append(category, heading, description, price);
+        productLink.append(imageFrame, details);
 
-        details.append(heading, description);
-
-        card.append(imageFrame, details);
-
+        const actions = document.createElement("div");
+        actions.className = "catalog-card-actions";
+        const addButton = document.createElement("button");
+        addButton.type = "button";
+        addButton.className = "catalog-add-button";
+        addButton.textContent = currentLanguage === "ro" ? "Adaugă în coș" : "Add to basket";
+        addButton.addEventListener("click", () => {
+          const added = window.ZaradShop && window.ZaradShop.addProduct(product);
+          if (!added) return;
+          addButton.textContent = currentLanguage === "ro" ? "Adăugat ✓" : "Added ✓";
+          addButton.classList.add("is-added");
+          window.setTimeout(() => {
+            addButton.textContent = currentLanguage === "ro" ? "Adaugă în coș" : "Add to basket";
+            addButton.classList.remove("is-added");
+          }, 1400);
+        });
+        actions.appendChild(addButton);
+        card.append(productLink, actions);
         catalogGrid.appendChild(card);
       });
+
+      if (visibleProducts.length === 0) {
+        const empty = document.createElement("p");
+        empty.className = "catalog-category-empty";
+        empty.textContent = currentLanguage === "ro" ? "Nu există produse în această categorie." : "There are no products in this category.";
+        catalogGrid.appendChild(empty);
+      }
     }
 
     function setLanguage(language) {
@@ -275,6 +310,7 @@
       } catch {
       }
 
+      renderCategoryFilters();
       renderCatalog();
     }
 
