@@ -3955,3 +3955,123 @@ html[data-theme="dark"] body.about-page .about-closing {
   body.about-page .about-catalog-link:hover,
   body.about-page .about-closing-link:hover { transform: none; }
 }
+
+
+/* About page fit pass — bring colour panels, copy, and photography into proportion. */
+body.about-page .about-intro {
+  min-height: 0;
+  padding: clamp(48px, 6vw, 82px) max(6vw, calc((100vw - 1160px) / 2));
+}
+body.about-page .about-intro-inner {
+  grid-template-columns: minmax(0, 1.12fr) minmax(260px, .88fr);
+  gap: clamp(28px, 4.5vw, 64px);
+  max-width: 1160px;
+}
+body.about-page .about-intro-copy { max-width: 620px; }
+body.about-page .about-intro h1 {
+  margin-bottom: 18px;
+  font-size: clamp(3rem, 5.5vw, 5.2rem);
+}
+body.about-page .about-kicker,
+body.about-page .about-pairings-kicker { margin-bottom: 12px; }
+body.about-page .about-lead {
+  font-size: clamp(.96rem, 1.1vw, 1.08rem);
+  line-height: 1.72;
+}
+body.about-page .about-lead-extra {
+  margin-top: 12px;
+  font-size: .88rem;
+  line-height: 1.68;
+}
+body.about-page .about-catalog-link {
+  margin-top: 20px;
+  padding: 11px 17px;
+}
+body.about-page .about-photo-card--hero { width: 100%; max-width: 430px; justify-self: end; }
+body.about-page .about-photo-card--hero .about-photo-frame { aspect-ratio: 5 / 4; }
+body.about-page .about-photo-frame { box-shadow: 12px 12px 0 rgba(20,135,138,.3); }
+body.about-page .about-photo-card figcaption { margin-top: 10px; font-size: .7rem; }
+body.about-page .about-flavours-section {
+  width: min(1080px, calc(100% - 12vw));
+  grid-template-columns: minmax(260px, .9fr) minmax(0, 1fr);
+  gap: clamp(32px, 5vw, 68px);
+  margin: clamp(58px, 7vw, 88px) auto;
+}
+body.about-page .about-flavours-section .about-photo-card { width: 100%; max-width: 420px; }
+body.about-page .about-flavours-section .about-photo-frame { aspect-ratio: 5 / 4; }
+body.about-page .about-flavours-copy h2 {
+  margin-bottom: 16px;
+  font-size: clamp(2.1rem, 3.5vw, 3.35rem);
+}
+body.about-page .about-flavours-copy > p:not(.about-kicker) {
+  font-size: .96rem;
+  line-height: 1.72;
+}
+body.about-page .about-flavours-copy > p + p { margin-top: 12px; }
+body.about-page .about-culture-section {
+  grid-template-columns: minmax(0, .95fr) minmax(0, 1.05fr);
+  gap: clamp(30px, 5vw, 68px);
+  align-items: center;
+  padding: clamp(54px, 6.5vw, 82px) max(6vw, calc((100vw - 1080px) / 2));
+}
+body.about-page .about-culture-section .about-photo-card { width: 100%; max-width: 440px; }
+body.about-page .about-culture-section .about-photo-frame { aspect-ratio: 5 / 4; }
+body.about-page .about-culture-section .about-culture-note {
+  width: 100%;
+  max-width: 520px;
+  justify-self: start;
+  padding: clamp(26px, 3.2vw, 42px) !important;
+  box-shadow: 9px 9px 0 rgba(75,23,29,.12) !important;
+}
+body.about-page .about-culture-section .about-culture-note h2 {
+  margin-bottom: 12px;
+  font-size: clamp(2rem, 3.2vw, 3rem);
+}
+body.about-page .about-culture-section .about-culture-text {
+  font-size: .96rem;
+  line-height: 1.72;
+}
+body.about-page .about-culture-section .about-culture-note::before {
+  width: 150px;
+  height: 150px;
+  right: -38px;
+  bottom: -50px;
+}
+body.about-page .about-closing { padding: clamp(54px, 6.5vw, 82px) 22px !important; }
+body.about-page .about-closing h2 { font-size: clamp(2.2rem, 4.5vw, 4rem); }
+body.about-page .about-closing-kicker { margin-bottom: 12px; }
+body.about-page .about-closing-link { margin-top: 20px; }
+
+@media (max-width: 800px) {
+  body.about-page .about-intro { padding: 54px 7vw 60px; }
+  body.about-page .about-intro-inner { grid-template-columns: 1fr; gap: 28px; }
+  body.about-page .about-intro-copy { max-width: 720px; }
+  body.about-page .about-photo-card--hero { width: min(100%, 520px); justify-self: start; }
+  body.about-page .about-flavours-section {
+    grid-template-columns: 1fr;
+    width: min(680px, calc(100% - 14vw));
+    gap: 28px;
+    margin: 58px auto;
+  }
+  body.about-page .about-flavours-section .about-photo-card { max-width: 520px; }
+  body.about-page .about-flavours-section .about-photo-frame { aspect-ratio: 5 / 4; }
+  body.about-page .about-culture-section {
+    grid-template-columns: 1fr;
+    gap: 28px;
+    padding: 56px 7vw;
+  }
+  body.about-page .about-culture-section .about-photo-card { max-width: 520px; }
+  body.about-page .about-culture-section .about-culture-note { max-width: 560px; }
+}
+@media (max-width: 480px) {
+  body.about-page .about-intro { padding: 42px 6vw 48px; }
+  body.about-page .about-intro h1 { font-size: clamp(2.7rem, 13vw, 3.6rem); }
+  body.about-page .about-lead { font-size: .94rem; }
+  body.about-page .about-lead-extra { font-size: .84rem; }
+  body.about-page .about-flavours-section { width: calc(100% - 12vw); margin: 46px auto; }
+  body.about-page .about-flavours-copy h2 { font-size: clamp(2rem, 9vw, 2.7rem); }
+  body.about-page .about-culture-section { padding: 44px 6vw; }
+  body.about-page .about-culture-section .about-culture-note { padding: 25px 22px !important; }
+  body.about-page .about-photo-frame { box-shadow: 8px 8px 0 rgba(20,135,138,.28); }
+  body.about-page .about-closing { padding: 48px 20px !important; }
+}
