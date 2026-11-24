@@ -1,0 +1,108 @@
+<!doctype html>
+<html lang="ro">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#f4ead9">
+  <meta name="description" content="Checkout demonstrativ Zarad — fără procesare de plăți.">
+  <title>Checkout — Zarad</title>
+  <link rel="icon" type="image/png" href="/assets/Zarad_logo_for_white.png?v=zarad-logo-light-synced-20261119">
+  <link rel="stylesheet" href="/styles.css?v=zarad-shop-cart-20261124">
+  <script src="/theme.js?v=zarad-shop-20261124" defer></script>
+  <script src="/shop.js?v=zarad-shop-demo-20261124" defer></script>
+</head>
+<body class="catalog-page shop-page">
+  <header class="site-header zarad-header">
+    <div class="header-inner">
+      <a class="brand zarad-logo" href="/" aria-label="Zarad — One Spice Away"><img id="zarad_logo" src="/assets/Zarad_logo_for_white.png?v=zarad-logo-light-synced-20261119" alt="Zarad — One Spice Away"></a>
+      <nav class="main-nav zarad-nav" aria-label="Navigare principală">
+        <a class="nav-link" href="/" data-ro="Acasă" data-en="Home">Acasă</a><a class="nav-link" href="/catalog" data-ro="Catalog" data-en="Catalogue">Catalog</a><a class="nav-link" href="/contact" data-ro="Contact" data-en="Contact">Contact</a><a class="nav-link" href="/about" data-ro="Despre noi" data-en="About us">Despre noi</a>
+      </nav>
+      <div class="zarad-right">
+        <button class="language-toggle zarad-lang-pill is-ro" id="zarad_language" type="button" aria-label="Switch to English" title="English"><span class="zarad-lang-slider" aria-hidden="true"></span><span class="zarad-lang-label label-ro" aria-hidden="true">RO</span><span class="zarad-lang-divider" aria-hidden="true"></span><span class="zarad-lang-label label-en" aria-hidden="true">EN</span></button>
+      </div>
+    </div>
+  </header>
+  <main class="shop-main">
+    <section class="shop-heading">
+      <p class="section-kicker" data-ro="ULTIMUL PAS" data-en="FINAL STEP">ULTIMUL PAS</p>
+      <h1 data-ro="Detaliile livrării" data-en="Delivery details">Detaliile livrării</h1>
+      <p data-ro="Completează formularul pentru a testa experiența de cumpărare." data-en="Fill in the form to try the shopping experience.">Completează formularul pentru a testa experiența de cumpărare.</p>
+    </section>
+    <div class="shop-demo-notice shop-demo-warning" role="note">
+      <strong data-ro="Checkout demonstrativ — nu este o plată reală" data-en="Demo checkout — this is not a real payment">Checkout demonstrativ — nu este o plată reală</strong>
+      <span data-ro="Nu introduce date de card. Formularul nu trimite și nu salvează datele tale. Nu se procesează plăți și nu se transmite nicio comandă reală." data-en="Do not enter card details. This form does not send or save your details. No payments are processed and no real order is submitted.">Nu introduce date de card. Formularul nu trimite și nu salvează datele tale. Nu se procesează plăți și nu se transmite nicio comandă reală.</span>
+    </div>
+    <div id="checkout_empty" class="shop-empty-state" hidden>
+      <h2 data-ro="Coșul este gol" data-en="Your basket is empty">Coșul este gol</h2>
+      <p data-ro="Adaugă produse înainte de a continua." data-en="Add products before continuing.">Adaugă produse înainte de a continua.</p>
+      <a href="/catalog" class="shop-primary-link" data-ro="Mergi la catalog" data-en="Browse the catalogue">Mergi la catalog</a>
+    </div>
+    <div id="checkout_form_area" class="shop-checkout-layout">
+      <form id="checkout_form" class="shop-checkout-form">
+        <h2 data-ro="Date de contact" data-en="Contact details">Date de contact</h2>
+        <div class="shop-form-grid">
+          <label><span data-ro="Nume complet" data-en="Full name">Nume complet</span><input name="customer_name" autocomplete="name" required maxlength="120"></label>
+          <label><span>E-mail</span><input name="email" type="email" autocomplete="email" required maxlength="160"></label>
+          <label><span data-ro="Telefon" data-en="Phone">Telefon</span><input name="phone" type="tel" autocomplete="tel" required maxlength="40"></label>
+          <label class="shop-form-wide"><span data-ro="Adresă (stradă și număr)" data-en="Address (street and number)">Adresă (stradă și număr)</span><input name="address" autocomplete="street-address" required maxlength="180"></label>
+          <label><span data-ro="Oraș" data-en="City">Oraș</span><input name="city" autocomplete="address-level2" required maxlength="100"></label>
+          <label><span data-ro="Județ / sector" data-en="County / district">Județ / sector</span><input name="region" autocomplete="address-level1" required maxlength="100"></label>
+          <label><span data-ro="Cod poștal" data-en="Postal code">Cod poștal</span><input name="postal_code" autocomplete="postal-code" maxlength="20"></label>
+          <label class="shop-form-wide"><span data-ro="Observații (opțional)" data-en="Notes (optional)">Observații (opțional)</span><textarea name="notes" rows="3" maxlength="500"></textarea></label>
+        </div>
+        <fieldset class="shop-payment-methods">
+          <legend data-ro="Metodă de plată (demo)" data-en="Payment method (demo)">Metodă de plată (demo)</legend>
+          <label class="shop-payment-choice"><input type="radio" name="payment" value="demo-cod" checked><span><strong data-ro="Plată demonstrativă la livrare" data-en="Demo cash on delivery">Plată demonstrativă la livrare</strong><small data-ro="Selectarea este doar pentru test. Nu se colectează bani." data-en="Selection is for testing only. No money is collected.">Selectarea este doar pentru test. Nu se colectează bani.</small></span></label>
+          <label class="shop-payment-choice is-disabled"><input type="radio" name="payment" value="card" disabled><span><strong data-ro="Card bancar — în dezvoltare" data-en="Bank card — coming soon">Card bancar — în dezvoltare</strong><small data-ro="Plata cu cardul nu este disponibilă. Nu introduce numărul cardului sau CVV." data-en="Card payments are unavailable. Do not enter a card number or CVV.">Plata cu cardul nu este disponibilă. Nu introduce numărul cardului sau CVV.</small></span></label>
+        </fieldset>
+        <label class="shop-terms-check"><input type="checkbox" name="terms" required><span data-ro="Am citit și accept " data-en="I have read and accept the "><a href="/terms" data-ro="Termenii și condițiile" data-en="Terms & Conditions">Termenii și condițiile</a><span data-ro=". Înțeleg că acesta este un checkout demonstrativ." data-en=". I understand this is a demo checkout.">. Înțeleg că acesta este un checkout demonstrativ.</span></span></label>
+        <button class="shop-primary-button" type="submit" data-ro="Finalizează comanda demonstrativă" data-en="Complete demo checkout">Finalizează comanda demonstrativă</button>
+        <p class="shop-smallprint" data-ro="Datele completate există doar temporar în pagina deschisă și nu sunt stocate sau transmise de acest demo." data-en="Details are used only temporarily in this open page and are not stored or transmitted by this demo.">Datele completate există doar temporar în pagina deschisă și nu sunt stocate sau transmise de acest demo.</p>
+      </form>
+      <aside class="shop-summary shop-checkout-summary">
+        <h2 data-ro="Comanda ta" data-en="Your order">Comanda ta</h2>
+        <div id="checkout_summary_items" class="checkout-summary-items"></div>
+        <div class="shop-total-line"><span data-ro="Subtotal produse" data-en="Products subtotal">Subtotal produse</span><strong id="checkout_subtotal">0 lei</strong></div>
+        <div class="shop-total-line"><span data-ro="Reducere" data-en="Discount">Reducere</span><strong id="checkout_discount">− 0 lei</strong></div>
+        <div class="shop-total-line shop-total-final"><span data-ro="Total produse" data-en="Products total">Total produse</span><strong id="checkout_total">0 lei</strong></div>
+        <p id="checkout_coupon_note" class="shop-active-coupon"></p>
+        <p class="shop-shipping-note" data-ro="Livrarea nu este inclusă în total. Costurile și opțiunile reale de livrare trebuie configurate înainte de lansarea magazinului." data-en="Delivery is not included. Real delivery options and fees must be configured before the shop launches.">Livrarea nu este inclusă în total. Costurile și opțiunile reale de livrare trebuie configurate înainte de lansarea magazinului.</p>
+      </aside>
+    </div>
+    <section id="checkout_confirmation" class="shop-confirmation" hidden>
+      <span class="shop-confirmation-mark" aria-hidden="true">✓</span>
+      <p class="section-kicker" data-ro="MULȚUMIM" data-en="THANK YOU">MULȚUMIM</p>
+      <h2 data-ro="Îți mulțumim pentru cumpărături!" data-en="Thank you for shopping with us!">Îți mulțumim pentru cumpărături!</h2>
+      <p id="checkout_confirmation_message"></p>
+      <a class="shop-primary-link" href="/catalog" data-ro="Înapoi la catalog" data-en="Back to catalogue">Înapoi la catalog</a>
+    </section>
+  </main>
+  <footer class="site-footer">
+    <a class="footer-brand" href="/" aria-label="Zarad — One Spice Away"><img src="/assets/Zarad_logo_for_white.png?v=zarad-logo-light-synced-20261119" alt="Zarad"></a>
+    <div class="footer-contact-details"><a href="tel:+40757109006">0757.109.006</a><a href="mailto:zarad.spiceshop@gmail.com">zarad.spiceshop@gmail.com</a><span>București, România</span><a href="/terms">Termeni și condiții</a></div>
+    <span class="footer-copy">© <span id="current-year"></span> Zarad</span>
+  </footer>
+  <script>
+    const languageButton = document.getElementById("zarad_language");
+    let currentLanguage = "ro";
+    function setLanguage(language) {
+      currentLanguage = language;
+      document.documentElement.lang = language;
+      document.querySelectorAll("[data-ro][data-en]").forEach(el => { el.textContent = el.dataset[language]; });
+      const english = language === "en";
+      languageButton.classList.toggle("is-en", english);
+      languageButton.classList.toggle("is-ro", !english);
+      languageButton.setAttribute("aria-label", english ? "Schimbă limba în română" : "Switch to English");
+      languageButton.title = english ? "Română" : "English";
+      try { localStorage.setItem("zarad-language", language); } catch {}
+      document.dispatchEvent(new Event("zarad-language-change"));
+    }
+    let savedLanguage = "ro";
+    try { savedLanguage = localStorage.getItem("zarad-language") === "en" ? "en" : "ro"; } catch {}
+    setLanguage(savedLanguage);
+    languageButton.addEventListener("click", () => setLanguage(currentLanguage === "ro" ? "en" : "ro"));
+    document.getElementById("current-year").textContent = new Date().getFullYear();
+  </script>
+</body>
+</html>
