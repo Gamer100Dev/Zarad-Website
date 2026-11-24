@@ -6352,3 +6352,186 @@ html[data-theme="dark"] body.about-page .about-culture-section .about-photo-card
 body.about-page .about-culture-section .about-culture-layout > .about-culture-note > .about-culture-frieze {
   display: block !important;
 }
+
+
+/* About page motion system: CTA shine, button response and directional section reveals. */
+html.about-reveal-enabled body.about-page [data-reveal="down"] {
+  opacity: 0 !important;
+  transform: translate3d(0, -44px, 0) !important;
+  transition:
+    opacity .78s cubic-bezier(.22, .7, .2, 1),
+    transform .82s cubic-bezier(.18, .78, .22, 1) !important;
+  transition-delay: var(--reveal-delay, 0ms) !important;
+  will-change: opacity, transform;
+}
+html.about-reveal-enabled body.about-page [data-reveal="down"].is-visible {
+  opacity: 1 !important;
+  transform: translate3d(0, 0, 0) !important;
+}
+
+/* Keep the flavours spread as its own left/right movement, the culture section
+   cascading down, and the final story card travelling in from the left. */
+html.about-reveal-enabled body.about-page .about-culture-section [data-reveal="down"] {
+  backface-visibility: hidden;
+}
+html.about-reveal-enabled body.about-page .about-closing[data-reveal="left"] {
+  transition-duration: .9s !important;
+  transition-timing-function: cubic-bezier(.2, .78, .18, 1) !important;
+}
+
+/* Main actions: antique-gold light sweep with a small, tactile lift and press. */
+body.about-page .about-intro-copy > .about-catalog-link,
+body.about-page .zarad-story-frame > .zarad-cta-btn {
+  position: relative !important;
+  overflow: hidden !important;
+  isolation: isolate !important;
+  transform: translateZ(0);
+  transition:
+    transform .24s cubic-bezier(.2, .75, .25, 1),
+    box-shadow .24s ease,
+    border-color .24s ease,
+    background .24s ease,
+    color .24s ease !important;
+}
+body.about-page .about-intro-copy > .about-catalog-link::after,
+body.about-page .zarad-story-frame > .zarad-cta-btn::after {
+  content: "" !important;
+  position: absolute !important;
+  z-index: 0 !important;
+  top: -55% !important;
+  bottom: -55% !important;
+  left: -68% !important;
+  width: 42% !important;
+  border: 0 !important;
+  background: linear-gradient(105deg, transparent 0%, rgba(255, 249, 230, .12) 28%, rgba(255, 249, 230, .72) 50%, rgba(255, 249, 230, .12) 72%, transparent 100%) !important;
+  opacity: 0 !important;
+  transform: skewX(-22deg) !important;
+  pointer-events: none !important;
+}
+body.about-page .about-intro-copy > .about-catalog-link > *,
+body.about-page .zarad-story-frame > .zarad-cta-btn > * {
+  position: relative;
+  z-index: 1;
+}
+body.about-page .about-intro-copy > .about-catalog-link:hover,
+body.about-page .zarad-story-frame > .zarad-cta-btn:hover {
+  transform: translateY(-4px) scale(1.015) !important;
+  box-shadow: 0 10px 24px rgba(39, 16, 18, .24), inset 0 1px 0 rgba(255, 250, 241, .35) !important;
+}
+body.about-page .about-intro-copy > .about-catalog-link:hover::after,
+body.about-page .zarad-story-frame > .zarad-cta-btn:hover::after {
+  animation: about-cta-sheen .82s cubic-bezier(.2, .65, .2, 1) forwards;
+}
+body.about-page .about-intro-copy > .about-catalog-link:active,
+body.about-page .zarad-story-frame > .zarad-cta-btn:active {
+  transform: translateY(-1px) scale(.975) !important;
+  box-shadow: 0 3px 8px rgba(39, 16, 18, .2) !important;
+}
+body.about-page .about-intro-copy > .about-catalog-link span:last-child {
+  transition: transform .24s cubic-bezier(.2, .75, .25, 1), filter .24s ease !important;
+}
+body.about-page .about-intro-copy > .about-catalog-link:hover span:last-child {
+  transform: translateX(5px) rotate(-5deg) !important;
+  filter: saturate(.8) brightness(1.08) !important;
+}
+body.about-page .zarad-story-frame > .zarad-cta-btn svg {
+  transition: transform .28s cubic-bezier(.2, .75, .25, 1);
+}
+body.about-page .zarad-story-frame > .zarad-cta-btn:hover svg {
+  transform: translateX(5px) rotate(-3deg);
+}
+@keyframes about-cta-sheen {
+  0% { left: -68%; opacity: 0; }
+  18% { opacity: .9; }
+  100% { left: 132%; opacity: 0; }
+}
+
+/* Navigation links draw a gold rule across as they are approached. */
+body.about-page .main-nav .nav-link {
+  display: inline-block;
+  transition: color .2s ease, transform .2s ease;
+}
+body.about-page .main-nav .nav-link::after {
+  transform: scaleX(0);
+  transform-origin: left center;
+  transition: transform .28s cubic-bezier(.2, .7, .2, 1), opacity .2s ease;
+  opacity: .9;
+}
+body.about-page .main-nav .nav-link:hover,
+body.about-page .main-nav .nav-link:focus-visible {
+  color: #a87532;
+  transform: translateY(-2px);
+}
+body.about-page .main-nav .nav-link:hover::after,
+body.about-page .main-nav .nav-link:focus-visible::after,
+body.about-page .main-nav .nav-link.active::after {
+  transform: scaleX(1);
+}
+body.about-page .zarad-right .zarad-lang-pill {
+  transition: transform .2s cubic-bezier(.2, .7, .2, 1), box-shadow .2s ease;
+}
+body.about-page .zarad-right .zarad-lang-pill:hover {
+  transform: translateY(-2px) scale(1.035);
+  box-shadow: 0 6px 14px rgba(83, 48, 29, .16);
+}
+body.about-page .zarad-right .zarad-lang-pill:active {
+  transform: scale(.96);
+}
+
+/* Footer contact links receive a restrained underline glide and lift. */
+body.about-page .footer-contact-details a {
+  display: inline-block;
+  transform: translateY(0);
+  transition: color .2s ease, border-color .2s ease, transform .2s ease;
+}
+body.about-page .footer-contact-details a:hover {
+  transform: translateY(-2px);
+  color: #a87532;
+  border-color: #c9963b;
+}
+body.about-page .footer-brand {
+  transition: transform .24s cubic-bezier(.2, .7, .2, 1);
+}
+body.about-page .footer-brand:hover {
+  transform: translateY(-2px) scale(1.025);
+}
+body.about-page .brand.zarad-logo {
+  transition: transform .24s cubic-bezier(.2, .7, .2, 1);
+}
+body.about-page .brand.zarad-logo:hover {
+  transform: translateY(-2px);
+}
+
+/* Keep keyboard navigation clear and retain the reduced-motion contract. */
+body.about-page .about-intro-copy > .about-catalog-link:focus-visible,
+body.about-page .zarad-story-frame > .zarad-cta-btn:focus-visible,
+body.about-page .main-nav .nav-link:focus-visible,
+body.about-page .zarad-right .zarad-lang-pill:focus-visible,
+body.about-page .footer-contact-details a:focus-visible {
+  outline: 2px solid #edc783;
+  outline-offset: 4px;
+}
+@media (prefers-reduced-motion: reduce) {
+  html.about-reveal-enabled body.about-page [data-reveal="down"],
+  html.about-reveal-enabled body.about-page [data-reveal="down"].is-visible,
+  html.about-reveal-enabled body.about-page .about-closing[data-reveal="left"] {
+    opacity: 1 !important;
+    transform: none !important;
+    transition: none !important;
+    will-change: auto;
+  }
+  body.about-page .about-intro-copy > .about-catalog-link,
+  body.about-page .about-intro-copy > .about-catalog-link::after,
+  body.about-page .zarad-story-frame > .zarad-cta-btn,
+  body.about-page .zarad-story-frame > .zarad-cta-btn::after,
+  body.about-page .main-nav .nav-link,
+  body.about-page .main-nav .nav-link::after,
+  body.about-page .zarad-right .zarad-lang-pill,
+  body.about-page .footer-contact-details a,
+  body.about-page .footer-brand,
+  body.about-page .brand.zarad-logo,
+  body.about-page .zarad-story-frame > .zarad-cta-btn svg {
+    animation: none !important;
+    transition: none !important;
+  }
+}
