@@ -208,7 +208,7 @@
       return {
         ok: false,
         message: language() === "ro"
-          ? "Cod invalid. Încearcă ZARAD5, ZARAD10 sau ZARAD15."
+          ? "Cod invalid. Încercați ZARAD5, ZARAD10 sau ZARAD15."
           : "Invalid code. Try ZARAD5, ZARAD10 or ZARAD15."
       };
     }
@@ -216,7 +216,7 @@
       return {
         ok: false,
         message: language() === "ro"
-          ? "Adaugă produse în coș înainte de a aplica un cupon."
+          ? "Adăugați produse în coș înainte de a aplica un cupon."
           : "Add items to your basket before applying a coupon."
       };
     }
@@ -224,7 +224,7 @@
       return {
         ok: false,
         message: language() === "ro"
-          ? "Browserul nu a putut salva cuponul. Verifică setările de stocare."
+          ? "Browserul nu a putut salva cuponul. Verificați setările de stocare."
           : "Your browser could not save the coupon. Check storage settings."
       };
     }
@@ -250,7 +250,7 @@
       const link = document.createElement("a");
       link.className = "zarad-cart-link";
       link.href = "/cart";
-      link.setAttribute("aria-label", language() === "ro" ? "Deschide coșul" : "Open basket");
+      link.setAttribute("aria-label", language() === "ro" ? "Deschideți coșul" : "Open basket");
 
       const label = document.createElement("span");
       label.dataset.ro = "Coș";
@@ -323,7 +323,7 @@
       minus.type = "button";
       minus.className = "shop-quantity-decrease";
       minus.textContent = "−";
-      minus.setAttribute("aria-label", language() === "ro" ? "Scade cantitatea" : "Decrease quantity");
+      minus.setAttribute("aria-label", language() === "ro" ? "Reduceți cantitatea" : "Decrease quantity");
       minus.addEventListener("click", () => {
         if (item.quantity <= 1) {
           removeItem(item.id, row, minus);
@@ -347,7 +347,7 @@
       plus.type = "button";
       plus.className = "shop-quantity-increase";
       plus.textContent = "+";
-      plus.setAttribute("aria-label", language() === "ro" ? "Crește cantitatea" : "Increase quantity");
+      plus.setAttribute("aria-label", language() === "ro" ? "Măriți cantitatea" : "Increase quantity");
       plus.addEventListener("click", () => {
         plus.disabled = true;
         playButtonFeedback(plus, "is-increasing", 560);
